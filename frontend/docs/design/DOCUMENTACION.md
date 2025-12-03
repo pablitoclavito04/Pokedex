@@ -711,7 +711,7 @@ $font-mono: 'JetBrains Mono', monospace; // Para código
 ```scss
 $font-size-xs: 0.75rem;      // 12px - Metadatos
 $font-size-sm: 0.875rem;     // 14px - Texto pequeño
-$font-size-base: 1rem;       // 16px - Texto base ⭐
+$font-size-base: 1rem;       // 16px - Texto base
 $font-size-md: 1.125rem;     // 18px - Texto destacado
 $font-size-lg: 1.25rem;      // 20px - Subtítulos pequeños
 $font-size-xl: 1.5rem;       // 24px - Subtítulos
@@ -744,7 +744,7 @@ $font-weight-extrabold: 800;  // Títulos hero
 
 ```scss
 $line-height-tight: 1.25;     // Para títulos
-$line-height-normal: 1.5;     // Para texto general ⭐
+$line-height-normal: 1.5;     // Para texto general
 $line-height-relaxed: 1.625;  // Para textos largos
 ```
 
