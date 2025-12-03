@@ -1,0 +1,567 @@
+// ============================================================================
+//                  MIXINS Y FUNCIONES SCSS REUTILIZABLES
+// ============================================================================
+//   Este archivo contiene mixins y funciones que ayudan a escribir CSS más
+//          eficiente y mantener consistencia en todo el proyecto.
+// ============================================================================
+
+@use '../00-settings/variables' as *;
+
+// ============================================================================
+//                      FUNCIÓN: OBTENER COLOR DEL TEMA
+// ============================================================================
+// Función para obtener colores del tema actual (claro u oscuro)
+// @param {String} $key - La clave del color en el tema
+// @param {String} $theme - El tema a usar ('light' o 'dark')
+// @return {Color} - El color correspondiente
+
+@function theme-color($key, $theme: 'light') {
+  @if $theme == 'light' {
+    @return map-get($light-theme, $key);
+  } @else {
+    @return map-get($dark-theme, $key);
+  }
+}
+
+// ============================================================================
+//                           MIXIN: TEMA DINÁMICO
+// ============================================================================
+// Aplica estilos diferentes según el tema activo
+// Uso: @include themed() { background: theme('bg-primary'); }
+
+@mixin themed() {
+  // Tema claro (por defecto)
+  @content;
+  
+  // Tema oscuro (cuando body tiene clase dark-theme)
+  :host-context(.dark-theme) & {
+    @content;
+  }
+  
+  // Tema oscuro (usando data attribute)
+  [data-theme="dark"] & {
+    @content;
+  }
+}
+
+// ============================================================================
+//                        MIXIN: RESPONSIVE BREAKPOINTS
+// ============================================================================
+// Facilita la escritura de media queries responsive
+// Uso: @include respond-to('md') { ... }
+
+@mixin respond-to($breakpoint) {
+  @if $breakpoint == 'xs' {
+    @media (min-width: $breakpoint-xs) {
+      @content;
+    }
+  }
+  @else if $breakpoint == 'sm' {
+    @media (min-width: $breakpoint-sm) {
+      @content;
+    }
+  }
+  @else if $breakpoint == 'md' {
+    @media (min-width: $breakpoint-md) {
+      @content;
+    }
+  }
+  @else if $breakpoint == 'lg' {
+    @media (min-width: $breakpoint-lg) {
+      @content;
+    }
+  }
+  @else if $breakpoint == 'xl' {
+    @media (min-width: $breakpoint-xl) {
+      @content;
+    }
+  }
+  @else if $breakpoint == '2xl' {
+    @media (min-width: $breakpoint-2xl) {
+      @content;
+    }
+  }
+  @else {
+    @warn "Breakpoint desconocido: #{$breakpoint}. Usa: xs, sm, md, lg, xl, 2xl";
+  }
+}
+
+// Mixin para max-width (mobile-first inverso)
+@mixin respond-to-max($breakpoint) {
+  @if $breakpoint == 'xs' {
+    @media (max-width: ($breakpoint-xs - 1px)) {
+      @content;
+    }
+  }
+  @else if $breakpoint == 'sm' {
+    @media (max-width: ($breakpoint-sm - 1px)) {
+      @content;
+    }
+  }
+  @else if $breakpoint == 'md' {
+    @media (max-width: ($breakpoint-md - 1px)) {
+      @content;
+    }
+  }
+  @else if $breakpoint == 'lg' {
+    @media (max-width: ($breakpoint-lg - 1px)) {
+      @content;
+    }
+  }
+  @else if $breakpoint == 'xl' {
+    @media (max-width: ($breakpoint-xl - 1px)) {
+      @content;
+    }
+  }
+  @else if $breakpoint == '2xl' {
+    @media (max-width: ($breakpoint-2xl - 1px)) {
+      @content;
+    }
+  }
+}
+
+// ============================================================================
+//                           MIXIN: FLEXBOX CENTER
+// ============================================================================
+// Centra elementos usando Flexbox
+// Uso: @include flex-center; o @include flex-center('column');
+
+@mixin flex-center($direction: row) {
+  display: flex;
+  flex-direction: $direction;
+  justify-content: center;
+  align-items: center;
+}
+
+// Variaciones de flex
+@mixin flex-between {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+@mixin flex-start {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@mixin flex-end {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+// ============================================================================
+//                           MIXIN: TRUNCATE TEXT
+// ============================================================================
+// Trunca texto con puntos suspensivos
+// Uso: @include truncate; o @include truncate(3); para múltiples líneas
+
+@mixin truncate($lines: 1) {
+  @if $lines == 1 {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  } @else {
+    display: -webkit-box;
+    -webkit-line-clamp: $lines;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+// ============================================================================
+//                       MIXIN: TAMAÑOS (WIDTH Y HEIGHT)
+// ============================================================================
+// Define width y height en una sola línea
+// Uso: @include size(100px); o @include size(100px, 50px);
+
+@mixin size($width, $height: $width) {
+  width: $width;
+  height: $height;
+}
+
+// ============================================================================
+//                      MIXIN: POSICIONAMIENTO ABSOLUTO
+// ============================================================================
+// Simplifica el posicionamiento absoluto
+// Uso: @include absolute(10px, 20px, null, 30px);
+
+@mixin absolute($top: null, $right: null, $bottom: null, $left: null) {
+  position: absolute;
+  
+  @if $top {
+    top: $top;
+  }
+  @if $right {
+    right: $right;
+  }
+  @if $bottom {
+    bottom: $bottom;
+  }
+  @if $left {
+    left: $left;
+  }
+}
+
+// Variaciones de posición
+@mixin fixed($top: null, $right: null, $bottom: null, $left: null) {
+  position: fixed;
+  
+  @if $top {
+    top: $top;
+  }
+  @if $right {
+    right: $right;
+  }
+  @if $bottom {
+    bottom: $bottom;
+  }
+  @if $left {
+    left: $left;
+  }
+}
+
+// ============================================================================
+//                   MIXIN: OCULTAR VISUALMENTE (ACCESIBILIDAD)
+// ============================================================================
+// Oculta elemento visualmente pero lo mantiene accesible para lectores de pantalla
+// Uso: @include sr-only;
+
+@mixin sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+// ============================================================================
+//                          MIXIN: ASPECT RATIO
+// ============================================================================
+// Mantiene proporción de aspecto de un elemento
+// Uso: @include aspect-ratio(16, 9);
+
+@mixin aspect-ratio($width, $height) {
+  position: relative;
+  
+  &::before {
+    content: '';
+    display: block;
+    padding-top: percentage($height / $width);
+  }
+  
+  > * {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// ============================================================================
+//                              MIXIN: CLEARFIX
+// ============================================================================
+// Limpia floats
+// Uso: @include clearfix;
+
+@mixin clearfix {
+  &::after {
+    content: '';
+    display: table;
+    clear: both;
+  }
+}
+
+// ============================================================================
+//                          MIXIN: TRANSICIONES SUAVES
+// ============================================================================
+// Aplica transiciones con valores predeterminados
+// Uso: @include transition; o @include transition(background-color, 500ms);
+
+@mixin transition($property: all, $duration: $duration-base, $timing: $ease-in-out) {
+  transition: $property $duration $timing;
+}
+
+// ============================================================================
+//                           MIXIN: HOVER Y FOCUS
+// ============================================================================
+// Aplica estilos en hover y focus
+// Uso: @include hover-focus { color: red; }
+
+@mixin hover-focus {
+  &:hover,
+  &:focus {
+    @content;
+  }
+}
+
+@mixin hover {
+  @media (hover: hover) {
+    &:hover {
+      @content;
+    }
+  }
+}
+
+// ============================================================================
+//                         MIXIN: SCROLL PERSONALIZADO
+// ============================================================================
+// Personaliza la barra de scroll
+// Uso: @include custom-scrollbar($color-primary-500, $color-neutral-200);
+
+@mixin custom-scrollbar($thumb-color, $track-color) {
+  &::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: $track-color;
+    border-radius: $border-radius-full;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: $thumb-color;
+    border-radius: $border-radius-full;
+    
+    &:hover {
+      background: darken($thumb-color, 10%);
+    }
+  }
+  
+  // Firefox
+  scrollbar-width: thin;
+  scrollbar-color: $thumb-color $track-color;
+}
+
+// ============================================================================
+//                          MIXIN: GRADIENT DE FONDO
+// ============================================================================
+// Crea gradientes fácilmente
+// Uso: @include gradient(to right, $color-primary-500, $color-secondary-500);
+
+@mixin gradient($direction, $color-start, $color-end) {
+  background: $color-start;
+  background: linear-gradient($direction, $color-start 0%, $color-end 100%);
+}
+
+// ============================================================================
+//                             MIXIN: PLACEHOLDER
+// ============================================================================
+// Estiliza placeholders de inputs
+// Uso: @include placeholder { color: red; }
+
+@mixin placeholder {
+  &::placeholder {
+    @content;
+  }
+  
+  &::-webkit-input-placeholder {
+    @content;
+  }
+  
+  &:-moz-placeholder {
+    @content;
+    opacity: 1;
+  }
+  
+  &::-moz-placeholder {
+    @content;
+    opacity: 1;
+  }
+  
+  &:-ms-input-placeholder {
+    @content;
+  }
+}
+
+// ============================================================================
+//                     MIXIN: FOCUS VISIBLE (ACCESIBILIDAD)
+// ============================================================================
+// Estiliza el outline de focus solo cuando es necesario
+// Uso: @include focus-visible { outline: 2px solid blue; }
+
+@mixin focus-visible {
+  &:focus {
+    outline: none;
+  }
+  
+  &:focus-visible {
+    @content;
+  }
+}
+
+// ============================================================================
+//                              MIXIN: CARD BÁSICA
+// ============================================================================
+// Estilo base para tarjetas
+// Uso: @include card;
+
+@mixin card($padding: $spacing-6) {
+  background: map-get($light-theme, bg-card);
+  border-radius: $border-radius-xl;
+  padding: $padding;
+  box-shadow: $shadow-md;
+  transition: $transition-all;
+  
+  :host-context(.dark-theme) & {
+    background: map-get($dark-theme, bg-card);
+    box-shadow: $shadow-dark-md;
+  }
+  
+  @include hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-lg;
+    
+    :host-context(.dark-theme) & {
+      box-shadow: $shadow-dark-lg;
+    }
+  }
+}
+
+// ============================================================================
+//                             MIXIN: BOTÓN BÁSICO
+// ============================================================================
+// Estilo base para botones
+// Uso: @include button($color-primary-500);
+
+@mixin button($bg-color, $text-color: #ffffff) {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-3 $spacing-6;
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-semibold;
+  color: $text-color;
+  background-color: $bg-color;
+  border: none;
+  border-radius: $border-radius-lg;
+  cursor: pointer;
+  transition: $transition-all;
+  
+  @include hover-focus {
+    background-color: darken($bg-color, 8%);
+    transform: translateY(-1px);
+    box-shadow: $shadow-md;
+  }
+  
+  &:active {
+    transform: translateY(0);
+    box-shadow: $shadow-sm;
+  }
+  
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+}
+
+// ============================================================================
+//                            MIXIN: GRID RESPONSIVO
+// ============================================================================
+// Crea un grid responsivo con número variable de columnas
+// Uso: @include grid-responsive(3, $spacing-4);
+
+@mixin grid-responsive($columns: 3, $gap: $spacing-6) {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+  gap: $gap;
+  
+  @include respond-to('sm') {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 250px), 1fr));
+  }
+  
+  @include respond-to('md') {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  }
+  
+  @include respond-to('lg') {
+    grid-template-columns: repeat($columns, 1fr);
+  }
+}
+
+// ============================================================================
+//                        MIXIN: ANIMACIÓN DE ENTRADA
+// ============================================================================
+// Animación de fade in con movimiento
+// Uso: @include fade-in-up;
+
+@mixin fade-in-up($duration: $duration-base) {
+  animation: fadeInUp $duration $ease-out;
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+// ============================================================================
+//                           MIXIN: TIPO POKÉMON
+// ============================================================================
+// Aplica estilos según el tipo de Pokémon
+// Uso: @include pokemon-type('fire');
+
+@mixin pokemon-type($type) {
+  @if $type == 'normal' {
+    background-color: $type-normal;
+  } @else if $type == 'fire' {
+    background-color: $type-fire;
+  } @else if $type == 'water' {
+    background-color: $type-water;
+  } @else if $type == 'electric' {
+    background-color: $type-electric;
+  } @else if $type == 'grass' {
+    background-color: $type-grass;
+  } @else if $type == 'ice' {
+    background-color: $type-ice;
+  } @else if $type == 'fighting' {
+    background-color: $type-fighting;
+  } @else if $type == 'poison' {
+    background-color: $type-poison;
+  } @else if $type == 'ground' {
+    background-color: $type-ground;
+  } @else if $type == 'flying' {
+    background-color: $type-flying;
+  } @else if $type == 'psychic' {
+    background-color: $type-psychic;
+  } @else if $type == 'bug' {
+    background-color: $type-bug;
+  } @else if $type == 'rock' {
+    background-color: $type-rock;
+  } @else if $type == 'ghost' {
+    background-color: $type-ghost;
+  } @else if $type == 'dragon' {
+    background-color: $type-dragon;
+  } @else if $type == 'dark' {
+    background-color: $type-dark;
+  } @else if $type == 'steel' {
+    background-color: $type-steel;
+  } @else if $type == 'fairy' {
+    background-color: $type-fairy;
+  }
+  
+  color: #ffffff;
+  font-weight: $font-weight-semibold;
+  padding: $spacing-2 $spacing-4;
+  border-radius: $border-radius-full;
+}

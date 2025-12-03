@@ -1,0 +1,505 @@
+// ============================================================================
+//                          SISTEMA DE GRID Y LAYOUT
+// ============================================================================
+//             Sistema de grid flexible usando CSS Grid y Flexbox.
+//             Proporciona estructura base para layouts responsive.
+// ============================================================================
+
+@use '../00-settings/variables' as *;
+@use '../01-tools/mixins' as *;
+
+// ============================================================================
+//                                CONTENEDORES
+// ============================================================================
+
+.container {
+  width: 100%;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: $spacing-4;
+  padding-right: $spacing-4;
+  
+  @include respond-to('sm') {
+    max-width: $container-max-width-sm;
+    padding-left: $spacing-6;
+    padding-right: $spacing-6;
+  }
+  
+  @include respond-to('md') {
+    max-width: $container-max-width-md;
+  }
+  
+  @include respond-to('lg') {
+    max-width: $container-max-width-lg;
+  }
+  
+  @include respond-to('xl') {
+    max-width: $container-max-width-xl;
+  }
+  
+  @include respond-to('2xl') {
+    max-width: $container-max-width-2xl;
+  }
+}
+
+// Contenedor fluido (ancho completo)
+.container-fluid {
+  width: 100%;
+  padding-left: $spacing-4;
+  padding-right: $spacing-4;
+  
+  @include respond-to('sm') {
+    padding-left: $spacing-6;
+    padding-right: $spacing-6;
+  }
+  
+  @include respond-to('lg') {
+    padding-left: $spacing-8;
+    padding-right: $spacing-8;
+  }
+}
+
+// ============================================================================
+//                             SISTEMA DE GRID CSS
+// ============================================================================
+
+.grid {
+  display: grid;
+  gap: $spacing-6;
+  
+  // Grid responsive automático
+  &--auto {
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 280px), 1fr));
+  }
+  
+  // Grid de 2 columnas
+  &--2 {
+    grid-template-columns: 1fr;
+    
+    @include respond-to('sm') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  // Grid de 3 columnas
+  &--3 {
+    grid-template-columns: 1fr;
+    
+    @include respond-to('sm') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to('md') {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+  
+  // Grid de 4 columnas
+  &--4 {
+    grid-template-columns: 1fr;
+    
+    @include respond-to('sm') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to('lg') {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  // Grid de 6 columnas (para muchos elementos pequeños)
+  &--6 {
+    grid-template-columns: repeat(2, 1fr);
+    
+    @include respond-to('sm') {
+      grid-template-columns: repeat(3, 1fr);
+    }
+    
+    @include respond-to('md') {
+      grid-template-columns: repeat(4, 1fr);
+    }
+    
+    @include respond-to('lg') {
+      grid-template-columns: repeat(6, 1fr);
+    }
+  }
+  
+  // Variaciones de gap
+  &--gap-sm {
+    gap: $spacing-3;
+  }
+  
+  &--gap-md {
+    gap: $spacing-6;
+  }
+  
+  &--gap-lg {
+    gap: $spacing-8;
+  }
+  
+  &--gap-xl {
+    gap: $spacing-12;
+  }
+}
+
+// Items del grid
+.grid-item {
+  // Span de columnas
+  &--span-2 {
+    @include respond-to('sm') {
+      grid-column: span 2;
+    }
+  }
+  
+  &--span-3 {
+    @include respond-to('md') {
+      grid-column: span 3;
+    }
+  }
+  
+  &--span-4 {
+    @include respond-to('lg') {
+      grid-column: span 4;
+    }
+  }
+  
+  &--span-full {
+    grid-column: 1 / -1;
+  }
+}
+
+// ============================================================================
+//                             SISTEMA FLEXBOX
+// ============================================================================
+
+.flex {
+  display: flex;
+  gap: $spacing-4;
+  
+  // Dirección
+  &--row {
+    flex-direction: row;
+  }
+  
+  &--row-reverse {
+    flex-direction: row-reverse;
+  }
+  
+  &--col {
+    flex-direction: column;
+  }
+  
+  &--col-reverse {
+    flex-direction: column-reverse;
+  }
+  
+  // Wrap
+  &--wrap {
+    flex-wrap: wrap;
+  }
+  
+  &--nowrap {
+    flex-wrap: nowrap;
+  }
+  
+  // Justify content
+  &--justify-start {
+    justify-content: flex-start;
+  }
+  
+  &--justify-end {
+    justify-content: flex-end;
+  }
+  
+  &--justify-center {
+    justify-content: center;
+  }
+  
+  &--justify-between {
+    justify-content: space-between;
+  }
+  
+  &--justify-around {
+    justify-content: space-around;
+  }
+  
+  &--justify-evenly {
+    justify-content: space-evenly;
+  }
+  
+  // Align items
+  &--items-start {
+    align-items: flex-start;
+  }
+  
+  &--items-end {
+    align-items: flex-end;
+  }
+  
+  &--items-center {
+    align-items: center;
+  }
+  
+  &--items-baseline {
+    align-items: baseline;
+  }
+  
+  &--items-stretch {
+    align-items: stretch;
+  }
+  
+  // Variaciones de gap
+  &--gap-sm {
+    gap: $spacing-2;
+  }
+  
+  &--gap-md {
+    gap: $spacing-4;
+  }
+  
+  &--gap-lg {
+    gap: $spacing-6;
+  }
+  
+  &--gap-xl {
+    gap: $spacing-8;
+  }
+  
+  &--gap-none {
+    gap: 0;
+  }
+}
+
+// Items flex
+.flex-item {
+  &--grow {
+    flex-grow: 1;
+  }
+  
+  &--shrink-0 {
+    flex-shrink: 0;
+  }
+  
+  &--auto {
+    flex: 1 1 auto;
+  }
+  
+  &--none {
+    flex: none;
+  }
+}
+
+// ============================================================================
+//                            LAYOUTS ESPECÍFICOS
+// ============================================================================
+
+// Layout sidebar + contenido
+.layout-sidebar {
+  display: grid;
+  gap: $spacing-6;
+  grid-template-columns: 1fr;
+  
+  @include respond-to('lg') {
+    grid-template-columns: $sidebar-width 1fr;
+  }
+  
+  &--right {
+    @include respond-to('lg') {
+      grid-template-columns: 1fr $sidebar-width;
+    }
+  }
+  
+  &--collapsed {
+    @include respond-to('lg') {
+      grid-template-columns: $sidebar-collapsed-width 1fr;
+    }
+  }
+}
+
+// Layout con header, contenido y footer
+.layout-main {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  min-height: 100vh;
+  
+  &__header {
+    position: sticky;
+    top: 0;
+    z-index: $z-index-sticky;
+    background-color: map-get($light-theme, bg-secondary);
+    box-shadow: $shadow-sm;
+    
+    :host-context(.dark-theme) &,
+    [data-theme="dark"] & {
+      background-color: map-get($dark-theme, bg-secondary);
+      box-shadow: $shadow-dark-sm;
+    }
+  }
+  
+  &__content {
+    padding: $spacing-6 0;
+    
+    @include respond-to('md') {
+      padding: $spacing-8 0;
+    }
+  }
+  
+  &__footer {
+    margin-top: auto;
+    padding: $spacing-6 0;
+    background-color: map-get($light-theme, bg-tertiary);
+    
+    :host-context(.dark-theme) &,
+    [data-theme="dark"] & {
+      background-color: map-get($dark-theme, bg-tertiary);
+    }
+  }
+}
+
+// ============================================================================
+//                          GRID DE 12 COLUMNAS
+// ============================================================================
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: $spacing-4;
+  
+  @include respond-to('md') {
+    gap: $spacing-6;
+  }
+  
+  // Variaciones de gap
+  &--gap-sm {
+    gap: $spacing-2;
+  }
+  
+  &--gap-lg {
+    gap: $spacing-8;
+  }
+  
+  &--no-gap {
+    gap: 0;
+  }
+}
+
+// Columnas del sistema de 12 columnas
+@for $i from 1 through 12 {
+  .col-#{$i} {
+    grid-column: span $i;
+  }
+}
+
+// Responsive columns
+@include respond-to('sm') {
+  @for $i from 1 through 12 {
+    .col-sm-#{$i} {
+      grid-column: span $i;
+    }
+  }
+}
+
+@include respond-to('md') {
+  @for $i from 1 through 12 {
+    .col-md-#{$i} {
+      grid-column: span $i;
+    }
+  }
+}
+
+@include respond-to('lg') {
+  @for $i from 1 through 12 {
+    .col-lg-#{$i} {
+      grid-column: span $i;
+    }
+  }
+}
+
+@include respond-to('xl') {
+  @for $i from 1 through 12 {
+    .col-xl-#{$i} {
+      grid-column: span $i;
+    }
+  }
+}
+
+// ============================================================================
+//                          UTILIDADES DE SPACING
+// ============================================================================
+
+// Margins
+.m-0 { margin: 0; }
+.mt-auto { margin-top: auto; }
+.mr-auto { margin-right: auto; }
+.mb-auto { margin-bottom: auto; }
+.ml-auto { margin-left: auto; }
+.mx-auto { margin-left: auto; margin-right: auto; }
+.my-auto { margin-top: auto; margin-bottom: auto; }
+
+// Paddings
+.p-0 { padding: 0; }
+
+// ============================================================================
+//                          UTILIDADES DE DISPLAY
+// ============================================================================
+
+.d-none { display: none; }
+.d-block { display: block; }
+.d-inline { display: inline; }
+.d-inline-block { display: inline-block; }
+.d-flex { display: flex; }
+.d-grid { display: grid; }
+
+// Responsive display utilities
+@include respond-to('sm') {
+  .d-sm-none { display: none; }
+  .d-sm-block { display: block; }
+  .d-sm-flex { display: flex; }
+  .d-sm-grid { display: grid; }
+}
+
+@include respond-to('md') {
+  .d-md-none { display: none; }
+  .d-md-block { display: block; }
+  .d-md-flex { display: flex; }
+  .d-md-grid { display: grid; }
+}
+
+@include respond-to('lg') {
+  .d-lg-none { display: none; }
+  .d-lg-block { display: block; }
+  .d-lg-flex { display: flex; }
+  .d-lg-grid { display: grid; }
+}
+
+// ============================================================================
+//                              SECTION SPACING
+// ============================================================================
+
+.section {
+  padding: $spacing-12 0;
+  
+  @include respond-to('md') {
+    padding: $spacing-16 0;
+  }
+  
+  @include respond-to('lg') {
+    padding: $spacing-20 0;
+  }
+  
+  &--sm {
+    padding: $spacing-8 0;
+    
+    @include respond-to('md') {
+      padding: $spacing-12 0;
+    }
+  }
+  
+  &--lg {
+    padding: $spacing-16 0;
+    
+    @include respond-to('md') {
+      padding: $spacing-24 0;
+    }
+  }
+}

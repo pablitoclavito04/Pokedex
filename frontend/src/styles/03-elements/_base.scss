@@ -1,0 +1,500 @@
+// ============================================================================
+//                      ESTILOS BASE DE ELEMENTOS HTML
+// ============================================================================
+//              Define estilos base para elementos HTML sin clases.
+//        Establece la tipografía y estilos fundamentales del proyecto.
+// ============================================================================
+
+@use '../00-settings/variables' as *;
+@use '../01-tools/mixins' as *;
+
+// ============================================================================
+//                              HTML Y BODY
+// ============================================================================
+
+html {
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  line-height: $line-height-normal;
+  color: map-get($light-theme, text-primary);
+  background-color: map-get($light-theme, bg-primary);
+  transition: background-color $duration-base $ease-in-out;
+}
+
+// Tema oscuro
+:host-context(.dark-theme) html,
+[data-theme="dark"] html {
+  color: map-get($dark-theme, text-primary);
+  background-color: map-get($dark-theme, bg-primary);
+}
+
+body {
+  font-family: $font-primary;
+  font-weight: $font-weight-regular;
+  color: inherit;
+  background-color: inherit;
+  
+  // Scroll personalizado
+  @include custom-scrollbar(
+    map-get($light-theme, bg-brand-primary),
+    map-get($light-theme, border-primary)
+  );
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    @include custom-scrollbar(
+      map-get($dark-theme, bg-brand-primary),
+      map-get($dark-theme, border-primary)
+    );
+  }
+}
+
+// ============================================================================
+//                          TIPOGRAFÍA - HEADINGS
+// ============================================================================
+
+h1 {
+  font-family: $font-secondary;
+  font-size: $font-size-4xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-6;
+  color: map-get($light-theme, text-primary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, text-primary);
+  }
+  
+  @include respond-to-max('md') {
+    font-size: $font-size-3xl;
+  }
+}
+
+h2 {
+  font-family: $font-secondary;
+  font-size: $font-size-3xl;
+  font-weight: $font-weight-bold;
+  line-height: $line-height-tight;
+  margin-bottom: $spacing-5;
+  color: map-get($light-theme, text-primary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, text-primary);
+  }
+  
+  @include respond-to-max('md') {
+    font-size: $font-size-2xl;
+  }
+}
+
+h3 {
+  font-family: $font-secondary;
+  font-size: $font-size-2xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-snug;
+  margin-bottom: $spacing-4;
+  color: map-get($light-theme, text-primary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, text-primary);
+  }
+  
+  @include respond-to-max('md') {
+    font-size: $font-size-xl;
+  }
+}
+
+h4 {
+  font-family: $font-secondary;
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  line-height: $line-height-snug;
+  margin-bottom: $spacing-3;
+  color: map-get($light-theme, text-primary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, text-primary);
+  }
+}
+
+h5 {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-normal;
+  margin-bottom: $spacing-3;
+  color: map-get($light-theme, text-primary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, text-primary);
+  }
+}
+
+h6 {
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  line-height: $line-height-normal;
+  margin-bottom: $spacing-2;
+  color: map-get($light-theme, text-secondary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, text-secondary);
+  }
+}
+
+// ============================================================================
+//                              PÁRRAFOS Y TEXTO
+// ============================================================================
+
+p {
+  margin-bottom: $spacing-4;
+  line-height: $line-height-relaxed;
+  color: map-get($light-theme, text-secondary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, text-secondary);
+  }
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Énfasis
+strong, b {
+  font-weight: $font-weight-bold;
+  color: map-get($light-theme, text-primary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, text-primary);
+  }
+}
+
+em, i {
+  font-style: italic;
+}
+
+small {
+  font-size: $font-size-sm;
+  color: map-get($light-theme, text-tertiary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, text-tertiary);
+  }
+}
+
+// ============================================================================
+//                                  ENLACES
+// ============================================================================
+
+a {
+  color: map-get($light-theme, bg-brand-primary);
+  text-decoration: none;
+  transition: $transition-colors;
+  cursor: pointer;
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, bg-brand-primary);
+  }
+  
+  @include hover-focus {
+    color: darken($color-primary-500, 10%);
+    text-decoration: underline;
+  }
+  
+  &:active {
+    color: darken($color-primary-500, 15%);
+  }
+}
+
+// ============================================================================
+//                                  LISTAS
+// ============================================================================
+
+ul, ol {
+  margin-bottom: $spacing-4;
+  padding-left: $spacing-6;
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+ul {
+  list-style-type: disc;
+}
+
+ol {
+  list-style-type: decimal;
+}
+
+li {
+  margin-bottom: $spacing-2;
+  line-height: $line-height-relaxed;
+  color: map-get($light-theme, text-secondary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, text-secondary);
+  }
+  
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Listas anidadas
+ul ul, ol ol, ul ol, ol ul {
+  margin-top: $spacing-2;
+  margin-bottom: $spacing-2;
+}
+
+// ============================================================================
+//                              CODE Y PRE
+// ============================================================================
+
+code {
+  font-family: $font-mono;
+  font-size: $font-size-sm;
+  padding: $spacing-1 $spacing-2;
+  background-color: map-get($light-theme, bg-tertiary);
+  border-radius: $border-radius-base;
+  color: map-get($light-theme, text-primary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    background-color: map-get($dark-theme, bg-tertiary);
+    color: map-get($dark-theme, text-primary);
+  }
+}
+
+pre {
+  font-family: $font-mono;
+  font-size: $font-size-sm;
+  padding: $spacing-4;
+  margin-bottom: $spacing-4;
+  background-color: map-get($light-theme, bg-tertiary);
+  border-radius: $border-radius-lg;
+  overflow-x: auto;
+  line-height: $line-height-relaxed;
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    background-color: map-get($dark-theme, bg-tertiary);
+  }
+  
+  code {
+    padding: 0;
+    background: none;
+    border-radius: 0;
+  }
+}
+
+// ============================================================================
+//                              BLOCKQUOTE
+// ============================================================================
+
+blockquote {
+  margin: $spacing-6 0;
+  padding-left: $spacing-6;
+  border-left: $border-width-thick solid map-get($light-theme, border-focus);
+  color: map-get($light-theme, text-secondary);
+  font-style: italic;
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    border-left-color: map-get($dark-theme, border-focus);
+    color: map-get($dark-theme, text-secondary);
+  }
+  
+  p {
+    margin-bottom: $spacing-3;
+  }
+  
+  cite {
+    display: block;
+    margin-top: $spacing-3;
+    font-size: $font-size-sm;
+    font-style: normal;
+    color: map-get($light-theme, text-tertiary);
+    
+    :host-context(.dark-theme) &,
+    [data-theme="dark"] & {
+      color: map-get($dark-theme, text-tertiary);
+    }
+    
+    &::before {
+      content: '— ';
+    }
+  }
+}
+
+// ============================================================================
+//                            HR (LÍNEA HORIZONTAL)
+// ============================================================================
+
+hr {
+  margin: $spacing-8 0;
+  border: none;
+  border-top: $border-width-thin solid map-get($light-theme, border-primary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    border-top-color: map-get($dark-theme, border-primary);
+  }
+}
+
+// ============================================================================
+//                                  IMÁGENES
+// ============================================================================
+
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  border-radius: $border-radius-base;
+}
+
+figure {
+  margin: $spacing-6 0;
+  
+  img {
+    margin-bottom: $spacing-3;
+  }
+  
+  figcaption {
+    font-size: $font-size-sm;
+    color: map-get($light-theme, text-tertiary);
+    text-align: center;
+    
+    :host-context(.dark-theme) &,
+    [data-theme="dark"] & {
+      color: map-get($dark-theme, text-tertiary);
+    }
+  }
+}
+
+// ============================================================================
+//                                  TABLAS
+// ============================================================================
+
+table {
+  width: 100%;
+  margin-bottom: $spacing-6;
+  border-collapse: collapse;
+  
+  thead {
+    background-color: map-get($light-theme, bg-tertiary);
+    
+    :host-context(.dark-theme) &,
+    [data-theme="dark"] & {
+      background-color: map-get($dark-theme, bg-tertiary);
+    }
+  }
+  
+  th {
+    padding: $spacing-3 $spacing-4;
+    text-align: left;
+    font-weight: $font-weight-semibold;
+    color: map-get($light-theme, text-primary);
+    border-bottom: $border-width-medium solid map-get($light-theme, border-primary);
+    
+    :host-context(.dark-theme) &,
+    [data-theme="dark"] & {
+      color: map-get($dark-theme, text-primary);
+      border-bottom-color: map-get($dark-theme, border-primary);
+    }
+  }
+  
+  td {
+    padding: $spacing-3 $spacing-4;
+    color: map-get($light-theme, text-secondary);
+    border-bottom: $border-width-thin solid map-get($light-theme, border-primary);
+    
+    :host-context(.dark-theme) &,
+    [data-theme="dark"] & {
+      color: map-get($dark-theme, text-secondary);
+      border-bottom-color: map-get($dark-theme, border-primary);
+    }
+  }
+  
+  tbody tr {
+    transition: background-color $duration-fast $ease-in-out;
+    
+    @include hover {
+      background-color: map-get($light-theme, state-hover);
+      
+      :host-context(.dark-theme) &,
+      [data-theme="dark"] & {
+        background-color: map-get($dark-theme, state-hover);
+      }
+    }
+  }
+}
+
+// ============================================================================
+//                                BOTONES BASE
+// ============================================================================
+
+button {
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+  transition: $transition-all;
+  
+  &:disabled {
+    cursor: not-allowed;
+    opacity: $opacity-50;
+  }
+}
+
+// ============================================================================
+//                         INPUTS Y FORMULARIOS BASE
+// ============================================================================
+
+input,
+textarea,
+select {
+  font-family: $font-primary;
+  font-size: $font-size-base;
+  color: map-get($light-theme, text-primary);
+  background-color: map-get($light-theme, bg-secondary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, text-primary);
+    background-color: map-get($dark-theme, bg-secondary);
+  }
+}
+
+label {
+  display: block;
+  margin-bottom: $spacing-2;
+  font-weight: $font-weight-medium;
+  color: map-get($light-theme, text-primary);
+  
+  :host-context(.dark-theme) &,
+  [data-theme="dark"] & {
+    color: map-get($dark-theme, text-primary);
+  }
+}
+
+// ============================================================================
+//                          MARK (TEXTO RESALTADO)
+// ============================================================================
+
+mark {
+  background-color: rgba($color-secondary-400, 0.3);
+  padding: $spacing-1 $spacing-2;
+  border-radius: $border-radius-sm;
+}

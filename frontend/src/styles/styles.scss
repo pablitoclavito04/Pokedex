@@ -1,0 +1,289 @@
+// ============================================================================
+//              STYLES.SCSS - ARCHIVO PRINCIPAL DE ESTILOS
+// ============================================================================
+// Este archivo importa todos los estilos siguiendo la metodología ITCSS
+// (Inverted Triangle CSS) para mantener la especificidad bajo control.
+// 
+// Orden de importación (de menor a mayor especificidad):
+// 1. Settings - Variables, configuración.
+// 2. Tools - Mixins, funciones.
+// 3. Generic - Reset, normalize.
+// 4. Elements - Estilos de elementos HTML sin clases.
+// 5. Objects - Patrones de diseño sin estilos visuales.
+// 6. Components - Componentes específicos de UI.
+// 7. Utilities - Clases de utilidad, helpers.
+// ============================================================================
+
+// ============================================================================
+//                 00-SETTINGS - Variables y configuración
+// ============================================================================
+// Importa todas las variables del sistema de diseño
+@use './00-settings/variables' as *;
+
+
+// ============================================================================
+//                     01-TOOLS - Mixins y funciones
+// ============================================================================
+// Importa mixins y funciones reutilizables
+@use './01-tools/mixins' as *;
+
+
+// ============================================================================
+//                  02-GENERIC - Reset y normalize
+// ============================================================================
+// Normaliza estilos entre navegadores y aplica reset
+@import './02-generic/reset';
+
+
+// ============================================================================
+//               03-ELEMENTS - Estilos base de elementos HTML
+// ============================================================================
+// Define estilos base para elementos HTML sin clases
+@import './03-elements/base';
+
+
+// ============================================================================
+//                    04-LAYOUT - Sistemas de layout
+// ============================================================================
+// Importa sistema de grid y layouts
+@import './04-layout/grid';
+
+
+// ============================================================================
+//              05-OBJECTS - Objetos y patrones de diseño
+// ============================================================================
+// Aquí irán patrones de diseño reutilizables sin estilos visuales
+// Por ejemplo: media objects, layout objects, etc.
+// @import './05-objects/media';
+// @import './05-objects/layouts';
+
+
+// ============================================================================
+//                 06-COMPONENTS - Componentes específicos
+// ============================================================================
+// Aquí irán los estilos de componentes específicos de Angular
+// Los componentes de Angular normalmente tienen sus propios archivos de estilos
+// pero los estilos globales compartidos irían aquí.
+// @import './06-components/buttons';
+// @import './06-components/cards';
+// @import './06-components/forms';
+// @import './06-components/navbar';
+// @import './06-components/pokemon-card';
+// @import './06-components/type-badge';
+
+
+// ============================================================================
+//                  07-UTILITIES - Clases de utilidad
+// ============================================================================
+// Clases de utilidad que tienen la mayor especificidad
+// @import './07-utilities/spacing';
+// @import './07-utilities/colors';
+// @import './07-utilities/typography';
+// @import './07-utilities/display';
+
+
+// ============================================================================
+//                            NOTAS IMPORTANTES
+// ============================================================================
+// 
+// 1. ORDEN IMPORTA: No cambiar el orden de los imports. ITCSS está diseñado
+//    para que la especificidad aumente gradualmente.
+// 
+// 2. USAR @use EN LUGAR DE @import: Para settings y tools usa @use porque se
+//    necesita acceder a las variables y mixins. Para el resto usar @import.
+// 
+// 3. NO USAR @import PARA VARIABLES: Las variables deben importarse con @use
+//    para evitar duplicación y poder usar namespaces.
+// 
+// 4. COMPONENTES DE ANGULAR: La mayoría de estilos de componentes irán en
+//    los archivos .scss de cada componente de Angular. Este archivo global
+//    es principalmente para estilos compartidos y base.
+// 
+// 5. TEMA OSCURO: El sistema de temas está implementado usando las variables
+//    del tema. Los estilos responden automáticamente al cambio de tema.
+// 
+// 6. VIEWENCAPSULATION: Por defecto Angular usa Emulated, pero estos estilos
+//    globales se aplican a toda la aplicación.
+// 
+// ============================================================================
+
+
+// ============================================================================
+//                      ESTILOS GLOBALES ADICIONALES
+// ============================================================================
+
+// Root para CSS custom properties (opcional, para compatibilidad con JS)
+:root {
+  // Colores primarios
+  --color-primary: #{$color-primary-500};
+  --color-secondary: #{$color-secondary-500};
+  --color-accent: #{$color-accent-500};
+  
+  // Espaciado
+  --spacing-base: #{$spacing-4};
+  
+  // Border radius
+  --border-radius: #{$border-radius-lg};
+  
+  // Transiciones
+  --transition-duration: #{$duration-base};
+}
+
+// Clase para activar tema oscuro
+.dark-theme {
+  color-scheme: dark;
+}
+
+// Clase para modo claro (por defecto)
+.light-theme {
+  color-scheme: light;
+}
+
+// ============================================================================
+//                          ANIMACIONES GLOBALES
+// ============================================================================
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+// Clases de animación reutilizables
+.animate-fade-in {
+  animation: fadeIn $duration-base $ease-in-out;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp $duration-base $ease-out;
+}
+
+.animate-fade-in-down {
+  animation: fadeInDown $duration-base $ease-out;
+}
+
+.animate-slide-in-right {
+  animation: slideInRight $duration-base $ease-out;
+}
+
+.animate-slide-in-left {
+  animation: slideInLeft $duration-base $ease-out;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s $ease-in-out infinite;
+}
+
+// ============================================================================
+//                        CLASES DE UTILIDAD COMUNES
+// ============================================================================
+
+// Texto
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+// Visibilidad
+.hidden { display: none !important; }
+.visible { display: block !important; }
+.invisible { visibility: hidden !important; }
+
+// Overflow
+.overflow-hidden { overflow: hidden; }
+.overflow-auto { overflow: auto; }
+.overflow-scroll { overflow: scroll; }
+
+// Posición
+.relative { position: relative; }
+.absolute { position: absolute; }
+.fixed { position: fixed; }
+.sticky { position: sticky; }
+
+// Width
+.w-full { width: 100%; }
+.w-auto { width: auto; }
+.h-full { height: 100%; }
+.h-auto { height: auto; }
+
+// Cursor
+.cursor-pointer { cursor: pointer; }
+.cursor-default { cursor: default; }
+.cursor-not-allowed { cursor: not-allowed; }
+
+// User select
+.select-none { user-select: none; }
+.select-text { user-select: text; }
+.select-all { user-select: all; }
+
+// Pointer events
+.pointer-events-none { pointer-events: none; }
+.pointer-events-auto { pointer-events: auto; }

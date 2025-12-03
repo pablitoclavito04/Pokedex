@@ -1,0 +1,351 @@
+// ============================================================================
+//                            RESET CSS MODERNO
+// ============================================================================
+//        Reset basado en modern-normalize y mejores prácticas actuales.
+//      Elimina inconsistencias entre navegadores y establece base sólida.
+// ============================================================================
+
+// ============================================================================
+//                        1. DOCUMENTO Y BOX-SIZING
+// ============================================================================
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  // Mejora renderizado de fuentes
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+  // Asegura que 1rem = 16px
+  font-size: 16px;
+  
+  // Previene ajuste de tamaño de fuente en iOS
+  -webkit-text-size-adjust: 100%;
+  
+  // Comportamiento de scroll suave
+  scroll-behavior: smooth;
+  
+  // Altura completa para aplicaciones SPA
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
+  
+  // Renderizado de texto optimizado
+  text-rendering: optimizeLegibility;
+  
+  // Permite scroll en todo el body
+  overflow-x: hidden;
+}
+
+// ============================================================================
+//                              2. TIPOGRAFÍA
+// ============================================================================
+
+// Herencia de propiedades tipográficas
+h1, h2, h3, h4, h5, h6,
+p, span, a, li, td, th,
+label, input, button, textarea, select {
+  font-family: inherit;
+  font-size: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+// Títulos sin márgenes por defecto
+h1, h2, h3, h4, h5, h6 {
+  margin: 0;
+  font-weight: inherit;
+}
+
+// Párrafos
+p {
+  margin: 0;
+}
+
+// Listas
+ul, ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Enlaces
+a {
+  color: inherit;
+  text-decoration: none;
+  background-color: transparent;
+}
+
+// Énfasis y strong
+b, strong {
+  font-weight: bolder;
+}
+
+// Code y pre
+code, kbd, samp, pre {
+  font-family: monospace, monospace;
+  font-size: 1em;
+}
+
+// Texto pequeño
+small {
+  font-size: 80%;
+}
+
+// Sub y sup
+sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+}
+
+sub {
+  bottom: -0.25em;
+}
+
+sup {
+  top: -0.5em;
+}
+
+// ============================================================================
+//                     3. MEDIOS (IMÁGENES, VIDEO, SVG)
+// ============================================================================
+
+img, picture, video, canvas, svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+img {
+  border-style: none;
+}
+
+svg {
+  overflow: hidden;
+  vertical-align: middle;
+}
+
+// ============================================================================
+//                              4. FORMULARIOS
+// ============================================================================
+
+// Herencia de fuente
+button, input, optgroup, select, textarea {
+  font-family: inherit;
+  font-size: 100%;
+  line-height: inherit;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+}
+
+// Botones
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-align: inherit;
+  
+  // Elimina outline por defecto, añade focus-visible
+  &:focus {
+    outline: none;
+  }
+}
+
+// Select
+select {
+  text-transform: none;
+  word-wrap: normal;
+}
+
+// Inputs type button/submit/reset
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
+  -webkit-appearance: button;
+  cursor: pointer;
+}
+
+// Remove inner border and padding in Firefox
+button::-moz-focus-inner,
+[type='button']::-moz-focus-inner,
+[type='reset']::-moz-focus-inner,
+[type='submit']::-moz-focus-inner {
+  border-style: none;
+  padding: 0;
+}
+
+// Restore focus styles in Firefox
+button:-moz-focusring,
+[type='button']:-moz-focusring,
+[type='reset']:-moz-focusring,
+[type='submit']:-moz-focusring {
+  outline: 1px dotted ButtonText;
+}
+
+// Fieldset
+fieldset {
+  margin: 0;
+  padding: 0;
+  border: none;
+  min-width: 0;
+}
+
+// Legend
+legend {
+  padding: 0;
+  display: table;
+  max-width: 100%;
+  white-space: normal;
+  color: inherit;
+}
+
+// Progress
+progress {
+  vertical-align: baseline;
+}
+
+// Textarea
+textarea {
+  overflow: auto;
+  resize: vertical;
+}
+
+// Checkboxes y radios
+[type='checkbox'],
+[type='radio'] {
+  padding: 0;
+}
+
+// Number inputs
+[type='number']::-webkit-inner-spin-button,
+[type='number']::-webkit-outer-spin-button {
+  height: auto;
+}
+
+// Search inputs
+[type='search'] {
+  -webkit-appearance: textfield;
+  outline-offset: -2px;
+}
+
+[type='search']::-webkit-search-decoration {
+  -webkit-appearance: none;
+}
+
+// File upload button
+::-webkit-file-upload-button {
+  -webkit-appearance: button;
+  font: inherit;
+}
+
+// ============================================================================
+//                                5. TABLAS
+// ============================================================================
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+  width: 100%;
+}
+
+td, th {
+  padding: 0;
+  text-align: left;
+}
+
+// ============================================================================
+//                         6. ELEMENTOS INTERACTIVOS
+// ============================================================================
+
+// Details/Summary
+details {
+  display: block;
+}
+
+summary {
+  display: list-item;
+  cursor: pointer;
+}
+
+// Template
+template {
+  display: none;
+}
+
+// Hidden attribute
+[hidden] {
+  display: none !important;
+}
+
+// ============================================================================
+//                            7. ACCESIBILIDAD
+// ============================================================================
+
+// Mejora foco de teclado
+:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+// Prefers reduced motion
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+// ============================================================================
+//                           8. UTILIDADES GLOBALES
+// ============================================================================
+
+// Disabled
+[disabled] {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+// Readonly
+[readonly] {
+  cursor: default;
+}
+
+// Elimina apariencia por defecto de elementos nativos
+button,
+input,
+select,
+textarea {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  
+  &:focus {
+    outline: none;
+  }
+}
+
+// Angular específico - Elimina atributos ng
+[ng-cloak],
+[data-ng-cloak],
+.ng-cloak {
+  display: none !important;
+}
