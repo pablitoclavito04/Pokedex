@@ -1,0 +1,188 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2025-12-12T12:00:00.000Z",
+  "__export_source": "insomnia.desktop.app:v12.1.0",
+  "resources": [
+    {
+      "_id": "wrk_d058dbad160d4fc5a48864fa3ef73192",
+      "parentId": null,
+      "modified": 1761735667336,
+      "created": 1761735667336,
+      "url": "",
+      "name": "My first collection",
+      "description": "",
+      "scope": "collection"
+    },
+    {
+      "_id": "req_fb5358ca30f74629a3a33e14745bfec6",
+      "parentId": "wrk_d058dbad160d4fc5a48864fa3ef73192",
+      "modified": 1765450217990,
+      "created": 1765398571013,
+      "url": "http://localhost:8080/api/pokemon",
+      "name": "POST Crear Charizard",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"numero\": 6,\"nombre\": \"Charizard\",\"altura\": 1.70,\"peso\": 90.50,\"descripcion\": \"Escupe fuego que es tan caliente que puede derretir rocas. Se sabe que ha causado incendios forestales involuntariamente.\",\"generacion\": 1,\"tipos\": [\"Fuego\", \"Volador\"],\"estadisticas\": {\"ps\": 78,\"ataque\": 84,\"defensa\": 78,\"velocidad\": 100,\"ataqueEspecial\": 109,\"defensaEspecial\": 85}}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/12.1.0"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1765398571013,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0f57b20acc5f406690b1f43bbbc466a5",
+      "parentId": "wrk_d058dbad160d4fc5a48864fa3ef73192",
+      "modified": 1765451215757,
+      "created": 1765450173257,
+      "url": "http://localhost:8080/api/pokemon",
+      "name": "Error duplicado",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"numero\": 1,\"nombre\": \"Bulbasaur Falso\",\"altura\": 0.70,\"peso\": 6.90,\"descripcion\": \"Intento de duplicar\",\"generacion\": 1,\"tipos\": [\"Planta\"]}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/12.1.0"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1765450173257,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_a39a5455fe02462fb34aedae06ac9c5b",
+      "parentId": "wrk_d058dbad160d4fc5a48864fa3ef73192",
+      "modified": 1765451533798,
+      "created": 1765450174682,
+      "url": "http://localhost:8080/api/pokemon/6",
+      "name": "Actualizar Charizard",
+      "description": "",
+      "method": "PUT",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"numero\": 6,\"peso\": 91.50,\"descripcion\": \"Escupe fuego que es tan caliente que puede derretir rocas. Se sabe que ha causado incendios forestales involuntariamente.\"}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/12.1.0"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1765450174682,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_e0a277fd28dd4924afd392dc6f6be4c0",
+      "parentId": "wrk_d058dbad160d4fc5a48864fa3ef73192",
+      "modified": 1765451244407,
+      "created": 1765450176636,
+      "url": "http://localhost:8080/api/pokemon/7",
+      "name": "Eliminar Charizard",
+      "description": "",
+      "method": "DELETE",
+      "body": {
+        "mimeType": "",
+        "text": ""
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "User-Agent",
+          "value": "insomnia/12.1.0"
+        },
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1765450176636,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_4cb28e3d7e5c4c6fba39c9eb200ffc80",
+      "parentId": "wrk_d058dbad160d4fc5a48864fa3ef73192",
+      "modified": 1765451428954,
+      "created": 1765450178292,
+      "url": "http://localhost:8080/api/pokemon/5/evolucion",
+      "name": "Crear evolucion de charmeleon a Charizard",
+      "description": "",
+      "method": "POST",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\"destinoId\": 6,\"nivel\": 36,\"metodo\": \"Nivel\"}"
+      },
+      "parameters": [],
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        },
+        {
+          "name": "User-Agent",
+          "value": "insomnia/12.1.0"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": -1765450178292,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    }
+  ]
+}
