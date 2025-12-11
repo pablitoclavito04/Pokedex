@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * Servicio para Pokemon con CRUD completo y lógica de negocio
+ */
 @Service
 @Transactional
 public class PokemonService {
@@ -33,6 +36,8 @@ public class PokemonService {
         this.evolucionRepository = evolucionRepository;
         this.tipoRepository = tipoRepository;
     }
+
+    // ==================== READ ====================
 
     public List<PokemonDTO> obtenerTodos() {
         List<Pokemon> pokemonList = pokemonRepository.findAllByOrderByNumeroAsc();
@@ -85,6 +90,262 @@ public class PokemonService {
         }
         return dtoList;
     }
+
+    // ==================== CREATE ====================
+
+    /**
+     * Crear un nuevo Pokémon
+     * Lógica de negocio:
+     * - No permitir duplicados (mismo número de Pokédex)
+     * - Validar que tenga al menos 1 tipo y máximo 2
+     * - Validar que la generación sea 1-9
+     * - Validar que los tipos existan
+     */
+    public PokemonDTO crear(PokemonDTO dto) {
+        // Validación 1: No duplicados por número
+        if (pokemonRepository.findByNumero(dto.getNumero()).isPresent()) {
+            throw new RuntimeException("Ya existe un Pokémon con el número " + dto.getNumero());
+        }
+
+        // Validación 2: Debe tener al menos 1 tipo y máximo 2
+        if (dto.getTipos() == null || dto.getTipos().isEmpty()) {
+            throw new RuntimeException("El Pokémon debe tener al menos un tipo");
+        }
+        if (dto.getTipos().size() > 2) {
+            throw new RuntimeException("El Pokémon no puede tener más de 2 tipos");
+        }
+
+        // Validación 3: Generación entre 1 y 9
+        if (dto.getGeneracion() == null || dto.getGeneracion() < 1 || dto.getGeneracion() > 9) {
+            throw new RuntimeException("La generación debe estar entre 1 y 9");
+        }
+
+        // Validación 4: Los tipos deben existir
+        for (String nombreTipo : dto.getTipos()) {
+            if (!tipoRepository.findByNombre(nombreTipo).isPresent()) {
+                throw new RuntimeException("El tipo '" + nombreTipo + "' no existe");
+            }
+        }
+
+        // Crear Pokemon
+        Pokemon pokemon = new Pokemon();
+        pokemon.setNumero(dto.getNumero());
+        pokemon.setNombre(dto.getNombre());
+        pokemon.setAltura(dto.getAltura());
+        pokemon.setPeso(dto.getPeso());
+        pokemon.setDescripcion(dto.getDescripcion());
+        pokemon.setGeneracion(dto.getGeneracion());
+
+        Pokemon savedPokemon = pokemonRepository.save(pokemon);
+
+        // Crear relaciones Pokemon-Tipo
+        byte orden = 1;
+        for (String nombreTipo : dto.getTipos()) {
+            Tipo tipo = tipoRepository.findByNombre(nombreTipo).get();
+
+            PokemonTipo pokemonTipo = new PokemonTipo();
+            pokemonTipo.setPokemonId(savedPokemon.getId());
+            pokemonTipo.setTipoId(tipo.getId());
+            pokemonTipo.setOrden(orden);
+
+            pokemonTipoRepository.save(pokemonTipo);
+            orden++;
+        }
+
+        // Crear estadísticas si se proporcionan
+        if (dto.getEstadisticas() != null) {
+            validarEstadisticas(dto.getEstadisticas());
+
+            Estadisticas stats = new Estadisticas();
+            stats.setIdPokemon(savedPokemon.getId());
+            stats.setPs(dto.getEstadisticas().getPs());
+            stats.setAtaque(dto.getEstadisticas().getAtaque());
+            stats.setDefensa(dto.getEstadisticas().getDefensa());
+            stats.setVelocidad(dto.getEstadisticas().getVelocidad());
+            stats.setAtaqueEspecial(dto.getEstadisticas().getAtaqueEspecial());
+            stats.setDefensaEspecial(dto.getEstadisticas().getDefensaEspecial());
+
+            estadisticasRepository.save(stats);
+        }
+
+        return convertirADTO(savedPokemon);
+    }
+
+    // ==================== UPDATE ====================
+
+    /**
+     * Actualizar un Pokémon existente
+     */
+    public PokemonDTO actualizar(Integer id, PokemonDTO dto) {
+        Pokemon pokemon = pokemonRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pokemon no encontrado con id: " + id));
+
+        // Validar número único (si cambió)
+        if (!pokemon.getNumero().equals(dto.getNumero())) {
+            if (pokemonRepository.findByNumero(dto.getNumero()).isPresent()) {
+                throw new RuntimeException("Ya existe un Pokémon con el número " + dto.getNumero());
+            }
+            pokemon.setNumero(dto.getNumero());
+        }
+
+        // Validar generación
+        if (dto.getGeneracion() != null) {
+            if (dto.getGeneracion() < 1 || dto.getGeneracion() > 9) {
+                throw new RuntimeException("La generación debe estar entre 1 y 9");
+            }
+            pokemon.setGeneracion(dto.getGeneracion());
+        }
+
+        // Actualizar campos básicos
+        if (dto.getNombre() != null) pokemon.setNombre(dto.getNombre());
+        if (dto.getAltura() != null) pokemon.setAltura(dto.getAltura());
+        if (dto.getPeso() != null) pokemon.setPeso(dto.getPeso());
+        if (dto.getDescripcion() != null) pokemon.setDescripcion(dto.getDescripcion());
+
+        Pokemon updatedPokemon = pokemonRepository.save(pokemon);
+
+        // Actualizar tipos si se proporcionan
+        if (dto.getTipos() != null && !dto.getTipos().isEmpty()) {
+            if (dto.getTipos().size() > 2) {
+                throw new RuntimeException("El Pokémon no puede tener más de 2 tipos");
+            }
+
+            // Eliminar tipos anteriores
+            pokemonTipoRepository.deleteByPokemonId(id);
+
+            // Crear nuevos tipos
+            byte orden = 1;
+            for (String nombreTipo : dto.getTipos()) {
+                Tipo tipo = tipoRepository.findByNombre(nombreTipo)
+                        .orElseThrow(() -> new RuntimeException("El tipo '" + nombreTipo + "' no existe"));
+
+                PokemonTipo pokemonTipo = new PokemonTipo();
+                pokemonTipo.setPokemonId(id);
+                pokemonTipo.setTipoId(tipo.getId());
+                pokemonTipo.setOrden(orden);
+
+                pokemonTipoRepository.save(pokemonTipo);
+                orden++;
+            }
+        }
+
+        // Actualizar estadísticas si se proporcionan
+        if (dto.getEstadisticas() != null) {
+            validarEstadisticas(dto.getEstadisticas());
+
+            Optional<Estadisticas> statsOpt = estadisticasRepository.findByIdPokemon(id);
+            Estadisticas stats;
+
+            if (statsOpt.isPresent()) {
+                stats = statsOpt.get();
+            } else {
+                stats = new Estadisticas();
+                stats.setIdPokemon(id);
+            }
+
+            stats.setPs(dto.getEstadisticas().getPs());
+            stats.setAtaque(dto.getEstadisticas().getAtaque());
+            stats.setDefensa(dto.getEstadisticas().getDefensa());
+            stats.setVelocidad(dto.getEstadisticas().getVelocidad());
+            stats.setAtaqueEspecial(dto.getEstadisticas().getAtaqueEspecial());
+            stats.setDefensaEspecial(dto.getEstadisticas().getDefensaEspecial());
+
+            estadisticasRepository.save(stats);
+        }
+
+        return convertirADTO(updatedPokemon);
+    }
+
+    // ==================== DELETE ====================
+
+    /**
+     * Eliminar un Pokémon
+     * Lógica de negocio:
+     * - Eliminar automáticamente estadísticas, tipos y evoluciones
+     */
+    public void eliminar(Integer id) {
+        if (!pokemonRepository.existsById(id)) {
+            throw new RuntimeException("Pokemon no encontrado con id: " + id);
+        }
+
+        // Eliminar evoluciones donde este Pokémon es origen o destino
+        List<Evolucion> evolucionesOrigen = evolucionRepository.findByPokemonOrigenId(id);
+        for (Evolucion ev : evolucionesOrigen) {
+            evolucionRepository.delete(ev);
+        }
+
+        List<Evolucion> evolucionesDestino = evolucionRepository.findByPokemonDestinoId(id);
+        for (Evolucion ev : evolucionesDestino) {
+            evolucionRepository.delete(ev);
+        }
+
+        // Eliminar estadísticas
+        Optional<Estadisticas> stats = estadisticasRepository.findByIdPokemon(id);
+        if (stats.isPresent()) {
+            estadisticasRepository.delete(stats.get());
+        }
+
+        // Eliminar tipos
+        pokemonTipoRepository.deleteByPokemonId(id);
+
+        // Eliminar Pokémon
+        pokemonRepository.deleteById(id);
+    }
+
+    // ==================== LÓGICA DE NEGOCIO ====================
+
+    /**
+     * Crear evolución
+     * Validación: Un Pokémon no puede evolucionar a sí mismo
+     */
+    public void crearEvolucion(Integer origenId, Integer destinoId, Integer nivel, String metodo) {
+        if (origenId.equals(destinoId)) {
+            throw new RuntimeException("Un Pokémon no puede evolucionar a sí mismo");
+        }
+
+        if (!pokemonRepository.existsById(origenId)) {
+            throw new RuntimeException("Pokémon origen no existe");
+        }
+
+        if (!pokemonRepository.existsById(destinoId)) {
+            throw new RuntimeException("Pokémon destino no existe");
+        }
+
+        Evolucion evolucion = new Evolucion();
+        evolucion.setPokemonOrigenId(origenId);
+        evolucion.setPokemonDestinoId(destinoId);
+        evolucion.setNivelEvolucion(nivel);
+        evolucion.setMetodo(metodo);
+
+        evolucionRepository.save(evolucion);
+    }
+
+    /**
+     * Validar estadísticas
+     * Las stats deben estar entre 1 y 255
+     */
+    private void validarEstadisticas(EstadisticasDTO stats) {
+        if (stats.getPs() < 1 || stats.getPs() > 255) {
+            throw new RuntimeException("Los PS deben estar entre 1 y 255");
+        }
+        if (stats.getAtaque() < 1 || stats.getAtaque() > 255) {
+            throw new RuntimeException("El Ataque debe estar entre 1 y 255");
+        }
+        if (stats.getDefensa() < 1 || stats.getDefensa() > 255) {
+            throw new RuntimeException("La Defensa debe estar entre 1 y 255");
+        }
+        if (stats.getVelocidad() < 1 || stats.getVelocidad() > 255) {
+            throw new RuntimeException("La Velocidad debe estar entre 1 y 255");
+        }
+        if (stats.getAtaqueEspecial() < 1 || stats.getAtaqueEspecial() > 255) {
+            throw new RuntimeException("El Ataque Especial debe estar entre 1 y 255");
+        }
+        if (stats.getDefensaEspecial() < 1 || stats.getDefensaEspecial() > 255) {
+            throw new RuntimeException("La Defensa Especial debe estar entre 1 y 255");
+        }
+    }
+
+    // ==================== CONVERSIÓN ====================
 
     private PokemonDTO convertirADTO(Pokemon pokemon) {
         PokemonDTO dto = new PokemonDTO();

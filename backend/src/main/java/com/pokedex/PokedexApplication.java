@@ -22,7 +22,7 @@ public class PokedexApplication {
         System.out.println("\n" +
                 "╔═══════════════════════════════════════════════╗\n" +
                 "║         POKÉDEX BACKEND API INICIADA          ║\n" +
-                "║    http://http://localhost:8080/api/pokemon   ║\n" +
+                "║       http://localhost:8080/api/pokemon       ║\n" +
                 "╚═══════════════════════════════════════════════╝\n");
     }
 }
