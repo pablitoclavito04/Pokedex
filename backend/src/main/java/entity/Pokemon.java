@@ -5,6 +5,7 @@ import java.math.BigDecimal;
 
 /**
  * Entidad Pokemon - Representa un Pokémon en la base de datos
+ * ACTUALIZADA con campo imagenUrl
  */
 @Entity
 @Table(name = "Pokemon")
@@ -30,19 +31,24 @@ public class Pokemon {
     @Column(name = "descripción", nullable = false, columnDefinition = "TEXT")
     private String descripcion;
 
+    @Column(name = "imagen_url", length = 255)
+    private String imagenUrl;
+
     @Column(name = "generacion", nullable = false)
     private Integer generacion;
 
     // Constructores
     public Pokemon() {}
 
-    public Pokemon(Integer id, Integer numero, String nombre, BigDecimal altura, BigDecimal peso, String descripcion, Integer generacion) {
+    public Pokemon(Integer id, Integer numero, String nombre, BigDecimal altura, BigDecimal peso,
+                   String descripcion, String imagenUrl, Integer generacion) {
         this.id = id;
         this.numero = numero;
         this.nombre = nombre;
         this.altura = altura;
         this.peso = peso;
         this.descripcion = descripcion;
+        this.imagenUrl = imagenUrl;
         this.generacion = generacion;
     }
 
@@ -93,6 +99,14 @@ public class Pokemon {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
     }
 
     public Integer getGeneracion() {

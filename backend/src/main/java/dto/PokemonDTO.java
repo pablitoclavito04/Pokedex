@@ -5,6 +5,7 @@ import java.util.List;
 
 /**
  * DTO principal para Pokemon
+ * ACTUALIZADO con campo imagenUrl
  */
 public class PokemonDTO {
     private Integer id;
@@ -13,6 +14,7 @@ public class PokemonDTO {
     private BigDecimal altura;
     private BigDecimal peso;
     private String descripcion;
+    private String imagenUrl;
     private Integer generacion;
     private List<String> tipos;
     private EstadisticasDTO estadisticas;
@@ -21,7 +23,7 @@ public class PokemonDTO {
     public PokemonDTO() {}
 
     public PokemonDTO(Integer id, Integer numero, String nombre, BigDecimal altura, BigDecimal peso,
-                      String descripcion, Integer generacion, List<String> tipos,
+                      String descripcion, String imagenUrl, Integer generacion, List<String> tipos,
                       EstadisticasDTO estadisticas, List<EvolucionDTO> evoluciones) {
         this.id = id;
         this.numero = numero;
@@ -29,6 +31,7 @@ public class PokemonDTO {
         this.altura = altura;
         this.peso = peso;
         this.descripcion = descripcion;
+        this.imagenUrl = imagenUrl;
         this.generacion = generacion;
         this.tipos = tipos;
         this.estadisticas = estadisticas;
@@ -81,6 +84,14 @@ public class PokemonDTO {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
+    }
+
+    public String getImagenUrl() {
+        return imagenUrl;
+    }
+
+    public void setImagenUrl(String imagenUrl) {
+        this.imagenUrl = imagenUrl;
     }
 
     public Integer getGeneracion() {

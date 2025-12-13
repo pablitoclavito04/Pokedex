@@ -1,4 +1,4 @@
-# 📘 Pokédex Backend.
+# Pokédex Backend.
 
 **Proyecto:** Pokédex Backend API REST  
 **Tecnología:** Spring Boot 3.2.1 + MySQL 8.0  
@@ -7,7 +7,7 @@
 
 ---
 
-## 📑 ÍNDICE
+## ÍNDICE
 
 1. [Introducción](#1-introducción)
 2. [Arquitectura del Sistema](#2-arquitectura-del-sistema)

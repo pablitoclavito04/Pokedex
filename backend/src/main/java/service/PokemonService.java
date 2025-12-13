@@ -13,6 +13,7 @@ import java.util.Optional;
 
 /**
  * Servicio para Pokemon con CRUD completo y lógica de negocio
+ * ACTUALIZADO con soporte para imágenes
  */
 @Service
 @Transactional
@@ -292,6 +293,20 @@ public class PokemonService {
         pokemonRepository.deleteById(id);
     }
 
+    // ==================== FILE MANAGEMENT ====================
+
+    /**
+     * Actualizar URL de imagen de un Pokémon
+     * NUEVO MÉTODO para soporte de imágenes
+     */
+    public void actualizarImagenUrl(Integer id, String imagenUrl) {
+        Pokemon pokemon = pokemonRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Pokemon no encontrado con id: " + id));
+
+        pokemon.setImagenUrl(imagenUrl);
+        pokemonRepository.save(pokemon);
+    }
+
     // ==================== LÓGICA DE NEGOCIO ====================
 
     /**
@@ -347,6 +362,10 @@ public class PokemonService {
 
     // ==================== CONVERSIÓN ====================
 
+    /**
+     * Convertir entidad Pokemon a DTO
+     * ACTUALIZADO para incluir imagenUrl
+     */
     private PokemonDTO convertirADTO(Pokemon pokemon) {
         PokemonDTO dto = new PokemonDTO();
         dto.setId(pokemon.getId());
@@ -355,6 +374,7 @@ public class PokemonService {
         dto.setAltura(pokemon.getAltura());
         dto.setPeso(pokemon.getPeso());
         dto.setDescripcion(pokemon.getDescripcion());
+        dto.setImagenUrl(pokemon.getImagenUrl());  // AÑADIDO
         dto.setGeneracion(pokemon.getGeneracion());
 
         // Obtener tipos
