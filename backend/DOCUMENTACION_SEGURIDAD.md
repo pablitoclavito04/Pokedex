@@ -350,6 +350,33 @@ Content-Type: application/json
 ---
 
 
+## 8. CLASES IMPLEMENTADAS
+
+### Estructura de Archivos
+
+```
+
+src/main/java/
+├── entity/
+│   └── User.java              ← Entidad de usuario
+├── repository/
+│   └── UserRepository.java    ← Acceso a BD de usuarios
+├── dto/
+│   ├── RegisterRequest.java   ← DTO para registro
+│   ├── LoginRequest.java      ← DTO para login
+│   └── AuthResponse.java      ← DTO de respuesta
+├── service/
+│   └── AuthService.java       ← Lógica de autenticación
+├── controller/
+│   └── AuthController.java    ← Endpoints REST
+├── security/
+│   ├── SecurityConfig.java    ← Configuración de seguridad
+│   └── JwtAuthenticationFilter.java ← Filtro JWT
+└── util/
+    └── JwtUtil.java           ← Utilidad para tokens
+
+```
+
 ### Descripción de Cada Clase
 
 | Clase | Responsabilidad |
