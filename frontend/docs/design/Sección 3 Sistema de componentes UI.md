@@ -462,12 +462,12 @@ http://localhost:4200/style-guide
 
 El Style Guide está organizado por secciones:
 
-1. **Botones** - Variantes, tamaños, iconos, estados
-2. **Cards** - Vertical, horizontal, clickable
-3. **Formularios** - Input, textarea, select
-4. **Alertas** - Success, error, warning, info
-5. **Badges** - Variantes, outline, contadores, dots
-6. **Modales** - Demo interactivo
+1. **Botones** - Variantes, tamaños, iconos, estados.
+2. **Cards** - Vertical, horizontal, clickable.
+3. **Formularios** - Input, textarea, select.
+4. **Alertas** - Success, error, warning, info.
+5. **Badges** - Variantes, outline, contadores, dots.
+6. **Modales** - Demo interactivo.
 
 ### Capturas del Style Guide
 
@@ -488,25 +488,25 @@ El Style Guide está organizado por secciones:
 ![alt text](image-2.png)
 
 **Sección Formularios:**
-- Inputs con diferentes tipos
-- Textareas con contador
-- Selects con opciones
+- Inputs con diferentes tipos.
+- Textareas con contador.
+- Selects con opciones.
 
 ![alt text](image-3.png)
 
 **Sección Alertas:**
-- Los 4 tipos de alertas
-- Una alerta que no se puede cerrar
+- Los 4 tipos de alertas.
+- Una alerta que no se puede cerrar.
 
 ![alt text](image-4.png)
 
 **Sección Badges:**
-- Todas las variantes de color
-- Versiones outline
-- Contadores y dots
+- Todas las variantes de color.
+- Versiones outline.
+- Contadores y dots.
 
 ![alt text](image-5.png)
 
 **Sección Modales:**
-- Botón para abrir demo
-- Modal con header, body y footer
+- Botón para abrir demo.
+- Modal con header, body y footer (Esto se ve cuando se pincha en el botón Abrir Modal).
