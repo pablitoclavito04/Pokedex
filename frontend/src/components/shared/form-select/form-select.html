@@ -1,0 +1,83 @@
+<!-- ============================================================================
+     FORM-SELECT COMPONENT
+     
+     Dropdown con <select> y <option>.
+     Incluye: label asociado, placeholder, mensaje de error, texto de ayuda.
+     ============================================================================ -->
+
+<div class="form-select"
+     [class.form-select--focused]="isFocused"
+     [class.form-select--filled]="hasValue"
+     [class.form-select--error]="shouldShowError"
+     [class.form-select--disabled]="disabled">
+  
+  <!-- ========== LABEL ========== -->
+  <label 
+    [attr.for]="selectId" 
+    class="form-select__label">
+    {{ label }}
+    <span *ngIf="required" class="form-select__required" aria-hidden="true">*</span>
+  </label>
+  
+  <!-- ========== SELECT WRAPPER ========== -->
+  <div class="form-select__wrapper">
+    
+    <select 
+      [attr.id]="selectId"
+      [attr.name]="name"
+      [value]="value"
+      [disabled]="disabled"
+      [required]="required"
+      [attr.aria-required]="required"
+      [attr.aria-invalid]="shouldShowError"
+      [attr.aria-describedby]="shouldShowError ? selectId + '-error' : (helpText ? selectId + '-help' : null)"
+      class="form-select__field"
+      (change)="onSelectChange($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()">
+      
+      <!-- Placeholder option -->
+      <option value="" disabled [selected]="!hasValue">
+        {{ placeholder }}
+      </option>
+      
+      <!-- Options -->
+      <option 
+        *ngFor="let option of options"
+        [value]="option.value"
+        [disabled]="option.disabled">
+        {{ option.label }}
+      </option>
+      
+    </select>
+    
+    <!-- Icono de flecha -->
+    <span class="form-select__icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </span>
+    
+  </div>
+  
+  <!-- ========== TEXTO DE AYUDA ========== -->
+  <p *ngIf="helpText && !shouldShowError"
+     [attr.id]="selectId + '-help'"
+     class="form-select__help">
+    {{ helpText }}
+  </p>
+  
+  <!-- ========== MENSAJE DE ERROR ========== -->
+  <p *ngIf="shouldShowError"
+     [attr.id]="selectId + '-error'"
+     class="form-select__error"
+     role="alert">
+    <svg class="form-select__error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    {{ errorMessage }}
+  </p>
+  
+</div>

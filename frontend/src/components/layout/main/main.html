@@ -1,0 +1,21 @@
+<!-- ============================================================================
+     MAIN COMPONENT - Estructura semántica
+     Elemento: <main> - Contiene el contenido principal de la página
+     
+     IMPORTANTE: Solo debe haber UN elemento <main> por página.
+     Este componente usa <ng-content> para proyectar el contenido de cada página.
+     ============================================================================ -->
+<main class="main" id="main-content" role="main">
+  <!-- 
+    Skip link target: Los usuarios de lectores de pantalla pueden saltar
+    directamente al contenido principal usando un enlace "Saltar al contenido"
+  -->
+  
+  <div class="main__container">
+    <!-- 
+      ng-content proyecta el contenido que se pase entre las etiquetas
+      <app-main>...</app-main> en el componente padre
+    -->
+    <ng-content></ng-content>
+  </div>
+</main>

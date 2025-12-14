@@ -1,0 +1,73 @@
+<!-- ============================================================================
+     FORM-TEXTAREA COMPONENT
+     
+     Similar a form-input pero con <textarea> en lugar de <input>.
+     Incluye: label, contador de caracteres, mensaje de error, texto de ayuda.
+     ============================================================================ -->
+
+<div class="form-textarea"
+     [class.form-textarea--focused]="isFocused"
+     [class.form-textarea--filled]="hasValue"
+     [class.form-textarea--error]="shouldShowError"
+     [class.form-textarea--disabled]="disabled">
+  
+  <!-- ========== LABEL ========== -->
+  <label 
+    [attr.for]="textareaId" 
+    class="form-textarea__label">
+    {{ label }}
+    <span *ngIf="required" class="form-textarea__required" aria-hidden="true">*</span>
+  </label>
+  
+  <!-- ========== TEXTAREA ========== -->
+  <div class="form-textarea__wrapper">
+    <textarea 
+      [attr.id]="textareaId"
+      [attr.name]="name"
+      [placeholder]="placeholder"
+      [value]="value"
+      [disabled]="disabled"
+      [required]="required"
+      [rows]="rows"
+      [attr.maxlength]="maxlength"
+      [attr.aria-required]="required"
+      [attr.aria-invalid]="shouldShowError"
+      [attr.aria-describedby]="shouldShowError ? textareaId + '-error' : (helpText ? textareaId + '-help' : null)"
+      class="form-textarea__field"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()">
+    </textarea>
+  </div>
+  
+  <!-- ========== FOOTER: Ayuda y contador ========== -->
+  <div class="form-textarea__footer">
+    
+    <!-- Texto de ayuda -->
+    <p *ngIf="helpText && !shouldShowError"
+       [attr.id]="textareaId + '-help'"
+       class="form-textarea__help">
+      {{ helpText }}
+    </p>
+    
+    <!-- Mensaje de error -->
+    <p *ngIf="shouldShowError"
+       [attr.id]="textareaId + '-error'"
+       class="form-textarea__error"
+       role="alert">
+      <svg class="form-textarea__error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      {{ errorMessage }}
+    </p>
+    
+    <!-- Contador de caracteres -->
+    <span *ngIf="showCharCount && maxlength" class="form-textarea__char-count">
+      {{ charCount }} / {{ maxlength }}
+    </span>
+    
+  </div>
+  
+</div>

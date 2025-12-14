@@ -1,0 +1,456 @@
+<!-- ============================================================================
+     STYLE GUIDE PAGE
+     
+     Página especial que muestra TODOS los componentes con TODAS sus variantes.
+     Sirve como documentación visual y para testing rápido.
+     ============================================================================ -->
+
+<div class="style-guide">
+  
+  <!-- ========== HEADER ========== -->
+  <header class="style-guide__header">
+    <h1 class="style-guide__title">Style Guide</h1>
+    <p class="style-guide__description">
+      Documentación visual de todos los componentes UI de la Pokédex.
+      Cada componente se muestra con todas sus variantes, tamaños y estados.
+    </p>
+  </header>
+  
+  <!-- ========== ÍNDICE ========== -->
+  <nav class="style-guide__nav" aria-label="Índice de componentes">
+    <h2 class="style-guide__nav-title">Componentes</h2>
+    <ul class="style-guide__nav-list">
+      <li><a href="#buttons">Botones</a></li>
+      <li><a href="#cards">Cards</a></li>
+      <li><a href="#forms">Formularios</a></li>
+      <li><a href="#alerts">Alertas</a></li>
+      <li><a href="#badges">Badges</a></li>
+      <li><a href="#modals">Modales</a></li>
+    </ul>
+  </nav>
+  
+  <!-- ======================================================================
+       SECCIÓN: BOTONES
+       ====================================================================== -->
+  <section id="buttons" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Botones</h2>
+      <p class="style-guide__section-description">
+        Componente <code>app-button</code> con variantes, tamaños y estados.
+      </p>
+    </header>
+    
+    <!-- Variantes -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Variantes</h3>
+      <div class="style-guide__component-row">
+        <app-button variant="primary" (buttonClick)="onButtonClick('primary')">Primary</app-button>
+        <app-button variant="secondary" (buttonClick)="onButtonClick('secondary')">Secondary</app-button>
+        <app-button variant="ghost" (buttonClick)="onButtonClick('ghost')">Ghost</app-button>
+        <app-button variant="danger" (buttonClick)="onButtonClick('danger')">Danger</app-button>
+      </div>
+    </div>
+    
+    <!-- Tamaños -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Tamaños</h3>
+      <div class="style-guide__component-row style-guide__component-row--align-end">
+        <app-button variant="primary" size="sm">Small</app-button>
+        <app-button variant="primary" size="md">Medium</app-button>
+        <app-button variant="primary" size="lg">Large</app-button>
+      </div>
+    </div>
+    
+    <!-- Con iconos -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Con iconos</h3>
+      <div class="style-guide__component-row">
+        <app-button variant="primary" iconLeft="plus">Añadir</app-button>
+        <app-button variant="secondary" iconRight="arrow-right">Siguiente</app-button>
+        <app-button variant="danger" iconLeft="trash">Eliminar</app-button>
+        <app-button variant="primary" iconLeft="download">Descargar</app-button>
+      </div>
+    </div>
+    
+    <!-- Estados -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Estados</h3>
+      <div class="style-guide__component-row">
+        <app-button variant="primary">Normal</app-button>
+        <app-button variant="primary" [disabled]="true">Disabled</app-button>
+        <app-button variant="primary" [loading]="true">Loading</app-button>
+      </div>
+    </div>
+    
+    <!-- Full width -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Full Width</h3>
+      <div class="style-guide__component-stack">
+        <app-button variant="primary" [fullWidth]="true">Botón de ancho completo</app-button>
+      </div>
+    </div>
+    
+  </section>
+  
+  <!-- ======================================================================
+       SECCIÓN: CARDS
+       ====================================================================== -->
+  <section id="cards" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Cards</h2>
+      <p class="style-guide__section-description">
+        Componente <code>app-card</code> con variantes vertical y horizontal.
+      </p>
+    </header>
+    
+    <!-- Card Vertical -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Card Vertical</h3>
+      <div class="style-guide__cards-grid">
+        <app-card
+          variant="vertical"
+          imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
+          imageAlt="Pikachu"
+          subtitle="Eléctrico"
+          title="Pikachu"
+          description="Cuando se enfada, este Pokémon descarga la energía que almacena en el interior de los sacos de sus mejillas."
+          actionText="Ver más">
+        </app-card>
+        
+        <app-card
+          variant="vertical"
+          [clickable]="true"
+          imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
+          imageAlt="Charizard"
+          subtitle="Fuego / Volador"
+          title="Charizard"
+          description="Escupe un fuego tan caliente que funde las rocas. Causa incendios forestales sin querer.">
+        </app-card>
+        
+        <app-card
+          variant="vertical"
+          [elevated]="true"
+          imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png"
+          imageAlt="Blastoise"
+          subtitle="Agua"
+          title="Blastoise"
+          description="Los chorros de agua que escupe de los cañones de su caparazón pueden perforar el acero."
+          actionText="Más información">
+        </app-card>
+      </div>
+    </div>
+    
+    <!-- Card Horizontal -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Card Horizontal</h3>
+      <div class="style-guide__component-stack">
+        <app-card
+          variant="horizontal"
+          imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png"
+          imageAlt="Mewtwo"
+          subtitle="Psíquico"
+          title="Mewtwo"
+          description="Fue creado por un científico tras años de horribles experimentos de ingeniería genética."
+          actionText="Ver detalle">
+        </app-card>
+      </div>
+    </div>
+    
+  </section>
+  
+  <!-- ======================================================================
+       SECCIÓN: FORMULARIOS
+       ====================================================================== -->
+  <section id="forms" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Formularios</h2>
+      <p class="style-guide__section-description">
+        Componentes de formulario: <code>app-form-input</code>, <code>app-form-textarea</code>, <code>app-form-select</code>.
+      </p>
+    </header>
+    
+    <!-- Input -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Input</h3>
+      <div class="style-guide__form-grid">
+        <app-form-input
+          inputId="demo-text"
+          name="text"
+          type="text"
+          label="Nombre"
+          placeholder="Escribe tu nombre"
+          helpText="Este es un texto de ayuda">
+        </app-form-input>
+        
+        <app-form-input
+          inputId="demo-email"
+          name="email"
+          type="email"
+          label="Email"
+          placeholder="tu@email.com"
+          icon="email"
+          iconPosition="left"
+          [required]="true">
+        </app-form-input>
+        
+        <app-form-input
+          inputId="demo-password"
+          name="password"
+          type="password"
+          label="Contraseña"
+          placeholder="Tu contraseña"
+          icon="lock"
+          iconPosition="left"
+          [required]="true">
+        </app-form-input>
+        
+        <app-form-input
+          inputId="demo-error"
+          name="error"
+          type="text"
+          label="Campo con error"
+          placeholder="Escribe algo"
+          [required]="true"
+          [showError]="true"
+          errorMessage="Este campo es obligatorio">
+        </app-form-input>
+      </div>
+    </div>
+    
+    <!-- Textarea -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Textarea</h3>
+      <div class="style-guide__form-grid">
+        <app-form-textarea
+          textareaId="demo-textarea"
+          name="description"
+          label="Descripción"
+          placeholder="Escribe una descripción..."
+          helpText="Máximo 500 caracteres"
+          [rows]="4"
+          [maxlength]="500"
+          [showCharCount]="true">
+        </app-form-textarea>
+        
+        <app-form-textarea
+          textareaId="demo-textarea-error"
+          name="bio"
+          label="Biografía"
+          placeholder="Cuéntanos sobre ti..."
+          [required]="true"
+          [showError]="true"
+          errorMessage="La biografía es obligatoria"
+          [rows]="4">
+        </app-form-textarea>
+      </div>
+    </div>
+    
+    <!-- Select -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Select</h3>
+      <div class="style-guide__form-grid">
+        <app-form-select
+          selectId="demo-select"
+          name="type"
+          label="Tipo de Pokémon"
+          placeholder="Selecciona un tipo"
+          [options]="selectOptions"
+          helpText="Elige el tipo principal">
+        </app-form-select>
+        
+        <app-form-select
+          selectId="demo-select-error"
+          name="type-error"
+          label="Tipo (con error)"
+          placeholder="Selecciona un tipo"
+          [options]="selectOptions"
+          [required]="true"
+          [showError]="true"
+          errorMessage="Debes seleccionar un tipo">
+        </app-form-select>
+      </div>
+    </div>
+    
+  </section>
+  
+  <!-- ======================================================================
+       SECCIÓN: ALERTAS
+       ====================================================================== -->
+  <section id="alerts" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Alertas</h2>
+      <p class="style-guide__section-description">
+        Componente <code>app-alert</code> con tipos success, error, warning, info.
+      </p>
+    </header>
+    
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Tipos de alertas</h3>
+      <div class="style-guide__component-stack">
+        <app-alert
+          type="success"
+          title="¡Pokémon capturado!"
+          message="Has capturado un Pikachu salvaje. Se ha añadido a tu Pokédex."
+          (closed)="onAlertClosed('success')">
+        </app-alert>
+        
+        <app-alert
+          type="error"
+          title="Error de conexión"
+          message="No se pudo conectar con el servidor. Por favor, inténtalo de nuevo más tarde."
+          (closed)="onAlertClosed('error')">
+        </app-alert>
+        
+        <app-alert
+          type="warning"
+          title="Pokémon debilitado"
+          message="Tu Pokémon tiene poca salud. Considera usar una poción antes del próximo combate."
+          (closed)="onAlertClosed('warning')">
+        </app-alert>
+        
+        <app-alert
+          type="info"
+          title="Nuevo evento disponible"
+          message="El evento de captura de Pokémon legendarios ha comenzado. ¡No te lo pierdas!"
+          (closed)="onAlertClosed('info')">
+        </app-alert>
+      </div>
+    </div>
+    
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Sin botón de cerrar</h3>
+      <div class="style-guide__component-stack">
+        <app-alert
+          type="info"
+          message="Esta alerta no se puede cerrar."
+          [dismissible]="false">
+        </app-alert>
+      </div>
+    </div>
+    
+  </section>
+  
+  <!-- ======================================================================
+       SECCIÓN: BADGES
+       ====================================================================== -->
+  <section id="badges" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Badges</h2>
+      <p class="style-guide__section-description">
+        Componente <code>app-badge</code> para etiquetas, estados y contadores.
+      </p>
+    </header>
+    
+    <!-- Variantes -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Variantes</h3>
+      <div class="style-guide__component-row">
+        <app-badge variant="primary">Primary</app-badge>
+        <app-badge variant="secondary">Secondary</app-badge>
+        <app-badge variant="success">Success</app-badge>
+        <app-badge variant="error">Error</app-badge>
+        <app-badge variant="warning">Warning</app-badge>
+        <app-badge variant="info">Info</app-badge>
+      </div>
+    </div>
+    
+    <!-- Outline -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Outline</h3>
+      <div class="style-guide__component-row">
+        <app-badge variant="primary" [outline]="true">Primary</app-badge>
+        <app-badge variant="secondary" [outline]="true">Secondary</app-badge>
+        <app-badge variant="success" [outline]="true">Success</app-badge>
+        <app-badge variant="error" [outline]="true">Error</app-badge>
+      </div>
+    </div>
+    
+    <!-- Tamaños -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Tamaños</h3>
+      <div class="style-guide__component-row style-guide__component-row--align-center">
+        <app-badge variant="primary" size="sm">Small</app-badge>
+        <app-badge variant="primary" size="md">Medium</app-badge>
+        <app-badge variant="primary" size="lg">Large</app-badge>
+      </div>
+    </div>
+    
+    <!-- Contadores -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Contadores</h3>
+      <div class="style-guide__component-row">
+        <app-badge variant="error" [count]="5"></app-badge>
+        <app-badge variant="primary" [count]="42"></app-badge>
+        <app-badge variant="error" [count]="150" [maxCount]="99"></app-badge>
+      </div>
+    </div>
+    
+    <!-- Dots -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Dots</h3>
+      <div class="style-guide__component-row">
+        <app-badge variant="success" [dot]="true"></app-badge>
+        <app-badge variant="error" [dot]="true"></app-badge>
+        <app-badge variant="warning" [dot]="true"></app-badge>
+        <app-badge variant="info" [dot]="true"></app-badge>
+      </div>
+    </div>
+    
+    <!-- Tipos de Pokémon -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Ejemplo: Tipos de Pokémon</h3>
+      <div class="style-guide__component-row">
+        <app-badge variant="error">Fuego</app-badge>
+        <app-badge variant="info">Agua</app-badge>
+        <app-badge variant="success">Planta</app-badge>
+        <app-badge variant="warning">Eléctrico</app-badge>
+        <app-badge variant="primary">Psíquico</app-badge>
+      </div>
+    </div>
+    
+  </section>
+  
+  <!-- ======================================================================
+       SECCIÓN: MODALES
+       ====================================================================== -->
+  <section id="modals" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Modales</h2>
+      <p class="style-guide__section-description">
+        Componente <code>app-modal</code> para ventanas superpuestas.
+      </p>
+    </header>
+    
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Demo</h3>
+      <div class="style-guide__component-row">
+        <app-button variant="primary" (buttonClick)="openModal()">Abrir Modal</app-button>
+      </div>
+    </div>
+    
+  </section>
+  
+  <!-- ========== MODAL DE DEMO ========== -->
+  <app-modal 
+    [isOpen]="isModalOpen" 
+    title="Información del Pokémon"
+    size="md"
+    (closed)="closeModal()">
+    
+    <p>Este es el contenido del modal. Puedes poner cualquier cosa aquí:</p>
+    <ul>
+      <li>Información detallada</li>
+      <li>Formularios</li>
+      <li>Confirmaciones</li>
+      <li>Imágenes</li>
+    </ul>
+    <p>Presiona ESC o haz clic fuera para cerrar.</p>
+    
+    <div modal-footer>
+      <app-button variant="ghost" (buttonClick)="closeModal()">Cancelar</app-button>
+      <app-button variant="primary" (buttonClick)="closeModal()">Aceptar</app-button>
+    </div>
+    
+  </app-modal>
+  
+</div>

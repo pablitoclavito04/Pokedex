@@ -1,0 +1,53 @@
+<!-- ============================================================================
+     MODAL COMPONENT
+     
+     Ventana superpuesta con overlay oscuro.
+     Se puede cerrar con: botón X, tecla ESC, clic en overlay.
+     
+     Tamaños: sm, md, lg, xl, full
+     ============================================================================ -->
+
+<div 
+  *ngIf="isOpen"
+  class="modal-overlay"
+  (click)="onOverlayClick($event)"
+  role="dialog"
+  aria-modal="true"
+  [attr.aria-labelledby]="title ? 'modal-title' : null">
+  
+  <div [class]="modalClasses" role="document">
+    
+    <!-- ========== HEADER ========== -->
+    <header class="modal__header">
+      <h2 *ngIf="title" id="modal-title" class="modal__title">{{ title }}</h2>
+      
+      <!-- Contenido del header proyectado -->
+      <ng-content select="[modal-header]"></ng-content>
+      
+      <!-- Botón cerrar -->
+      <button 
+        *ngIf="showCloseButton"
+        type="button"
+        class="modal__close"
+        (click)="close()"
+        aria-label="Cerrar modal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </header>
+    
+    <!-- ========== BODY ========== -->
+    <div class="modal__body">
+      <ng-content></ng-content>
+    </div>
+    
+    <!-- ========== FOOTER ========== -->
+    <footer class="modal__footer">
+      <ng-content select="[modal-footer]"></ng-content>
+    </footer>
+    
+  </div>
+  
+</div>

@@ -1,0 +1,185 @@
+// ============================================================================
+//                 FORM-SELECT COMPONENT - Estilos BEM
+// ============================================================================
+// Bloque: .form-select
+// Elementos: __label, __wrapper, __field, __icon, __help, __error
+// Modificadores: --focused, --filled, --error, --disabled
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                   BLOQUE PRINCIPAL: .form-select
+// ============================================================================
+.form-select {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  width: 100%;
+  
+  // ============================================================================
+  //                            ELEMENTO: Label
+  // ============================================================================
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-1;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: color $duration-fast $ease-out;
+  }
+  
+  &__required {
+    color: $color-accent-500;
+    font-weight: $font-weight-bold;
+  }
+  
+  // ============================================================================
+  //                           ELEMENTO: Wrapper
+  // ============================================================================
+  &__wrapper {
+    position: relative;
+    width: 100%;
+  }
+  
+  // ============================================================================
+  //                       ELEMENTO: Field (select)
+  // ============================================================================
+  &__field {
+    width: 100%;
+    padding: $spacing-3 $spacing-12 $spacing-3 $spacing-4;
+    font-family: $font-primary;
+    font-size: $font-size-base;
+    color: var(--text-primary);
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-primary);
+    border-radius: $border-radius-lg;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    transition: all $duration-fast $ease-out;
+    
+    // Placeholder style
+    &:invalid,
+    option[value=""][disabled] {
+      color: var(--text-tertiary);
+    }
+    
+    option {
+      color: var(--text-primary);
+      background: var(--bg-secondary);
+      padding: $spacing-2;
+    }
+    
+    &:focus {
+      border-color: var(--color-primary);
+      box-shadow: 0 0 0 3px rgba($color-primary-500, 0.2);
+    }
+    
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+  
+  // ============================================================================
+  //                        ELEMENTO: Icon (flecha)
+  // ============================================================================
+  &__icon {
+    position: absolute;
+    right: $spacing-4;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: var(--text-tertiary);
+    transition: all $duration-fast $ease-out;
+    
+    svg {
+      width: 20px;
+      height: 20px;
+      display: block;
+    }
+    
+    .form-select--focused & {
+      color: var(--color-primary);
+      transform: translateY(-50%) rotate(180deg);
+    }
+  }
+  
+  // ============================================================================
+  //                         ELEMENTO: Help text
+  // ============================================================================
+  &__help {
+    font-size: $font-size-xs;
+    color: var(--text-tertiary);
+    margin: 0;
+  }
+  
+  // ============================================================================
+  //                            ELEMENTO: Error
+  // ============================================================================
+  &__error {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: $font-size-xs;
+    color: $color-accent-500;
+    margin: 0;
+    animation: shake 0.3s ease-out;
+  }
+  
+  &__error-icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+  }
+  
+  // ============================================================================
+  //                            MODIFICADORES
+  // ============================================================================
+  
+  &--focused {
+    .form-select__label {
+      color: var(--color-primary);
+    }
+  }
+  
+  &--filled {
+    .form-select__field {
+      color: var(--text-primary);
+    }
+  }
+  
+  &--error {
+    .form-select__label {
+      color: $color-accent-500;
+    }
+    
+    .form-select__field {
+      border-color: $color-accent-500;
+      
+      &:focus {
+        box-shadow: 0 0 0 3px rgba($color-accent-500, 0.2);
+      }
+    }
+    
+    .form-select__icon {
+      color: $color-accent-500;
+    }
+  }
+  
+  &--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+}
+
+// Animación shake
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+}

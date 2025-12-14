@@ -1,0 +1,69 @@
+// ============================================================================
+//                     MAIN COMPONENT - Estilos BEM
+// ============================================================================
+// Bloque: .main
+// Elementos: __container
+// Modificadores: ninguno por ahora
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                       BLOQUE PRINCIPAL: .main
+// ============================================================================
+.main {
+  // El main ocupa todo el espacio disponible entre header y footer
+  flex: 1 0 auto;
+  width: 100%;
+  min-height: calc(100vh - 200px); // Altura mínima para que el footer quede abajo
+  background: var(--bg-primary, #{map-get($dark-theme, bg-primary)});
+  
+  // Tema claro
+  :host-context(.light-theme) & {
+    background: var(--bg-primary, #{map-get($light-theme, bg-primary)});
+  }
+  
+  // ============================================================================
+  //                           ELEMENTO: __container
+  // ============================================================================
+  &__container {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: $spacing-6 $spacing-4;
+    
+    @include respond-to('sm') {
+      padding: $spacing-8 $spacing-6;
+    }
+    
+    @include respond-to('lg') {
+      padding: $spacing-10 $spacing-8;
+    }
+  }
+}
+
+// ============================================================================
+//                  UTILIDAD: Skip link (accesibilidad)
+// ============================================================================
+// Este enlace permite a usuarios de teclado/lectores de pantalla
+// saltar directamente al contenido principal
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: $z-index-fixed + 1;
+  padding: $spacing-3 $spacing-6;
+  background: $color-primary-500;
+  color: #ffffff;
+  font-weight: $font-weight-semibold;
+  text-decoration: none;
+  border-radius: $border-radius-md;
+  transition: $transition-all;
+  
+  // Se muestra cuando recibe focus (Tab)
+  &:focus {
+    top: $spacing-4;
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+}

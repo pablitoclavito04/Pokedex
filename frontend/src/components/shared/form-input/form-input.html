@@ -1,0 +1,167 @@
+<!-- ============================================================================
+     FORM-INPUT COMPONENT - Estructura semántica
+     
+     Este componente es REUTILIZABLE para cualquier tipo de input.
+     Incluye:
+     - Label siempre asociado al input (atributo for + id)
+     - Indicador visual de campo requerido (asterisco)
+     - Mensaje de error opcional
+     - Texto de ayuda opcional
+     - Soporte para iconos
+     - Toggle de visibilidad para contraseñas
+     ============================================================================ -->
+
+<div class="form-input"
+     [class.form-input--focused]="isFocused"
+     [class.form-input--filled]="hasValue"
+     [class.form-input--error]="shouldShowError"
+     [class.form-input--disabled]="disabled"
+     [class.form-input--has-icon]="icon"
+     [class.form-input--icon-left]="icon && iconPosition === 'left'"
+     [class.form-input--icon-right]="icon && iconPosition === 'right'">
+  
+  <!-- ========== LABEL ========== -->
+  <!-- 
+    El atributo 'for' del label debe coincidir con el 'id' del input
+    para que sean accesibles y el click en el label enfoque el input
+  -->
+  <label 
+    [attr.for]="inputId" 
+    class="form-input__label">
+    {{ label }}
+    <!-- Indicador de campo requerido -->
+    <span 
+      *ngIf="required" 
+      class="form-input__required" 
+      aria-hidden="true">*</span>
+  </label>
+  
+  <!-- ========== CONTENEDOR DEL INPUT ========== -->
+  <div class="form-input__wrapper">
+    
+    <!-- Icono izquierdo (opcional) -->
+    <span 
+      *ngIf="icon && iconPosition === 'left'" 
+      class="form-input__icon form-input__icon--left"
+      aria-hidden="true">
+      
+      <!-- Icono de email -->
+      <svg *ngIf="icon === 'email'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+      
+      <!-- Icono de usuario -->
+      <svg *ngIf="icon === 'user'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+        <circle cx="12" cy="7" r="4"/>
+      </svg>
+      
+      <!-- Icono de candado -->
+      <svg *ngIf="icon === 'lock'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+      
+      <!-- Icono de búsqueda -->
+      <svg *ngIf="icon === 'search'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/>
+        <path d="m21 21-4.35-4.35"/>
+      </svg>
+      
+      <!-- Icono de teléfono -->
+      <svg *ngIf="icon === 'phone'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>
+      </svg>
+    </span>
+    
+    <!-- ========== INPUT ========== -->
+    <!-- 
+      Atributos importantes para accesibilidad:
+      - id: Coincide con el 'for' del label
+      - name: Para envío de formularios
+      - required: Indica campo obligatorio
+      - aria-required: Para lectores de pantalla
+      - aria-invalid: Indica error de validación
+      - aria-describedby: Referencia al mensaje de ayuda/error
+    -->
+    <input 
+      [attr.id]="inputId"
+      [attr.name]="name"
+      [type]="currentType"
+      [placeholder]="placeholder"
+      [value]="value"
+      [disabled]="disabled"
+      [required]="required"
+      [attr.minlength]="minlength"
+      [attr.maxlength]="maxlength"
+      [attr.pattern]="pattern || null"
+      [attr.autocomplete]="autocomplete"
+      [attr.aria-required]="required"
+      [attr.aria-invalid]="shouldShowError"
+      [attr.aria-describedby]="helpText ? inputId + '-help' : (shouldShowError ? inputId + '-error' : null)"
+      class="form-input__field"
+      (input)="onInput($event)"
+      (focus)="onFocus()"
+      (blur)="onBlur()">
+    
+    <!-- Botón mostrar/ocultar contraseña -->
+    <button 
+      *ngIf="type === 'password'"
+      type="button"
+      class="form-input__toggle-password"
+      (click)="togglePasswordVisibility()"
+      [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+      tabindex="-1">
+      
+      <!-- Icono ojo abierto (mostrar) -->
+      <svg *ngIf="!showPassword" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+        <circle cx="12" cy="12" r="3"/>
+      </svg>
+      
+      <!-- Icono ojo cerrado (ocultar) -->
+      <svg *ngIf="showPassword" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+        <line x1="1" y1="1" x2="23" y2="23"/>
+      </svg>
+    </button>
+    
+    <!-- Icono derecho (opcional) -->
+    <span 
+      *ngIf="icon && iconPosition === 'right' && type !== 'password'" 
+      class="form-input__icon form-input__icon--right"
+      aria-hidden="true">
+      <!-- Mismos iconos que arriba -->
+      <svg *ngIf="icon === 'email'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+        <polyline points="22,6 12,13 2,6"/>
+      </svg>
+    </span>
+    
+  </div>
+  
+  <!-- ========== TEXTO DE AYUDA ========== -->
+  <p 
+    *ngIf="helpText && !shouldShowError"
+    [attr.id]="inputId + '-help'"
+    class="form-input__help">
+    {{ helpText }}
+  </p>
+  
+  <!-- ========== MENSAJE DE ERROR ========== -->
+  <p 
+    *ngIf="shouldShowError"
+    [attr.id]="inputId + '-error'"
+    class="form-input__error"
+    role="alert"
+    aria-live="polite">
+    <svg class="form-input__error-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+    {{ errorMessage }}
+  </p>
+  
+</div>

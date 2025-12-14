@@ -1,0 +1,270 @@
+// ============================================================================
+//                    FOOTER COMPONENT - Estilos BEM
+// ============================================================================
+// Bloque: .footer
+// Elementos: __container, __main, __brand, __nav, __social, __bottom, etc.
+// Modificadores: ninguno por ahora
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                      BLOQUE PRINCIPAL: .footer
+// ============================================================================
+.footer {
+  width: 100%;
+  background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
+  border-top: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+  margin-top: auto; // Empuja el footer al fondo
+  
+  // Tema claro
+  :host-context(.light-theme) & {
+    background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
+    border-top-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+  }
+  
+  // ============================================================================
+  //                        ELEMENTO: __container
+  // ============================================================================
+  &__container {
+    max-width: $container-max-width;
+    margin: 0 auto;
+    padding: $spacing-10 $spacing-4;
+    
+    @include respond-to('sm') {
+      padding: $spacing-12 $spacing-6;
+    }
+    
+    @include respond-to('lg') {
+      padding: $spacing-16 $spacing-8;
+    }
+  }
+  
+  // ============================================================================
+  //          ELEMENTO: __main (sección principal con columnas)
+  // ============================================================================
+  &__main {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-8;
+    padding-bottom: $spacing-8;
+    border-bottom: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+    
+    :host-context(.light-theme) & {
+      border-bottom-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+    }
+    
+    @include respond-to('sm') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    @include respond-to('lg') {
+      grid-template-columns: 2fr 1fr 1fr;
+      gap: $spacing-12;
+    }
+  }
+  
+  // ============================================================================
+  // ELEMENTO: __brand (logo y descripción)
+  // ============================================================================
+  &__brand {
+    @include respond-to('sm') {
+      grid-column: 1 / -1;
+    }
+    
+    @include respond-to('lg') {
+      grid-column: auto;
+    }
+  }
+  
+  &__logo {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-3;
+    text-decoration: none;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    margin-bottom: $spacing-4;
+    transition: $transition-all;
+    
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    }
+    
+    @include hover {
+      opacity: 0.8;
+    }
+  }
+  
+  &__logo-icon {
+    width: 36px;
+    height: 36px;
+    object-fit: contain;
+  }
+  
+  &__logo-text {
+    font-family: $font-secondary;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+  }
+  
+  &__description {
+    font-size: $font-size-sm;
+    color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
+    line-height: $leading-relaxed;
+    max-width: 300px;
+    margin: 0;
+    
+    :host-context(.light-theme) & {
+      color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    }
+  }
+  
+  // ============================================================================
+  //                   ELEMENTO: __nav (navegación)
+  // ============================================================================
+  &__nav-title,
+  &__social-title {
+    font-family: $font-secondary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 $spacing-4;
+    
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    }
+  }
+  
+  &__nav-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+  }
+  
+  &__nav-item {
+    margin: 0;
+  }
+  
+  &__nav-link {
+    display: inline-block;
+    font-size: $font-size-sm;
+    color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
+    text-decoration: none;
+    padding: $spacing-1 0;
+    transition: $transition-all;
+    
+    :host-context(.light-theme) & {
+      color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    }
+    
+    @include hover {
+      color: $color-primary-500;
+      transform: translateX(4px);
+    }
+  }
+  
+  // ============================================================================
+  //                     ELEMENTO: __social (redes sociales)
+  // ============================================================================
+  &__social-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: $spacing-3;
+  }
+  
+  &__social-item {
+    margin: 0;
+  }
+  
+  &__social-link {
+    @include flex-center;
+    @include size(40px);
+    background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
+    border-radius: $border-radius-full;
+    color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
+    transition: $transition-all;
+    
+    :host-context(.light-theme) & {
+      background: var(--bg-tertiary, #{map-get($light-theme, bg-primary)});
+      color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    }
+    
+    svg {
+      @include size(20px);
+    }
+    
+    @include hover {
+      background: $color-primary-500;
+      color: #ffffff;
+      transform: translateY(-2px);
+    }
+  }
+  
+  // ============================================================================
+  //                ELEMENTO: __bottom (copyright y legal)
+  // ============================================================================
+  &__bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-4;
+    padding-top: $spacing-8;
+    text-align: center;
+    
+    @include respond-to('md') {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+  
+  &__copyright {
+    font-size: $font-size-sm;
+    color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
+    margin: 0;
+    
+    :host-context(.light-theme) & {
+      color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    }
+  }
+  
+  &__legal-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: $spacing-4;
+    
+    @include respond-to('md') {
+      justify-content: flex-end;
+    }
+  }
+  
+  &__legal-item {
+    margin: 0;
+  }
+  
+  &__legal-link {
+    font-size: $font-size-xs;
+    color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
+    text-decoration: none;
+    transition: $transition-all;
+    
+    :host-context(.light-theme) & {
+      color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    }
+    
+    @include hover {
+      color: $color-primary-500;
+    }
+  }
+}

@@ -86,7 +86,7 @@
 //                            NOTAS IMPORTANTES
 // ============================================================================
 // 
-// 1. ORDEN IMPORTA: No cambiar el orden de los imports. ITCSS está diseñado
+// 1. EL ORDEN IMPORTA: No cambiar el orden de los imports. ITCSS está diseñado
 //    para que la especificidad aumente gradualmente.
 // 
 // 2. USAR @use EN LUGAR DE @import: Para settings y tools usa @use porque se
@@ -99,8 +99,9 @@
 //    los archivos .scss de cada componente de Angular. Este archivo global
 //    es principalmente para estilos compartidos y base.
 // 
-// 5. TEMA OSCURO: El sistema de temas está implementado usando las variables
-//    del tema. Los estilos responden automáticamente al cambio de tema.
+// 5. TEMA OSCURO: El sistema de temas está implementado usando CSS Custom
+//    Properties definidas en _css-variables.scss. Los estilos responden
+//    automáticamente al cambio de tema.
 // 
 // 6. VIEWENCAPSULATION: Por defecto Angular usa Emulated, pero estos estilos
 //    globales se aplican a toda la aplicación.
@@ -109,32 +110,47 @@
 
 
 // ============================================================================
-//                      ESTILOS GLOBALES ADICIONALES
+//                      ESTILOS GLOBALES DEL BODY
 // ============================================================================
 
-// Root para CSS custom properties (opcional, para compatibilidad con JS)
-:root {
-  // Colores primarios
-  --color-primary: #{$color-primary-500};
-  --color-secondary: #{$color-secondary-500};
-  --color-accent: #{$color-accent-500};
+body {
+  // Usar CSS Custom Properties para el tema
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
   
-  // Espaciado
-  --spacing-base: #{$spacing-4};
+  // Transición suave al cambiar de tema
+  transition: background-color 0.3s ease, color 0.3s ease;
   
-  // Border radius
-  --border-radius: #{$border-radius-lg};
-  
-  // Transiciones
-  --transition-duration: #{$duration-base};
+  // Layout para sticky footer
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
+
+// ============================================================================
+//                      TRANSICIONES GLOBALES DE TEMA
+// ============================================================================
+
+// Transición suave para todos los elementos al cambiar de tema
+*,
+*::before,
+*::after {
+  transition: background-color 0.2s ease,
+              border-color 0.2s ease,
+              box-shadow 0.2s ease,
+              color 0.2s ease;
+}
+
+// ============================================================================
+//                          CLASES DE TEMA
+// ============================================================================
 
 // Clase para activar tema oscuro
 .dark-theme {
   color-scheme: dark;
 }
 
-// Clase para modo claro (por defecto)
+// Clase para modo claro
 .light-theme {
   color-scheme: light;
 }
@@ -196,6 +212,17 @@
   }
 }
 
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes spin {
   from {
     transform: rotate(0deg);
@@ -212,6 +239,13 @@
   50% {
     opacity: 0.5;
   }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
 }
 
 // Clases de animación reutilizables
@@ -235,12 +269,20 @@
   animation: slideInLeft $duration-base $ease-out;
 }
 
+.animate-slide-down {
+  animation: slideDown $duration-base $ease-out;
+}
+
 .animate-spin {
   animation: spin 1s linear infinite;
 }
 
 .animate-pulse {
   animation: pulse 2s $ease-in-out infinite;
+}
+
+.animate-shake {
+  animation: shake 0.3s ease-out;
 }
 
 // ============================================================================
@@ -256,6 +298,20 @@
 .hidden { display: none !important; }
 .visible { display: block !important; }
 .invisible { visibility: hidden !important; }
+
+// Visualmente oculto pero accesible para lectores de pantalla
+.visually-hidden,
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
 
 // Overflow
 .overflow-hidden { overflow: hidden; }
@@ -273,6 +329,7 @@
 .w-auto { width: auto; }
 .h-full { height: 100%; }
 .h-auto { height: auto; }
+.min-h-screen { min-height: 100vh; }
 
 // Cursor
 .cursor-pointer { cursor: pointer; }
@@ -287,3 +344,65 @@
 // Pointer events
 .pointer-events-none { pointer-events: none; }
 .pointer-events-auto { pointer-events: auto; }
+
+// ============================================================================
+//                     CLASES DE COLOR CON CSS VARIABLES
+// ============================================================================
+
+// Fondos
+.bg-primary { background-color: var(--bg-primary) !important; }
+.bg-secondary { background-color: var(--bg-secondary) !important; }
+.bg-tertiary { background-color: var(--bg-tertiary) !important; }
+
+// Textos
+.text-primary { color: var(--text-primary) !important; }
+.text-secondary { color: var(--text-secondary) !important; }
+.text-tertiary { color: var(--text-tertiary) !important; }
+
+// Colores de marca
+.text-brand { color: var(--color-primary) !important; }
+.bg-brand { background-color: var(--color-primary) !important; }
+
+// Bordes
+.border-primary { border-color: var(--border-primary) !important; }
+
+// ============================================================================
+//                          SKIP LINK (Accesibilidad)
+// ============================================================================
+// Enlace para saltar al contenido principal (visible solo con focus)
+
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  padding: $spacing-3 $spacing-6;
+  background: $color-primary-500;
+  color: #ffffff;
+  font-weight: $font-weight-semibold;
+  text-decoration: none;
+  border-radius: $border-radius-md;
+  transition: top 0.3s ease;
+  
+  &:focus {
+    top: $spacing-4;
+    outline: 2px solid #ffffff;
+    outline-offset: 2px;
+  }
+}
+
+// ============================================================================
+//                               FOCUS VISIBLE
+// ============================================================================
+// Mejora la visibilidad del focus para accesibilidad
+
+:focus-visible {
+  outline: 2px solid var(--color-primary);
+  outline-offset: 2px;
+}
+
+// Quitar outline por defecto en elementos que usan :focus-visible
+:focus:not(:focus-visible) {
+  outline: none;
+}

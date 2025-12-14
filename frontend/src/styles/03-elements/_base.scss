@@ -16,37 +16,14 @@ html {
   font-family: $font-primary;
   font-size: $font-size-base;
   line-height: $line-height-normal;
-  color: map-get($light-theme, text-primary);
-  background-color: map-get($light-theme, bg-primary);
-  transition: background-color $duration-base $ease-in-out;
-}
-
-// Tema oscuro
-:host-context(.dark-theme) html,
-[data-theme="dark"] html {
-  color: map-get($dark-theme, text-primary);
-  background-color: map-get($dark-theme, bg-primary);
 }
 
 body {
   font-family: $font-primary;
   font-weight: $font-weight-regular;
-  color: inherit;
-  background-color: inherit;
-  
-  // Scroll personalizado
-  @include custom-scrollbar(
-    map-get($light-theme, bg-brand-primary),
-    map-get($light-theme, border-primary)
-  );
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    @include custom-scrollbar(
-      map-get($dark-theme, bg-brand-primary),
-      map-get($dark-theme, border-primary)
-    );
-  }
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 // ============================================================================
@@ -59,12 +36,7 @@ h1 {
   font-weight: $font-weight-bold;
   line-height: $line-height-tight;
   margin-bottom: $spacing-6;
-  color: map-get($light-theme, text-primary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, text-primary);
-  }
+  color: var(--text-primary);
   
   @include respond-to-max('md') {
     font-size: $font-size-3xl;
@@ -77,12 +49,7 @@ h2 {
   font-weight: $font-weight-bold;
   line-height: $line-height-tight;
   margin-bottom: $spacing-5;
-  color: map-get($light-theme, text-primary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, text-primary);
-  }
+  color: var(--text-primary);
   
   @include respond-to-max('md') {
     font-size: $font-size-2xl;
@@ -95,12 +62,7 @@ h3 {
   font-weight: $font-weight-semibold;
   line-height: $line-height-snug;
   margin-bottom: $spacing-4;
-  color: map-get($light-theme, text-primary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, text-primary);
-  }
+  color: var(--text-primary);
   
   @include respond-to-max('md') {
     font-size: $font-size-xl;
@@ -113,12 +75,7 @@ h4 {
   font-weight: $font-weight-semibold;
   line-height: $line-height-snug;
   margin-bottom: $spacing-3;
-  color: map-get($light-theme, text-primary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, text-primary);
-  }
+  color: var(--text-primary);
 }
 
 h5 {
@@ -126,12 +83,7 @@ h5 {
   font-weight: $font-weight-medium;
   line-height: $line-height-normal;
   margin-bottom: $spacing-3;
-  color: map-get($light-theme, text-primary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, text-primary);
-  }
+  color: var(--text-primary);
 }
 
 h6 {
@@ -139,12 +91,7 @@ h6 {
   font-weight: $font-weight-medium;
   line-height: $line-height-normal;
   margin-bottom: $spacing-2;
-  color: map-get($light-theme, text-secondary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, text-secondary);
-  }
+  color: var(--text-secondary);
 }
 
 // ============================================================================
@@ -154,13 +101,8 @@ h6 {
 p {
   margin-bottom: $spacing-4;
   line-height: $line-height-relaxed;
-  color: map-get($light-theme, text-secondary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, text-secondary);
-  }
-  
+  color: var(--text-secondary);
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -169,12 +111,7 @@ p {
 // Énfasis
 strong, b {
   font-weight: $font-weight-bold;
-  color: map-get($light-theme, text-primary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, text-primary);
-  }
+  color: var(--text-primary);
 }
 
 em, i {
@@ -183,12 +120,7 @@ em, i {
 
 small {
   font-size: $font-size-sm;
-  color: map-get($light-theme, text-tertiary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, text-tertiary);
-  }
+  color: var(--text-tertiary);
 }
 
 // ============================================================================
@@ -196,23 +128,18 @@ small {
 // ============================================================================
 
 a {
-  color: map-get($light-theme, bg-brand-primary);
+  color: var(--color-primary);
   text-decoration: none;
   transition: $transition-colors;
   cursor: pointer;
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, bg-brand-primary);
-  }
-  
+
   @include hover-focus {
-    color: darken($color-primary-500, 10%);
+    color: var(--color-primary-light);
     text-decoration: underline;
   }
-  
+
   &:active {
-    color: darken($color-primary-500, 15%);
+    color: var(--color-primary-dark);
   }
 }
 
@@ -240,13 +167,8 @@ ol {
 li {
   margin-bottom: $spacing-2;
   line-height: $line-height-relaxed;
-  color: map-get($light-theme, text-secondary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, text-secondary);
-  }
-  
+  color: var(--text-secondary);
+
   &:last-child {
     margin-bottom: 0;
   }
@@ -266,15 +188,9 @@ code {
   font-family: $font-mono;
   font-size: $font-size-sm;
   padding: $spacing-1 $spacing-2;
-  background-color: map-get($light-theme, bg-tertiary);
+  background-color: var(--bg-tertiary);
   border-radius: $border-radius-base;
-  color: map-get($light-theme, text-primary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    background-color: map-get($dark-theme, bg-tertiary);
-    color: map-get($dark-theme, text-primary);
-  }
+  color: var(--text-primary);
 }
 
 pre {
@@ -282,16 +198,11 @@ pre {
   font-size: $font-size-sm;
   padding: $spacing-4;
   margin-bottom: $spacing-4;
-  background-color: map-get($light-theme, bg-tertiary);
+  background-color: var(--bg-tertiary);
   border-radius: $border-radius-lg;
   overflow-x: auto;
   line-height: $line-height-relaxed;
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    background-color: map-get($dark-theme, bg-tertiary);
-  }
-  
+
   code {
     padding: 0;
     background: none;
@@ -306,32 +217,21 @@ pre {
 blockquote {
   margin: $spacing-6 0;
   padding-left: $spacing-6;
-  border-left: $border-width-thick solid map-get($light-theme, border-focus);
-  color: map-get($light-theme, text-secondary);
+  border-left: $border-width-thick solid var(--border-primary);
+  color: var(--text-secondary);
   font-style: italic;
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    border-left-color: map-get($dark-theme, border-focus);
-    color: map-get($dark-theme, text-secondary);
-  }
-  
+
   p {
     margin-bottom: $spacing-3;
   }
-  
+
   cite {
     display: block;
     margin-top: $spacing-3;
     font-size: $font-size-sm;
     font-style: normal;
-    color: map-get($light-theme, text-tertiary);
-    
-    :host-context(.dark-theme) &,
-    [data-theme="dark"] & {
-      color: map-get($dark-theme, text-tertiary);
-    }
-    
+    color: var(--text-tertiary);
+
     &::before {
       content: '— ';
     }
@@ -345,12 +245,7 @@ blockquote {
 hr {
   margin: $spacing-8 0;
   border: none;
-  border-top: $border-width-thin solid map-get($light-theme, border-primary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    border-top-color: map-get($dark-theme, border-primary);
-  }
+  border-top: $border-width-thin solid var(--border-primary);
 }
 
 // ============================================================================
@@ -373,13 +268,8 @@ figure {
   
   figcaption {
     font-size: $font-size-sm;
-    color: map-get($light-theme, text-tertiary);
+    color: var(--text-tertiary);
     text-align: center;
-    
-    :host-context(.dark-theme) &,
-    [data-theme="dark"] & {
-      color: map-get($dark-theme, text-tertiary);
-    }
   }
 }
 
@@ -393,50 +283,28 @@ table {
   border-collapse: collapse;
   
   thead {
-    background-color: map-get($light-theme, bg-tertiary);
-    
-    :host-context(.dark-theme) &,
-    [data-theme="dark"] & {
-      background-color: map-get($dark-theme, bg-tertiary);
-    }
+    background-color: var(--bg-tertiary);
   }
-  
+
   th {
     padding: $spacing-3 $spacing-4;
     text-align: left;
     font-weight: $font-weight-semibold;
-    color: map-get($light-theme, text-primary);
-    border-bottom: $border-width-medium solid map-get($light-theme, border-primary);
-    
-    :host-context(.dark-theme) &,
-    [data-theme="dark"] & {
-      color: map-get($dark-theme, text-primary);
-      border-bottom-color: map-get($dark-theme, border-primary);
-    }
+    color: var(--text-primary);
+    border-bottom: $border-width-medium solid var(--border-primary);
   }
-  
+
   td {
     padding: $spacing-3 $spacing-4;
-    color: map-get($light-theme, text-secondary);
-    border-bottom: $border-width-thin solid map-get($light-theme, border-primary);
-    
-    :host-context(.dark-theme) &,
-    [data-theme="dark"] & {
-      color: map-get($dark-theme, text-secondary);
-      border-bottom-color: map-get($dark-theme, border-primary);
-    }
+    color: var(--text-secondary);
+    border-bottom: $border-width-thin solid var(--border-primary);
   }
-  
+
   tbody tr {
     transition: background-color $duration-fast $ease-in-out;
-    
+
     @include hover {
-      background-color: map-get($light-theme, state-hover);
-      
-      :host-context(.dark-theme) &,
-      [data-theme="dark"] & {
-        background-color: map-get($dark-theme, state-hover);
-      }
+      background-color: var(--bg-secondary);
     }
   }
 }
@@ -467,26 +335,15 @@ textarea,
 select {
   font-family: $font-primary;
   font-size: $font-size-base;
-  color: map-get($light-theme, text-primary);
-  background-color: map-get($light-theme, bg-secondary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, text-primary);
-    background-color: map-get($dark-theme, bg-secondary);
-  }
+  color: var(--text-primary);
+  background-color: var(--bg-secondary);
 }
 
 label {
   display: block;
   margin-bottom: $spacing-2;
   font-weight: $font-weight-medium;
-  color: map-get($light-theme, text-primary);
-  
-  :host-context(.dark-theme) &,
-  [data-theme="dark"] & {
-    color: map-get($dark-theme, text-primary);
-  }
+  color: var(--text-primary);
 }
 
 // ============================================================================

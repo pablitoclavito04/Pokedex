@@ -1,0 +1,253 @@
+// ============================================================================
+//                    BUTTON COMPONENT - Estilos BEM
+// ============================================================================
+// Bloque: .button
+// Elementos: __text, __icon, __spinner
+// Modificadores: --primary, --secondary, --ghost, --danger, --sm, --md, --lg,
+//               --disabled, --loading, --full-width, --with-icon
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                      BLOQUE PRINCIPAL: .button
+// ============================================================================
+.button {
+  // Reset y base
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: $spacing-2;
+  
+  font-family: $font-primary;
+  font-weight: $font-weight-semibold;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  
+  border: 2px solid transparent;
+  border-radius: $border-radius-lg;
+  
+  transition: all $duration-fast $ease-out;
+  
+  // Focus visible para accesibilidad
+  &:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
+  }
+  
+  // ============================================================================
+  //                               VARIANTES
+  // ============================================================================
+  
+  // VARIANTE: Primary (acción principal)
+  &--primary {
+    background: $color-primary-500;
+    color: #ffffff;
+    border-color: $color-primary-500;
+    
+    &:hover:not(:disabled) {
+      background: $color-primary-600;
+      border-color: $color-primary-600;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba($color-primary-500, 0.4);
+    }
+    
+    &:active:not(:disabled) {
+      background: $color-primary-700;
+      border-color: $color-primary-700;
+      transform: translateY(0);
+      box-shadow: none;
+    }
+  }
+  
+  // VARIANTE: Secondary (acción secundaria)
+  &--secondary {
+    background: transparent;
+    color: $color-primary-500;
+    border-color: $color-primary-500;
+    
+    &:hover:not(:disabled) {
+      background: rgba($color-primary-500, 0.1);
+      transform: translateY(-1px);
+    }
+    
+    &:active:not(:disabled) {
+      background: rgba($color-primary-500, 0.2);
+      transform: translateY(0);
+    }
+  }
+  
+  // VARIANTE: Ghost (sin fondo ni borde)
+  &--ghost {
+    background: transparent;
+    color: var(--text-primary);
+    border-color: transparent;
+    
+    &:hover:not(:disabled) {
+      background: var(--bg-tertiary);
+      transform: translateY(-1px);
+    }
+    
+    &:active:not(:disabled) {
+      background: var(--bg-secondary);
+      transform: translateY(0);
+    }
+  }
+  
+  // VARIANTE: Danger (acción destructiva)
+  &--danger {
+    background: $color-error;
+    color: #ffffff;
+    border-color: $color-error;
+    
+    &:hover:not(:disabled) {
+      background: darken($color-error, 10%);
+      border-color: darken($color-error, 10%);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba($color-error, 0.4);
+    }
+    
+    &:active:not(:disabled) {
+      background: darken($color-error, 15%);
+      border-color: darken($color-error, 15%);
+      transform: translateY(0);
+      box-shadow: none;
+    }
+  }
+  
+  // ============================================================================
+  //                                TAMAÑOS
+  // ============================================================================
+  
+  // TAMAÑO: Small
+  &--sm {
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-sm;
+    border-radius: $border-radius-md;
+    
+    .button__icon svg {
+      width: 16px;
+      height: 16px;
+    }
+    
+    .button__spinner {
+      width: 16px;
+      height: 16px;
+    }
+  }
+  
+  // TAMAÑO: Medium (default)
+  &--md {
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-base;
+    
+    .button__icon svg {
+      width: 20px;
+      height: 20px;
+    }
+    
+    .button__spinner {
+      width: 20px;
+      height: 20px;
+    }
+  }
+  
+  // TAMAÑO: Large
+  &--lg {
+    padding: $spacing-4 $spacing-8;
+    font-size: $font-size-lg;
+    border-radius: $border-radius-xl;
+    
+    .button__icon svg {
+      width: 24px;
+      height: 24px;
+    }
+    
+    .button__spinner {
+      width: 24px;
+      height: 24px;
+    }
+  }
+  
+  // ============================================================================
+  //                                ESTADOS
+  // ============================================================================
+  
+  // ESTADO: Disabled
+  &--disabled,
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+  
+  // ESTADO: Loading
+  &--loading {
+    cursor: wait;
+    pointer-events: none;
+    
+    .button__text {
+      opacity: 0.7;
+    }
+  }
+  
+  // ESTADO: Full width
+  &--full-width {
+    width: 100%;
+  }
+  
+  // ESTADO: Con icono
+  &--with-icon {
+    // Ajustes cuando tiene icono
+  }
+  
+  // ============================================================================
+  //                               ELEMENTOS
+  // ============================================================================
+  
+  // ELEMENTO: Texto
+  &__text {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  // ELEMENTO: Icono
+  &__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    
+    svg {
+      display: block;
+    }
+    
+    &--left {
+      margin-right: $spacing-1;
+    }
+    
+    &--right {
+      margin-left: $spacing-1;
+      
+      // Animación de flecha al hover
+      .button:hover & svg {
+        transform: translateX(2px);
+      }
+    }
+  }
+  
+  // ELEMENTO: Spinner de carga
+  &__spinner {
+    animation: spin 1s linear infinite;
+    flex-shrink: 0;
+  }
+}
+
+// ============================================================================
+//                               ANIMACIONES
+// ============================================================================
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

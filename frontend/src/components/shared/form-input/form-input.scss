@@ -1,0 +1,271 @@
+// ============================================================================
+// FORM-INPUT COMPONENT - Estilos BEM
+// ============================================================================
+// Bloque: .form-input
+// Elementos: __label, __wrapper, __field, __icon, __error, __help, etc.
+// Modificadores: --focused, --filled, --error, --disabled, --has-icon
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+// BLOQUE PRINCIPAL: .form-input
+// ============================================================================
+.form-input {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  width: 100%;
+  
+  // ============================================================================
+  // ELEMENTO: __label
+  // ============================================================================
+  &__label {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-1;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    cursor: pointer;
+    transition: $transition-all;
+    
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    }
+  }
+  
+  // Indicador de campo requerido (asterisco)
+  &__required {
+    color: $color-accent-500;
+    font-weight: $font-weight-bold;
+  }
+  
+  // ============================================================================
+  // ELEMENTO: __wrapper (contenedor del input + iconos)
+  // ============================================================================
+  &__wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+  }
+  
+  // ============================================================================
+  // ELEMENTO: __field (el input)
+  // ============================================================================
+  &__field {
+    width: 100%;
+    padding: $spacing-3 $spacing-4;
+    font-family: $font-primary;
+    font-size: $font-size-base;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
+    border: 2px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+    border-radius: $border-radius-lg;
+    outline: none;
+    transition: $transition-all;
+    
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+      background: var(--bg-tertiary, #{map-get($light-theme, bg-secondary)});
+      border-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+    }
+    
+    // Placeholder
+    &::placeholder {
+      color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
+      opacity: 0.7;
+      
+      :host-context(.light-theme) & {
+        color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+      }
+    }
+    
+    // Focus
+    &:focus {
+      border-color: $color-primary-500;
+      box-shadow: 0 0 0 3px rgba($color-primary-500, 0.2);
+    }
+    
+    // Disabled
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
+    }
+  }
+  
+  // ============================================================================
+  // ELEMENTO: __icon
+  // ============================================================================
+  &__icon {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
+    transition: $transition-all;
+    
+    :host-context(.light-theme) & {
+      color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    }
+    
+    svg {
+      @include size(20px);
+    }
+    
+    &--left {
+      left: $spacing-4;
+    }
+    
+    &--right {
+      right: $spacing-4;
+    }
+  }
+  
+  // ============================================================================
+  // ELEMENTO: __toggle-password
+  // ============================================================================
+  &__toggle-password {
+    position: absolute;
+    right: $spacing-3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-2;
+    background: transparent;
+    border: none;
+    border-radius: $border-radius-md;
+    color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
+    cursor: pointer;
+    transition: $transition-all;
+    
+    :host-context(.light-theme) & {
+      color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    }
+    
+    svg {
+      @include size(20px);
+    }
+    
+    @include hover {
+      color: $color-primary-500;
+      background: rgba($color-primary-500, 0.1);
+    }
+  }
+  
+  // ============================================================================
+  // ELEMENTO: __help (texto de ayuda)
+  // ============================================================================
+  &__help {
+    font-size: $font-size-xs;
+    color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
+    margin: 0;
+    padding-left: $spacing-1;
+    
+    :host-context(.light-theme) & {
+      color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    }
+  }
+  
+  // ============================================================================
+  // ELEMENTO: __error (mensaje de error)
+  // ============================================================================
+  &__error {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: $font-size-xs;
+    color: $color-accent-500;
+    margin: 0;
+    padding-left: $spacing-1;
+    animation: shake 0.3s ease-out;
+  }
+  
+  &__error-icon {
+    @include size(16px);
+    flex-shrink: 0;
+  }
+  
+  // ============================================================================
+  // MODIFICADORES
+  // ============================================================================
+  
+  // MODIFICADOR: --focused
+  &--focused {
+    .form-input__label {
+      color: $color-primary-500;
+    }
+    
+    .form-input__icon {
+      color: $color-primary-500;
+    }
+  }
+  
+  // MODIFICADOR: --filled
+  &--filled {
+    .form-input__label {
+      font-weight: $font-weight-semibold;
+    }
+  }
+  
+  // MODIFICADOR: --error
+  &--error {
+    .form-input__label {
+      color: $color-accent-500;
+    }
+    
+    .form-input__field {
+      border-color: $color-accent-500;
+      
+      &:focus {
+        box-shadow: 0 0 0 3px rgba($color-accent-500, 0.2);
+      }
+    }
+    
+    .form-input__icon {
+      color: $color-accent-500;
+    }
+  }
+  
+  // MODIFICADOR: --disabled
+  &--disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    
+    .form-input__label {
+      cursor: not-allowed;
+    }
+  }
+  
+  // MODIFICADOR: --has-icon (ajustar padding del input)
+  &--icon-left {
+    .form-input__field {
+      padding-left: $spacing-12;
+    }
+  }
+  
+  &--icon-right {
+    .form-input__field {
+      padding-right: $spacing-12;
+    }
+  }
+  
+  // Password siempre tiene espacio para el botón de toggle
+  .form-input__field[type="text"],
+  .form-input__field[type="password"] {
+    padding-right: $spacing-12;
+  }
+}
+
+// ============================================================================
+// ANIMACIONES
+// ============================================================================
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-4px); }
+  50% { transform: translateX(4px); }
+  75% { transform: translateX(-4px); }
+}

@@ -71,12 +71,16 @@ $color-dark-800: #5a6d8f;
 $color-dark-900: #6b7fa1;
 
 // Colores semánticos
+$color-success: #10b981;
 $color-success-light: #10b981;
 $color-success-dark: #059669;
+$color-error: #ef4444;
 $color-error-light: #ef4444;
 $color-error-dark: #dc2626;
+$color-warning: #f59e0b;
 $color-warning-light: #f59e0b;
 $color-warning-dark: #d97706;
+$color-info: #3b82f6;
 $color-info-light: #3b82f6;
 $color-info-dark: #2563eb;
 
@@ -210,6 +214,14 @@ $line-height-normal: 1.5;
 $line-height-relaxed: 1.625;
 $line-height-loose: 2;
 
+// Aliases comunes para line-height (para compatibilidad)
+$leading-none: 1;
+$leading-tight: 1.25;
+$leading-snug: 1.375;
+$leading-normal: 1.5;
+$leading-relaxed: 1.625;
+$leading-loose: 2;
+
 // Letter spacing
 $letter-spacing-tighter: -0.05em;
 $letter-spacing-tight: -0.025em;
@@ -337,6 +349,7 @@ $z-index-tooltip: 1070;
 // ============================================================================
 
 // Contenedores
+$container-max-width: 1280px;      // Contenedor principal por defecto
 $container-max-width-sm: 640px;
 $container-max-width-md: 768px;
 $container-max-width-lg: 1024px;

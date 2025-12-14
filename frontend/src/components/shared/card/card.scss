@@ -1,0 +1,245 @@
+// ============================================================================
+//                    CARD COMPONENT - Estilos BEM
+// ============================================================================
+// Bloque: .card
+// Elementos: __image-wrapper, __image, __content, __header, __title, __subtitle,
+//           __body, __description, __footer, __action
+// Modificadores: --vertical, --horizontal, --clickable, --elevated, --has-image
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                       BLOQUE PRINCIPAL: .card
+// ============================================================================
+.card {
+  display: flex;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: $border-radius-xl;
+  overflow: hidden;
+  transition: all $duration-base $ease-out;
+  
+  // ============================================================================
+  //                                VARIANTES
+  // ============================================================================
+  
+  // VARIANTE: Vertical (default)
+  &--vertical {
+    flex-direction: column;
+    
+    .card__image-wrapper {
+      width: 100%;
+      height: 200px;
+      
+      @include respond-to('sm') {
+        height: 240px;
+      }
+    }
+  }
+  
+  // VARIANTE: Horizontal
+  &--horizontal {
+    flex-direction: row;
+    
+    .card__image-wrapper {
+      width: 200px;
+      min-width: 200px;
+      height: auto;
+      min-height: 180px;
+      
+      @include respond-to('md') {
+        width: 280px;
+        min-width: 280px;
+      }
+    }
+    
+    .card__content {
+      flex: 1;
+    }
+    
+    // En mobile, volver a vertical
+    @media (max-width: ($breakpoint-sm - 1px)) {
+      flex-direction: column;
+      
+      .card__image-wrapper {
+        width: 100%;
+        min-width: auto;
+        height: 180px;
+      }
+    }
+  }
+  
+  // ============================================================================
+  //                               ESTADOS
+  // ============================================================================
+  
+  // ESTADO: Clickable
+  &--clickable {
+    cursor: pointer;
+    
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-lg);
+      border-color: var(--color-primary);
+    }
+    
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+    
+    &:active {
+      transform: translateY(-2px);
+    }
+  }
+  
+  // ESTADO: Elevated (sombra elevada por defecto)
+  &--elevated {
+    box-shadow: var(--shadow-md);
+    border-color: transparent;
+    
+    &:hover {
+      box-shadow: var(--shadow-xl);
+    }
+  }
+  
+  // ESTADO: Hover general (para cards no clickables)
+  &:not(&--clickable):hover {
+    box-shadow: var(--shadow-sm);
+  }
+  
+  // ============================================================================
+  //                               ELEMENTOS
+  // ============================================================================
+  
+  // ELEMENTO: Image wrapper
+  &__image-wrapper {
+    position: relative;
+    overflow: hidden;
+    background: var(--bg-tertiary);
+  }
+  
+  // ELEMENTO: Image
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: transform $duration-base $ease-out;
+
+    .card:hover & {
+      transform: scale(1.05);
+    }
+  }
+  
+  // ELEMENTO: Content
+  &__content {
+    display: flex;
+    flex-direction: column;
+    padding: $spacing-5;
+    
+    @include respond-to('sm') {
+      padding: $spacing-6;
+    }
+  }
+  
+  // ELEMENTO: Header
+  &__header {
+    margin-bottom: $spacing-3;
+  }
+  
+  // ELEMENTO: Subtitle
+  &__subtitle {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin: 0 0 $spacing-1;
+  }
+  
+  // ELEMENTO: Title
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+    margin: 0;
+    line-height: $leading-tight;
+    
+    @include respond-to('sm') {
+      font-size: $font-size-2xl;
+    }
+  }
+  
+  // ELEMENTO: Body
+  &__body {
+    flex: 1;
+  }
+  
+  // ELEMENTO: Description
+  &__description {
+    font-size: $font-size-sm;
+    color: var(--text-secondary);
+    line-height: $leading-relaxed;
+    margin: 0;
+    
+    // Limitar líneas con ellipsis
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  // ELEMENTO: Extra (contenido proyectado)
+  &__extra {
+    margin-top: $spacing-3;
+    
+    &:empty {
+      display: none;
+    }
+  }
+  
+  // ELEMENTO: Footer
+  &__footer {
+    margin-top: $spacing-4;
+    padding-top: $spacing-4;
+    border-top: 1px solid var(--border-primary);
+  }
+  
+  // ELEMENTO: Action button
+  &__action {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: 0;
+    background: none;
+    border: none;
+    font-family: $font-primary;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: var(--color-primary);
+    cursor: pointer;
+    transition: all $duration-fast $ease-out;
+    
+    &:hover {
+      color: $color-primary-600;
+      
+      .card__action-icon {
+        transform: translateX(4px);
+      }
+    }
+    
+    &:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+  }
+  
+  // ELEMENTO: Action icon
+  &__action-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform $duration-fast $ease-out;
+  }
+}

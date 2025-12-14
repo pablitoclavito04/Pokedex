@@ -1,0 +1,21 @@
+<!-- ============================================================================
+     BADGE COMPONENT
+     
+     Pequeñas etiquetas para estados, categorías, contadores.
+     
+     Variantes: primary, secondary, success, error, warning, info
+     Tamaños: sm, md, lg
+     Modos: normal, dot, outline, count
+     ============================================================================ -->
+
+<span [class]="badgeClasses">
+  <!-- Si es un contador -->
+  <ng-container *ngIf="count !== null">
+    {{ displayCount }}
+  </ng-container>
+  
+  <!-- Si es un badge normal con contenido proyectado -->
+  <ng-container *ngIf="count === null && !dot">
+    <ng-content></ng-content>
+  </ng-container>
+</span>

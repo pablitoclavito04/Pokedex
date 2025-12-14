@@ -1,0 +1,155 @@
+// ============================================================================
+//                   BADGE COMPONENT - Estilos BEM
+// ============================================================================
+// Bloque: .badge
+// Modificadores: --primary, --secondary, --success, --error, --warning, --info,
+//               --sm, --md, --lg, --dot, --outline, --count
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                     BLOQUE PRINCIPAL: .badge
+// ============================================================================
+.badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-family: $font-primary;
+  font-weight: $font-weight-semibold;
+  text-transform: capitalize;
+  white-space: nowrap;
+  border-radius: $border-radius-full;
+  transition: all $duration-fast $ease-out;
+  
+  // ============================================================================
+  //                                TAMAÑOS
+  // ============================================================================
+  
+  &--sm {
+    padding: $spacing-1 $spacing-2;
+    font-size: $font-size-xs;
+  }
+  
+  &--md {
+    padding: $spacing-1 $spacing-3;
+    font-size: $font-size-xs;
+  }
+  
+  &--lg {
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-sm;
+  }
+  
+  // ============================================================================
+  //                              VARIANTES
+  // ============================================================================
+  
+  &--primary {
+    background: $color-primary-500;
+    color: #ffffff;
+    
+    &.badge--outline {
+      background: transparent;
+      color: $color-primary-500;
+      border: 1px solid $color-primary-500;
+    }
+  }
+  
+  &--secondary {
+    background: $color-secondary-500;
+    color: #1e293b;
+    
+    &.badge--outline {
+      background: transparent;
+      color: $color-secondary-500;
+      border: 1px solid $color-secondary-500;
+    }
+  }
+  
+  &--success {
+    background: $color-success;
+    color: #ffffff;
+    
+    &.badge--outline {
+      background: transparent;
+      color: $color-success;
+      border: 1px solid $color-success;
+    }
+  }
+  
+  &--error {
+    background: $color-error;
+    color: #ffffff;
+    
+    &.badge--outline {
+      background: transparent;
+      color: $color-error;
+      border: 1px solid $color-error;
+    }
+  }
+  
+  &--warning {
+    background: $color-warning;
+    color: #1e293b;
+    
+    &.badge--outline {
+      background: transparent;
+      color: $color-warning;
+      border: 1px solid $color-warning;
+    }
+  }
+  
+  &--info {
+    background: $color-info;
+    color: #ffffff;
+    
+    &.badge--outline {
+      background: transparent;
+      color: $color-info;
+      border: 1px solid $color-info;
+    }
+  }
+  
+  // ============================================================================
+  //                          MODIFICADORES ESPECIALES
+  // ============================================================================
+  
+  // DOT: Solo un punto sin texto
+  &--dot {
+    width: 8px;
+    height: 8px;
+    min-width: 8px;
+    padding: 0;
+    
+    &.badge--sm {
+      width: 6px;
+      height: 6px;
+      min-width: 6px;
+    }
+    
+    &.badge--lg {
+      width: 10px;
+      height: 10px;
+      min-width: 10px;
+    }
+  }
+  
+  // COUNT: Contador de notificaciones
+  &--count {
+    min-width: 20px;
+    height: 20px;
+    padding: 0 $spacing-2;
+    
+    &.badge--sm {
+      min-width: 16px;
+      height: 16px;
+      font-size: 10px;
+    }
+    
+    &.badge--lg {
+      min-width: 24px;
+      height: 24px;
+    }
+  }
+}
