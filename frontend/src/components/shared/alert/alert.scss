@@ -21,6 +21,12 @@ $alert-colors: (
 // ============================================================================
 //                      BLOQUE PRINCIPAL: .alert
 // ============================================================================
+
+// Host styles - permite que el componente reciba margin desde el padre
+:host {
+  display: block;
+}
+
 .alert {
   display: flex;
   align-items: flex-start;

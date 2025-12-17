@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
-import { ViewportScroller } from '@angular/common';
+import { ViewportScroller, AsyncPipe } from '@angular/common';
+import { Observable } from 'rxjs';
 
 // Importar todos los componentes
 import { ButtonComponent } from '../../../components/shared/button/button';
@@ -15,10 +16,17 @@ import { TabPanelComponent } from '../../../components/shared/tabs/tab-panel';
 import { AccordionComponent, AccordionItem } from '../../../components/shared/accordion/accordion';
 import { TooltipComponent } from '../../../components/shared/tooltip/tooltip';
 
+// Servicios
+import { ToastService } from '../../../services/toast.service';
+import { LoadingService } from '../../../services/loading.service';
+import { CommunicationService } from '../../../services/communication.service';
+import { PokemonService, Pokemon } from '../../../services/pokemon.service';
+
 @Component({
   selector: 'app-style-guide',
   standalone: true,
   imports: [
+    AsyncPipe,
     ButtonComponent,
     CardComponent,
     FormInputComponent,
@@ -37,6 +45,10 @@ import { TooltipComponent } from '../../../components/shared/tooltip/tooltip';
 })
 export class StyleGuideComponent {
   private viewportScroller = inject(ViewportScroller);
+  private toastService = inject(ToastService);
+  private loadingService = inject(LoadingService);
+  private communicationService = inject(CommunicationService);
+  private pokemonService = inject(PokemonService);
 
   // ============================================================================
   //                            DATOS DE EJEMPLO
@@ -56,10 +68,10 @@ export class StyleGuideComponent {
 
   // Datos para Tabs
   pokemonTabs: Tab[] = [
-    { id: 'stats', label: 'Estadísticas', icon: '📊' },
-    { id: 'moves', label: 'Movimientos', icon: '⚔️' },
-    { id: 'evolution', label: 'Evolución', icon: '🔄' },
-    { id: 'locations', label: 'Ubicaciones', icon: '📍' }
+    { id: 'stats', label: 'Estadísticas' },
+    { id: 'moves', label: 'Movimientos' },
+    { id: 'evolution', label: 'Evolución' },
+    { id: 'locations', label: 'Ubicaciones' }
   ];
 
   // Estados separados para cada variante de tabs
@@ -190,5 +202,113 @@ export class StyleGuideComponent {
 
   scrollTo(elementId: string): void {
     this.viewportScroller.scrollToAnchor(elementId);
+  }
+
+  // ============================================================================
+  //                         MÉTODOS PARA TOASTS
+  // ============================================================================
+
+  showSuccessToast(): void {
+    this.toastService.success('¡Operación completada con éxito!');
+  }
+
+  showErrorToast(): void {
+    this.toastService.error('Ha ocurrido un error. Por favor, inténtalo de nuevo.');
+  }
+
+  showWarningToast(): void {
+    this.toastService.warning('Atención: Esta acción no se puede deshacer.');
+  }
+
+  showInfoToast(): void {
+    this.toastService.info('Información: Hay nuevas actualizaciones disponibles.');
+  }
+
+  // ============================================================================
+  //                         MÉTODOS PARA LOADING
+  // ============================================================================
+
+  showLoading(): void {
+    this.loadingService.show();
+    // Auto-ocultar después de 3 segundos para la demo
+    setTimeout(() => {
+      this.loadingService.hide();
+    }, 3000);
+  }
+
+  // ============================================================================
+  //                    MÉTODOS PARA COMMUNICATION SERVICE
+  // ============================================================================
+
+  // Observables del servicio de comunicación
+  selectedPokemonId$: Observable<number | null> = this.communicationService.selectedPokemon$;
+  lastNotification$: Observable<string> = this.communicationService.notifications$;
+  searchFilter$: Observable<string> = this.communicationService.searchFilter$;
+
+  // Mapa de nombres de Pokémon para la demo
+  private pokemonNames: Record<number, string> = {
+    25: 'Pikachu',
+    6: 'Charizard',
+    150: 'Mewtwo'
+  };
+
+  /**
+   * Selecciona un Pokémon usando el servicio de comunicación
+   */
+  selectPokemonDemo(pokemonId: number): void {
+    this.communicationService.selectPokemon(pokemonId);
+  }
+
+  /**
+   * Envía una notificación usando el servicio de comunicación
+   */
+  sendNotificationDemo(message: string): void {
+    this.communicationService.sendNotification(message);
+  }
+
+  /**
+   * Actualiza el filtro de búsqueda
+   */
+  onFilterChange(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    this.communicationService.setSearchFilter(input.value);
+  }
+
+  /**
+   * Obtiene el nombre de un Pokémon por su ID
+   */
+  getPokemonName(pokemonId: number): string {
+    return this.pokemonNames[pokemonId] || 'Desconocido';
+  }
+
+  /**
+   * Limpia todos los datos del servicio de comunicación
+   */
+  clearCommunicationDemo(): void {
+    this.communicationService.clearAll();
+  }
+
+  // ============================================================================
+  //                    MÉTODOS PARA POKEMON SERVICE (Separación de responsabilidades)
+  // ============================================================================
+
+  // Observables del servicio de Pokemon
+  currentPokemon$: Observable<Pokemon | null> = this.pokemonService.currentPokemon$;
+  pokemonServiceLoading$: Observable<boolean> = this.pokemonService.isLoading$;
+
+  /**
+   * Carga un Pokemon por su ID usando el servicio
+   * El componente NO conoce la URL de la API ni cómo transformar los datos
+   */
+  loadPokemon(id: number): void {
+    this.pokemonService.getPokemonById(id).subscribe();
+  }
+
+  /**
+   * Carga un Pokemon aleatorio (1-1025, todas las generaciones)
+   */
+  loadRandomPokemon(): void {
+    const randomId = Math.floor(Math.random() * 1025) + 1;
+    this.pokemonService.getPokemonById(randomId).subscribe();
   }
 }

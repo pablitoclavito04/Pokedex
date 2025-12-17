@@ -1,0 +1,827 @@
+<div class="forms-demo">
+  <!-- Header -->
+  <header class="forms-demo__header">
+    <h1 class="forms-demo__title">Formularios Reactivos</h1>
+    <p class="forms-demo__description">
+      Demostración de formularios reactivos con validadores personalizados, validación cross-field,
+      validadores asíncronos y FormArrays dinámicos.
+    </p>
+  </header>
+
+  <!-- ============================================================================ -->
+  <!--                    FORMULARIO DE REGISTRO                                    -->
+  <!-- ============================================================================ -->
+  <section class="forms-demo__section">
+    <div class="forms-demo__section-header">
+      <h2 class="forms-demo__section-title">Formulario de Registro</h2>
+      <p class="forms-demo__section-description">
+        Formulario completo con validadores síncronos, asíncronos y validación cross-field.
+      </p>
+    </div>
+
+    <form [formGroup]="registroForm" (ngSubmit)="onRegistroSubmit()" class="forms-demo__form">
+      <!-- Datos de cuenta -->
+      <div class="forms-demo__form-section">
+        <h3 class="forms-demo__form-section-title">Datos de cuenta</h3>
+
+        <div class="forms-demo__form-grid">
+          <!-- Username -->
+          <div class="forms-demo__field">
+            <label for="username" class="forms-demo__label">
+              Nombre de usuario <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="text"
+              id="username"
+              formControlName="username"
+              placeholder="Ej: usuario123"
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="hasError('username')"
+              [class.forms-demo__input--valid]="username?.valid && username?.touched"
+              [class.forms-demo__input--pending]="username?.pending">
+            <span class="forms-demo__hint">Entre 3 y 20 caracteres</span>
+            @if (username?.pending) {
+              <span class="forms-demo__async-status">Verificando disponibilidad...</span>
+            }
+            @if (hasError('username', 'required')) {
+              <span class="forms-demo__error">El nombre de usuario es requerido</span>
+            }
+            @if (hasError('username', 'minlength')) {
+              <span class="forms-demo__error">Mínimo 3 caracteres</span>
+            }
+            @if (hasError('username', 'maxlength')) {
+              <span class="forms-demo__error">Máximo 20 caracteres</span>
+            }
+            @if (hasError('username', 'usernameTaken')) {
+              <span class="forms-demo__error">Este nombre de usuario ya está en uso</span>
+            }
+          </div>
+
+          <!-- Email -->
+          <div class="forms-demo__field">
+            <label for="email" class="forms-demo__label">
+              Correo electrónico <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              placeholder="correo@ejemplo.com"
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="hasError('email')"
+              [class.forms-demo__input--valid]="email?.valid && email?.touched"
+              [class.forms-demo__input--pending]="email?.pending">
+            @if (email?.pending) {
+              <span class="forms-demo__async-status">Verificando disponibilidad...</span>
+            }
+            @if (hasError('email', 'required')) {
+              <span class="forms-demo__error">El email es requerido</span>
+            }
+            @if (hasError('email', 'email')) {
+              <span class="forms-demo__error">Formato de email inválido</span>
+            }
+            @if (hasError('email', 'emailTaken')) {
+              <span class="forms-demo__error">Este email ya está registrado</span>
+            }
+          </div>
+
+          <!-- Password -->
+          <div class="forms-demo__field">
+            <label for="password" class="forms-demo__label">
+              Contraseña <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="password"
+              id="password"
+              formControlName="password"
+              placeholder="Mínimo 8 caracteres"
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="hasError('password')">
+            @if (password?.errors && (password?.touched || password?.dirty)) {
+              <ul class="forms-demo__password-requirements">
+                @for (error of getPasswordErrors(); track error) {
+                  <li class="forms-demo__password-requirement forms-demo__password-requirement--error">
+                    {{ error }}
+                  </li>
+                }
+              </ul>
+            }
+          </div>
+
+          <!-- Confirm Password -->
+          <div class="forms-demo__field">
+            <label for="confirmPassword" class="forms-demo__label">
+              Confirmar contraseña <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="password"
+              id="confirmPassword"
+              formControlName="confirmPassword"
+              placeholder="Repite la contraseña"
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="hasError('confirmPassword') || (registroForm.hasError('passwordMismatch') && confirmPassword?.touched)">
+            @if (hasError('confirmPassword', 'required')) {
+              <span class="forms-demo__error">Debes confirmar la contraseña</span>
+            }
+            @if (registroForm.hasError('passwordMismatch') && confirmPassword?.touched) {
+              <span class="forms-demo__error">Las contraseñas no coinciden</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Datos personales -->
+      <div class="forms-demo__form-section">
+        <h3 class="forms-demo__form-section-title">Datos personales</h3>
+
+        <div class="forms-demo__form-grid">
+          <!-- Nombre -->
+          <div class="forms-demo__field">
+            <label for="nombre" class="forms-demo__label">
+              Nombre <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="text"
+              id="nombre"
+              formControlName="nombre"
+              placeholder="Tu nombre"
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="hasError('nombre')">
+            @if (hasError('nombre', 'required')) {
+              <span class="forms-demo__error">El nombre es requerido</span>
+            }
+            @if (hasError('nombre', 'minlength')) {
+              <span class="forms-demo__error">Mínimo 2 caracteres</span>
+            }
+          </div>
+
+          <!-- Apellidos -->
+          <div class="forms-demo__field">
+            <label for="apellidos" class="forms-demo__label">
+              Apellidos <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="text"
+              id="apellidos"
+              formControlName="apellidos"
+              placeholder="Tus apellidos"
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="hasError('apellidos')">
+            @if (hasError('apellidos', 'required')) {
+              <span class="forms-demo__error">Los apellidos son requeridos</span>
+            }
+          </div>
+
+          <!-- NIF -->
+          <div class="forms-demo__field">
+            <label for="nif" class="forms-demo__label">
+              NIF <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="text"
+              id="nif"
+              formControlName="nif"
+              placeholder="12345678A"
+              appNifMask
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="hasError('nif')">
+            <span class="forms-demo__hint">8 números y 1 letra (ej: 12345678Z)</span>
+            @if (hasError('nif', 'required')) {
+              <span class="forms-demo__error">El NIF es requerido</span>
+            }
+            @if (hasError('nif', 'invalidNif')) {
+              <span class="forms-demo__error">Formato de NIF inválido</span>
+            }
+            @if (hasError('nif', 'invalidNifLetter')) {
+              <span class="forms-demo__error">La letra del NIF no es correcta</span>
+            }
+          </div>
+
+          <!-- Fecha de nacimiento -->
+          <div class="forms-demo__field">
+            <label for="fechaNacimiento" class="forms-demo__label">
+              Fecha de nacimiento <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="date"
+              id="fechaNacimiento"
+              formControlName="fechaNacimiento"
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="hasError('fechaNacimiento')">
+            <span class="forms-demo__hint">Debes ser mayor de 18 años</span>
+            @if (hasError('fechaNacimiento', 'required')) {
+              <span class="forms-demo__error">La fecha de nacimiento es requerida</span>
+            }
+            @if (hasError('fechaNacimiento', 'edadMinima')) {
+              <span class="forms-demo__error">Debes tener al menos 18 años</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Contacto -->
+      <div class="forms-demo__form-section">
+        <h3 class="forms-demo__form-section-title">Contacto</h3>
+        <p class="forms-demo__form-section-hint">Al menos un teléfono es requerido</p>
+
+        <div class="forms-demo__form-grid">
+          <!-- Teléfono móvil -->
+          <div class="forms-demo__field">
+            <label for="telefonoMovil" class="forms-demo__label">Teléfono móvil</label>
+            <input
+              type="tel"
+              id="telefonoMovil"
+              formControlName="telefonoMovil"
+              placeholder="612345678"
+              appPhoneMask
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="hasError('telefonoMovil')">
+            @if (hasError('telefonoMovil', 'invalidPhone')) {
+              <span class="forms-demo__error">Formato de teléfono móvil inválido (6xx/7xx xxx xxx)</span>
+            }
+          </div>
+
+          <!-- Teléfono fijo -->
+          <div class="forms-demo__field">
+            <label for="telefonoFijo" class="forms-demo__label">Teléfono fijo</label>
+            <input
+              type="tel"
+              id="telefonoFijo"
+              formControlName="telefonoFijo"
+              placeholder="912345678"
+              appPhoneMask
+              class="forms-demo__input">
+          </div>
+        </div>
+
+        @if (registroForm.hasError('atLeastOneRequired') && (telefonoMovil?.touched || registroForm.get('telefonoFijo')?.touched)) {
+          <app-alert type="warning" [dismissible]="false" class="forms-demo__alert">
+            Debes proporcionar al menos un número de teléfono (móvil o fijo).
+          </app-alert>
+        }
+      </div>
+
+      <!-- Dirección -->
+      <div class="forms-demo__form-section" formGroupName="direccion">
+        <h3 class="forms-demo__form-section-title">Dirección</h3>
+
+        <div class="forms-demo__form-grid">
+          <!-- Calle -->
+          <div class="forms-demo__field">
+            <label for="calle" class="forms-demo__label">
+              Calle <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="text"
+              id="calle"
+              formControlName="calle"
+              placeholder="Nombre de la calle"
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="direccion.get('calle')?.invalid && direccion.get('calle')?.touched">
+            @if (direccion.get('calle')?.hasError('required') && direccion.get('calle')?.touched) {
+              <span class="forms-demo__error">La calle es requerida</span>
+            }
+          </div>
+
+          <!-- Número -->
+          <div class="forms-demo__field">
+            <label for="numero" class="forms-demo__label">
+              Número <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="text"
+              id="numero"
+              formControlName="numero"
+              placeholder="Nº"
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="direccion.get('numero')?.invalid && direccion.get('numero')?.touched">
+            @if (direccion.get('numero')?.hasError('required') && direccion.get('numero')?.touched) {
+              <span class="forms-demo__error">El número es requerido</span>
+            }
+          </div>
+
+          <!-- Piso -->
+          <div class="forms-demo__field">
+            <label for="piso" class="forms-demo__label">Piso (opcional)</label>
+            <input
+              type="text"
+              id="piso"
+              formControlName="piso"
+              placeholder="Ej: 3º B"
+              class="forms-demo__input">
+          </div>
+
+          <!-- Código postal -->
+          <div class="forms-demo__field">
+            <label for="codigoPostal" class="forms-demo__label">
+              Código postal <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="text"
+              id="codigoPostal"
+              formControlName="codigoPostal"
+              placeholder="28001"
+              appPostalCodeMask
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="direccion.get('codigoPostal')?.invalid && direccion.get('codigoPostal')?.touched">
+            @if (direccion.get('codigoPostal')?.hasError('required') && direccion.get('codigoPostal')?.touched) {
+              <span class="forms-demo__error">El código postal es requerido</span>
+            }
+            @if (direccion.get('codigoPostal')?.hasError('invalidPostalCode') && direccion.get('codigoPostal')?.touched) {
+              <span class="forms-demo__error">Código postal inválido (01000-52999)</span>
+            }
+          </div>
+
+          <!-- Ciudad -->
+          <div class="forms-demo__field">
+            <label for="ciudad" class="forms-demo__label">
+              Ciudad <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="text"
+              id="ciudad"
+              formControlName="ciudad"
+              placeholder="Tu ciudad"
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="direccion.get('ciudad')?.invalid && direccion.get('ciudad')?.touched">
+            @if (direccion.get('ciudad')?.hasError('required') && direccion.get('ciudad')?.touched) {
+              <span class="forms-demo__error">La ciudad es requerida</span>
+            }
+          </div>
+
+          <!-- Provincia -->
+          <div class="forms-demo__field">
+            <label for="provincia" class="forms-demo__label">
+              Provincia <span class="forms-demo__required">*</span>
+            </label>
+            <select
+              id="provincia"
+              formControlName="provincia"
+              class="forms-demo__select"
+              [class.forms-demo__select--error]="direccion.get('provincia')?.invalid && direccion.get('provincia')?.touched">
+              @for (option of provinciaOptions; track option.value) {
+                <option [value]="option.value">{{ option.label }}</option>
+              }
+            </select>
+            @if (direccion.get('provincia')?.hasError('required') && direccion.get('provincia')?.touched) {
+              <span class="forms-demo__error">La provincia es requerida</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Términos -->
+      <div class="forms-demo__form-section">
+        <label class="forms-demo__checkbox-label">
+          <input
+            type="checkbox"
+            formControlName="aceptaTerminos"
+            class="forms-demo__checkbox">
+          <span>Acepto los términos y condiciones</span>
+        </label>
+        @if (aceptaTerminos?.invalid && (aceptaTerminos?.touched || registroSubmitted)) {
+          <span class="forms-demo__error">Debes aceptar los términos y condiciones</span>
+        }
+      </div>
+
+      <!-- Submit -->
+      <div class="forms-demo__form-actions">
+        <app-button type="submit" variant="primary" [disabled]="registroForm.pending">
+          @if (registroForm.pending) {
+            Validando...
+          } @else {
+            Registrarse
+          }
+        </app-button>
+        <app-button type="button" variant="secondary" (buttonClick)="registroForm.reset()">
+          Limpiar
+        </app-button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!--                    FORMULARIO DE FACTURA (FormArray)                         -->
+  <!-- ============================================================================ -->
+  <section class="forms-demo__section">
+    <div class="forms-demo__section-header">
+      <h2 class="forms-demo__section-title">Formulario de Factura</h2>
+      <p class="forms-demo__section-description">
+        Demostración de FormArray para gestionar listas dinámicas de elementos.
+      </p>
+    </div>
+
+    <form [formGroup]="facturaForm" (ngSubmit)="onFacturaSubmit()" class="forms-demo__form">
+      <!-- Datos del cliente -->
+      <div class="forms-demo__form-section">
+        <h3 class="forms-demo__form-section-title">Datos del cliente</h3>
+
+        <div class="forms-demo__form-grid">
+          <div class="forms-demo__field">
+            <label for="cliente" class="forms-demo__label">
+              Nombre del cliente <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="text"
+              id="cliente"
+              formControlName="cliente"
+              placeholder="Nombre o razón social"
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="facturaForm.get('cliente')?.invalid && facturaForm.get('cliente')?.touched">
+            @if (facturaForm.get('cliente')?.hasError('required') && facturaForm.get('cliente')?.touched) {
+              <span class="forms-demo__error">El nombre del cliente es requerido</span>
+            }
+          </div>
+
+          <div class="forms-demo__field">
+            <label for="nifCliente" class="forms-demo__label">
+              NIF del cliente <span class="forms-demo__required">*</span>
+            </label>
+            <input
+              type="text"
+              id="nifCliente"
+              formControlName="nifCliente"
+              placeholder="12345678A"
+              appNifMask
+              class="forms-demo__input"
+              [class.forms-demo__input--error]="facturaForm.get('nifCliente')?.invalid && facturaForm.get('nifCliente')?.touched">
+            @if (facturaForm.get('nifCliente')?.hasError('required') && facturaForm.get('nifCliente')?.touched) {
+              <span class="forms-demo__error">El NIF es requerido</span>
+            }
+            @if (facturaForm.get('nifCliente')?.hasError('invalidNif') && facturaForm.get('nifCliente')?.touched) {
+              <span class="forms-demo__error">Formato de NIF inválido</span>
+            }
+          </div>
+        </div>
+      </div>
+
+      <!-- Teléfonos (FormArray) -->
+      <div class="forms-demo__form-section">
+        <div class="forms-demo__array-header">
+          <h3 class="forms-demo__form-section-title">Teléfonos de contacto</h3>
+        </div>
+
+        <div formArrayName="telefonos" class="forms-demo__array-items">
+          @for (telefono of telefonos.controls; track $index; let i = $index) {
+            <div [formGroupName]="i" class="forms-demo__array-item">
+              <div class="forms-demo__array-item-content">
+                <div class="forms-demo__field forms-demo__field--flex">
+                  <label class="forms-demo__label">Teléfono</label>
+                  <input
+                    type="tel"
+                    formControlName="numero"
+                    placeholder="612345678"
+                    appPhoneMask
+                    class="forms-demo__input"
+                    [class.forms-demo__input--error]="hasArrayError(telefonos, i, 'numero')">
+                </div>
+
+                <div class="forms-demo__radio-group">
+                  <label class="forms-demo__radio-label">
+                    <input type="radio" formControlName="tipo" value="movil">
+                    <span>Móvil</span>
+                  </label>
+                  <label class="forms-demo__radio-label">
+                    <input type="radio" formControlName="tipo" value="fijo">
+                    <span>Fijo</span>
+                  </label>
+                </div>
+              </div>
+
+              @if (telefonos.length > 1) {
+                <button
+                  type="button"
+                  class="forms-demo__array-item-remove"
+                  (click)="removeTelefono(i)"
+                  title="Eliminar teléfono">
+                  ×
+                </button>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Direcciones (FormArray) -->
+      <div class="forms-demo__form-section">
+        <div class="forms-demo__array-header">
+          <h3 class="forms-demo__form-section-title">Direcciones</h3>
+        </div>
+
+        <div formArrayName="direcciones" class="forms-demo__array-items">
+          @for (dir of direcciones.controls; track $index; let i = $index) {
+            <div [formGroupName]="i" class="forms-demo__array-item forms-demo__array-item--direccion">
+              <div class="forms-demo__array-item-content forms-demo__array-item-content--grid">
+                <div class="forms-demo__field">
+                  <label class="forms-demo__label">Calle</label>
+                  <input
+                    type="text"
+                    formControlName="calle"
+                    placeholder="Nombre de la calle"
+                    class="forms-demo__input"
+                    [class.forms-demo__input--error]="hasArrayError(direcciones, i, 'calle')">
+                </div>
+
+                <div class="forms-demo__field">
+                  <label class="forms-demo__label">Número</label>
+                  <input
+                    type="text"
+                    formControlName="numero"
+                    placeholder="Nº"
+                    class="forms-demo__input"
+                    [class.forms-demo__input--error]="hasArrayError(direcciones, i, 'numero')">
+                </div>
+
+                <div class="forms-demo__field">
+                  <label class="forms-demo__label">Ciudad</label>
+                  <input
+                    type="text"
+                    formControlName="ciudad"
+                    placeholder="Ciudad"
+                    class="forms-demo__input"
+                    [class.forms-demo__input--error]="hasArrayError(direcciones, i, 'ciudad')">
+                </div>
+
+                <div class="forms-demo__field">
+                  <label class="forms-demo__label">Código postal</label>
+                  <input
+                    type="text"
+                    formControlName="codigoPostal"
+                    placeholder="28001"
+                    appPostalCodeMask
+                    class="forms-demo__input"
+                    [class.forms-demo__input--error]="hasArrayError(direcciones, i, 'codigoPostal')">
+                </div>
+
+                <div class="forms-demo__radio-group forms-demo__radio-group--full">
+                  <label class="forms-demo__radio-label">
+                    <input type="radio" formControlName="tipo" value="envio">
+                    <span>Envío</span>
+                  </label>
+                  <label class="forms-demo__radio-label">
+                    <input type="radio" formControlName="tipo" value="facturacion">
+                    <span>Facturación</span>
+                  </label>
+                </div>
+              </div>
+
+              @if (direcciones.length > 1) {
+                <button
+                  type="button"
+                  class="forms-demo__array-item-remove"
+                  (click)="removeDireccion(i)"
+                  title="Eliminar dirección">
+                  ×
+                </button>
+              }
+            </div>
+          }
+        </div>
+      </div>
+
+      <!-- Items de factura (FormArray) -->
+      <div class="forms-demo__form-section">
+        <div class="forms-demo__array-header">
+          <h3 class="forms-demo__form-section-title">Items de factura</h3>
+        </div>
+
+        <div formArrayName="items" class="forms-demo__items-table">
+          <!-- Header -->
+          <div class="forms-demo__items-header">
+            <span>Descripción</span>
+            <span>Cantidad</span>
+            <span>Precio unitario</span>
+            <span>Subtotal</span>
+            <span></span>
+          </div>
+
+          <!-- Items -->
+          @for (item of items.controls; track $index; let i = $index) {
+            <div [formGroupName]="i" class="forms-demo__items-row">
+              <div class="forms-demo__items-cell">
+                <span class="forms-demo__items-cell-label">Descripción:</span>
+                <input
+                  type="text"
+                  formControlName="descripcion"
+                  placeholder="Descripción del producto"
+                  class="forms-demo__table-input"
+                  [class.forms-demo__table-input--error]="hasArrayError(items, i, 'descripcion')">
+              </div>
+              <div class="forms-demo__items-cell">
+                <span class="forms-demo__items-cell-label">Cantidad:</span>
+                <input
+                  type="number"
+                  formControlName="cantidad"
+                  min="1"
+                  class="forms-demo__table-input forms-demo__table-input--number"
+                  [class.forms-demo__table-input--error]="hasArrayError(items, i, 'cantidad')">
+              </div>
+              <div class="forms-demo__items-cell">
+                <span class="forms-demo__items-cell-label">Precio:</span>
+                <input
+                  type="number"
+                  formControlName="precioUnitario"
+                  min="0"
+                  step="0.01"
+                  class="forms-demo__table-input forms-demo__table-input--number"
+                  [class.forms-demo__table-input--error]="hasArrayError(items, i, 'precioUnitario')">
+              </div>
+              <div class="forms-demo__items-cell forms-demo__items-cell--subtotal">
+                <span class="forms-demo__items-cell-label">Subtotal:</span>
+                {{ getItemSubtotal(i) | currency:'EUR':'symbol':'1.2-2' }}
+              </div>
+              <div class="forms-demo__items-cell forms-demo__items-cell--actions">
+                @if (items.length > 1) {
+                  <button
+                    type="button"
+                    class="forms-demo__items-remove"
+                    (click)="removeItem(i)"
+                    title="Eliminar item">
+                    ×
+                  </button>
+                }
+              </div>
+            </div>
+          }
+
+          <!-- Total -->
+          <div class="forms-demo__items-total">
+            <span>Total:</span>
+            <span class="forms-demo__items-total-value">
+              {{ getFacturaTotal() | currency:'EUR':'symbol':'1.2-2' }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notas -->
+      <div class="forms-demo__form-section">
+        <div class="forms-demo__field">
+          <label for="notas" class="forms-demo__label">Notas (opcional)</label>
+          <textarea
+            id="notas"
+            formControlName="notas"
+            placeholder="Añade notas adicionales para la factura..."
+            rows="3"
+            class="forms-demo__textarea">
+          </textarea>
+        </div>
+      </div>
+
+      <!-- Submit -->
+      <div class="forms-demo__form-actions">
+        <app-button type="submit" variant="primary">
+          Crear factura
+        </app-button>
+        <app-button type="button" variant="secondary" (buttonClick)="facturaForm.reset()">
+          Limpiar
+        </app-button>
+      </div>
+    </form>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!--                    CATÁLOGO DE VALIDADORES                                   -->
+  <!-- ============================================================================ -->
+  <section class="forms-demo__section">
+    <div class="forms-demo__section-header">
+      <h2 class="forms-demo__section-title">Catálogo de validadores</h2>
+      <p class="forms-demo__section-description">
+        Documentación de todos los validadores personalizados disponibles.
+      </p>
+    </div>
+
+    <div class="forms-demo__validators-catalog">
+      <!-- Validadores síncronos -->
+      <div class="forms-demo__validator-group">
+        <h3 class="forms-demo__validator-group-title">Validadores síncronos</h3>
+
+        <table class="forms-demo__validators-table">
+          <thead>
+            <tr>
+              <th>Validador</th>
+              <th>Descripción</th>
+              <th>Uso</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>passwordStrength(minLength)</code></td>
+              <td>Valida fortaleza de contraseña: longitud mínima, mayúsculas, minúsculas, números y caracteres especiales</td>
+              <td><code>passwordStrength(8)</code></td>
+            </tr>
+            <tr>
+              <td><code>nif()</code></td>
+              <td>Valida formato y letra de control de NIF español</td>
+              <td><code>nif()</code></td>
+            </tr>
+            <tr>
+              <td><code>nie()</code></td>
+              <td>Valida formato y letra de control de NIE español</td>
+              <td><code>nie()</code></td>
+            </tr>
+            <tr>
+              <td><code>telefonoMovil()</code></td>
+              <td>Valida teléfono móvil español (6xx/7xx xxx xxx)</td>
+              <td><code>telefonoMovil()</code></td>
+            </tr>
+            <tr>
+              <td><code>telefonoFijo()</code></td>
+              <td>Valida teléfono fijo español (9xx xxx xxx)</td>
+              <td><code>telefonoFijo()</code></td>
+            </tr>
+            <tr>
+              <td><code>codigoPostal()</code></td>
+              <td>Valida código postal español (01000-52999)</td>
+              <td><code>codigoPostal()</code></td>
+            </tr>
+            <tr>
+              <td><code>iban()</code></td>
+              <td>Valida IBAN español con dígitos de control</td>
+              <td><code>iban()</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Validadores cross-field -->
+      <div class="forms-demo__validator-group">
+        <h3 class="forms-demo__validator-group-title">Validadores cross-field</h3>
+
+        <table class="forms-demo__validators-table">
+          <thead>
+            <tr>
+              <th>Validador</th>
+              <th>Descripción</th>
+              <th>Uso</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>passwordMatch(field1, field2)</code></td>
+              <td>Verifica que dos campos tengan el mismo valor</td>
+              <td><code>passwordMatch('password', 'confirmPassword')</code></td>
+            </tr>
+            <tr>
+              <td><code>atLeastOneRequired(field1, field2)</code></td>
+              <td>Requiere que al menos uno de los campos tenga valor</td>
+              <td><code>atLeastOneRequired('telefonoMovil', 'telefonoFijo')</code></td>
+            </tr>
+            <tr>
+              <td><code>edadMinima(edad)</code></td>
+              <td>Valida que la fecha corresponda a una edad mínima</td>
+              <td><code>edadMinima(18)</code></td>
+            </tr>
+            <tr>
+              <td><code>dateRange(startField, endField)</code></td>
+              <td>Valida que la fecha de fin sea posterior a la de inicio</td>
+              <td><code>dateRange('fechaInicio', 'fechaFin')</code></td>
+            </tr>
+            <tr>
+              <td><code>totalMinimo(arrayField, valueField, min)</code></td>
+              <td>Valida que la suma de valores en un FormArray alcance un mínimo</td>
+              <td><code>totalMinimo('items', 'cantidad', 1)</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Validadores asíncronos -->
+      <div class="forms-demo__validator-group">
+        <h3 class="forms-demo__validator-group-title">Validadores asíncronos</h3>
+
+        <table class="forms-demo__validators-table">
+          <thead>
+            <tr>
+              <th>Validador</th>
+              <th>Descripción</th>
+              <th>Uso</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>emailUnique(excludeId?)</code></td>
+              <td>Verifica que el email no esté registrado (simula API)</td>
+              <td><code>asyncValidators.emailUnique()</code></td>
+            </tr>
+            <tr>
+              <td><code>usernameAvailable()</code></td>
+              <td>Verifica disponibilidad de nombre de usuario (simula API)</td>
+              <td><code>asyncValidators.usernameAvailable()</code></td>
+            </tr>
+            <tr>
+              <td><code>nifUnique(excludeId?)</code></td>
+              <td>Verifica que el NIF no esté registrado (simula API)</td>
+              <td><code>asyncValidators.nifUnique()</code></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <app-alert type="info" [dismissible]="false">
+          Los validadores asíncronos incluyen debounce de 500ms y se ejecutan en el evento blur
+          para optimizar las llamadas a la API.
+        </app-alert>
+      </div>
+    </div>
+  </section>
+</div>

@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-footer',
+  standalone: true,
+  imports: [CommonModule],
   templateUrl: './footer.html',
   styleUrls: ['./footer.scss']
 })
@@ -27,20 +30,33 @@ export class FooterComponent {
   
   // Redes sociales
   socialLinks = [
-    { 
-      label: 'GitHub', 
+    {
+      label: 'GitHub',
       url: 'https://github.com/tu-usuario',
       icon: 'github'
     },
-    { 
-      label: 'Twitter', 
+    {
+      label: 'Twitter',
       url: 'https://twitter.com/tu-usuario',
       icon: 'twitter'
     },
-    { 
-      label: 'LinkedIn', 
+    {
+      label: 'LinkedIn',
       url: 'https://linkedin.com/in/tu-usuario',
       icon: 'linkedin'
     }
+  ];
+
+  // Enlaces adicionales
+  extraLinks = [
+    { label: 'Cómo funciona', path: '/how-it-works' },
+    { label: 'FAQ', path: '/faq' }
+  ];
+
+  // Enlaces de contacto
+  contactLinks = [
+    { label: 'Soporte', path: '/support' },
+    { label: 'Términos', path: '/terms' },
+    { label: 'Privacidad', path: '/privacy' }
   ];
 }

@@ -11,9 +11,9 @@
       <!-- Logo y descripción -->
       <div class="footer__brand">
         <a href="/" class="footer__logo" aria-label="Ir a la página principal">
-            <img 
-                src="/frontend/public/favicon.png" 
-                alt="Pokéball" 
+            <img
+                src="favicon.png"
+                alt="Pokéball"
                 class="footer__logo-icon"
                 aria-hidden="true">
             <span class="footer__logo-text">Pokédex</span>
@@ -34,7 +34,31 @@
           </li>
         </ul>
       </nav>
-      
+
+      <!-- Enlaces -->
+      <nav class="footer__nav" aria-label="Enlaces adicionales">
+        <h3 class="footer__nav-title">Enlaces</h3>
+        <ul class="footer__nav-list">
+          <li class="footer__nav-item" *ngFor="let link of extraLinks">
+            <a [href]="link.path" class="footer__nav-link">
+              {{ link.label }}
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <!-- Contacto -->
+      <nav class="footer__nav" aria-label="Contacto">
+        <h3 class="footer__nav-title">Contacto</h3>
+        <ul class="footer__nav-list">
+          <li class="footer__nav-item" *ngFor="let link of contactLinks">
+            <a [href]="link.path" class="footer__nav-link">
+              {{ link.label }}
+            </a>
+          </li>
+        </ul>
+      </nav>
+
       <!-- Redes sociales -->
       <div class="footer__social">
         <h3 class="footer__social-title">Síguenos</h3>
@@ -70,23 +94,10 @@
     
     <!-- ========== SECCIÓN INFERIOR ========== -->
     <div class="footer__bottom">
-      
       <!-- Copyright -->
       <p class="footer__copyright">
         &copy; {{ currentYear }} Pokédex. Todos los derechos reservados.
       </p>
-      
-      <!-- Enlaces legales -->
-      <nav class="footer__legal" aria-label="Enlaces legales">
-        <ul class="footer__legal-list">
-          <li class="footer__legal-item" *ngFor="let link of legalLinks">
-            <a [href]="link.path" class="footer__legal-link">
-              {{ link.label }}
-            </a>
-          </li>
-        </ul>
-      </nav>
-      
     </div>
     
   </div>

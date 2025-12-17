@@ -29,6 +29,11 @@
       <li><a (click)="scrollTo('tabs')">Tabs</a></li>
       <li><a (click)="scrollTo('accordion')">Accordion</a></li>
       <li><a (click)="scrollTo('tooltips')">Tooltips</a></li>
+      <li><a (click)="scrollTo('toasts')">Toasts</a></li>
+      <li><a (click)="scrollTo('loading')">Loading</a></li>
+      <li><a (click)="scrollTo('communication')">Communication</a></li>
+      <li><a (click)="scrollTo('separation')">API Service</a></li>
+      <li><a (click)="scrollTo('reactive-forms')">Forms Reactivos</a></li>
     </ul>
   </nav>
   
@@ -47,20 +52,20 @@
     <div class="style-guide__subsection">
       <h3 class="style-guide__subsection-title">Variantes</h3>
       <div class="style-guide__component-row">
-        <app-button variant="primary" (buttonClick)="onButtonClick('primary')">Primary</app-button>
-        <app-button variant="secondary" (buttonClick)="onButtonClick('secondary')">Secondary</app-button>
-        <app-button variant="ghost" (buttonClick)="onButtonClick('ghost')">Ghost</app-button>
-        <app-button variant="danger" (buttonClick)="onButtonClick('danger')">Danger</app-button>
+        <app-button variant="primary" (buttonClick)="onButtonClick('primary')">Primario</app-button>
+        <app-button variant="secondary" (buttonClick)="onButtonClick('secondary')">Secundario</app-button>
+        <app-button variant="ghost" (buttonClick)="onButtonClick('ghost')">Fantasma</app-button>
+        <app-button variant="danger" (buttonClick)="onButtonClick('danger')">Peligro</app-button>
       </div>
     </div>
-    
+
     <!-- Tamaños -->
     <div class="style-guide__subsection">
       <h3 class="style-guide__subsection-title">Tamaños</h3>
       <div class="style-guide__component-row style-guide__component-row--align-end">
-        <app-button variant="primary" size="sm">Small</app-button>
-        <app-button variant="primary" size="md">Medium</app-button>
-        <app-button variant="primary" size="lg">Large</app-button>
+        <app-button variant="primary" size="sm">Pequeño</app-button>
+        <app-button variant="primary" size="md">Mediano</app-button>
+        <app-button variant="primary" size="lg">Grande</app-button>
       </div>
     </div>
     
@@ -80,8 +85,8 @@
       <h3 class="style-guide__subsection-title">Estados</h3>
       <div class="style-guide__component-row">
         <app-button variant="primary">Normal</app-button>
-        <app-button variant="primary" [disabled]="true">Disabled</app-button>
-        <app-button variant="primary" [loading]="true">Loading</app-button>
+        <app-button variant="primary" [disabled]="true">Deshabilitado</app-button>
+        <app-button variant="primary" [loading]="true">Cargando</app-button>
       </div>
     </div>
     
@@ -336,33 +341,33 @@
     <div class="style-guide__subsection">
       <h3 class="style-guide__subsection-title">Variantes</h3>
       <div class="style-guide__component-row">
-        <app-badge variant="primary">Primary</app-badge>
-        <app-badge variant="secondary">Secondary</app-badge>
-        <app-badge variant="success">Success</app-badge>
+        <app-badge variant="primary">Primario</app-badge>
+        <app-badge variant="secondary">Secundario</app-badge>
+        <app-badge variant="success">Éxito</app-badge>
         <app-badge variant="error">Error</app-badge>
-        <app-badge variant="warning">Warning</app-badge>
+        <app-badge variant="warning">Alerta</app-badge>
         <app-badge variant="info">Info</app-badge>
       </div>
     </div>
-    
+
     <!-- Outline -->
     <div class="style-guide__subsection">
       <h3 class="style-guide__subsection-title">Outline</h3>
       <div class="style-guide__component-row">
-        <app-badge variant="primary" [outline]="true">Primary</app-badge>
-        <app-badge variant="secondary" [outline]="true">Secondary</app-badge>
-        <app-badge variant="success" [outline]="true">Success</app-badge>
+        <app-badge variant="primary" [outline]="true">Primario</app-badge>
+        <app-badge variant="secondary" [outline]="true">Secundario</app-badge>
+        <app-badge variant="success" [outline]="true">Éxito</app-badge>
         <app-badge variant="error" [outline]="true">Error</app-badge>
       </div>
     </div>
-    
+
     <!-- Tamaños -->
     <div class="style-guide__subsection">
       <h3 class="style-guide__subsection-title">Tamaños</h3>
       <div class="style-guide__component-row style-guide__component-row--align-center">
-        <app-badge variant="primary" size="sm">Small</app-badge>
-        <app-badge variant="primary" size="md">Medium</app-badge>
-        <app-badge variant="primary" size="lg">Large</app-badge>
+        <app-badge variant="primary" size="sm">Pequeño</app-badge>
+        <app-badge variant="primary" size="md">Mediano</app-badge>
+        <app-badge variant="primary" size="lg">Grande</app-badge>
       </div>
     </div>
     
@@ -610,6 +615,326 @@
       </div>
     </div>
 
+  </section>
+
+  <!-- ======================================================================
+       SECCIÓN: TOASTS
+       ====================================================================== -->
+  <section id="toasts" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Toasts</h2>
+      <p class="style-guide__section-description">
+        Sistema de notificaciones con <code>ToastService</code>. Los toasts se muestran
+        automáticamente y se auto-eliminan después de un tiempo configurable.
+      </p>
+    </header>
+
+    <!-- Tipos de toast -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Tipos de notificación</h3>
+      <div class="style-guide__component-row">
+        <app-button variant="primary" (buttonClick)="showSuccessToast()">
+          Éxito
+        </app-button>
+        <app-button variant="danger" (buttonClick)="showErrorToast()">
+          Error
+        </app-button>
+        <app-button variant="secondary" (buttonClick)="showWarningToast()">
+          Advertencia
+        </app-button>
+        <app-button variant="ghost" (buttonClick)="showInfoToast()">
+          Información
+        </app-button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======================================================================
+       SECCIÓN: LOADING
+       ====================================================================== -->
+  <section id="loading" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Loading</h2>
+      <p class="style-guide__section-description">
+        Spinner global con <code>LoadingService</code>. Muestra un overlay
+        durante operaciones asíncronas.
+      </p>
+    </header>
+
+    <!-- Demo de loading -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Demo</h3>
+      <div class="style-guide__component-row">
+        <app-button variant="primary" (buttonClick)="showLoading()">
+          Mostrar Loading (3s)
+        </app-button>
+      </div>
+      <p class="style-guide__note">
+        El spinner se ocultará automáticamente después de 3 segundos.
+      </p>
+    </div>
+
+  </section>
+
+  <!-- ======================================================================
+       SECCIÓN: COMMUNICATION SERVICE
+       ====================================================================== -->
+  <section id="communication" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Communication Service</h2>
+      <p class="style-guide__section-description">
+        Servicio de comunicación entre componentes con <code>CommunicationService</code>.
+        Permite compartir datos entre componentes hermanos o no relacionados usando BehaviorSubject.
+      </p>
+    </header>
+
+    <!-- Demo de comunicación -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Demo: Comunicación entre componentes</h3>
+      <p class="style-guide__note">
+        Esta demo muestra cómo dos componentes pueden comunicarse sin tener relación padre-hijo.
+        El "Emisor" envía datos y el "Receptor" los recibe en tiempo real.
+      </p>
+
+      <div class="style-guide__communication-demo">
+        <!-- Componente Emisor -->
+        <div class="style-guide__comm-panel style-guide__comm-panel--sender">
+          <h4 class="style-guide__comm-panel-title">Componente emisor</h4>
+
+          <!-- Seleccionar Pokémon -->
+          <div class="style-guide__comm-control">
+            <label>Seleccionar Pokémon:</label>
+            <div class="style-guide__component-row">
+              <app-button
+                variant="primary"
+                size="sm"
+                (buttonClick)="selectPokemonDemo(25)">
+                Pikachu (#25)
+              </app-button>
+              <app-button
+                variant="secondary"
+                size="sm"
+                (buttonClick)="selectPokemonDemo(6)">
+                Charizard (#6)
+              </app-button>
+              <app-button
+                variant="ghost"
+                size="sm"
+                (buttonClick)="selectPokemonDemo(150)">
+                Mewtwo (#150)
+              </app-button>
+            </div>
+          </div>
+
+          <!-- Enviar notificación -->
+          <div class="style-guide__comm-control">
+            <label>Enviar notificación:</label>
+            <div class="style-guide__component-row">
+              <app-button
+                variant="primary"
+                size="sm"
+                (buttonClick)="sendNotificationDemo('¡Pokémon capturado!')">
+                Capturado
+              </app-button>
+              <app-button
+                variant="danger"
+                size="sm"
+                (buttonClick)="sendNotificationDemo('¡El Pokémon escapó!')">
+                Escapó
+              </app-button>
+            </div>
+          </div>
+
+          <!-- Filtro de búsqueda -->
+          <div class="style-guide__comm-control">
+            <label>Actualizar filtro:</label>
+            <app-form-input
+              inputId="demo-filter"
+              name="filter"
+              type="text"
+              placeholder="Escribe para filtrar..."
+              (input)="onFilterChange($event)">
+            </app-form-input>
+          </div>
+        </div>
+
+        <!-- Componente Receptor -->
+        <div class="style-guide__comm-panel style-guide__comm-panel--receiver">
+          <h4 class="style-guide__comm-panel-title">Componente receptor</h4>
+
+          <div class="style-guide__comm-data">
+            <div class="style-guide__comm-data-item">
+              <span class="style-guide__comm-label">Pokémon seleccionado:</span>
+              <span class="style-guide__comm-value">
+                @if (selectedPokemonId$ | async; as pokemonId) {
+                  #{{ pokemonId }} - {{ getPokemonName(pokemonId) }}
+                } @else {
+                  Ninguno
+                }
+              </span>
+            </div>
+
+            <div class="style-guide__comm-data-item">
+              <span class="style-guide__comm-label">Última notificación:</span>
+              <span class="style-guide__comm-value">
+                {{ (lastNotification$ | async) || 'Sin notificaciones' }}
+              </span>
+            </div>
+
+            <div class="style-guide__comm-data-item">
+              <span class="style-guide__comm-label">Filtro actual:</span>
+              <span class="style-guide__comm-value">
+                "{{ (searchFilter$ | async) || '' }}"
+              </span>
+            </div>
+          </div>
+
+          <!-- Botón para limpiar -->
+          <app-button
+            variant="ghost"
+            size="sm"
+            (buttonClick)="clearCommunicationDemo()">
+            Limpiar todo
+          </app-button>
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======================================================================
+       SECCIÓN: SEPARACIÓN DE RESPONSABILIDADES
+       ====================================================================== -->
+  <section id="separation" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Separacion de responsabilidades</h2>
+      <p class="style-guide__section-description">
+        Demo del patrón de separación de responsabilidades usando <code>PokemonService</code>.
+        El servicio encapsula la lógica de negocio (API calls, transformación de datos),
+        mientras el componente solo se encarga de la presentación.
+      </p>
+    </header>
+
+    <!-- Demo de API -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Demo: Cargar Pokemon desde API</h3>
+      <p class="style-guide__note">
+        El componente no conoce la URL de la API ni cómo transformar los datos.
+        Solo llama al servicio y muestra el resultado.
+      </p>
+
+      <div class="style-guide__api-demo">
+        <!-- Controles -->
+        <div class="style-guide__api-controls">
+          <label>Cargar Pokemon por ID:</label>
+          <div class="style-guide__component-row">
+            <app-button
+              variant="primary"
+              size="sm"
+              (buttonClick)="loadPokemon(25)">
+              Pikachu (#25)
+            </app-button>
+            <app-button
+              variant="secondary"
+              size="sm"
+              (buttonClick)="loadPokemon(6)">
+              Charizard (#6)
+            </app-button>
+            <app-button
+              variant="ghost"
+              size="sm"
+              (buttonClick)="loadPokemon(150)">
+              Mewtwo (#150)
+            </app-button>
+            <app-button
+              variant="danger"
+              size="sm"
+              (buttonClick)="loadRandomPokemon()">
+              Aleatorio
+            </app-button>
+          </div>
+        </div>
+
+        <!-- Resultado -->
+        <div class="style-guide__api-result">
+          @if (pokemonServiceLoading$ | async) {
+            <div class="style-guide__api-loading">
+              Cargando datos del Pokemon...
+            </div>
+          } @else if (currentPokemon$ | async; as pokemon) {
+            <div class="style-guide__pokemon-card-demo">
+              <div class="style-guide__pokemon-image">
+                <img [src]="pokemon.image" [alt]="pokemon.name" />
+              </div>
+              <div class="style-guide__pokemon-info">
+                <h4 class="style-guide__pokemon-name">
+                  #{{ pokemon.id }} {{ pokemon.name }}
+                </h4>
+                <div class="style-guide__pokemon-types">
+                  @for (type of pokemon.types; track type.name) {
+                    <span
+                      class="style-guide__pokemon-type"
+                      [style.background-color]="type.color">
+                      {{ type.name }}
+                    </span>
+                  }
+                </div>
+                <div class="style-guide__pokemon-physical">
+                  <span>Altura: {{ pokemon.height }}m</span>
+                  <span>Peso: {{ pokemon.weight }}kg</span>
+                </div>
+                <div class="style-guide__pokemon-stats">
+                  @for (stat of pokemon.stats; track stat.name) {
+                    <div class="style-guide__stat-row">
+                      <span class="style-guide__stat-name">{{ stat.name }}</span>
+                      <div class="style-guide__stat-bar">
+                        <div
+                          class="style-guide__stat-fill"
+                          [style.width.%]="(stat.value / 255) * 100">
+                        </div>
+                      </div>
+                      <span class="style-guide__stat-value">{{ stat.value }}</span>
+                    </div>
+                  }
+                </div>
+              </div>
+            </div>
+          } @else {
+            <div class="style-guide__api-empty">
+              Selecciona un Pokemon para ver sus datos
+            </div>
+          }
+        </div>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======================================================================
+       SECCIÓN: FORMULARIOS REACTIVOS
+       ====================================================================== -->
+  <section id="reactive-forms" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Formularios Reactivos</h2>
+      <p class="style-guide__section-description">
+        Demostración completa de formularios reactivos con validaciones síncronas, asíncronas,
+        validadores personalizados, FormArrays dinámicos y directivas de máscara de entrada.
+      </p>
+    </header>
+
+    <div class="style-guide__demo-block">
+      <p class="style-guide__demo-text">
+        Hemos creado una página dedicada con ejemplos completos de formularios reactivos en Angular.
+        Incluye un formulario de registro con validación de contraseña, NIF español, teléfonos y
+        un formulario de factura con arrays dinámicos.
+      </p>
+      <div class="style-guide__demo-actions">
+        <a href="/forms-demo" class="style-guide__link-button">
+          Ver demostración de formularios
+        </a>
+      </div>
+    </div>
   </section>
 
 </div>

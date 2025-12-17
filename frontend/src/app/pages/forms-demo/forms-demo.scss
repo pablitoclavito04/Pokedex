@@ -1,0 +1,655 @@
+// ============================================================================
+//                    FORMS DEMO PAGE - Estilos
+// ============================================================================
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                        CONTENEDOR PRINCIPAL
+// ============================================================================
+
+:host {
+  display: block;
+  background: var(--bg-primary, #{map-get($light-theme, bg-primary)});
+  min-height: 100vh;
+}
+
+.forms-demo {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: $spacing-8 $spacing-4;
+
+  @include respond-to('sm') {
+    padding: $spacing-10 $spacing-6;
+  }
+
+  @include respond-to('lg') {
+    padding: $spacing-12 $spacing-8;
+  }
+
+  // ============================================================================
+  //                                HEADER
+  // ============================================================================
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-10;
+    padding-bottom: $spacing-8;
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-4;
+
+    @include respond-to('sm') {
+      font-size: $font-size-5xl;
+    }
+  }
+
+  &__description {
+    font-size: $font-size-lg;
+    color: var(--text-secondary);
+    max-width: 700px;
+    margin: 0 auto;
+    line-height: $leading-relaxed;
+  }
+
+  // ============================================================================
+  //                              SECCIONES
+  // ============================================================================
+  &__section {
+    margin-bottom: $spacing-12;
+    padding-bottom: $spacing-10;
+    border-bottom: 1px solid var(--border-primary);
+
+    &:last-child {
+      border-bottom: none;
+      margin-bottom: 0;
+    }
+  }
+
+  &__section-header {
+    margin-bottom: $spacing-8;
+  }
+
+  &__section-title {
+    font-family: $font-secondary;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-2;
+
+    @include respond-to('sm') {
+      font-size: $font-size-3xl;
+    }
+  }
+
+  &__section-description {
+    font-size: $font-size-base;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  // ============================================================================
+  //                              FORMULARIOS
+  // ============================================================================
+  &__form {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: $border-radius-lg;
+    padding: $spacing-6;
+
+    @include respond-to('sm') {
+      padding: $spacing-8;
+    }
+  }
+
+  &__form-section {
+    margin-bottom: $spacing-8;
+    padding-bottom: $spacing-6;
+    border-bottom: 1px solid var(--border-secondary);
+
+    &:last-of-type {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: $spacing-6;
+    }
+  }
+
+  &__form-section-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-4;
+  }
+
+  &__form-section-hint {
+    font-size: $font-size-sm;
+    color: var(--text-tertiary);
+    margin: -$spacing-2 0 $spacing-4;
+    font-style: italic;
+  }
+
+  &__form-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-4;
+
+    @include respond-to('sm') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__form-actions {
+    display: flex;
+    gap: $spacing-3;
+    justify-content: flex-start;
+    padding-top: $spacing-4;
+  }
+
+  // ============================================================================
+  //                          PASSWORD FIELD
+  // ============================================================================
+  &__password-field {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__password-requirements {
+    list-style: none;
+    margin: $spacing-2 0 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+  }
+
+  &__password-requirement {
+    font-size: $font-size-xs;
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+
+    &--error {
+      color: var(--error);
+    }
+
+    &--success {
+      color: var(--success);
+    }
+  }
+
+  &__confirm-password {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__error-message {
+    font-size: $font-size-sm;
+    color: var(--error);
+    margin-top: $spacing-1;
+  }
+
+  // ============================================================================
+  //                          FORM FIELDS
+  // ============================================================================
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+
+    &--flex {
+      flex: 1;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--text-primary);
+  }
+
+  &__required {
+    color: var(--error);
+  }
+
+  &__input,
+  &__select,
+  &__textarea {
+    width: 100%;
+    padding: $spacing-3;
+    border: 1px solid var(--border-primary);
+    border-radius: $border-radius-md;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: $font-size-base;
+    transition: border-color $duration-fast $ease-out, box-shadow $duration-fast $ease-out;
+
+    &::placeholder {
+      color: var(--text-tertiary);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(var(--primary-rgb, 59, 130, 246), 0.1);
+    }
+
+    &--error {
+      border-color: var(--error);
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba(var(--error-rgb, 239, 68, 68), 0.1);
+      }
+    }
+
+    &--valid {
+      border-color: var(--success);
+    }
+
+    &--pending {
+      border-color: var(--warning);
+    }
+  }
+
+  &__textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  &__hint {
+    font-size: $font-size-xs;
+    color: var(--text-tertiary);
+  }
+
+  &__error {
+    font-size: $font-size-sm;
+    color: var(--error);
+    display: block;
+  }
+
+  &__async-status {
+    font-size: $font-size-sm;
+    color: var(--warning);
+    font-style: italic;
+  }
+
+  &__alert {
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  // ============================================================================
+  //                          CHECKBOX & RADIO
+  // ============================================================================
+  &__checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    cursor: pointer;
+    font-size: $font-size-base;
+    color: var(--text-primary);
+  }
+
+  &__checkbox {
+    appearance: auto;
+    -webkit-appearance: checkbox;
+    width: 18px;
+    height: 18px;
+    min-width: 18px;
+    min-height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+    margin: 0;
+  }
+
+  &__radio-group {
+    display: flex;
+    gap: $spacing-4;
+    align-items: center;
+
+    &--full {
+      grid-column: 1 / -1;
+    }
+  }
+
+  &__radio-label {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    cursor: pointer;
+    font-size: $font-size-sm;
+    color: var(--text-secondary);
+
+    input[type="radio"] {
+      accent-color: var(--primary);
+      cursor: pointer;
+    }
+  }
+
+  // ============================================================================
+  //                          FORM ARRAYS
+  // ============================================================================
+  &__array-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-4;
+  }
+
+  &__array-items {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+  }
+
+  &__array-item {
+    display: flex;
+    gap: $spacing-3;
+    align-items: flex-start;
+    padding: $spacing-4;
+    background: var(--bg-tertiary);
+    border-radius: $border-radius-md;
+    border: 1px solid var(--border-secondary);
+
+    &--direccion {
+      .forms-demo__array-item-content {
+        flex: 1;
+      }
+    }
+  }
+
+  &__array-item-content {
+    flex: 1;
+    display: flex;
+    gap: $spacing-4;
+    align-items: flex-end;
+
+    &--grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: $spacing-3;
+
+      @include respond-to('sm') {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    > * {
+      flex: 1;
+      min-width: 0;
+    }
+  }
+
+  &__array-item-remove {
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border-primary);
+    border-radius: $border-radius-md;
+    color: var(--text-tertiary);
+    font-size: $font-size-xl;
+    cursor: pointer;
+    transition: all $duration-fast $ease-out;
+    margin-top: $spacing-6;
+
+    &:hover {
+      background: var(--error);
+      border-color: var(--error);
+      color: white;
+    }
+  }
+
+  // ============================================================================
+  //                          ITEMS TABLE (Factura)
+  // ============================================================================
+  &__items-table {
+    border: 1px solid var(--border-primary);
+    border-radius: $border-radius-md;
+    overflow: hidden;
+  }
+
+  &__items-header {
+    display: none;
+    background: var(--bg-tertiary);
+    font-weight: $font-weight-semibold;
+    font-size: $font-size-sm;
+    color: var(--text-secondary);
+
+    @include respond-to('md') {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 50px;
+      gap: $spacing-2;
+      padding: $spacing-3 $spacing-4;
+    }
+  }
+
+  &__items-row {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+    padding: $spacing-4;
+    border-bottom: 1px solid var(--border-secondary);
+    background: var(--bg-secondary);
+
+    @include respond-to('md') {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr 50px;
+      gap: $spacing-2;
+      align-items: center;
+    }
+
+    &:last-child {
+      border-bottom: none;
+    }
+  }
+
+  &__items-cell {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+
+    @include respond-to('md') {
+      display: block;
+    }
+
+    &--subtotal {
+      font-weight: $font-weight-semibold;
+      color: var(--text-primary);
+      text-align: right;
+
+      @include respond-to('md') {
+        text-align: left;
+      }
+    }
+
+    &--actions {
+      align-items: flex-end;
+
+      @include respond-to('md') {
+        align-items: center;
+      }
+    }
+  }
+
+  &__items-cell-label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: var(--text-tertiary);
+
+    @include respond-to('md') {
+      display: none;
+    }
+  }
+
+  &__table-input {
+    width: 100%;
+    padding: $spacing-2 $spacing-3;
+    border: 1px solid var(--border-primary);
+    border-radius: $border-radius-md;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    font-size: $font-size-sm;
+    transition: border-color $duration-fast $ease-out;
+
+    &:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    &--number {
+      text-align: right;
+    }
+
+    &--error {
+      border-color: var(--error);
+    }
+  }
+
+  &__items-remove {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: 1px solid var(--border-primary);
+    border-radius: $border-radius-md;
+    color: var(--text-tertiary);
+    font-size: $font-size-lg;
+    cursor: pointer;
+    transition: all $duration-fast $ease-out;
+    margin-left: auto;
+
+    @include respond-to('md') {
+      margin-left: 0;
+    }
+
+    &:hover {
+      background: var(--error);
+      border-color: var(--error);
+      color: white;
+    }
+  }
+
+  &__items-total {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacing-4;
+    padding: $spacing-4;
+    background: var(--bg-tertiary);
+    font-weight: $font-weight-bold;
+    font-size: $font-size-lg;
+    color: var(--text-primary);
+  }
+
+  &__items-total-value {
+    color: var(--primary);
+  }
+
+  // ============================================================================
+  //                       CATÁLOGO DE VALIDADORES
+  // ============================================================================
+  &__validators-catalog {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-8;
+  }
+
+  &__validator-group {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: $border-radius-lg;
+    padding: $spacing-6;
+    overflow: hidden;
+  }
+
+  &__validator-group-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-4;
+    padding-bottom: $spacing-3;
+    border-bottom: 1px solid var(--border-secondary);
+  }
+
+  &__validators-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: $font-size-sm;
+
+    th, td {
+      padding: $spacing-3;
+      text-align: left;
+      border-bottom: 1px solid var(--border-secondary);
+    }
+
+    th {
+      font-weight: $font-weight-semibold;
+      color: var(--text-secondary);
+      background: var(--bg-tertiary);
+    }
+
+    td {
+      color: var(--text-primary);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    code {
+      font-family: $font-mono;
+      font-size: $font-size-xs;
+      background: var(--bg-tertiary);
+      padding: $spacing-1 $spacing-2;
+      border-radius: $border-radius-sm;
+      color: var(--primary);
+    }
+
+    // Responsive: convertir a cards en mobile
+    @media (max-width: 767px) {
+      thead {
+        display: none;
+      }
+
+      tbody {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-3;
+      }
+
+      tr {
+        display: flex;
+        flex-direction: column;
+        background: var(--bg-tertiary);
+        border-radius: $border-radius-md;
+        padding: $spacing-3;
+      }
+
+      td {
+        border-bottom: none;
+        padding: $spacing-1 0;
+
+        &:first-child {
+          font-weight: $font-weight-semibold;
+          margin-bottom: $spacing-2;
+        }
+
+        &:last-child {
+          margin-top: $spacing-2;
+          padding-top: $spacing-2;
+          border-top: 1px dashed var(--border-secondary);
+        }
+      }
+    }
+  }
+}

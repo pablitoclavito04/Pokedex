@@ -308,4 +308,294 @@
     color: var(--text-primary);
     cursor: help;
   }
+
+  // Nota explicativa
+  &__note {
+    font-size: $font-size-sm;
+    color: var(--text-secondary);
+    margin-top: $spacing-3;
+    font-style: italic;
+  }
+
+  // ============================================================================
+  //                    COMMUNICATION SERVICE DEMO
+  // ============================================================================
+
+  &__communication-demo {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-6;
+
+    @include respond-to('md') {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  &__comm-panel {
+    padding: $spacing-5;
+    border-radius: $border-radius-lg;
+    border: 2px solid var(--border-primary);
+
+    &--sender {
+      background: var(--bg-secondary);
+    }
+
+    &--receiver {
+      background: var(--bg-tertiary);
+    }
+  }
+
+  &__comm-panel-title {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-4;
+    padding-bottom: $spacing-2;
+    border-bottom: 1px solid var(--border-primary);
+  }
+
+  &__comm-control {
+    margin-bottom: $spacing-4;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    > label {
+      display: block;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      color: var(--text-secondary);
+      margin-bottom: $spacing-2;
+    }
+  }
+
+  &__comm-data {
+    margin-bottom: $spacing-4;
+  }
+
+  &__comm-data-item {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+    padding: $spacing-3;
+    background: var(--bg-secondary);
+    border-radius: $border-radius-md;
+    margin-bottom: $spacing-3;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__comm-label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  &__comm-value {
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    color: var(--text-primary);
+  }
+
+  // ============================================================================
+  //                    API SERVICE DEMO (Separación de responsabilidades)
+  // ============================================================================
+
+  &__api-demo {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-6;
+  }
+
+  &__api-controls {
+    > label {
+      display: block;
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+      color: var(--text-secondary);
+      margin-bottom: $spacing-2;
+    }
+  }
+
+  &__api-result {
+    min-height: 200px;
+    padding: $spacing-6;
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-primary);
+    border-radius: $border-radius-lg;
+  }
+
+  &__api-loading,
+  &__api-empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: var(--text-tertiary);
+    font-size: $font-size-base;
+  }
+
+  &__pokemon-card-demo {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: $spacing-6;
+
+    @media (max-width: 600px) {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+  }
+
+  &__pokemon-image {
+    img {
+      width: 150px;
+      height: 150px;
+      object-fit: contain;
+    }
+  }
+
+  &__pokemon-info {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+  }
+
+  &__pokemon-name {
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+    margin: 0;
+  }
+
+  &__pokemon-types {
+    display: flex;
+    gap: $spacing-2;
+    flex-wrap: wrap;
+
+    @media (max-width: 600px) {
+      justify-content: center;
+    }
+  }
+
+  &__pokemon-type {
+    display: inline-block;
+    padding: $spacing-1 $spacing-3;
+    border-radius: $border-radius-full;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: white;
+  }
+
+  &__pokemon-physical {
+    display: flex;
+    gap: $spacing-4;
+    font-size: $font-size-sm;
+    color: var(--text-secondary);
+
+    @media (max-width: 600px) {
+      justify-content: center;
+    }
+  }
+
+  &__pokemon-stats {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+    margin-top: $spacing-2;
+  }
+
+  &__stat-row {
+    display: grid;
+    grid-template-columns: 80px 1fr 40px;
+    gap: $spacing-2;
+    align-items: center;
+  }
+
+  &__stat-name {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-medium;
+    color: var(--text-secondary);
+  }
+
+  &__stat-bar {
+    height: 8px;
+    background: var(--bg-tertiary);
+    border-radius: $border-radius-full;
+    overflow: hidden;
+  }
+
+  &__stat-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #4CAF50, #8BC34A);
+    border-radius: $border-radius-full;
+    transition: width $duration-base $ease-out;
+  }
+
+  &__stat-value {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+    text-align: right;
+  }
+
+  // ============================================================================
+  //                          DEMO BLOCK (Formularios)
+  // ============================================================================
+  &__demo-block {
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: $border-radius-lg;
+    padding: $spacing-6;
+    text-align: center;
+
+    @include respond-to('sm') {
+      padding: $spacing-8;
+    }
+  }
+
+  &__demo-text {
+    font-size: $font-size-base;
+    color: var(--text-secondary);
+    line-height: $leading-relaxed;
+    margin: 0 0 $spacing-6;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  &__demo-actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__link-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-3 $spacing-6;
+    background: #3b82f6;
+    background: var(--primary, #3b82f6);
+    color: #ffffff !important;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    text-decoration: none;
+    border-radius: $border-radius-md;
+    transition: all $duration-fast $ease-out;
+
+    &:hover {
+      background: #2563eb;
+      background: var(--primary-dark, #2563eb);
+      color: #ffffff !important;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
 }

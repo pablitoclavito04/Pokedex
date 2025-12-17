@@ -20,6 +20,13 @@ export const routes: Routes = [
     title: 'Style Guide - Pokédex'
   },
 
+  // Forms Demo - Demostración de formularios reactivos
+  {
+    path: 'forms-demo',
+    loadComponent: () => import('./pages/forms-demo/forms-demo').then(m => m.FormsDemoComponent),
+    title: 'Formularios Reactivos - Pokédex'
+  },
+
   // Pokédex (lista de Pokémon)
   // {
   //   path: 'pokedex',
