@@ -573,9 +573,9 @@ describe('ToastService', () => {
 
 ---
 
-# Fase 3: Formularios Reactivos
+# Fase 3: Formularios Reactivos.
 
-Criterios: RA6.b, RA6.f
+Criterios: RA6.d, RA6.e, RA6.h
 
 ## Diagrama de Arquitectura de Formularios
 

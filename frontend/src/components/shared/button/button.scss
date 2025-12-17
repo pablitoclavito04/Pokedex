@@ -100,14 +100,14 @@
     background: $color-error;
     color: #ffffff;
     border-color: $color-error;
-    
+
     &:hover:not(:disabled) {
       background: darken($color-error, 10%);
       border-color: darken($color-error, 10%);
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba($color-error, 0.4);
     }
-    
+
     &:active:not(:disabled) {
       background: darken($color-error, 15%);
       border-color: darken($color-error, 15%);
