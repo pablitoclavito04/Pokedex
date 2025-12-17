@@ -20,12 +20,15 @@
   <nav class="style-guide__nav" aria-label="Índice de componentes">
     <h2 class="style-guide__nav-title">Componentes</h2>
     <ul class="style-guide__nav-list">
-      <li><a href="#buttons">Botones</a></li>
-      <li><a href="#cards">Cards</a></li>
-      <li><a href="#forms">Formularios</a></li>
-      <li><a href="#alerts">Alertas</a></li>
-      <li><a href="#badges">Badges</a></li>
-      <li><a href="#modals">Modales</a></li>
+      <li><a (click)="scrollTo('buttons')">Botones</a></li>
+      <li><a (click)="scrollTo('cards')">Cards</a></li>
+      <li><a (click)="scrollTo('forms')">Formularios</a></li>
+      <li><a (click)="scrollTo('alerts')">Alertas</a></li>
+      <li><a (click)="scrollTo('badges')">Badges</a></li>
+      <li><a (click)="scrollTo('modals')">Modales</a></li>
+      <li><a (click)="scrollTo('tabs')">Tabs</a></li>
+      <li><a (click)="scrollTo('accordion')">Accordion</a></li>
+      <li><a (click)="scrollTo('tooltips')">Tooltips</a></li>
     </ul>
   </nav>
   
@@ -99,47 +102,31 @@
     <header class="style-guide__section-header">
       <h2 class="style-guide__section-title">Cards</h2>
       <p class="style-guide__section-description">
-        Componente <code>app-card</code> con variantes vertical y horizontal.
+        Componente <code>app-card</code> con variantes vertical, horizontal y pokemon.
       </p>
     </header>
-    
-    <!-- Card Vertical -->
+
+    <!-- Card Pokemon -->
     <div class="style-guide__subsection">
-      <h3 class="style-guide__subsection-title">Card Vertical</h3>
+      <h3 class="style-guide__subsection-title">Card Pokemon</h3>
       <div class="style-guide__cards-grid">
-        <app-card
-          variant="vertical"
-          imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png"
-          imageAlt="Pikachu"
-          subtitle="Eléctrico"
-          title="Pikachu"
-          description="Cuando se enfada, este Pokémon descarga la energía que almacena en el interior de los sacos de sus mejillas."
-          actionText="Ver más">
-        </app-card>
-        
-        <app-card
-          variant="vertical"
-          [clickable]="true"
-          imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png"
-          imageAlt="Charizard"
-          subtitle="Fuego / Volador"
-          title="Charizard"
-          description="Escupe un fuego tan caliente que funde las rocas. Causa incendios forestales sin querer.">
-        </app-card>
-        
-        <app-card
-          variant="vertical"
-          [elevated]="true"
-          imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png"
-          imageAlt="Blastoise"
-          subtitle="Agua"
-          title="Blastoise"
-          description="Los chorros de agua que escupe de los cañones de su caparazón pueden perforar el acero."
-          actionText="Más información">
-        </app-card>
+        @for (pokemon of pokemonCards; track pokemon.number; let i = $index) {
+          <app-card
+            variant="pokemon"
+            [imageUrl]="pokemon.image"
+            [imageAlt]="pokemon.name"
+            [title]="pokemon.name"
+            [pokemonNumber]="pokemon.number"
+            [types]="pokemon.types"
+            [isFavorite]="pokemon.isFavorite"
+            actionText="Más información"
+            (favoriteClick)="onPokemonFavorite(i)"
+            (actionClick)="onPokemonAction(pokemon.name)">
+          </app-card>
+        }
       </div>
     </div>
-    
+
     <!-- Card Horizontal -->
     <div class="style-guide__subsection">
       <h3 class="style-guide__subsection-title">Card Horizontal</h3>
@@ -148,20 +135,23 @@
           variant="horizontal"
           imageUrl="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png"
           imageAlt="Mewtwo"
-          subtitle="Psíquico"
           title="Mewtwo"
+          pokemonNumber="150"
+          [types]="mewtwoTypes"
+          [isFavorite]="isMewtwoFavorite"
           description="Fue creado por un científico tras años de horribles experimentos de ingeniería genética."
-          actionText="Ver detalle">
+          actionText="Más información"
+          (favoriteClick)="onMewtwoFavorite()">
         </app-card>
       </div>
     </div>
-    
+
   </section>
   
   <!-- ======================================================================
        SECCIÓN: FORMULARIOS
        ====================================================================== -->
-  <section id="forms" class="style-guide__section">
+  <section id="forms" class="style-guide__section style-guide__section--white-bg">
     <header class="style-guide__section-header">
       <h2 class="style-guide__section-title">Formularios</h2>
       <p class="style-guide__section-description">
@@ -179,7 +169,8 @@
           type="text"
           label="Nombre"
           placeholder="Escribe tu nombre"
-          helpText="Este es un texto de ayuda">
+          helpText="Este es un texto de ayuda"
+          [required]="true">
         </app-form-input>
         
         <app-form-input
@@ -431,12 +422,12 @@
   </section>
   
   <!-- ========== MODAL DE DEMO ========== -->
-  <app-modal 
-    [isOpen]="isModalOpen" 
+  <app-modal
+    [isOpen]="isModalOpen"
     title="Información del Pokémon"
     size="md"
     (closed)="closeModal()">
-    
+
     <p>Este es el contenido del modal. Puedes poner cualquier cosa aquí:</p>
     <ul>
       <li>Información detallada</li>
@@ -445,12 +436,180 @@
       <li>Imágenes</li>
     </ul>
     <p>Presiona ESC o haz clic fuera para cerrar.</p>
-    
+
     <div modal-footer>
       <app-button variant="ghost" (buttonClick)="closeModal()">Cancelar</app-button>
       <app-button variant="primary" (buttonClick)="closeModal()">Aceptar</app-button>
     </div>
-    
+
   </app-modal>
-  
+
+  <!-- ======================================================================
+       SECCIÓN: TABS
+       ====================================================================== -->
+  <section id="tabs" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Tabs</h2>
+      <p class="style-guide__section-description">
+        Componente <code>app-tabs</code> para navegación por pestañas con soporte de teclado.
+      </p>
+    </header>
+
+    <!-- Demo de Tabs -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Demo interactiva</h3>
+      <div class="style-guide__component-stack">
+        <app-tabs
+          [tabs]="pokemonTabs"
+          [activeTabId]="activeTabDefault"
+          variant="default"
+          (tabChange)="onTabChangeDefault($event)">
+          <app-tab-panel id="stats" [active]="activeTabDefault === 'stats'">
+            <div class="style-guide__tab-content">
+              <h4>Estadísticas de Pikachu</h4>
+              <ul>
+                <li>HP: 35</li>
+                <li>Ataque: 55</li>
+                <li>Defensa: 40</li>
+                <li>Velocidad: 90</li>
+              </ul>
+            </div>
+          </app-tab-panel>
+          <app-tab-panel id="moves" [active]="activeTabDefault === 'moves'">
+            <div class="style-guide__tab-content">
+              <h4>Movimientos de Pikachu</h4>
+              <ul>
+                <li>Impactrueno</li>
+                <li>Rayo</li>
+                <li>Ataque Rápido</li>
+                <li>Cola Férrea</li>
+              </ul>
+            </div>
+          </app-tab-panel>
+          <app-tab-panel id="evolution" [active]="activeTabDefault === 'evolution'">
+            <div class="style-guide__tab-content">
+              <h4>Línea Evolutiva de Pikachu</h4>
+              <p>Pichu → Pikachu → Raichu</p>
+            </div>
+          </app-tab-panel>
+          <app-tab-panel id="locations" [active]="activeTabDefault === 'locations'">
+            <div class="style-guide__tab-content">
+              <h4>Ubicaciones de Pikachu</h4>
+              <ul>
+                <li>Bosque Verde</li>
+                <li>Central Eléctrica</li>
+                <li>Safari Zone</li>
+              </ul>
+            </div>
+          </app-tab-panel>
+        </app-tabs>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======================================================================
+       SECCIÓN: ACCORDION
+       ====================================================================== -->
+  <section id="accordion" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Accordion</h2>
+      <p class="style-guide__section-description">
+        Componente <code>app-accordion</code> para contenido colapsable con navegación por teclado.
+      </p>
+    </header>
+
+    <!-- Variante Default -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Variante Default</h3>
+      <div class="style-guide__component-stack">
+        <app-accordion
+          [items]="pokemonFaqs"
+          [multiple]="false"
+          variant="default"
+          (itemToggle)="onAccordionToggle($event)">
+        </app-accordion>
+      </div>
+    </div>
+
+    <!-- Variante Bordered -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Variante Bordered</h3>
+      <div class="style-guide__component-stack">
+        <app-accordion
+          [items]="pokemonFaqs"
+          [multiple]="true"
+          variant="bordered"
+          (itemToggle)="onAccordionToggle($event)">
+        </app-accordion>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ======================================================================
+       SECCIÓN: TOOLTIPS
+       ====================================================================== -->
+  <section id="tooltips" class="style-guide__section">
+    <header class="style-guide__section-header">
+      <h2 class="style-guide__section-title">Tooltips</h2>
+      <p class="style-guide__section-description">
+        Componente <code>app-tooltip</code> para mostrar información adicional al hacer hover o focus.
+      </p>
+    </header>
+
+    <!-- Posiciones -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Posiciones</h3>
+      <div class="style-guide__component-row style-guide__component-row--spaced">
+        <app-tooltip text="Tooltip arriba" position="top">
+          <app-button variant="secondary">Top</app-button>
+        </app-tooltip>
+
+        <app-tooltip text="Tooltip abajo" position="bottom">
+          <app-button variant="secondary">Bottom</app-button>
+        </app-tooltip>
+
+        <app-tooltip text="Tooltip izquierda" position="left">
+          <app-button variant="secondary">Left</app-button>
+        </app-tooltip>
+
+        <app-tooltip text="Tooltip derecha" position="right">
+          <app-button variant="secondary">Right</app-button>
+        </app-tooltip>
+      </div>
+    </div>
+
+    <!-- Con diferentes elementos -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Diferentes elementos</h3>
+      <div class="style-guide__component-row">
+        <app-tooltip text="Este es un badge de tipo Fuego" position="top">
+          <app-badge variant="error">Fuego</app-badge>
+        </app-tooltip>
+
+        <app-tooltip text="Haz clic para ver más información" position="top">
+          <app-button variant="primary" iconLeft="plus">Añadir Pokémon</app-button>
+        </app-tooltip>
+
+        <app-tooltip text="HP: Puntos de salud del Pokémon" position="bottom">
+          <span class="style-guide__stat-label">HP: 100</span>
+        </app-tooltip>
+      </div>
+    </div>
+
+    <!-- Tooltip largo -->
+    <div class="style-guide__subsection">
+      <h3 class="style-guide__subsection-title">Texto largo</h3>
+      <div class="style-guide__component-row">
+        <app-tooltip
+          text="Los Pokémon de tipo Eléctrico son inmunes a la parálisis y tienen ventaja contra los tipos Agua y Volador."
+          position="top">
+          <app-badge variant="warning">Eléctrico</app-badge>
+        </app-tooltip>
+      </div>
+    </div>
+
+  </section>
+
 </div>

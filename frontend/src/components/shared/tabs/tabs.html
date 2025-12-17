@@ -1,0 +1,33 @@
+<!-- ============================================================================
+     TABS COMPONENT - Pestañas interactivas con navegación por teclado
+     ============================================================================ -->
+<div [class]="containerClasses">
+  <!-- Lista de pestañas con rol tablist para accesibilidad -->
+  <div class="tabs__list" role="tablist" aria-label="Pestañas de navegación">
+    @for (tab of tabs; track tab.id; let i = $index) {
+      <button
+        class="{{ getTabClasses(tab) }}"
+        role="tab"
+        [id]="'tab-' + tab.id"
+        [attr.aria-selected]="isActive(tab)"
+        [attr.aria-controls]="'panel-' + tab.id"
+        [attr.aria-disabled]="tab.disabled || null"
+        [tabindex]="getTabIndex(tab, i)"
+        [disabled]="tab.disabled"
+        (click)="selectTab(tab)"
+        (keydown)="onKeyDown($event, i)">
+        <!-- Icono opcional -->
+        @if (tab.icon) {
+          <span class="tabs__icon" aria-hidden="true">{{ tab.icon }}</span>
+        }
+        <!-- Etiqueta de la pestaña -->
+        <span class="tabs__label">{{ tab.label }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- Contenido de las pestañas (proyectado) -->
+  <div class="tabs__content">
+    <ng-content></ng-content>
+  </div>
+</div>

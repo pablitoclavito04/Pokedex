@@ -8,6 +8,14 @@
 // ============================================================================
 //                        CONTENEDOR PRINCIPAL
 // ============================================================================
+
+// Fondo que cubre toda la página
+:host {
+  display: block;
+  background: var(--bg-primary, #{map-get($light-theme, bg-primary)});
+  min-height: 100vh;
+}
+
 .style-guide {
   max-width: 1200px;
   margin: 0 auto;
@@ -55,11 +63,11 @@
   //                             NAVEGACIÓN
   // ============================================================================
   &__nav {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
-    border-radius: $border-radius-lg;
-    padding: $spacing-5;
-    margin-bottom: $spacing-10;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    padding: $spacing-4 0;
+    margin-bottom: $spacing-8;
   }
   
   &__nav-title {
@@ -72,31 +80,53 @@
   }
   
   &__nav-list {
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
     gap: $spacing-2;
     list-style: none;
     margin: 0;
     padding: 0;
-    
+
+    @include respond-to('sm') {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include respond-to('md') {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $spacing-3;
+    }
+
     li {
       margin: 0;
     }
-    
+
     a {
-      display: inline-block;
-      padding: $spacing-2 $spacing-4;
+      display: block;
+      padding: $spacing-2 $spacing-3;
       font-size: $font-size-sm;
       font-weight: $font-weight-medium;
-      color: var(--text-secondary);
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
       text-decoration: none;
-      background: var(--bg-tertiary);
-      border-radius: $border-radius-md;
+      text-align: center;
+      background: transparent;
+      border: none;
+      border-bottom: 3px solid var(--border-secondary, #{map-get($light-theme, border-secondary)});
+      border-radius: 0;
       transition: all $duration-fast $ease-out;
-      
+      cursor: pointer;
+
+      @include respond-to('md') {
+        display: inline-block;
+        padding: $spacing-3 $spacing-4;
+        font-size: $font-size-base;
+        text-align: left;
+      }
+
       &:hover {
-        color: var(--color-primary);
-        background: rgba($color-primary-500, 0.1);
+        color: var(--text-primary, #{map-get($light-theme, text-primary)});
+        background: transparent;
+        border-bottom-color: var(--text-primary, #{map-get($light-theme, text-primary)});
       }
     }
   }
@@ -108,10 +138,19 @@
     margin-bottom: $spacing-12;
     padding-bottom: $spacing-10;
     border-bottom: 1px solid var(--border-primary);
-    
+
     &:last-child {
       border-bottom: none;
       margin-bottom: 0;
+    }
+
+    // Modificador para fondo blanco (usado en formularios)
+    &--white-bg {
+      background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
+      padding: $spacing-8;
+      border-radius: $border-radius-lg;
+      border: 1px solid var(--border-primary);
+      overflow: hidden;
     }
   }
   
@@ -131,14 +170,13 @@
     font-size: $font-size-base;
     color: var(--text-secondary);
     margin: 0;
-    
+
     code {
-      padding: $spacing-1 $spacing-2;
-      background: var(--bg-tertiary);
-      border-radius: $border-radius-sm;
-      font-family: monospace;
-      font-size: $font-size-sm;
-      color: var(--color-primary);
+      font-family: inherit;
+      font-size: inherit;
+      color: inherit;
+      background: none;
+      padding: 0;
     }
   }
   
@@ -208,9 +246,66 @@
     display: grid;
     grid-template-columns: 1fr;
     gap: $spacing-6;
-    
+
     @include respond-to('md') {
       grid-template-columns: repeat(2, 1fr);
+      column-gap: 60px;
     }
+
+    // Asegurar que los hijos no desborden el grid
+    > * {
+      min-width: 0;
+    }
+  }
+
+  // Fila con espaciado extra (para tooltips)
+  &__component-row--spaced {
+    gap: $spacing-8;
+    justify-content: center;
+    padding: $spacing-8 0;
+  }
+
+  // Contenido de tabs en demo
+  &__tab-content {
+    padding: $spacing-4;
+    background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
+    border: 2px solid var(--text-primary, #{map-get($light-theme, text-primary)});
+    border-radius: $border-radius-md;
+    margin-top: $spacing-4;
+
+    h4 {
+      margin: 0 0 $spacing-3;
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+      font-size: $font-size-lg;
+      font-weight: $font-weight-bold;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: $spacing-5;
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+
+      li {
+        margin-bottom: $spacing-1;
+      }
+    }
+
+    p {
+      margin: 0;
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    }
+  }
+
+  // Label de estadística para tooltip demo
+  &__stat-label {
+    display: inline-flex;
+    align-items: center;
+    padding: $spacing-2 $spacing-3;
+    background: var(--bg-tertiary);
+    border-radius: $border-radius-md;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--text-primary);
+    cursor: help;
   }
 }

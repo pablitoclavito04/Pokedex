@@ -1,0 +1,22 @@
+<!-- ============================================================================
+     TOOLTIP COMPONENT - Tooltip interactivo accesible
+     ============================================================================ -->
+<div class="tooltip-wrapper" #triggerWrapper>
+  <!-- Contenido del trigger (proyectado) -->
+  <div class="tooltip-trigger"
+       [attr.aria-describedby]="isVisible ? tooltipId : null">
+    <ng-content></ng-content>
+  </div>
+
+  <!-- Tooltip -->
+  @if (text) {
+    <div #tooltipElement
+         [id]="tooltipId"
+         [class]="tooltipClasses"
+         role="tooltip"
+         [attr.aria-hidden]="!isVisible">
+      <span class="tooltip__content">{{ text }}</span>
+      <span class="tooltip__arrow" aria-hidden="true"></span>
+    </div>
+  }
+</div>

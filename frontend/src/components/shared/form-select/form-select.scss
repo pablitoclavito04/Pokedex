@@ -8,6 +8,12 @@
 @use '../../../styles/00-settings/variables' as *;
 @use '../../../styles/01-tools/mixins' as *;
 
+// Host del componente Angular
+:host {
+  display: block;
+  min-width: 0;
+}
+
 // ============================================================================
 //                   BLOQUE PRINCIPAL: .form-select
 // ============================================================================
@@ -26,7 +32,7 @@
     gap: $spacing-1;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
-    color: var(--text-primary);
+    color: var(--text-primary, #f8fafc);
     cursor: pointer;
     transition: color $duration-fast $ease-out;
   }
@@ -52,24 +58,24 @@
     padding: $spacing-3 $spacing-12 $spacing-3 $spacing-4;
     font-family: $font-primary;
     font-size: $font-size-base;
-    color: var(--text-primary);
-    background: var(--bg-tertiary);
-    border: 2px solid var(--border-primary);
+    color: var(--text-primary, #f8fafc);
+    background: var(--bg-input, #2F4467);
+    border: 2px solid var(--border-input, #2C355F);
     border-radius: $border-radius-lg;
     outline: none;
     cursor: pointer;
     appearance: none;
     transition: all $duration-fast $ease-out;
-    
+
     // Placeholder style
     &:invalid,
     option[value=""][disabled] {
-      color: var(--text-tertiary);
+      color: var(--text-tertiary, #94a3b8);
     }
-    
+
     option {
-      color: var(--text-primary);
-      background: var(--bg-secondary);
+      color: var(--text-primary, #f8fafc);
+      background: var(--bg-secondary, #1a1f2e);
       padding: $spacing-2;
     }
     

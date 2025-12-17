@@ -19,7 +19,7 @@
 // ============================================================================
 // Importa todas las variables del sistema de diseño
 @use './00-settings/variables' as *;
-
+@use './00-settings/css-variables';
 
 // ============================================================================
 //                     01-TOOLS - Mixins y funciones
@@ -113,14 +113,22 @@
 //                      ESTILOS GLOBALES DEL BODY
 // ============================================================================
 
+// Scroll suave para navegación con anchors
+html {
+  scroll-behavior: smooth;
+  background-color: var(--bg-primary);
+}
+
 body {
-  // Usar CSS Custom Properties para el tema
+  // Fondo consistente en toda la aplicación
   background-color: var(--bg-primary);
   color: var(--text-primary);
-  
+  margin: 0;
+  padding: 0;
+
   // Transición suave al cambiar de tema
   transition: background-color 0.3s ease, color 0.3s ease;
-  
+
   // Layout para sticky footer
   display: flex;
   flex-direction: column;

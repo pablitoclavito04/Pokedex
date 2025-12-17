@@ -1,59 +1,183 @@
-# Frontend
+## Arquitectura de Eventos-
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.0.
+Esta sección documenta la arquitectura de eventos implementada en la aplicación Angular, siguiendo los criterios RA6.a, RA6.c, RA6.d, RA6.e, RA6.h.
 
-## Development server
+### Patrón de manejo de eventos
 
-To start a local development server, run:
+La arquitectura de eventos sigue el patrón unidireccional de datos de Angular:
 
-```bash
-ng serve
+```
+Usuario → Evento DOM → Template Binding → Component Handler → Service/State → View Re-render
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Tipos de event binding
 
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
+#### 1. Eventos de click
+```html
+<button (click)="handleClick($event)">Click me</button>
 ```
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+#### 2. Eventos de teclado.
+```html
+<!-- Evento específico de tecla -->
+<input (keyup.enter)="onSubmit()">
 
-```bash
-ng generate --help
+<!-- Evento general con acceso al objeto evento -->
+<input (keydown)="onKeyDown($event)">
 ```
 
-## Building
-
-To build the project run:
-
-```bash
-ng build
+#### 3. Eventos de Focus/Blur
+```html
+<input (focus)="onFocus()" (blur)="onBlur()">
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
+#### 4. Eventos de Mouse
+```html
+<div (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
 ```
 
-## Running end-to-end tests
+### HostListener para eventos globales.
 
-For end-to-end (e2e) testing, run:
+Para escuchar eventos a nivel de documento:
 
-```bash
-ng e2e
+```typescript
+@HostListener('document:keydown.escape')
+onEscapeKey(): void {
+  this.close();
+}
+
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent): void {
+  // Manejar click fuera del componente
+}
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+### Manipulación del DOM
 
-## Additional Resources
+#### ViewChild y ElementRef
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```typescript
+@ViewChild('myElement') myElement!: ElementRef;
+
+ngAfterViewInit() {
+  console.log(this.myElement.nativeElement);
+}
+```
+
+#### Renderer2 para Manipulación Segura
+
+```typescript
+constructor(private renderer: Renderer2) {}
+
+// Cambiar estilos
+this.renderer.setStyle(element, 'color', 'red');
+
+// Añadir/quitar clases
+this.renderer.addClass(element, 'active');
+this.renderer.removeClass(element, 'active');
+
+// Crear elementos
+const div = this.renderer.createElement('div');
+this.renderer.appendChild(parent, div);
+```
+
+### Diagrama de Flujo de Eventos
+
+```
+┌─────────────────────────────────────────────────────────────────┐
+│                        FLUJO DE EVENTOS                         │
+├─────────────────────────────────────────────────────────────────┤
+│                                                                 │
+│  ┌──────────┐    ┌───────────────┐    ┌──────────────────┐      │
+│  │  Usuario │───>│ Evento DOM    │───>│ Template Binding │      │
+│  │  (click) │    │ (MouseEvent)  │    │ (click)="fn()"   │      │
+│  └──────────┘    └───────────────┘    └────────┬─────────┘      │
+│                                                │                │
+│                                                ▼                │
+│                                        ┌───────────────┐        │
+│                                        │   Component   │        │
+│                                        │    Handler    │        │
+│                                        └───────┬───────┘        │
+│                                                │                │
+│                        ┌───────────────────────┐                │
+│                        │                       │                │
+│                        ▼                       ▼                │
+│                ┌──────────────┐        ┌─────────────┐          │
+│                │   Service    │        │   Signal/   │          │
+│                │   Update     │        │   State     │          │
+│                └──────────────┘        └──────┬──────┘          │
+│                                               │                 │
+│                                               ▼                 │
+│                                       ┌──────────────┐          │
+│                                       │  View Update │          │
+│                                       │  (Zone.js)   │          │
+│                                       └──────────────┘          │
+│                                                                 │
+└──────────────────────────────────────────────────────────────── │
+```
+
+### Prevención de Comportamiento por Defecto
+
+```typescript
+onSubmit(event: Event): void {
+  event.preventDefault();  // Previene recarga de página
+  // Lógica del formulario
+}
+
+onClick(event: MouseEvent): void {
+  event.stopPropagation();  // Detiene propagación del evento
+}
+```
+
+### Componentes Interactivos Implementados
+
+| Componente | Eventos Implementados | Descripción |
+|------------|----------------------|-------------|
+| **Header** | click, keydown.escape, document:click | Toggle de menú, cierre con ESC y click fuera |
+| **Modal** | click, keydown.escape | Cierre con overlay, ESC y botón |
+| **Tabs** | click, keydown (arrows, Home, End) | Navegación por teclado completa |
+| **Accordion** | click, keydown (arrows, Home, End) | Expandir/colapsar con teclado |
+| **Tooltip** | mouseenter, mouseleave, focusin, focusout | Mostrar/ocultar con delay |
+| **Button** | click | Manejo de estados loading/disabled |
+| **Form Controls** | input, focus, blur, change | Validación y feedback |
+| **Alert** | click | Cierre dismissible |
+
+### Theme Switcher
+
+El sistema de temas utiliza:
+
+1. **ThemeService**: Servicio singleton que gestiona el estado del tema
+2. **CSS Custom Properties**: Variables CSS para cambio dinámico
+3. **localStorage**: Persistencia de preferencia del usuario
+4. **prefers-color-scheme**: Detección de preferencia del sistema
+
+```typescript
+// Detectar preferencia del sistema
+window.matchMedia('(prefers-color-scheme: dark)').matches
+
+// Escuchar cambios del sistema
+mediaQuery.addEventListener('change', (event) => {
+  this.setTheme(event.matches ? 'dark' : 'light');
+});
+```
+
+### Tabla de Compatibilidad de Navegadores
+
+| Evento | Chrome | Firefox | Safari | Edge |
+|--------|--------|---------|--------|------|
+| click | ✓ | ✓ | ✓ | ✓ |
+| keydown/keyup | ✓ | ✓ | ✓ | ✓ |
+| focus/blur | ✓ | ✓ | ✓ | ✓ |
+| mouseenter/mouseleave | ✓ | ✓ | ✓ | ✓ |
+| focusin/focusout | ✓ | ✓ | ✓ | ✓ |
+| touchstart/touchend | ✓ | ✓ | ✓ | ✓ |
+| prefers-color-scheme | ✓ 76+ | ✓ 67+ | ✓ 12.1+ | ✓ 79+ |
+| matchMedia | ✓ | ✓ | ✓ | ✓ |
+
+### Buenas Prácticas
+
+1. **Usar Renderer2** en lugar de manipulación directa del DOM para compatibilidad SSR
+2. **Verificar plataforma** con `isPlatformBrowser()` antes de acceder a APIs del navegador
+3. **Limpiar listeners** en `ngOnDestroy()` para evitar memory leaks
+4. **Usar pseudo-eventos** como `(keyup.enter)` para código más limpio
+5. **Implementar accesibilidad** con roles ARIA y navegación por teclado

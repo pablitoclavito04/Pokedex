@@ -29,18 +29,31 @@
   --bg-primary: #{map-get($dark-theme, bg-primary)};       // #0f1318
   --bg-secondary: #{map-get($dark-theme, bg-secondary)};   // #1a1f2e
   --bg-tertiary: #{map-get($dark-theme, bg-tertiary)};     // #20283a
-  
+
+  // --------------------------------------------------------------------------
+  //                     Colores de inputs/formularios
+  // --------------------------------------------------------------------------
+  --bg-input: #2F4467;
+  --border-input: #2C355F;
+
+  // --------------------------------------------------------------------------
+  //                          Colores de tarjetas
+  // --------------------------------------------------------------------------
+  --bg-card: #2F4467;
+  --text-watermark: rgba(255, 255, 255, 0.15);
+
   // --------------------------------------------------------------------------
   //                           Colores de texto
   // --------------------------------------------------------------------------
   --text-primary: #{map-get($dark-theme, text-primary)};     // #f8fafc
   --text-secondary: #{map-get($dark-theme, text-secondary)}; // #cbd5e1
   --text-tertiary: #{map-get($dark-theme, text-tertiary)};   // #94a3b8
-  
+
   // --------------------------------------------------------------------------
   //                          Colores de borde
   // --------------------------------------------------------------------------
   --border-primary: #{map-get($dark-theme, border-primary)}; // #273047
+  --border-secondary: #{map-get($dark-theme, border-secondary)}; // #2d3a54
   
   // --------------------------------------------------------------------------
   //                          Colores de marca
@@ -86,18 +99,31 @@
   --bg-primary: #{map-get($light-theme, bg-primary)};       // #f5f5f7
   --bg-secondary: #{map-get($light-theme, bg-secondary)};   // #ffffff
   --bg-tertiary: #{map-get($light-theme, bg-tertiary)};     // #e2e8f0
-  
+
+  // --------------------------------------------------------------------------
+  //                     Colores de inputs/formularios
+  // --------------------------------------------------------------------------
+  --bg-input: #E2E8F0;
+  --border-input: #cbd5e1;
+
+  // --------------------------------------------------------------------------
+  //                          Colores de tarjetas
+  // --------------------------------------------------------------------------
+  --bg-card: #FFFFFF;
+  --text-watermark: rgba(0, 0, 0, 0.08);
+
   // --------------------------------------------------------------------------
   //                         Colores de texto
   // --------------------------------------------------------------------------
   --text-primary: #{map-get($light-theme, text-primary)};     // #1e293b
   --text-secondary: #{map-get($light-theme, text-secondary)}; // #475569
   --text-tertiary: #{map-get($light-theme, text-tertiary)};   // #64748b
-  
+
   // --------------------------------------------------------------------------
   //                          Colores de borde
   // --------------------------------------------------------------------------
   --border-primary: #{map-get($light-theme, border-primary)}; // #e2e8f0
+  --border-secondary: #{map-get($light-theme, border-secondary)}; // #cbd5e1
   
   // --------------------------------------------------------------------------
   //               Colores de marca (se mantienen igual)

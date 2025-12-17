@@ -1,0 +1,47 @@
+<!-- ============================================================================
+     ACCORDION COMPONENT - Acordeón interactivo con navegación por teclado
+     ============================================================================ -->
+<div [class]="containerClasses">
+  @for (item of items; track item.id; let i = $index) {
+    <div [class]="getItemClasses(item)">
+      <!-- Cabecera del acordeón -->
+      <h3 class="accordion__header">
+        <button
+          class="accordion__button"
+          type="button"
+          [id]="'accordion-button-' + item.id"
+          [attr.aria-expanded]="isOpen(item)"
+          [attr.aria-controls]="'accordion-panel-' + item.id"
+          [attr.aria-disabled]="item.disabled || null"
+          [disabled]="item.disabled"
+          (click)="toggleItem(item)"
+          (keydown)="onKeyDown($event, i)">
+          <!-- Icono opcional -->
+          @if (item.icon) {
+            <span class="accordion__icon" aria-hidden="true">{{ item.icon }}</span>
+          }
+          <!-- Título -->
+          <span class="accordion__title">{{ item.title }}</span>
+          <!-- Indicador de apertura -->
+          <span class="accordion__indicator" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+          </span>
+        </button>
+      </h3>
+
+      <!-- Panel de contenido -->
+      <div
+        class="accordion__panel"
+        [id]="'accordion-panel-' + item.id"
+        [attr.aria-labelledby]="'accordion-button-' + item.id"
+        role="region"
+        [attr.aria-hidden]="!isOpen(item)">
+        <div class="accordion__content">
+          {{ item.content }}
+        </div>
+      </div>
+    </div>
+  }
+</div>

@@ -9,9 +9,9 @@
     <!-- El logo es un enlace a la página principal -->
     <a href="/" class="header__logo" aria-label="Ir a la página principal">
   <!-- Logo Pokéball -->
-  <img 
-    src="/frontend/public/favicon.png" 
-    alt="Pokéball" 
+  <img
+    src="favicon.png"
+    alt="Pokéball"
     class="header__logo-icon"
     aria-hidden="true">
   <span class="header__logo-text">{{ title }}</span>
@@ -19,17 +19,21 @@
     
     <!-- ========== NAVEGACIÓN PRINCIPAL ========== -->
     <!-- Elemento semántico <nav> para la navegación -->
-    <nav class="header__nav" 
+    <nav #mobileNav
+         class="header__nav"
          [class.header__nav--open]="isMenuOpen"
-         aria-label="Navegación principal">
+         aria-label="Navegación principal"
+         id="mobile-menu">
       <ul class="header__nav-list">
-        <li class="header__nav-item" *ngFor="let item of navItems">
-          <a [href]="item.path" 
-             class="header__nav-link"
-             (click)="closeMenu()">
-            {{ item.label }}
-          </a>
-        </li>
+        @for (item of navItems; track item.path) {
+          <li class="header__nav-item">
+            <a [href]="item.path"
+               class="header__nav-link"
+               (click)="closeMenu()">
+              {{ item.label }}
+            </a>
+          </li>
+        }
       </ul>
     </nav>
     
@@ -47,26 +51,30 @@
       </button>
       
       <!-- Botón de tema -->
-      <button class="header__action-btn header__theme-btn" 
+      <button class="header__action-btn header__theme-btn"
               (click)="toggleTheme()"
-              [attr.aria-label]="isDarkTheme ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'"
+              [attr.aria-label]="themeService.isDarkTheme() ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'"
               type="button">
-        <!-- Icono Sol (tema claro) -->
-        <svg *ngIf="isDarkTheme" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <circle cx="12" cy="12" r="5"/>
-          <line x1="12" y1="1" x2="12" y2="3"/>
-          <line x1="12" y1="21" x2="12" y2="23"/>
-          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
-          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-          <line x1="1" y1="12" x2="3" y2="12"/>
-          <line x1="21" y1="12" x2="23" y2="12"/>
-          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
-          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-        </svg>
-        <!-- Icono Luna (tema oscuro) -->
-        <svg *ngIf="!isDarkTheme" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-        </svg>
+        <!-- Icono Sol (tema claro) - se muestra cuando el tema es oscuro -->
+        @if (themeService.isDarkTheme()) {
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <circle cx="12" cy="12" r="5"/>
+            <line x1="12" y1="1" x2="12" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="23"/>
+            <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+            <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+            <line x1="1" y1="12" x2="3" y2="12"/>
+            <line x1="21" y1="12" x2="23" y2="12"/>
+            <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+            <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+          </svg>
+        }
+        <!-- Icono Luna (tema oscuro) - se muestra cuando el tema es claro -->
+        @if (!themeService.isDarkTheme()) {
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        }
       </button>
       
       <!-- Botón de usuario/perfil -->
@@ -80,7 +88,8 @@
       </button>
       
       <!-- Botón menú hamburguesa (solo móvil) -->
-      <button class="header__menu-btn" 
+      <button #menuButton
+              class="header__menu-btn"
               (click)="toggleMenu()"
               [attr.aria-expanded]="isMenuOpen"
               aria-controls="mobile-menu"

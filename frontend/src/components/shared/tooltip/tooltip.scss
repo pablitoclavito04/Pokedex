@@ -1,0 +1,181 @@
+// ============================================================================
+//                    TOOLTIP COMPONENT - Estilos BEM
+// ============================================================================
+// Bloque: .tooltip
+// Elementos: __content, __arrow
+// Modificadores: --top, --bottom, --left, --right, --visible
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                           WRAPPER
+// ============================================================================
+.tooltip-wrapper {
+  position: relative;
+  display: inline-flex;
+}
+
+.tooltip-trigger {
+  display: inline-flex;
+}
+
+// ============================================================================
+//                      BLOQUE PRINCIPAL: .tooltip
+// ============================================================================
+.tooltip {
+  // Posicionamiento
+  position: absolute;
+  z-index: $z-index-tooltip;
+
+  // Estilo
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+  font-family: $font-primary;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-regular;
+  line-height: $line-height-normal;
+  white-space: nowrap;
+
+  padding: $spacing-2 $spacing-3;
+  border-radius: $border-radius-md;
+  box-shadow: var(--shadow-md);
+
+  // Estado inicial (oculto)
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+
+  transition:
+    opacity $duration-fast $ease-out,
+    visibility $duration-fast $ease-out,
+    transform $duration-fast $ease-out;
+
+  // ============================================================================
+  //                               ELEMENTO: Content
+  // ============================================================================
+  &__content {
+    display: block;
+    max-width: 250px;
+    word-wrap: break-word;
+    white-space: normal;
+  }
+
+  // ============================================================================
+  //                               ELEMENTO: Arrow
+  // ============================================================================
+  &__arrow {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    background: inherit;
+    transform: rotate(45deg);
+  }
+
+  // ============================================================================
+  //                               MODIFICADOR: Visible
+  // ============================================================================
+  &--visible {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  // ============================================================================
+  //                               POSICIONES
+  // ============================================================================
+
+  // POSICIÓN: Top (encima del trigger)
+  &--top {
+    bottom: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-$spacing-2);
+
+    &.tooltip--visible {
+      transform: translateX(-50%) translateY(-$spacing-2);
+    }
+
+    .tooltip__arrow {
+      bottom: -4px;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+    }
+  }
+
+  // POSICIÓN: Bottom (debajo del trigger)
+  &--bottom {
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%) translateY($spacing-2);
+
+    &.tooltip--visible {
+      transform: translateX(-50%) translateY($spacing-2);
+    }
+
+    .tooltip__arrow {
+      top: -4px;
+      left: 50%;
+      transform: translateX(-50%) rotate(45deg);
+    }
+  }
+
+  // POSICIÓN: Left (a la izquierda del trigger)
+  &--left {
+    right: 100%;
+    top: 50%;
+    transform: translateY(-50%) translateX(-$spacing-2);
+
+    &.tooltip--visible {
+      transform: translateY(-50%) translateX(-$spacing-2);
+    }
+
+    .tooltip__arrow {
+      right: -4px;
+      top: 50%;
+      transform: translateY(-50%) rotate(45deg);
+    }
+  }
+
+  // POSICIÓN: Right (a la derecha del trigger)
+  &--right {
+    left: 100%;
+    top: 50%;
+    transform: translateY(-50%) translateX($spacing-2);
+
+    &.tooltip--visible {
+      transform: translateY(-50%) translateX($spacing-2);
+    }
+
+    .tooltip__arrow {
+      left: -4px;
+      top: 50%;
+      transform: translateY(-50%) rotate(45deg);
+    }
+  }
+}
+
+// ============================================================================
+//                           ANIMACIÓN DE ENTRADA
+// ============================================================================
+.tooltip--top {
+  &:not(.tooltip--visible) {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.tooltip--bottom {
+  &:not(.tooltip--visible) {
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+.tooltip--left {
+  &:not(.tooltip--visible) {
+    transform: translateY(-50%) translateX(0);
+  }
+}
+
+.tooltip--right {
+  &:not(.tooltip--visible) {
+    transform: translateY(-50%) translateX(0);
+  }
+}

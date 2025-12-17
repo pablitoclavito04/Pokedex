@@ -14,8 +14,8 @@
 // ============================================================================
 .card {
   display: flex;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-primary);
+  background: var(--bg-card, #FFFFFF);
+  border: 1px solid var(--border-secondary, #E2E8F0);
   border-radius: $border-radius-xl;
   overflow: hidden;
   transition: all $duration-base $ease-out;
@@ -41,31 +41,248 @@
   // VARIANTE: Horizontal
   &--horizontal {
     flex-direction: row;
-    
+    position: relative;
+    overflow: hidden;
+    transition: transform $duration-base $ease-out, box-shadow $duration-base $ease-out;
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
     .card__image-wrapper {
+      position: relative;
       width: 200px;
       min-width: 200px;
       height: auto;
       min-height: 180px;
-      
+
       @include respond-to('md') {
         width: 280px;
         min-width: 280px;
       }
     }
-    
+
+    // Quitar animación de la imagen en horizontal
+    .card__image {
+      transition: none;
+    }
+
+    &:hover .card__image {
+      transform: none;
+    }
+
+    // Watermark para horizontal
+    .card__watermark {
+      position: absolute;
+      top: 50%;
+      left: 100px;
+      transform: translate(-50%, -50%);
+      font-family: $font-secondary;
+      font-size: clamp(4rem, 10vw, 6rem);
+      font-weight: $font-weight-bold;
+      color: var(--text-watermark, rgba(0, 0, 0, 0.06));
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      line-height: 1;
+
+      @include respond-to('md') {
+        left: 140px;
+        font-size: 7rem;
+      }
+    }
+
     .card__content {
       flex: 1;
     }
-    
+
+    .card__title {
+      font-size: 3.5rem;
+      display: inline;
+    }
+
+    .card__pokemon-number-inline {
+      display: inline;
+      font-family: $font-secondary;
+      font-size: 3.5rem;
+      font-weight: $font-weight-bold;
+      color: var(--text-primary, #1F2937);
+      margin-left: $spacing-3;
+    }
+
+    // Tipos del Pokémon para horizontal
+    .card__pokemon-types {
+      display: flex;
+      gap: $spacing-2;
+      margin-top: $spacing-2;
+      flex-wrap: wrap;
+    }
+
+    .card__type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: $spacing-1;
+      padding: $spacing-1 $spacing-3;
+      border-radius: $border-radius-lg;
+      font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 1.2rem;
+      font-weight: $font-weight-medium;
+      color: #ffffff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      border: 2px solid #1F2937;
+    }
+
+    .card__type-icon {
+      font-size: 1em;
+    }
+
+    // Botón de acción estilo pokemon
+    .card__pokemon-action {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-2;
+      width: 100%;
+      padding: $spacing-3 $spacing-4;
+      background: $color-secondary-500;
+      border: 2px solid #1F2937;
+      border-radius: $border-radius-lg;
+      font-family: $font-primary;
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+      color: #1F2937;
+      cursor: pointer;
+      transition: all $duration-fast $ease-out;
+      margin-top: $spacing-4;
+
+      &:hover {
+        background: $color-secondary-400;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba($color-secondary-500, 0.4);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+      }
+    }
+
+    .card__pokemon-action-icon {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2.5;
+    }
+
+    // Botón de favorito para horizontal
+    .card__favorite-btn {
+      position: absolute;
+      top: $spacing-3;
+      right: $spacing-3;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform $duration-fast $ease-out;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        color: #CBD5E1;
+        transition: color $duration-fast $ease-out;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+
+        svg {
+          color: #94A3B8;
+        }
+      }
+
+      &--active svg {
+        color: #EF4444;
+        fill: #EF4444;
+      }
+
+      // Animación de ondas al hacer click
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: rgba(239, 68, 68, 0.3);
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      &.animate-wave::after {
+        animation: heart-wave 0.6s ease-out;
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+        border-radius: 50%;
+      }
+    }
+
     // En mobile, volver a vertical
     @media (max-width: ($breakpoint-sm - 1px)) {
       flex-direction: column;
-      
+
       .card__image-wrapper {
+        position: relative;
         width: 100%;
         min-width: auto;
         height: 180px;
+      }
+
+      // Watermark detrás de la imagen en mobile
+      .card__watermark {
+        top: 90px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: clamp(5rem, 25vw, 8rem);
+      }
+
+      // Título y número en columna en mobile
+      .card__header {
+        text-align: center;
+      }
+
+      .card__title {
+        display: block;
+        font-size: clamp(2rem, 8vw, 3rem);
+      }
+
+      .card__pokemon-number-inline {
+        display: block;
+        font-size: clamp(1.5rem, 6vw, 2.5rem);
+        margin-left: 0;
+        margin-top: $spacing-1;
+      }
+
+      .card__pokemon-types {
+        justify-content: center;
+      }
+
+      .card__body {
+        text-align: center;
       }
     }
   }
@@ -125,11 +342,6 @@
     width: 100%;
     height: 100%;
     object-fit: contain;
-    transition: transform $duration-base $ease-out;
-
-    .card:hover & {
-      transform: scale(1.05);
-    }
   }
   
   // ELEMENTO: Content
@@ -241,5 +453,240 @@
     width: 16px;
     height: 16px;
     transition: transform $duration-fast $ease-out;
+  }
+
+  // ============================================================================
+  //                       VARIANTE: POKEMON CARD
+  // ============================================================================
+  &--pokemon {
+    flex-direction: column;
+    position: relative;
+    background: var(--bg-card, #FFFFFF);
+    border: 1px solid var(--border-secondary, #E2E8F0);
+    border-radius: $border-radius-xl;
+    padding: $spacing-4;
+    text-align: center;
+    min-height: 320px;
+    overflow: hidden;
+    transition: transform $duration-base $ease-out, box-shadow $duration-base $ease-out;
+
+    &:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+    }
+
+    // Número de fondo (watermark) - posicionado detrás de la imagen
+    .card__watermark {
+      position: absolute;
+      top: 100px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: $font-secondary;
+      font-size: clamp(6rem, 20vw, 10rem);
+      font-weight: $font-weight-bold;
+      color: var(--text-watermark, rgba(0, 0, 0, 0.08));
+      pointer-events: none;
+      user-select: none;
+      z-index: 0;
+      line-height: 1;
+      width: 100%;
+      text-align: center;
+    }
+
+    // Botón de favorito
+    .card__favorite-btn {
+      position: absolute;
+      top: $spacing-3;
+      right: $spacing-3;
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: transform $duration-fast $ease-out;
+
+      svg {
+        width: 24px;
+        height: 24px;
+        color: #CBD5E1;
+        transition: color $duration-fast $ease-out;
+      }
+
+      &:hover {
+        transform: scale(1.1);
+
+        svg {
+          color: #94A3B8;
+        }
+      }
+
+      &--active svg {
+        color: #EF4444;
+        fill: #EF4444;
+      }
+
+      // Animación de ondas al hacer click
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: rgba(239, 68, 68, 0.3);
+        transform: translate(-50%, -50%) scale(0);
+        opacity: 0;
+        pointer-events: none;
+      }
+
+      &.animate-wave::after {
+        animation: heart-wave 0.6s ease-out;
+      }
+
+      @keyframes heart-wave {
+        0% {
+          transform: translate(-50%, -50%) scale(0);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(2.5);
+          opacity: 0;
+        }
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+        border-radius: 50%;
+      }
+    }
+
+    // Imagen del Pokémon
+    .card__pokemon-image {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 180px;
+      margin-bottom: $spacing-2;
+
+      img {
+        max-width: 120%;
+        max-height: 120%;
+        object-fit: contain;
+        filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+      }
+    }
+
+    // Info del Pokémon (nombre y número)
+    .card__pokemon-info {
+      position: relative;
+      z-index: 1;
+      margin-bottom: $spacing-3;
+    }
+
+    .card__pokemon-name {
+      font-family: $font-secondary;
+      font-size: clamp(2.5rem, 10vw, 60px);
+      font-weight: $font-weight-bold;
+      color: var(--text-primary, #1F2937);
+      margin: 0;
+      line-height: 1;
+    }
+
+    .card__pokemon-number {
+      display: none;
+    }
+
+    // Número entre nombre y tipos
+    .card__pokemon-number-display {
+      position: relative;
+      z-index: 1;
+      display: block;
+      font-family: $font-secondary;
+      font-size: clamp(1.8rem, 6vw, 2.5rem);
+      font-weight: $font-weight-bold;
+      color: var(--text-primary, #1F2937);
+      margin-bottom: 1rem;
+    }
+
+    // Tipos del Pokémon
+    .card__pokemon-types {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      justify-content: center;
+      gap: $spacing-2;
+      margin-bottom: $spacing-4;
+      flex-wrap: wrap;
+    }
+
+    .card__type-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: $spacing-1;
+      padding: $spacing-1 $spacing-3;
+      border-radius: $border-radius-lg;
+      font-family: "Poppins", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 1.2rem;
+      font-weight: $font-weight-medium;
+      color: #ffffff;
+      text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+      border: 2px solid #1F2937;
+    }
+
+    .card__type-icon {
+      font-size: 1em;
+    }
+
+    // Botón de acción (Más información)
+    .card__pokemon-action {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: $spacing-2;
+      width: 100%;
+      padding: $spacing-3 $spacing-4;
+      background: $color-secondary-500;
+      border: 2px solid #1F2937;
+      border-radius: $border-radius-lg;
+      font-family: $font-primary;
+      font-size: $font-size-base;
+      font-weight: $font-weight-semibold;
+      color: #1F2937;
+      cursor: pointer;
+      transition: all $duration-fast $ease-out;
+      margin-top: auto;
+
+      &:hover {
+        background: $color-secondary-400;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba($color-secondary-500, 0.4);
+      }
+
+      &:active {
+        transform: translateY(0);
+      }
+
+      &:focus-visible {
+        outline: 2px solid var(--color-primary);
+        outline-offset: 2px;
+      }
+    }
+
+    .card__pokemon-action-icon {
+      width: 20px;
+      height: 20px;
+      stroke-width: 2.5;
+    }
   }
 }
