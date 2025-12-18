@@ -7,7 +7,7 @@
     
     <!-- ========== LOGO ========== -->
     <!-- El logo es un enlace a la página principal -->
-    <a href="/" class="header__logo" aria-label="Ir a la página principal">
+    <a routerLink="/" class="header__logo" aria-label="Ir a la página principal">
   <!-- Logo Pokéball -->
   <img
     src="favicon.png"
@@ -27,7 +27,7 @@
       <ul class="header__nav-list">
         @for (item of navItems; track item.path) {
           <li class="header__nav-item">
-            <a [href]="item.path"
+            <a [routerLink]="item.path"
                class="header__nav-link"
                (click)="closeMenu()">
               {{ item.label }}
