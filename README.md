@@ -87,3 +87,4 @@ La aplicación estará disponible en `http://localhost:8080`
 - [Documentación de la API](backend/API-DOCUMENTACION.md)
 - [Documentación de Archivos](backend/DOCUMENTACION_ARCHIVOS.md)
 - [Documentación de Seguridad](backend/DOCUMENTACION_SEGURIDAD.md)
+- [Documentación de Entorno cliente](frontend/README_Entorno_cliente.md)
