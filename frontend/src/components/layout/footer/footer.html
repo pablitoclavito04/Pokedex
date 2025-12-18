@@ -10,14 +10,14 @@
       
       <!-- Logo y descripción -->
       <div class="footer__brand">
-        <a href="/" class="footer__logo" aria-label="Ir a la página principal">
+        <span class="footer__logo">
             <img
                 src="favicon.png"
                 alt="Pokéball"
                 class="footer__logo-icon"
                 aria-hidden="true">
             <span class="footer__logo-text">Pokédex</span>
-        </a>
+        </span>
         <p class="footer__description">
           Tu enciclopedia Pokémon completa. Explora, descubre y guarda tus Pokémon favoritos.
         </p>
@@ -28,9 +28,9 @@
         <h3 class="footer__nav-title">Navegación</h3>
         <ul class="footer__nav-list">
           <li class="footer__nav-item" *ngFor="let link of navLinks">
-            <a [href]="link.path" class="footer__nav-link">
+            <span class="footer__nav-link">
               {{ link.label }}
-            </a>
+            </span>
           </li>
         </ul>
       </nav>
@@ -40,9 +40,9 @@
         <h3 class="footer__nav-title">Enlaces</h3>
         <ul class="footer__nav-list">
           <li class="footer__nav-item" *ngFor="let link of extraLinks">
-            <a [href]="link.path" class="footer__nav-link">
+            <span class="footer__nav-link">
               {{ link.label }}
-            </a>
+            </span>
           </li>
         </ul>
       </nav>
@@ -52,9 +52,9 @@
         <h3 class="footer__nav-title">Contacto</h3>
         <ul class="footer__nav-list">
           <li class="footer__nav-item" *ngFor="let link of contactLinks">
-            <a [href]="link.path" class="footer__nav-link">
+            <span class="footer__nav-link">
               {{ link.label }}
-            </a>
+            </span>
           </li>
         </ul>
       </nav>
