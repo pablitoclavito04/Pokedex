@@ -21,6 +21,12 @@ export class BadgeComponent {
   
   // ¿Es un punto/dot sin texto?
   @Input() dot: boolean = false;
+
+  // Color de fondo personalizado
+  @Input() color: string | null = null;
+
+  // Color del texto personalizado
+  @Input() textColor: string = '#ffffff';
   
   // ¿Estilo outline?
   @Input() outline: boolean = false;
@@ -36,11 +42,20 @@ export class BadgeComponent {
   // ============================================================================
   
   get badgeClasses(): string {
-    const classes = ['badge', `badge--${this.variant}`, `badge--${this.size}`];
+    const classes = ['badge', `badge--${this.size}`];
+    if (!this.color) classes.push(`badge--${this.variant}`);
     if (this.dot) classes.push('badge--dot');
     if (this.outline) classes.push('badge--outline');
     if (this.count !== null) classes.push('badge--count');
     return classes.join(' ');
+  }
+
+  get customStyles(): Record<string, string> | null {
+    if (!this.color) return null;
+    return {
+      'background-color': this.color,
+      'color': this.textColor
+    };
   }
   
   get displayCount(): string {

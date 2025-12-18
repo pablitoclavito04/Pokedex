@@ -8,7 +8,7 @@
      Modos: normal, dot, outline, count
      ============================================================================ -->
 
-<span [class]="badgeClasses">
+<span [class]="badgeClasses" [ngStyle]="customStyles">
   <!-- Si es un contador -->
   <ng-container *ngIf="count !== null">
     {{ displayCount }}
