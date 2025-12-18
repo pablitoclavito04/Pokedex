@@ -5,70 +5,70 @@ Aplicación web fullstack para gestionar y visualizar información de Pokémon. 
 ## Tecnologías.
 
 ### Frontend:
-- **Angular 21** con componentes standalone y signals
-- **SCSS** con arquitectura modular y sistema de temas (claro/oscuro)
-- **RxJS** para programación reactiva y gestión de estado
-- **Formularios reactivos** con validadores personalizados
-- **Docker + Nginx** para despliegue en producción
+- **Angular 21** con componentes standalone y signals.
+- **SCSS** con arquitectura modular y sistema de temas (claro/oscuro).
+- **RxJS** para programación reactiva y gestión de estado.
+- **Formularios reactivos** con validadores personalizados.
+- **Docker + Nginx** para despliegue en producción.
 
 ### Backend:
 - **Spring Boot 3.2** con Java 17
-- **Spring Security** con autenticación JWT
-- **Spring Data JPA** para persistencia
-- **MySQL** como base de datos
-- **API REST** con documentación completa
+- **Spring Security** con autenticación JWT.
+- **Spring Data JPA** para persistencia.
+- **MySQL** como base de datos.
+- **API REST** con documentación completa.
 
 ## Características del frontend.
 
 ### Componentes de layout:
-- **Header**: Navegación principal con soporte para tema claro/oscuro
-- **Footer**: Información del pie de página
-- **Main**: Contenedor principal con estilos adaptativos
+- **Header**: Navegación principal con soporte para tema claro/oscuro.
+- **Footer**: Información del pie de página.
+- **Main**: Contenedor principal con estilos adaptativos.
 
 ### Componentes UI:
-- **Button**: Botones con múltiples variantes (primary, secondary, danger) y estados
-- **Card**: Tarjetas para mostrar información de Pokémon con imagen, tipos y acciones
-- **Badge**: Etiquetas para mostrar tipos de Pokémon con colores personalizados
-- **Alert**: Mensajes de alerta con tipos success, error, warning e info
-- **Modal**: Ventanas modales para confirmaciones y formularios
-- **Tabs**: Sistema de pestañas con variantes (default, pills, underline)
-- **Accordion**: Paneles colapsables para FAQs y contenido extenso
-- **Tooltip**: Información contextual al pasar el cursor
+- **Button**: Botones con múltiples variantes (primary, secondary, danger) y estados.
+- **Card**: Tarjetas para mostrar información de Pokémon con imagen, tipos y acciones.
+- **Badge**: Etiquetas para mostrar tipos de Pokémon con colores personalizados.
+- **Alert**: Mensajes de alerta con tipos success, error, warning e info.
+- **Modal**: Ventanas modales para confirmaciones y formularios.
+- **Tabs**: Sistema de pestañas con variantes (default, pills, underline).
+- **Accordion**: Paneles colapsables para FAQs y contenido extenso.
+- **Tooltip**: Información contextual al pasar el cursor.
 
 ### Componentes de formulario:
-- **Form Input**: Campos de texto con validación y estados de error
-- **Form Textarea**: Áreas de texto extenso
-- **Form Select**: Selector desplegable (incluye los 18 tipos de Pokémon)
-- **Login Form**: Formulario de autenticación completo
+- **Form Input**: Campos de texto con validación y estados de error.
+- **Form Textarea**: Áreas de texto extenso.
+- **Form Select**: Selector desplegable (incluye los 18 tipos de Pokémon).
+- **Login Form**: Formulario de autenticación completo.
 
 ### Componentes de feedback:
-- **Toast**: Notificaciones temporales no intrusivas
-- **Spinner/Loading**: Indicador de carga global
+- **Toast**: Notificaciones temporales no intrusivas.
+- **Spinner/Loading**: Indicador de carga global.
 
 ### Servicios:
-- **ThemeService**: Gestión del tema claro/oscuro con persistencia
-- **ToastService**: Sistema de notificaciones toast
-- **LoadingService**: Control del estado de carga global
-- **CommunicationService**: Comunicación entre componentes con RxJS
-- **PokemonService**: Conexión con la API de Pokémon
+- **ThemeService**: Gestión del tema claro/oscuro con persistencia.
+- **ToastService**: Sistema de notificaciones toast.
+- **LoadingService**: Control del estado de carga global.
+- **CommunicationService**: Comunicación entre componentes con RxJS.
+- **PokemonService**: Conexión con la API de Pokémon.
 
 ### Validadores personalizados:
-- Validador de fortaleza de contraseña
-- Validadores de formatos españoles (NIF, teléfono, código postal)
-- Validadores cross-field (confirmación de contraseña)
-- Validadores asíncronos
+- Validador de fortaleza de contraseña.
+- Validadores de formatos españoles (NIF, teléfono, código postal).
+- Validadores cross-field (confirmación de contraseña).
+- Validadores asíncronos.
 
 ### Directivas:
-- Máscara de NIF
-- Máscara de teléfono
-- Máscara de código postal
+- Máscara de NIF.
+- Máscara de teléfono.
+- Máscara de código postal.
 
 ## Características del Backend.
 
-- API REST con endpoints para gestión de Pokémon
-- Autenticación y autorización con JWT
-- Validación de datos de entrada
-- Manejo de errores centralizado
+- API REST con endpoints para gestión de Pokémon.
+- Autenticación y autorización con JWT.
+- Validación de datos de entrada.
+- Manejo de errores centralizado.
 - Documentación de API disponible en `/backend/API-DOCUMENTACION.md`
 
 ## Despliegue con Docker
