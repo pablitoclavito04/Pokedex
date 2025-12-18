@@ -18,6 +18,14 @@
         document.documentElement.classList.add('dark-theme');
       }
     })();
+    // Redirect para SPA en GitHub Pages (recupera la ruta del 404.html)
+    (function() {
+      var redirect = sessionStorage.redirect;
+      delete sessionStorage.redirect;
+      if (redirect && redirect !== location.href) {
+        history.replaceState(null, null, redirect);
+      }
+    })();
   </script>
 </head>
 <body>
