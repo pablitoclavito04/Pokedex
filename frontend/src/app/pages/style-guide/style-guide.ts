@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ViewportScroller, AsyncPipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { Observable } from 'rxjs';
 
 // Importar todos los componentes
@@ -27,6 +28,7 @@ import { PokemonService, Pokemon } from '../../../services/pokemon.service';
   standalone: true,
   imports: [
     AsyncPipe,
+    RouterLink,
     ButtonComponent,
     CardComponent,
     FormInputComponent,
