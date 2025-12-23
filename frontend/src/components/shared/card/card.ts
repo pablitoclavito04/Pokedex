@@ -20,8 +20,8 @@ export class CardComponent {
   //                                INPUTS
   // ============================================================================
 
-  // Variante: vertical (default), horizontal, pokemon
-  @Input() variant: 'vertical' | 'horizontal' | 'pokemon' = 'vertical';
+  // Variante: vertical (default), horizontal, pokemon, responsive (usa Container Queries)
+  @Input() variant: 'vertical' | 'horizontal' | 'pokemon' | 'responsive' = 'vertical';
 
   // URL de la imagen
   @Input() imageUrl: string = '';

@@ -27,6 +27,9 @@ export class AlertComponent {
   
   // ¿Mostrar icono?
   @Input() showIcon: boolean = true;
+
+  // ¿Usar variante compacta con Container Queries?
+  @Input() compact: boolean = false;
   
   // ============================================================================
   //                                 ESTADO
@@ -53,6 +56,7 @@ export class AlertComponent {
   get alertClasses(): string {
     const classes = ['alert', `alert--${this.type}`];
     if (this.dismissible) classes.push('alert--dismissible');
+    if (this.compact) classes.push('alert--compact');
     return classes.join(' ');
   }
   

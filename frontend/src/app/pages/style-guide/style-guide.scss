@@ -452,6 +452,11 @@
   }
 
   &__pokemon-image {
+    @media (max-width: 600px) {
+      display: flex;
+      justify-content: center;
+    }
+
     img {
       width: 150px;
       height: 150px;

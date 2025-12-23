@@ -5,9 +5,23 @@
 // Elementos: __image-wrapper, __image, __content, __header, __title, __subtitle,
 //           __body, __description, __footer, __action
 // Modificadores: --vertical, --horizontal, --clickable, --elevated, --has-image
+//
+// CONTAINER QUERIES:
+// Este componente usa Container Queries para adaptarse al espacio disponible
+// en su contenedor padre, independientemente del viewport.
 
 @use '../../../styles/00-settings/variables' as *;
 @use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                     CONTENEDOR PARA CONTAINER QUERIES
+// ============================================================================
+// El host del componente actúa como container query context
+:host {
+  display: block;
+  container-type: inline-size;
+  container-name: card-container;
+}
 
 // ============================================================================
 //                       BLOQUE PRINCIPAL: .card
@@ -241,48 +255,77 @@
       }
     }
 
-    // En mobile, volver a vertical
+    // Ajustes para móvil: mantener horizontal pero más compacto
     @media (max-width: ($breakpoint-sm - 1px)) {
-      flex-direction: column;
-
+      // Imagen más pequeña
       .card__image-wrapper {
-        position: relative;
-        width: 100%;
-        min-width: auto;
-        height: 180px;
+        min-width: 120px;
+        width: 120px;
       }
 
-      // Watermark detrás de la imagen en mobile
+      // Ocultar watermark
       .card__watermark {
-        top: 90px;
-        left: 50%;
-        transform: translateX(-50%);
-        font-size: clamp(5rem, 25vw, 8rem);
+        display: none;
       }
 
-      // Título y número en columna en mobile
-      .card__header {
-        text-align: center;
+      // Contenido más compacto
+      .card__content {
+        padding: $spacing-3;
+        overflow: hidden;
       }
 
+      // Título y número más pequeños
       .card__title {
-        display: block;
-        font-size: clamp(2rem, 8vw, 3rem);
+        font-size: 1.5rem;
       }
 
       .card__pokemon-number-inline {
-        display: block;
-        font-size: clamp(1.5rem, 6vw, 2.5rem);
-        margin-left: 0;
-        margin-top: $spacing-1;
+        font-size: 1.25rem;
+        margin-left: $spacing-2;
       }
 
-      .card__pokemon-types {
-        justify-content: center;
+      // Badges más pequeños
+      .card__type-badge {
+        font-size: 0.75rem;
+        padding: 2px $spacing-2;
       }
 
+      // Descripción oculta en móvil
       .card__body {
-        text-align: center;
+        display: none;
+      }
+
+      // Botón más compacto
+      .card__pokemon-action {
+        padding: $spacing-2 $spacing-3;
+        font-size: $font-size-sm;
+        margin-top: $spacing-2;
+      }
+
+      .card__pokemon-action-icon {
+        width: 18px;
+        height: 18px;
+      }
+
+      // Botón favorito más pequeño (mantiene posición derecha)
+      .card__favorite-btn {
+        width: 28px;
+        height: 28px;
+        top: $spacing-2;
+        right: $spacing-2;
+
+        svg {
+          width: 18px;
+          height: 18px;
+        }
+      }
+    }
+
+    // Solo mover el corazón a la imagen cuando sea muy pequeño (<370px)
+    @media (max-width: 370px) {
+      .card__favorite-btn {
+        left: 85px;
+        right: auto;
       }
     }
   }
@@ -687,6 +730,72 @@
       width: 26px;
       height: 26px;
       stroke-width: 2.5;
+    }
+  }
+
+  // ============================================================================
+  //                    VARIANTE: RESPONSIVE CON CONTAINER QUERIES
+  // ============================================================================
+  // Esta variante cambia automáticamente de vertical a horizontal según el
+  // ancho del contenedor padre, NO del viewport. Ideal para grids flexibles.
+  &--responsive {
+    flex-direction: column;
+
+    .card__image-wrapper {
+      width: 100%;
+      height: 180px;
+    }
+
+    .card__content {
+      padding: $spacing-4;
+    }
+
+    .card__title {
+      font-size: $font-size-lg;
+    }
+
+    // Container Query: cuando el contenedor tiene más de 400px
+    @container card-container (min-width: 400px) {
+      flex-direction: row;
+
+      .card__image-wrapper {
+        width: 40%;
+        min-width: 150px;
+        max-width: 200px;
+        height: auto;
+        min-height: 150px;
+      }
+
+      .card__content {
+        flex: 1;
+        padding: $spacing-5;
+      }
+
+      .card__title {
+        font-size: $font-size-xl;
+      }
+    }
+
+    // Container Query: cuando el contenedor tiene más de 600px
+    @container card-container (min-width: 600px) {
+      .card__image-wrapper {
+        width: 35%;
+        max-width: 250px;
+        min-height: 180px;
+      }
+
+      .card__content {
+        padding: $spacing-6;
+      }
+
+      .card__title {
+        font-size: $font-size-2xl;
+      }
+
+      .card__description {
+        -webkit-line-clamp: 4;
+        line-clamp: 4;
+      }
     }
   }
 }

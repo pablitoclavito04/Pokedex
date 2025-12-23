@@ -3,7 +3,11 @@
 // ============================================================================
 // Bloque: .alert
 // Elementos: __icon, __content, __title, __message, __close
-// Modificadores: --success, --error, --warning, --info, --dismissible
+// Modificadores: --success, --error, --warning, --info, --dismissible, --compact
+//
+// CONTAINER QUERIES:
+// Este componente usa Container Queries para adaptarse al espacio disponible.
+// En contenedores pequeños (<300px) el layout es más compacto.
 
 @use '../../../styles/00-settings/variables' as *;
 @use '../../../styles/01-tools/mixins' as *;
@@ -23,8 +27,11 @@ $alert-colors: (
 // ============================================================================
 
 // Host styles - permite que el componente reciba margin desde el padre
+// También actúa como container query context
 :host {
   display: block;
+  container-type: inline-size;
+  container-name: alert-container;
 }
 
 .alert {
@@ -187,6 +194,67 @@ $alert-colors: (
   
   &--dismissible {
     padding-right: $spacing-3;
+  }
+
+  // ============================================================================
+  //                          CONTAINER QUERIES
+  // ============================================================================
+  // Variante compacta que usa Container Queries para adaptarse al espacio
+  &--compact {
+    // En contenedores muy pequeños: layout vertical
+    @container alert-container (max-width: 300px) {
+      flex-direction: column;
+      text-align: center;
+      gap: $spacing-2;
+      padding: $spacing-3;
+
+      .alert__icon {
+        align-self: center;
+
+        svg {
+          width: 32px;
+          height: 32px;
+        }
+      }
+
+      .alert__content {
+        text-align: center;
+      }
+
+      .alert__close {
+        position: absolute;
+        top: $spacing-2;
+        right: $spacing-2;
+      }
+    }
+
+    // En contenedores medianos: layout horizontal compacto
+    @container alert-container (min-width: 301px) and (max-width: 500px) {
+      padding: $spacing-3 $spacing-4;
+      gap: $spacing-2;
+
+      .alert__icon svg {
+        width: 20px;
+        height: 20px;
+      }
+
+      .alert__title {
+        font-size: $font-size-sm;
+      }
+
+      .alert__message {
+        font-size: $font-size-xs;
+      }
+    }
+
+    // En contenedores grandes: layout completo
+    @container alert-container (min-width: 501px) {
+      padding: $spacing-4 $spacing-6;
+
+      .alert__title {
+        font-size: $font-size-lg;
+      }
+    }
   }
 }
 
