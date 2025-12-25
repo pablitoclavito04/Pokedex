@@ -259,8 +259,11 @@ $alert-colors: (
 }
 
 // ============================================================================
-//                              ANIMACIONES
+//                    ANIMACIONES OPTIMIZADAS (60fps)
 // ============================================================================
+// Solo usamos transform y opacity para máximo rendimiento
+
+// Animación de entrada (slide desde arriba)
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -270,4 +273,35 @@ $alert-colors: (
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+// Animación de salida (slide hacia arriba con fade)
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+// Animación de shake para errores
+@keyframes alertShake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(-5px); }
+  40% { transform: translateX(5px); }
+  60% { transform: translateX(-5px); }
+  80% { transform: translateX(5px); }
+}
+
+// Clase para animación de cierre
+.alert--closing {
+  animation: slideUp 200ms ease-out forwards;
+}
+
+// Clase para animación de error (shake)
+.alert--shake {
+  animation: alertShake 400ms ease-out;
 }

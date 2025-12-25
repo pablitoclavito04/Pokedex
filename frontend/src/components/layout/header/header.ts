@@ -1,6 +1,7 @@
-import { Component, HostListener, ElementRef, ViewChild } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Component, HostListener, ElementRef, ViewChild, inject } from '@angular/core';
+import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { ThemeService } from '../../../services/theme.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
@@ -10,6 +11,8 @@ import { ThemeService } from '../../../services/theme.service';
   styleUrls: ['./header.scss']
 })
 export class HeaderComponent {
+  private router = inject(Router);
+
   // Referencia al contenedor del menú para detectar clicks fuera
   @ViewChild('mobileNav') mobileNav!: ElementRef;
   @ViewChild('menuButton') menuButton!: ElementRef;
@@ -20,7 +23,16 @@ export class HeaderComponent {
   // Estado del menú móvil
   isMenuOpen: boolean = false;
 
-  // Navegación principal
+  // ¿Estamos en la landing page (sin autenticar)?
+  isLandingPage: boolean = true;
+
+  // Navegación para landing page
+  landingNavItems = [
+    { label: 'Inicio', path: '/', icon: 'home' },
+    { label: 'Style Guide', path: '/style-guide', icon: 'palette' }
+  ];
+
+  // Navegación principal (cuando esté autenticado)
   navItems = [
     { label: 'Inicio', path: '/', icon: 'home' },
     { label: 'Pokédex', path: '/pokedex', icon: 'list' },
@@ -28,7 +40,32 @@ export class HeaderComponent {
     { label: 'Quiz', path: '/quiz', icon: 'game' }
   ];
 
-  constructor(public themeService: ThemeService) {}
+  constructor(public themeService: ThemeService) {
+    // Detectar cambios de ruta para saber si estamos en landing
+    this.router.events.pipe(
+      filter(event => event instanceof NavigationEnd)
+    ).subscribe((event: NavigationEnd) => {
+      this.checkIfLandingPage(event.urlAfterRedirects);
+    });
+
+    // Comprobar la ruta inicial
+    this.checkIfLandingPage(this.router.url);
+  }
+
+  /**
+   * Comprueba si estamos en una página de landing (sin autenticar)
+   */
+  private checkIfLandingPage(url: string): void {
+    const landingRoutes = ['/', '/login', '/register', '/style-guide', '/forms-demo'];
+    this.isLandingPage = landingRoutes.includes(url) || url === '';
+  }
+
+  /**
+   * Obtiene los items de navegación según el contexto
+   */
+  get currentNavItems() {
+    return this.isLandingPage ? this.landingNavItems : this.navItems;
+  }
 
   /**
    * Alterna el tema claro/oscuro usando el ThemeService

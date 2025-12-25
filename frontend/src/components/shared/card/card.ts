@@ -87,13 +87,20 @@ export class CardComponent {
     event.stopPropagation();
     const button = event.currentTarget as HTMLElement;
 
-    // Añadir clase para animación de onda
+    // Añadir clase para animación de onda (ripple effect)
     button.classList.add('animate-wave');
 
-    // Remover la clase después de la animación
+    // Añadir animación heart-beat al corazón
+    button.classList.add('animate-heart-beat');
+
+    // Remover las clases después de las animaciones
     setTimeout(() => {
       button.classList.remove('animate-wave');
     }, 600);
+
+    setTimeout(() => {
+      button.classList.remove('animate-heart-beat');
+    }, 400);
 
     this.favoriteClick.emit();
   }

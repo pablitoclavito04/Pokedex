@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, HostListener, PLATFORM_ID, Inject } from '@angular/core';
+import { Component, Input, Output, EventEmitter, HostListener, PLATFORM_ID, Inject, ViewEncapsulation } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 
 @Component({
@@ -6,7 +6,8 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
   standalone: true,
   imports: [CommonModule],
   templateUrl: './modal.html',
-  styleUrls: ['./modal.scss']
+  styleUrls: ['./modal.scss'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ModalComponent {
   private isBrowser: boolean;

@@ -165,14 +165,39 @@
     text-decoration: none;
     padding: $spacing-1 0;
     transition: $transition-all;
-    
+    cursor: pointer;
+    position: relative;
+
+    // Línea de subrayado animada
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: $color-primary-500;
+      transition: width $duration-fast $ease-out;
+    }
+
     :host-context(.light-theme) & {
       color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
     }
-    
+
     @include hover {
       color: $color-primary-500;
-      transform: translateX(4px);
+
+      &::after {
+        width: 100%;
+      }
+    }
+
+    // Modificador para botones
+    &--button {
+      background: none;
+      border: none;
+      font-family: inherit;
+      text-align: left;
     }
   }
   
@@ -259,13 +284,14 @@
     color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
     text-decoration: none;
     transition: $transition-all;
-    
+
     :host-context(.light-theme) & {
       color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
     }
-    
+
     @include hover {
       color: $color-primary-500;
     }
   }
 }
+

@@ -1,0 +1,401 @@
+// ============================================================================
+//                    ANIMACIONES CSS GLOBALES OPTIMIZADAS
+// ============================================================================
+// Este archivo contiene todas las animaciones CSS optimizadas para 60fps.
+//
+// REGLAS DE RENDIMIENTO:
+// - Solo animamos transform y opacity (propiedades composited)
+// - Evitamos width, height, top, left, margin, padding (causan reflow)
+// - Duración entre 150ms y 500ms para UX óptima
+// - Usamos will-change con moderación
+// ============================================================================
+
+@use '../00-settings/variables' as *;
+
+// ============================================================================
+//                         1. SPINNERS DE CARGA
+// ============================================================================
+
+// Spinner básico rotación (60fps)
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Spinner con pulso (para botones)
+@keyframes spin-pulse {
+  0% {
+    transform: rotate(0deg) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: rotate(180deg) scale(1.1);
+    opacity: 0.8;
+  }
+  100% {
+    transform: rotate(360deg) scale(1);
+    opacity: 1;
+  }
+}
+
+// Spinner de 3 puntos (dots)
+@keyframes bounce-dots {
+  0%, 80%, 100% {
+    transform: scale(0);
+    opacity: 0.5;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// ============================================================================
+//                         2. TRANSICIONES DE ENTRADA/SALIDA
+// ============================================================================
+
+// Fade in
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// Fade out
+@keyframes fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+// Slide in desde arriba
+@keyframes slide-in-down {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Slide in desde abajo
+@keyframes slide-in-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Slide in desde la derecha
+@keyframes slide-in-right {
+  from {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// Slide in desde la izquierda
+@keyframes slide-in-left {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+// Slide out hacia arriba
+@keyframes slide-out-up {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+}
+
+// Slide out hacia abajo
+@keyframes slide-out-down {
+  from {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+}
+
+// ============================================================================
+//                         3. MICRO-INTERACCIONES
+// ============================================================================
+
+// Bounce (rebote suave)
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+// Bounce más pronunciado para clicks
+@keyframes bounce-click {
+  0% {
+    transform: scale(1);
+  }
+  30% {
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  70% {
+    transform: scale(0.98);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+// Pulse (latido)
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.9;
+  }
+}
+
+// Shake (para errores)
+@keyframes shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  10%, 30%, 50%, 70%, 90% {
+    transform: translateX(-5px);
+  }
+  20%, 40%, 60%, 80% {
+    transform: translateX(5px);
+  }
+}
+
+// Wiggle (movimiento sutil)
+@keyframes wiggle {
+  0%, 100% {
+    transform: rotate(0deg);
+  }
+  25% {
+    transform: rotate(-3deg);
+  }
+  75% {
+    transform: rotate(3deg);
+  }
+}
+
+// Pop in (aparición con escala)
+@keyframes pop-in {
+  0% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// Pop out
+@keyframes pop-out {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+}
+
+// ============================================================================
+//                         4. ANIMACIONES DE FAVORITO
+// ============================================================================
+
+// Corazón latiendo
+@keyframes heart-beat {
+  0%, 100% {
+    transform: scale(1);
+  }
+  15% {
+    transform: scale(1.3);
+  }
+  30% {
+    transform: scale(1);
+  }
+  45% {
+    transform: scale(1.2);
+  }
+  60% {
+    transform: scale(1);
+  }
+}
+
+// Onda expansiva (ripple)
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(2.5);
+    opacity: 0;
+  }
+}
+
+// ============================================================================
+//                         5. SKELETON LOADING
+// ============================================================================
+
+// Shimmer effect para skeleton
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+// ============================================================================
+//                         6. CLASES DE UTILIDAD
+// ============================================================================
+
+// Clases para aplicar animaciones
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+.animate-pulse {
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.animate-bounce {
+  animation: bounce 1s ease-in-out infinite;
+}
+
+.animate-fade-in {
+  animation: fade-in 300ms ease-out forwards;
+}
+
+.animate-fade-out {
+  animation: fade-out 300ms ease-out forwards;
+}
+
+.animate-slide-in-down {
+  animation: slide-in-down 300ms ease-out forwards;
+}
+
+.animate-slide-in-up {
+  animation: slide-in-up 300ms ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 300ms ease-out forwards;
+}
+
+.animate-slide-in-left {
+  animation: slide-in-left 300ms ease-out forwards;
+}
+
+.animate-pop-in {
+  animation: pop-in 300ms ease-out forwards;
+}
+
+.animate-shake {
+  animation: shake 500ms ease-in-out;
+}
+
+.animate-bounce-click {
+  animation: bounce-click 400ms ease-out;
+}
+
+// ============================================================================
+//                         7. TRANSICIONES OPTIMIZADAS
+// ============================================================================
+
+// Variables de transición
+$transition-fast: 150ms ease-out;
+$transition-base: 300ms ease-out;
+$transition-slow: 500ms ease-out;
+
+// Clase para transiciones suaves en hover
+.transition-transform {
+  transition: transform $transition-fast;
+}
+
+.transition-opacity {
+  transition: opacity $transition-fast;
+}
+
+.transition-all {
+  transition: transform $transition-fast, opacity $transition-fast;
+}
+
+// Hover lift effect (eleva el elemento)
+.hover-lift {
+  transition: transform $transition-fast, box-shadow $transition-fast;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Hover scale effect
+.hover-scale {
+  transition: transform $transition-fast;
+
+  &:hover {
+    transform: scale(1.05);
+  }
+}
+
+// Hover brightness
+.hover-brightness {
+  transition: opacity $transition-fast;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

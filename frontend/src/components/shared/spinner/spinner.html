@@ -1,18 +1,25 @@
 <!-- ============================================================================
      SPINNER COMPONENT
      Overlay global con spinner de carga (Pokéball animada)
+
+     OPTIMIZACIÓN:
+     - Animaciones separadas en elementos diferentes para 60fps
+     - Solo transform y opacity (propiedades composited)
      ============================================================================ -->
 
 @if (isLoading$ | async) {
   <div class="spinner-overlay" role="status" aria-live="polite">
     <div class="spinner">
-      <!-- Pokéball animada -->
-      <div class="spinner__pokeball">
-        <div class="spinner__pokeball-top"></div>
-        <div class="spinner__pokeball-center">
-          <div class="spinner__pokeball-button"></div>
+      <!-- Wrapper para animación bounce (separada de rotate) -->
+      <div class="spinner__animation-wrapper">
+        <!-- Pokéball con animación rotate -->
+        <div class="spinner__pokeball">
+          <div class="spinner__pokeball-top"></div>
+          <div class="spinner__pokeball-center">
+            <div class="spinner__pokeball-button"></div>
+          </div>
+          <div class="spinner__pokeball-bottom"></div>
         </div>
-        <div class="spinner__pokeball-bottom"></div>
       </div>
       <span class="spinner__text">Cargando...</span>
     </div>

@@ -1,0 +1,134 @@
+<!-- ============================================================================
+     HOME PAGE - Página de inicio / Landing Page
+
+     Secciones:
+     - Hero: Presentación principal con CTA
+     - Features: Características de la aplicación
+     - Stats: Estadísticas destacadas
+     - CTA Final: Llamada a la acción
+
+     Nota: El footer está en app.html de forma global
+     ============================================================================ -->
+
+<main class="home">
+
+  <!-- ========== HERO SECTION ========== -->
+  <section class="hero">
+    <div class="hero__container">
+
+      <!-- Logo animado (favicon) -->
+      <div class="hero__logo">
+        <img
+          src="favicon.png"
+          alt="Pokédex Logo"
+          class="hero__logo-image"
+          width="120"
+          height="120">
+      </div>
+
+      <!-- Título principal -->
+      <h1 class="hero__title">Pokédex</h1>
+
+      <!-- Subtítulo -->
+      <p class="hero__subtitle">
+        ¡Bienvenido a la enciclopedia digital más completa del mundo Pokémon!
+      </p>
+
+      <!-- Descripción en tarjeta -->
+      <div class="hero__card">
+        <p class="hero__description">
+          Descubre información detallada sobre más de <strong>1,000 Pokémon</strong>,
+          sus estadísticas, evoluciones, movimientos y mucho más.
+        </p>
+        <p class="hero__description">
+          Únete a millones de entrenadores de todo el mundo y conviértete en un
+          <strong>maestro Pokémon</strong>.
+        </p>
+        <p class="hero__cta-text">¡Tu aventura comienza aquí!</p>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="hero__actions">
+        <app-button
+          variant="primary"
+          size="lg"
+          routerLink="/login">
+          Iniciar sesión
+        </app-button>
+        <app-button
+          variant="secondary"
+          size="lg"
+          routerLink="/register">
+          Crear cuenta
+        </app-button>
+      </div>
+
+      <!-- Enlace para explorar sin cuenta -->
+      <p class="hero__explore">
+        <a routerLink="/pokedex" class="hero__explore-link">
+          Explorar Pokédex sin cuenta
+          <svg class="hero__explore-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+      </p>
+
+    </div>
+  </section>
+
+  <!-- ========== FEATURES SECTION ========== -->
+  <section class="features" id="features">
+    <div class="features__container">
+
+      <header class="features__header">
+        <h2 class="features__title">¿Qué puedes hacer?</h2>
+        <p class="features__subtitle">
+          Todo lo que necesitas para convertirte en el mejor entrenador Pokémon
+        </p>
+      </header>
+
+      <div class="features__grid">
+        @for (feature of features; track feature.title) {
+          <article class="feature-card">
+            <h3 class="feature-card__title">{{ feature.title }}</h3>
+            <p class="feature-card__description">{{ feature.description }}</p>
+          </article>
+        }
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ========== STATS SECTION ========== -->
+  <section class="stats-section">
+    <div class="stats-section__container">
+      <div class="stats-section__grid">
+        @for (stat of stats; track stat.label) {
+          <div class="stat-item">
+            <span class="stat-item__value">{{ stat.value }}</span>
+            <span class="stat-item__label">{{ stat.label }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== CTA SECTION ========== -->
+  <section class="cta-section">
+    <div class="cta-section__container">
+      <h2 class="cta-section__title">¿Listo para comenzar tu aventura?</h2>
+      <p class="cta-section__description">
+        Crea tu cuenta gratis y empieza a explorar el mundo Pokémon
+      </p>
+      <div class="cta-section__actions">
+        <app-button
+          variant="secondary"
+          size="lg"
+          routerLink="/register">
+          Registrarse gratis
+        </app-button>
+      </div>
+    </div>
+  </section>
+
+</main>

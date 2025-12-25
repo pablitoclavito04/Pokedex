@@ -6,11 +6,11 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
 
-  // Ruta principal - Redirige al style guide temporalmente
+  // Ruta principal - Página de inicio
   {
     path: '',
-    redirectTo: 'style-guide',
-    pathMatch: 'full'
+    loadComponent: () => import('./pages/home/home').then(m => m.HomeComponent),
+    title: 'Pokédex - Tu enciclopedia Pokémon'
   },
 
   // Style Guide - Documentación de componentes
@@ -49,16 +49,16 @@ export const routes: Routes = [
   // },
 
   // Login
-  // {
-  //   path: 'login',
-  //   loadComponent: () => import('./pages/login/login').then(m => m.LoginComponent),
-  //   title: 'Iniciar Sesión - Pokédex'
-  // },
+  {
+    path: 'login',
+    loadComponent: () => import('./pages/login/login').then(m => m.LoginComponent),
+    title: 'Iniciar Sesión - Pokédex'
+  },
 
-  // Ruta comodín - Redirige a style-guide si no encuentra la ruta
+  // Ruta comodín - Redirige al inicio si no encuentra la ruta
   {
     path: '**',
-    redirectTo: 'style-guide',
+    redirectTo: '',
     pathMatch: 'full'
   }
 ];

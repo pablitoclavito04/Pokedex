@@ -41,7 +41,13 @@
   border-radius: $border-radius-xl;
   box-shadow: $shadow-xl;
   animation: slideUp 0.3s $ease-out;
-  
+
+  // Modo oscuro
+  .dark-theme & {
+    background: #2F4467;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
   @include respond-to('sm') {
     max-height: calc(100vh - #{$spacing-16});
   }
@@ -89,6 +95,10 @@
     padding: $spacing-5 $spacing-6;
     border-bottom: 1px solid #e2e8f0;
     flex-shrink: 0;
+
+    .dark-theme & {
+      border-bottom-color: rgba(255, 255, 255, 0.1);
+    }
   }
 
   // ELEMENTO: Title
@@ -98,12 +108,16 @@
     font-weight: $font-weight-bold;
     color: #1e293b;
     margin: 0;
-    
+
+    .dark-theme & {
+      color: #ffffff;
+    }
+
     @include respond-to('sm') {
       font-size: $font-size-2xl;
     }
   }
-  
+
   // ELEMENTO: Close button
   &__close {
     display: flex;
@@ -120,6 +134,10 @@
     cursor: pointer;
     transition: all $duration-fast $ease-out;
 
+    .dark-theme & {
+      color: rgba(255, 255, 255, 0.7);
+    }
+
     svg {
       width: 20px;
       height: 20px;
@@ -128,20 +146,29 @@
     &:hover {
       background: #f1f5f9;
       color: #1e293b;
+
+      .dark-theme & {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+      }
     }
-    
+
     &:focus-visible {
       outline: 2px solid var(--color-primary);
       outline-offset: 2px;
     }
   }
-  
+
   // ELEMENTO: Body
   &__body {
     flex: 1;
     overflow-y: auto;
     padding: $spacing-6;
     color: #1e293b;
+
+    .dark-theme & {
+      color: #ffffff;
+    }
 
     // Scrollbar estilizado
     &::-webkit-scrollbar {
@@ -151,18 +178,30 @@
     &::-webkit-scrollbar-track {
       background: #f1f5f9;
       border-radius: 4px;
+
+      .dark-theme & {
+        background: rgba(255, 255, 255, 0.1);
+      }
     }
 
     &::-webkit-scrollbar-thumb {
       background: #cbd5e1;
       border-radius: 4px;
 
+      .dark-theme & {
+        background: rgba(255, 255, 255, 0.3);
+      }
+
       &:hover {
         background: #94a3b8;
+
+        .dark-theme & {
+          background: rgba(255, 255, 255, 0.5);
+        }
       }
     }
   }
-  
+
   // ELEMENTO: Footer
   &__footer {
     display: flex;
@@ -172,7 +211,11 @@
     padding: $spacing-4 $spacing-6;
     border-top: 1px solid #e2e8f0;
     flex-shrink: 0;
-    
+
+    .dark-theme & {
+      border-top-color: rgba(255, 255, 255, 0.1);
+    }
+
     &:empty {
       display: none;
     }
@@ -180,8 +223,11 @@
 }
 
 // ============================================================================
-//                             ANIMACIONES
+//                    ANIMACIONES OPTIMIZADAS (60fps)
 // ============================================================================
+// Solo usamos transform y opacity para máximo rendimiento
+
+// Animación de entrada del overlay
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -191,6 +237,17 @@
   }
 }
 
+// Animación de salida del overlay
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+// Animación de entrada del modal (slide + scale)
 @keyframes slideUp {
   from {
     opacity: 0;
@@ -199,5 +256,77 @@
   to {
     opacity: 1;
     transform: translateY(0) scale(1);
+  }
+}
+
+// Animación de salida del modal
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+}
+
+// Clases para animaciones de cierre
+.modal-overlay--closing {
+  animation: fadeOut 200ms $ease-out forwards;
+}
+
+.modal--closing {
+  animation: slideDown 200ms $ease-out forwards;
+}
+
+// ============================================================================
+//                    ESTILOS DEL MODAL INFORMATIVO (FOOTER)
+// ============================================================================
+.footer-modal {
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-5;
+  }
+
+  &__section {
+    padding-bottom: $spacing-4;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid #e2e8f0;
+
+      .dark-theme & {
+        border-bottom-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+
+  &__subtitle {
+    font-family: $font-secondary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: #1a1a2e;
+    margin: 0 0 $spacing-2;
+
+    .dark-theme & {
+      color: #ffffff;
+    }
+  }
+
+  &__text {
+    font-size: $font-size-sm;
+    color: #475569;
+    line-height: $line-height-relaxed;
+    margin: 0;
+
+    .dark-theme & {
+      color: #ffffff;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
   }
 }

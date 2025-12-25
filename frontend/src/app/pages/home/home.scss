@@ -1,0 +1,481 @@
+// ============================================================================
+//                   HOME PAGE - Estilos de la página de inicio
+// ============================================================================
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                              VARIABLES LOCALES
+// ============================================================================
+
+$card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
+
+// ============================================================================
+//                              MAIN CONTAINER
+// ============================================================================
+
+.home {
+  min-height: 100vh;
+  background: var(--bg-primary, #{map-get($light-theme, bg-primary)});
+}
+
+// ============================================================================
+//                              HERO SECTION
+// ============================================================================
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 80px); // Restamos altura del header
+  padding: $spacing-8 $spacing-4;
+  background: url('/Pokemons reunidos.png') center center / cover no-repeat;
+
+  // Overlay oscuro para legibilidad del texto
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+  }
+
+  @include respond-to('md') {
+    padding: $spacing-12 $spacing-8;
+  }
+
+  // Container
+  &__container {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  // Logo imagen
+  &__logo {
+    margin-bottom: $spacing-6;
+  }
+
+  &__logo-image {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+    border-radius: 50%;
+    animation: float 3s ease-in-out infinite;
+
+    @include respond-to('md') {
+      width: 150px;
+      height: 150px;
+    }
+  }
+
+  // Título
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-extrabold;
+    color: #ffffff;
+    margin: 0 0 $spacing-3;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+    @include respond-to('md') {
+      font-size: $font-size-5xl;
+    }
+  }
+
+  // Subtítulo
+  &__subtitle {
+    font-size: $font-size-lg;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 $spacing-8;
+    max-width: 500px;
+    line-height: $line-height-relaxed;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+
+    @include respond-to('md') {
+      font-size: $font-size-xl;
+    }
+  }
+
+  // Card de descripción
+  &__card {
+    background: $card-bg;
+    border-radius: $border-radius-2xl;
+    padding: $spacing-6;
+    margin-bottom: $spacing-8;
+    box-shadow: $shadow-lg;
+    border: 1px solid var(--border-primary, #{map-get($light-theme, border-primary)});
+
+    @include respond-to('md') {
+      padding: $spacing-8;
+    }
+  }
+
+  &__description {
+    font-size: $font-size-base;
+    color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    margin: 0 0 $spacing-4;
+    line-height: $line-height-relaxed;
+
+    &:last-of-type {
+      margin-bottom: $spacing-6;
+    }
+
+    strong {
+      color: $color-primary-600;
+      font-weight: $font-weight-semibold;
+    }
+
+    @include respond-to('md') {
+      font-size: $font-size-md;
+    }
+  }
+
+  &__cta-text {
+    font-family: $font-secondary;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-accent-500;
+    margin: 0;
+
+    @include respond-to('md') {
+      font-size: $font-size-2xl;
+    }
+  }
+
+  // Acciones
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+    width: 100%;
+    max-width: 320px;
+    margin-bottom: $spacing-6;
+
+    @include respond-to('sm') {
+      flex-direction: row;
+      max-width: none;
+      justify-content: center;
+    }
+
+    // Botón secundario con fondo blanco para mejor visibilidad
+    ::ng-deep .button--secondary {
+      background: #ffffff;
+      color: $color-primary-600;
+      border-color: #ffffff;
+
+      &:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.9);
+        border-color: rgba(255, 255, 255, 0.9);
+      }
+    }
+  }
+
+  // Enlace explorar
+  &__explore {
+    margin: 0;
+  }
+
+  &__explore-link {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    color: #ffffff;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    text-decoration: none;
+    transition: $transition-all;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+
+    &:hover {
+      color: #ffffff;
+    }
+  }
+
+  &__explore-icon {
+    width: 16px;
+    height: 16px;
+    transition: transform $duration-fast $ease-out;
+
+    .hero__explore-link:hover & {
+      transform: translateX(4px);
+    }
+  }
+
+  // Decoración de fondo (oculta sin el gradiente)
+  &__bg-decoration {
+    display: none;
+  }
+}
+
+// ============================================================================
+//                           FEATURES SECTION
+// ============================================================================
+
+.features {
+  padding: $spacing-16 $spacing-4;
+  background: #EDF1F6;
+
+  :host-context(.dark-theme) & {
+    background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
+  }
+
+  @include respond-to('md') {
+    padding: $spacing-20 $spacing-8;
+  }
+
+  &__container {
+    max-width: $container-max-width;
+    margin: 0 auto;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-12;
+  }
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    margin: 0 0 $spacing-3;
+
+    @include respond-to('md') {
+      font-size: $font-size-3xl;
+    }
+  }
+
+  &__subtitle {
+    font-size: $font-size-md;
+    color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    margin: 0;
+    max-width: 500px;
+    margin-left: auto;
+    margin-right: auto;
+
+    @include respond-to('md') {
+      font-size: $font-size-lg;
+    }
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-6;
+
+    @include respond-to('sm') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include respond-to('lg') {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
+
+// Feature Card
+.feature-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: $spacing-8 $spacing-6;
+  background: var(--bg-primary, #{map-get($light-theme, bg-primary)});
+  border-radius: $border-radius-xl;
+  border: 1px solid var(--border-primary, #{map-get($light-theme, border-primary)});
+  transition: $transition-all;
+
+  // Modo oscuro - fondo específico
+  :host-context(.dark-theme) & {
+    background: #2F4467;
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    margin: 0 0 $spacing-3;
+  }
+
+  &__description {
+    font-size: $font-size-sm;
+    color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    margin: 0;
+    line-height: $line-height-relaxed;
+  }
+}
+
+// ============================================================================
+//                           STATS SECTION
+// ============================================================================
+
+.stats-section {
+  padding: $spacing-12 $spacing-4;
+  background: #E2E8F0;
+
+  :host-context(.dark-theme) & {
+    background: #2F4467;
+  }
+
+  @include respond-to('md') {
+    padding: $spacing-16 $spacing-8;
+  }
+
+  &__container {
+    max-width: $container-max-width;
+    margin: 0 auto;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-6;
+
+    @include respond-to('md') {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+}
+
+.stat-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+
+  &__value {
+    font-family: $font-secondary;
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-extrabold;
+    color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    line-height: 1;
+    margin-bottom: $spacing-2;
+
+    @include respond-to('md') {
+      font-size: $font-size-4xl;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    text-transform: uppercase;
+    letter-spacing: $letter-spacing-wide;
+
+    @include respond-to('md') {
+      font-size: $font-size-base;
+    }
+  }
+}
+
+// ============================================================================
+//                           CTA SECTION
+// ============================================================================
+
+.cta-section {
+  position: relative;
+  padding: $spacing-16 $spacing-4;
+  background: url('/pokemons durmiendo.webp') center center / cover no-repeat;
+  text-align: center;
+
+  // Overlay oscuro para legibilidad del texto
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 1;
+  }
+
+  @include respond-to('md') {
+    padding: $spacing-20 $spacing-8;
+  }
+
+  &__container {
+    position: relative;
+    z-index: 2;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: #ffffff;
+    margin: 0 0 $spacing-4;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+
+    @include respond-to('md') {
+      font-size: $font-size-3xl;
+    }
+  }
+
+  &__description {
+    font-size: $font-size-md;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 0 0 $spacing-8;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+
+    @include respond-to('md') {
+      font-size: $font-size-lg;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    justify-content: center;
+
+    // Estilo del botón secundario con fondo blanco (igual que "Crear cuenta")
+    ::ng-deep .button--secondary {
+      background: #ffffff !important;
+      color: $color-primary-600 !important;
+      border-color: #ffffff !important;
+      font-weight: $font-weight-semibold;
+      padding: $spacing-4 $spacing-8 !important;
+      font-size: $font-size-lg !important;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3) !important;
+
+      &:hover:not(:disabled) {
+        background: rgba(255, 255, 255, 0.9) !important;
+        border-color: rgba(255, 255, 255, 0.9) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4) !important;
+      }
+    }
+  }
+}
+
+// ============================================================================
+//                           ANIMACIONES
+// ============================================================================
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}

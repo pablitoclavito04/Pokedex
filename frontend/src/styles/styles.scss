@@ -41,6 +41,12 @@
 // Define estilos base para elementos HTML sin clases
 @import './03-elements/base';
 
+// ============================================================================
+//               03-GENERIC - Animaciones CSS optimizadas (60fps)
+// ============================================================================
+// Animaciones usando solo transform y opacity para máximo rendimiento
+@import './03-generic/animations';
+
 
 // ============================================================================
 //                    04-LAYOUT - Sistemas de layout

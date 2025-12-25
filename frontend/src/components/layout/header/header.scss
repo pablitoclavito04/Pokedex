@@ -272,8 +272,11 @@
 }
 
 // ============================================================================
-//                                 ANIMACIONES
+//                    ANIMACIONES OPTIMIZADAS (60fps)
 // ============================================================================
+// Solo usamos transform y opacity para máximo rendimiento
+
+// Animación de entrada del menú móvil
 @keyframes slideDown {
   from {
     opacity: 0;
@@ -282,5 +285,17 @@
   to {
     opacity: 1;
     transform: translateY(0);
+  }
+}
+
+// Animación de salida del menú móvil
+@keyframes slideUp {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
   }
 }
