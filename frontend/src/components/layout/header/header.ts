@@ -29,7 +29,8 @@ export class HeaderComponent {
   // Navegación para landing page
   landingNavItems = [
     { label: 'Inicio', path: '/', icon: 'home' },
-    { label: 'Style Guide', path: '/style-guide', icon: 'palette' }
+    { label: 'Style Guide', path: '/style-guide', icon: 'palette' },
+    { label: 'Página Principal', path: '/pokedex', icon: 'list' }
   ];
 
   // Navegación principal (cuando esté autenticado)

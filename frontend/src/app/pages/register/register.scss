@@ -1,0 +1,590 @@
+// ============================================================================
+//                   REGISTER PAGE - Estilos de la página de registro
+// ============================================================================
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                              PÁGINA PRINCIPAL
+// ============================================================================
+.register-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-4;
+  background: #f5f5f5 url('/Fondo pantalla Crear cuenta.png') center center / cover no-repeat fixed;
+
+  // Overlay para mejorar legibilidad
+  &::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.3);
+    z-index: 0;
+  }
+
+  .dark-theme & {
+    background-color: #1a1a2e;
+  }
+}
+
+// ============================================================================
+//                              TARJETA DE REGISTRO
+// ============================================================================
+.register-card {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 480px;
+  background: #ffffff;
+  border-radius: $border-radius-2xl;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  padding: $spacing-5;
+
+  .dark-theme & {
+    background: #2F4467;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  @include respond-to('sm') {
+    padding: $spacing-6;
+  }
+
+  // ========== INDICADOR DE PASOS ==========
+  &__steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: $spacing-4;
+    position: relative;
+  }
+
+  &__back {
+    position: absolute;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: $border-radius-md;
+    color: #6B7280;
+    cursor: pointer;
+    transition: $transition-all;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      background: #f3f4f6;
+      color: #1a1a2e;
+    }
+
+    .dark-theme & {
+      color: rgba(255, 255, 255, 0.6);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+      }
+    }
+  }
+
+  &__dots {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+  }
+
+  &__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #E5E7EB;
+    transition: $transition-all;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    .dark-theme & {
+      background: rgba(255, 255, 255, 0.2);
+    }
+
+    &--active {
+      background: transparent;
+      width: 14px;
+      height: 14px;
+    }
+
+    &--completed {
+      background: transparent;
+      width: 12px;
+      height: 12px;
+    }
+
+    &--pending {
+      background: #E5E7EB;
+
+      .dark-theme & {
+        background: rgba(255, 255, 255, 0.2);
+      }
+    }
+  }
+
+  &__dot-img {
+    width: 14px;
+    height: 14px;
+    max-width: 14px;
+    max-height: 14px;
+    object-fit: cover;
+    border-radius: 50%;
+  }
+
+  &__dot-check {
+    width: 12px;
+    height: 12px;
+    max-width: 12px;
+    max-height: 12px;
+  }
+
+  &__dot-icon {
+    width: 100%;
+    height: 100%;
+  }
+
+  &__close {
+    position: absolute;
+    right: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    border-radius: $border-radius-md;
+    color: #6B7280;
+    cursor: pointer;
+    transition: $transition-all;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      background: #f3f4f6;
+      color: #1a1a2e;
+    }
+
+    .dark-theme & {
+      color: rgba(255, 255, 255, 0.6);
+
+      &:hover {
+        background: rgba(255, 255, 255, 0.1);
+        color: #ffffff;
+      }
+    }
+  }
+
+  // ========== HEADER ==========
+  &__header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    margin-bottom: $spacing-4;
+  }
+
+  &__logo {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    border-radius: 50%;
+  }
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: #1a1a2e;
+    margin: 0;
+
+    .dark-theme & {
+      color: #ffffff;
+    }
+  }
+
+  // ========== PASO ==========
+  &__step {
+    animation: fadeIn 0.3s ease-out;
+  }
+
+  &__step-title {
+    font-family: $font-secondary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: #1a1a2e;
+    text-align: center;
+    margin: 0 0 $spacing-4;
+    line-height: $line-height-normal;
+
+    .dark-theme & {
+      color: #ffffff;
+    }
+  }
+
+  // ========== FORMULARIO ==========
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+  }
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+  }
+
+  &__input {
+    width: 100%;
+    padding: $spacing-3;
+    font-size: $font-size-sm;
+    background: #3D3D3D;
+    color: #ffffff;
+    border: 2px solid transparent;
+    border-radius: $border-radius-lg;
+    transition: $transition-all;
+
+    &::placeholder {
+      color: #9CA3AF;
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary-500;
+      box-shadow: 0 0 0 3px rgba($color-primary-500, 0.2);
+    }
+
+    &--error {
+      border-color: $color-error;
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba($color-error, 0.2);
+      }
+    }
+
+    .dark-theme & {
+      background: #1a1a2e;
+      color: #ffffff;
+
+      &::placeholder {
+        color: #6B7280;
+      }
+    }
+  }
+
+  &__password-wrapper {
+    position: relative;
+  }
+
+  &__password-toggle {
+    position: absolute;
+    right: $spacing-3;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    padding: $spacing-2;
+    cursor: pointer;
+    color: #9CA3AF;
+    transition: $transition-all;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &:hover {
+      color: #ffffff;
+    }
+
+    .dark-theme & {
+      color: #6B7280;
+
+      &:hover {
+        color: #ffffff;
+      }
+    }
+  }
+
+  &__error {
+    font-size: $font-size-xs;
+    color: $color-error;
+    margin-top: $spacing-1;
+  }
+
+  // ========== LABELS ==========
+  &__label {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: #1a1a2e;
+    margin-bottom: $spacing-1;
+
+    .dark-theme & {
+      color: #ffffff;
+    }
+  }
+
+  // ========== SELECTS ==========
+  &__select-wrapper {
+    position: relative;
+  }
+
+  &__select {
+    width: 100%;
+    padding: $spacing-3;
+    padding-right: $spacing-8;
+    font-size: $font-size-sm;
+    background: #3D3D3D;
+    color: #ffffff;
+    border: 2px solid transparent;
+    border-radius: $border-radius-lg;
+    appearance: none;
+    cursor: pointer;
+    transition: $transition-all;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary-500;
+      box-shadow: 0 0 0 3px rgba($color-primary-500, 0.2);
+    }
+
+    &--error {
+      border-color: $color-error;
+
+      &:focus {
+        box-shadow: 0 0 0 3px rgba($color-error, 0.2);
+      }
+    }
+
+    .dark-theme & {
+      background: #1a1a2e;
+      color: #ffffff;
+    }
+  }
+
+  &__select-arrow {
+    position: absolute;
+    right: $spacing-3;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    color: #ffffff;
+    pointer-events: none;
+  }
+
+  // ========== FECHA DE NACIMIENTO ==========
+  &__birthdate {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: $spacing-3;
+  }
+
+  // ========== AVISOS ==========
+  &__notice {
+    background: #f9fafb;
+    border: 1px solid #E5E7EB;
+    border-radius: $border-radius-lg;
+    padding: $spacing-3;
+
+    p {
+      font-size: $font-size-xs;
+      color: #6B7280;
+      margin: 0;
+      line-height: $line-height-relaxed;
+    }
+
+    .dark-theme & {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.1);
+
+      p {
+        color: rgba(255, 255, 255, 0.6);
+      }
+    }
+
+    &--light {
+      background: transparent;
+      border: none;
+      padding: $spacing-2 0;
+
+      p {
+        font-size: $font-size-xs;
+        color: #9CA3AF;
+      }
+    }
+  }
+
+  &__hint {
+    font-size: $font-size-xs;
+    color: #6B7280;
+    margin: 0;
+    line-height: $line-height-relaxed;
+
+    strong {
+      color: #1a1a2e;
+
+      .dark-theme & {
+        color: #ffffff;
+      }
+    }
+
+    .dark-theme & {
+      color: rgba(255, 255, 255, 0.6);
+    }
+
+    &--center {
+      text-align: center;
+      margin-bottom: $spacing-3;
+    }
+  }
+
+  // ========== CHECKBOX ==========
+  &__checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-2;
+    cursor: pointer;
+
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      margin-top: 2px;
+      flex-shrink: 0;
+      accent-color: #4CAF50;
+    }
+  }
+
+  &__checkbox-text {
+    font-size: $font-size-xs;
+    color: #6B7280;
+    line-height: $line-height-relaxed;
+
+    .dark-theme & {
+      color: rgba(255, 255, 255, 0.6);
+    }
+  }
+
+  // ========== REQUISITOS DE CONTRASEÑA ==========
+  &__requirements {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-2;
+  }
+
+  &__requirement {
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+    font-size: $font-size-xs;
+    color: #9CA3AF;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    &--valid {
+      color: #4CAF50;
+    }
+  }
+
+  // ========== BOTÓN SUBMIT ==========
+  &__submit {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    width: 100%;
+    padding: $spacing-3;
+    margin-top: $spacing-2;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: #ffffff;
+    background: #4CAF50;
+    border: none;
+    border-radius: $border-radius-lg;
+    cursor: pointer;
+    transition: $transition-all;
+
+    &:hover:not(:disabled) {
+      background: #43A047;
+      transform: translateY(-1px);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__spinner {
+    width: 18px;
+    height: 18px;
+    animation: spin 1s linear infinite;
+  }
+
+  // ========== FOOTER ==========
+  &__footer {
+    text-align: center;
+    margin-top: $spacing-4;
+    padding-top: $spacing-3;
+    border-top: 1px solid #E5E7EB;
+
+    .dark-theme & {
+      border-top-color: rgba(255, 255, 255, 0.1);
+    }
+
+    p {
+      font-size: $font-size-xs;
+      color: #9CA3AF;
+      margin: 0;
+
+      .dark-theme & {
+        color: rgba(255, 255, 255, 0.4);
+      }
+    }
+  }
+
+}
+
+// ============================================================================
+//                              ANIMACIONES
+// ============================================================================
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateX(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}

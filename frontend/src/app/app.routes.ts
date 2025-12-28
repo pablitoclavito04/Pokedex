@@ -28,11 +28,11 @@ export const routes: Routes = [
   },
 
   // Pokédex (lista de Pokémon)
-  // {
-  //   path: 'pokedex',
-  //   loadComponent: () => import('./pages/pokedex/pokedex').then(m => m.PokedexComponent),
-  //   title: 'Pokédex'
-  // },
+  {
+    path: 'pokedex',
+    loadComponent: () => import('./pages/pokedex/pokedex').then(m => m.PokedexComponent),
+    title: 'Pokédex - Página Principal'
+  },
 
   // Detalle de Pokémon
   // {
@@ -53,6 +53,13 @@ export const routes: Routes = [
     path: 'login',
     loadComponent: () => import('./pages/login/login').then(m => m.LoginComponent),
     title: 'Iniciar Sesión - Pokédex'
+  },
+
+  // Register
+  {
+    path: 'register',
+    loadComponent: () => import('./pages/register/register').then(m => m.RegisterComponent),
+    title: 'Crear Cuenta - Pokédex'
   },
 
   // Ruta comodín - Redirige al inicio si no encuentra la ruta

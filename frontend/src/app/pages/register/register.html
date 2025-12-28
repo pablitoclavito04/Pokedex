@@ -1,0 +1,386 @@
+<!-- ============================================================================
+     REGISTER PAGE - Página de registro de usuario
+
+     Diseño similar al Portal de Entrenadores Pokémon:
+     - Formulario en pasos (wizard)
+     - Indicador de progreso
+     - Validación en tiempo real
+     ============================================================================ -->
+
+<main class="register-page">
+
+  <!-- Contenedor de la tarjeta de registro -->
+  <div class="register-card">
+
+    <!-- ========== INDICADOR DE PASOS ========== -->
+    <div class="register-card__steps">
+      @if (currentStep > 1) {
+        <button
+          type="button"
+          class="register-card__back"
+          (click)="previousStep()"
+          aria-label="Volver al paso anterior">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M19 12H5M12 19l-7-7 7-7"/>
+          </svg>
+        </button>
+      }
+
+      <div class="register-card__dots">
+        @for (step of [1, 2, 3]; track step) {
+          <span
+            class="register-card__dot"
+            [class.register-card__dot--active]="step === currentStep"
+            [class.register-card__dot--completed]="step < currentStep"
+            [class.register-card__dot--pending]="step > currentStep">
+            @if (step === currentStep) {
+              <!-- Paso actual: mostrar favicon -->
+              <img src="favicon.png" alt="" class="register-card__dot-img">
+            } @else if (step < currentStep) {
+              <!-- Paso completado: mostrar tick verde -->
+              <svg viewBox="0 0 24 24" class="register-card__dot-check">
+                <circle cx="12" cy="12" r="10" fill="#4CAF50"/>
+                <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" fill="none"/>
+              </svg>
+            }
+            <!-- Paso pendiente: solo el círculo gris (sin contenido) -->
+          </span>
+        }
+      </div>
+
+      <button
+        type="button"
+        class="register-card__close"
+        routerLink="/"
+        aria-label="Volver al inicio">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- ========== LOGO ========== -->
+    <header class="register-card__header">
+      <img
+        src="favicon.png"
+        alt="Pokédex Logo"
+        class="register-card__logo">
+      <h1 class="register-card__title">Pokédex</h1>
+    </header>
+
+    <!-- ========== PASO 1: CORREO ELECTRÓNICO ========== -->
+    @if (currentStep === 1) {
+      <div class="register-card__step">
+        <h2 class="register-card__step-title">
+          Introduce el correo electrónico que usarás para esta cuenta
+        </h2>
+
+        <form class="register-card__form" (ngSubmit)="nextStep()" novalidate>
+          <!-- Campo: Correo electrónico -->
+          <div class="register-card__field">
+            <input
+              type="email"
+              id="email"
+              name="email"
+              class="register-card__input"
+              [class.register-card__input--error]="hasAttemptedSubmit && errors['email']"
+              placeholder="Correo electrónico"
+              [(ngModel)]="formData.email"
+              autocomplete="email">
+            @if (hasAttemptedSubmit && errors['email']) {
+              <span class="register-card__error">{{ errors['email'] }}</span>
+            }
+          </div>
+
+          <!-- Campo: Confirmar correo electrónico -->
+          <div class="register-card__field">
+            <input
+              type="email"
+              id="confirmEmail"
+              name="confirmEmail"
+              class="register-card__input"
+              [class.register-card__input--error]="hasAttemptedSubmit && errors['confirmEmail']"
+              placeholder="Confirmación de correo electrónico"
+              [(ngModel)]="formData.confirmEmail"
+              autocomplete="email">
+            @if (hasAttemptedSubmit && errors['confirmEmail']) {
+              <span class="register-card__error">{{ errors['confirmEmail'] }}</span>
+            }
+          </div>
+
+          <!-- Aviso sobre correo -->
+          <div class="register-card__notice">
+            <p>No uses un correo electrónico al que puedes perder acceso, como un correo electrónico educativo o de trabajo. No utilices tampoco un correo electrónico que no sea compatible con HTML, como un correo electrónico SMS.</p>
+          </div>
+
+          <!-- Botón Continuar -->
+          <button
+            type="submit"
+            class="register-card__submit"
+            [disabled]="isSubmitting">
+            Continuar
+          </button>
+        </form>
+      </div>
+    }
+
+    <!-- ========== PASO 2: PAÍS Y FECHA DE NACIMIENTO ========== -->
+    @if (currentStep === 2) {
+      <div class="register-card__step">
+        <h2 class="register-card__step-title">
+          Introduce tu país o región y tu fecha de nacimiento
+        </h2>
+
+        <p class="register-card__hint register-card__hint--center">
+          Por favor, introduce información fidedigna. Esta información puede ser necesaria para recuperar la cuenta si olvidas tu nombre de usuario o contraseña.
+        </p>
+
+        <form class="register-card__form" (ngSubmit)="nextStep()" novalidate>
+          <!-- Campo: País o región -->
+          <div class="register-card__field">
+            <label class="register-card__label">País o región</label>
+            <div class="register-card__select-wrapper">
+              <select
+                id="country"
+                name="country"
+                class="register-card__select"
+                [class.register-card__select--error]="hasAttemptedSubmit && errors['country']"
+                [(ngModel)]="formData.country">
+                <option value="">---</option>
+                @for (country of countries; track country) {
+                  <option [value]="country">{{ country }}</option>
+                }
+              </select>
+              <svg class="register-card__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M6 9l6 6 6-6"/>
+              </svg>
+            </div>
+            @if (hasAttemptedSubmit && errors['country']) {
+              <span class="register-card__error">{{ errors['country'] }}</span>
+            }
+          </div>
+
+          <!-- Campos: Fecha de nacimiento -->
+          <div class="register-card__birthdate">
+            <div class="register-card__field">
+              <label class="register-card__label">Año</label>
+              <div class="register-card__select-wrapper">
+                <select
+                  id="birthYear"
+                  name="birthYear"
+                  class="register-card__select"
+                  [class.register-card__select--error]="hasAttemptedSubmit && errors['birthYear']"
+                  [(ngModel)]="formData.birthYear">
+                  <option value="">---</option>
+                  @for (year of years; track year) {
+                    <option [value]="year">{{ year }}</option>
+                  }
+                </select>
+                <svg class="register-card__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="register-card__field">
+              <label class="register-card__label">Mes</label>
+              <div class="register-card__select-wrapper">
+                <select
+                  id="birthMonth"
+                  name="birthMonth"
+                  class="register-card__select"
+                  [class.register-card__select--error]="hasAttemptedSubmit && errors['birthMonth']"
+                  [(ngModel)]="formData.birthMonth">
+                  <option value="">---</option>
+                  @for (month of months; track month.value) {
+                    <option [value]="month.value">{{ month.label }}</option>
+                  }
+                </select>
+                <svg class="register-card__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </div>
+            </div>
+
+            <div class="register-card__field">
+              <label class="register-card__label">Día</label>
+              <div class="register-card__select-wrapper">
+                <select
+                  id="birthDay"
+                  name="birthDay"
+                  class="register-card__select"
+                  [class.register-card__select--error]="hasAttemptedSubmit && errors['birthDay']"
+                  [(ngModel)]="formData.birthDay">
+                  <option value="">---</option>
+                  @for (day of days; track day) {
+                    <option [value]="day">{{ day }}</option>
+                  }
+                </select>
+                <svg class="register-card__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Botón Continuar -->
+          <button
+            type="submit"
+            class="register-card__submit"
+            [disabled]="isSubmitting">
+            Continuar
+          </button>
+        </form>
+      </div>
+    }
+
+    <!-- ========== PASO 3: USUARIO Y CONTRASEÑA ========== -->
+    @if (currentStep === 3) {
+      <div class="register-card__step">
+        <h2 class="register-card__step-title">
+          Introduce el nombre de usuario y la contraseña
+        </h2>
+
+        <form class="register-card__form" (ngSubmit)="onSubmit($event)" novalidate>
+          <!-- Campo: Nombre de usuario -->
+          <div class="register-card__field">
+            <input
+              type="text"
+              id="username"
+              name="username"
+              class="register-card__input"
+              [class.register-card__input--error]="hasAttemptedSubmit && errors['username']"
+              placeholder="Nombre de usuario"
+              [(ngModel)]="formData.username"
+              autocomplete="username">
+            @if (hasAttemptedSubmit && errors['username']) {
+              <span class="register-card__error">{{ errors['username'] }}</span>
+            }
+          </div>
+
+          <!-- Aviso sobre nombre de usuario -->
+          <p class="register-card__hint">
+            Usarás tu nombre de usuario para iniciar sesión en tu cuenta o en las aplicaciones conectadas. <strong>No compartas tu nombre de usuario.</strong> Debe ser diferente a tu nombre en pantalla.
+          </p>
+
+          <!-- Campo: Contraseña -->
+          <div class="register-card__field">
+            <div class="register-card__password-wrapper">
+              <input
+                [type]="showPassword ? 'text' : 'password'"
+                id="password"
+                name="password"
+                class="register-card__input"
+                [class.register-card__input--error]="hasAttemptedSubmit && errors['password']"
+                placeholder="Contraseña"
+                [(ngModel)]="formData.password"
+                (ngModelChange)="onPasswordChange()"
+                autocomplete="new-password">
+              <button
+                type="button"
+                class="register-card__password-toggle"
+                (click)="togglePasswordVisibility()"
+                [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
+                @if (!showPassword) {
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                  </svg>
+                }
+                @if (showPassword) {
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                    <line x1="1" y1="1" x2="23" y2="23"/>
+                  </svg>
+                }
+              </button>
+            </div>
+          </div>
+
+          <!-- Requisitos de contraseña -->
+          <div class="register-card__requirements">
+            <div class="register-card__requirement" [class.register-card__requirement--valid]="passwordRequirements.length">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                @if (passwordRequirements.length) {
+                  <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" fill="none"/>
+                } @else {
+                  <path d="M8 8l8 8M16 8l-8 8" stroke="white" stroke-width="2" fill="none"/>
+                }
+              </svg>
+              <span>De 8 a 50 caracteres</span>
+            </div>
+            <div class="register-card__requirement" [class.register-card__requirement--valid]="passwordRequirements.number">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                @if (passwordRequirements.number) {
+                  <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" fill="none"/>
+                } @else {
+                  <path d="M8 8l8 8M16 8l-8 8" stroke="white" stroke-width="2" fill="none"/>
+                }
+              </svg>
+              <span>Un número</span>
+            </div>
+            <div class="register-card__requirement" [class.register-card__requirement--valid]="passwordRequirements.uppercase">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                @if (passwordRequirements.uppercase) {
+                  <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" fill="none"/>
+                } @else {
+                  <path d="M8 8l8 8M16 8l-8 8" stroke="white" stroke-width="2" fill="none"/>
+                }
+              </svg>
+              <span>Una letra mayúscula</span>
+            </div>
+            <div class="register-card__requirement" [class.register-card__requirement--valid]="passwordRequirements.special">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                @if (passwordRequirements.special) {
+                  <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" fill="none"/>
+                } @else {
+                  <path d="M8 8l8 8M16 8l-8 8" stroke="white" stroke-width="2" fill="none"/>
+                }
+              </svg>
+              <span>Un carácter especial (!, &, %, etc.)</span>
+            </div>
+            <div class="register-card__requirement" [class.register-card__requirement--valid]="passwordRequirements.lowercase">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                @if (passwordRequirements.lowercase) {
+                  <path d="M9 12l2 2 4-4" stroke="white" stroke-width="2" fill="none"/>
+                } @else {
+                  <path d="M8 8l8 8M16 8l-8 8" stroke="white" stroke-width="2" fill="none"/>
+                }
+              </svg>
+              <span>Una letra minúscula</span>
+            </div>
+          </div>
+
+          <!-- Botón Crear cuenta -->
+          <button
+            type="submit"
+            class="register-card__submit"
+            [disabled]="isSubmitting || !isPasswordValid()">
+            @if (isSubmitting) {
+              <svg class="register-card__spinner" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" opacity="0.3"/>
+                <path d="M12 2a10 10 0 0 1 10 10" stroke="currentColor" stroke-width="3" fill="none" stroke-linecap="round"/>
+              </svg>
+              Creando cuenta...
+            } @else {
+              Crear cuenta
+            }
+          </button>
+        </form>
+      </div>
+    }
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="register-card__footer">
+      <p>&copy;2025 Pokémon.</p>
+    </footer>
+
+  </div>
+
+</main>

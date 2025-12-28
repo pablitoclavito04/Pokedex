@@ -1,0 +1,304 @@
+<!-- ============================================================================
+     POKEDEX PAGE - Página principal de la Pokédex
+
+     Secciones:
+     - Búsqueda rápida
+     - Grid de Pokémon
+     - Botón cargar más
+     ============================================================================ -->
+
+<main class="pokedex-page">
+
+  <!-- ========== BÚSQUEDA RÁPIDA ========== -->
+  <section class="search-section">
+    <div class="search-section__container">
+      <h1 class="search-section__title">Búsqueda rápida</h1>
+      <p class="search-section__description">
+        Busca un Pokémon por su nombre o usando su número de la Pokédex nacional
+      </p>
+
+      <!-- Barra de búsqueda -->
+      <div class="search-section__input-wrapper">
+        <svg class="search-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="11" cy="11" r="8"/>
+          <path d="m21 21-4.35-4.35"/>
+        </svg>
+        <input
+          type="text"
+          class="search-section__input"
+          placeholder="Nombre o número"
+          [(ngModel)]="searchQuery">
+      </div>
+
+      <p class="search-section__hint">
+        Usa la búsqueda avanzada para encontrar Pokémons por su tipo, generación, peso, etc...
+      </p>
+    </div>
+  </section>
+
+  <!-- ========== BÚSQUEDA AVANZADA ========== -->
+  @if (showAdvancedSearch) {
+    <section class="advanced-search" [class.advanced-search--closing]="isAdvancedSearchClosing">
+      <div class="advanced-search__container">
+
+        <!-- Columna izquierda: Por tipo y Generación -->
+        <div class="advanced-search__column">
+          <div class="advanced-search__header">
+            <h3 class="advanced-search__title">Por tipo</h3>
+          </div>
+
+          <div class="advanced-search__types-grid">
+            @for (type of advancedTypes; track type.value) {
+              <button
+                class="type-filter__badge"
+                [class.type-filter__badge--active]="type.typeSelected"
+                [style.background-color]="type.color"
+                (click)="toggleTypeFilter(type.value, 'type')">
+                {{ type.name }}
+              </button>
+            }
+          </div>
+
+          <!-- Generación -->
+          <div class="advanced-search__section advanced-search__section--generation">
+            <h3 class="advanced-search__title">Generación</h3>
+            <div class="advanced-search__select-wrapper">
+              <select
+                class="advanced-search__select"
+                [(ngModel)]="selectedGeneration"
+                (click)="toggleGenerationSelect()"
+                (blur)="closeGenerationSelect()">
+                <option value="all">Todas</option>
+                @for (gen of generations; track gen.value) {
+                  @if (gen.value !== 'all') {
+                    <option [value]="gen.value">{{ gen.name }}</option>
+                  }
+                }
+              </select>
+              <span class="advanced-search__select-arrow-wrapper" [class.advanced-search__select-arrow-wrapper--open]="isGenerationSelectOpen">
+                <svg class="advanced-search__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M6 9l6 6 6-6"/>
+                </svg>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Columna derecha: Altura, Peso -->
+        <div class="advanced-search__column">
+
+          <!-- Altura -->
+          <div class="advanced-search__section">
+            <h3 class="advanced-search__title">Altura</h3>
+            <div class="advanced-search__options">
+              <button
+                class="advanced-search__option-btn"
+                [class.advanced-search__option-btn--active]="selectedHeight === 'small'"
+                (click)="selectHeight('small')">
+                <img src="/silueta de pokemon pequeño.png" alt="Pequeño" style="width: 32px; height: 32px;">
+              </button>
+              <button
+                class="advanced-search__option-btn"
+                [class.advanced-search__option-btn--active]="selectedHeight === 'medium'"
+                (click)="selectHeight('medium')">
+                <img src="/silueta dragonair.png" alt="Mediano" style="width: 48px; height: 48px;">
+              </button>
+              <button
+                class="advanced-search__option-btn"
+                [class.advanced-search__option-btn--active]="selectedHeight === 'large'"
+                (click)="selectHeight('large')">
+                <img src="/silueta rayquaza.png" alt="Grande" style="width: 70px; height: 70px;">
+              </button>
+            </div>
+          </div>
+
+          <!-- Peso -->
+          <div class="advanced-search__section">
+            <h3 class="advanced-search__title">Peso</h3>
+            <div class="advanced-search__options advanced-search__options--weight">
+              <button
+                class="advanced-search__option-btn"
+                [class.advanced-search__option-btn--active]="selectedWeight === 'light'"
+                (click)="selectWeight('light')">
+                <img src="/silueta de peso bajo.png" alt="Ligero" style="width: 32px; height: 32px;">
+              </button>
+              <button
+                class="advanced-search__option-btn"
+                [class.advanced-search__option-btn--active]="selectedWeight === 'medium'"
+                (click)="selectWeight('medium')">
+                <img src="/silueta de peso mediano.png" alt="Mediano" style="width: 48px; height: 48px;">
+              </button>
+              <button
+                class="advanced-search__option-btn"
+                [class.advanced-search__option-btn--active]="selectedWeight === 'heavy'"
+                (click)="selectWeight('heavy')">
+                <img src="/silueta de peso pesado.png" alt="Pesado" style="width: 60px; height: 60px;">
+              </button>
+            </div>
+          </div>
+
+          <!-- Secuencia -->
+          <div class="advanced-search__section">
+            <h3 class="advanced-search__title">Secuencia</h3>
+            <div class="advanced-search__sequence-inputs">
+              <input
+                type="number"
+                class="advanced-search__sequence-input"
+                [(ngModel)]="sequenceStart"
+                min="1"
+                max="1025">
+              <span class="advanced-search__sequence-separator">-</span>
+              <input
+                type="number"
+                class="advanced-search__sequence-input"
+                [(ngModel)]="sequenceEnd"
+                min="1"
+                max="1025">
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="advanced-search__footer">
+        <div class="advanced-search__actions">
+          <button class="advanced-search__reset-btn" (click)="resetFilters()">
+            Restablecer
+          </button>
+          <button class="advanced-search__search-btn" (click)="applyFilters()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="m21 21-4.35-4.35"/>
+            </svg>
+            Buscar
+          </button>
+        </div>
+      </div>
+
+    </section>
+  }
+
+  <!-- ========== BÚSQUEDA AVANZADA TOGGLE ========== -->
+  <section class="advanced-search-toggle">
+    <button class="advanced-search-toggle__btn" (click)="toggleAdvancedSearch()">
+      {{ isAdvancedSearchOpen ? 'Ocultar búsqueda avanzada' : 'Mostrar búsqueda avanzada' }}
+      <span class="advanced-search-toggle__icon-wrapper" [class.advanced-search-toggle__icon-wrapper--open]="isAdvancedSearchOpen">
+        <svg
+          class="advanced-search-toggle__icon"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2">
+          <path d="M6 9l6 6 6-6"/>
+        </svg>
+      </span>
+    </button>
+  </section>
+
+  <!-- ========== BARRA DE ACCIONES ========== -->
+  <section class="actions-bar">
+    <div class="actions-bar__container">
+      <button class="actions-bar__surprise-btn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M23 4v6h-6"/>
+          <path d="M1 20v-6h6"/>
+          <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+        </svg>
+        ¡Sorpréndeme!
+      </button>
+
+      <div class="actions-bar__sort">
+        <span class="actions-bar__sort-label">Ordenar por</span>
+        <div class="actions-bar__select-wrapper">
+          <svg class="actions-bar__select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="3"/>
+            <line x1="2" y1="12" x2="9" y2="12"/>
+            <line x1="15" y1="12" x2="22" y2="12"/>
+          </svg>
+          <select class="actions-bar__select" [(ngModel)]="sortOrder">
+            <option value="number-asc">Número inferior</option>
+            <option value="number-desc">Número superior</option>
+            <option value="name-asc">A - Z</option>
+            <option value="name-desc">Z - A</option>
+          </select>
+          <svg class="actions-bar__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== GRID DE POKÉMON ========== -->
+  <section class="pokemon-grid-section">
+    <div class="pokemon-grid-section__container">
+
+      <div class="pokemon-grid">
+        @for (pokemon of pokemons; track pokemon.id) {
+          <article class="pokemon-card">
+
+            <!-- Botón de favorito -->
+            <button
+              class="pokemon-card__favorite"
+              [class.pokemon-card__favorite--active]="pokemon.isFavorite"
+              (click)="toggleFavorite($event, pokemon.id)">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+              </svg>
+            </button>
+
+            <!-- Contenedor de imagen con fondo -->
+            <div class="pokemon-card__image-container">
+              <img
+                [src]="pokemon.image"
+                [alt]="pokemon.name"
+                class="pokemon-card__image"
+                loading="lazy">
+            </div>
+
+            <!-- Nombre -->
+            <h3 class="pokemon-card__name">{{ pokemon.name }}</h3>
+
+            <!-- Número pequeño -->
+            <span class="pokemon-card__number">{{ formatPokemonId(pokemon.id) }}</span>
+
+            <!-- Tipos -->
+            <div class="pokemon-card__types">
+              @for (type of pokemon.types; track type) {
+                <span
+                  class="pokemon-card__type"
+                  [style.background-color]="getTypeColor(type)">
+                  {{ getTypeName(type) }}
+                </span>
+              }
+            </div>
+
+            <!-- Botón más información -->
+            <button class="pokemon-card__btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <circle cx="12" cy="12" r="3"/>
+                <line x1="2" y1="12" x2="9" y2="12"/>
+                <line x1="15" y1="12" x2="22" y2="12"/>
+              </svg>
+              Más información
+            </button>
+
+          </article>
+        }
+      </div>
+
+      <!-- Botón cargar más -->
+      <div class="pokemon-grid-section__load-more">
+        <button class="load-more-btn" (click)="loadMorePokemon()">
+          Cargar más Pokémon
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+</main>
