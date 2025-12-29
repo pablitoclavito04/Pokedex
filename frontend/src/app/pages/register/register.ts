@@ -5,7 +5,8 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
+import { UserService } from '../../../services/user.service';
 
 @Component({
   selector: 'app-register',
@@ -14,6 +15,21 @@ import { RouterLink } from '@angular/router';
   styleUrl: './register.scss'
 })
 export class RegisterComponent {
+
+  constructor(
+    private router: Router,
+    private userService: UserService
+  ) {
+    // Generar años (desde 1920 hasta el año actual)
+    const currentYear = new Date().getFullYear();
+    for (let year = currentYear; year >= 1920; year--) {
+      this.years.push(year);
+    }
+    // Generar días (1-31)
+    for (let day = 1; day <= 31; day++) {
+      this.days.push(day);
+    }
+  }
 
   // ========== ESTADO DEL FORMULARIO ==========
   currentStep = 1;
@@ -82,18 +98,6 @@ export class RegisterComponent {
     { value: '12', label: 'Diciembre' }
   ];
   days: number[] = [];
-
-  constructor() {
-    // Generar años (desde 1920 hasta el año actual)
-    const currentYear = new Date().getFullYear();
-    for (let year = currentYear; year >= 1920; year--) {
-      this.years.push(year);
-    }
-    // Generar días (1-31)
-    for (let day = 1; day <= 31; day++) {
-      this.days.push(day);
-    }
-  }
 
   errors: Record<string, string> = {};
   hasAttemptedSubmit = false;
@@ -229,11 +233,23 @@ export class RegisterComponent {
 
     this.isSubmitting = true;
 
-    // Simulación de registro
+    // Registrar usuario en el servicio
+    this.userService.registerUser({
+      email: this.formData.email,
+      country: this.formData.country,
+      birthYear: this.formData.birthYear,
+      birthMonth: this.formData.birthMonth,
+      birthDay: this.formData.birthDay,
+      username: this.formData.username,
+      password: this.formData.password
+    });
+
+    // Simulación de tiempo de registro (cuando tengas backend, aquí iría la llamada HTTP)
     setTimeout(() => {
       console.log('Registro exitoso:', this.formData);
       this.isSubmitting = false;
-      // Aquí iría la lógica de registro real
-    }, 2000);
+      // Redirigir al perfil después del registro
+      this.router.navigate(['/profile']);
+    }, 1500);
   }
 }

@@ -61,6 +61,8 @@ public class AuthService {
         user.setUsername(request.getUsername());
         user.setPassword(passwordEncoder.encode(request.getPassword())); // Encriptar contraseña
         user.setEmail(request.getEmail());
+        user.setPais(request.getPais());
+        user.setFechaNacimiento(request.getFechaNacimiento());
         user.setRole("USER"); // Rol por defecto
         user.setEnabled(true);
 

@@ -26,13 +26,24 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   // ========== DATOS DEL USUARIO ==========
   user: UserProfile & { joinDate: string; stats: { favorites: number; captured: number; quizScore: number } } = {
-    avatar: null,
+    // Datos de registro
+    email: '',
+    country: '',
+    birthDate: {
+      year: '',
+      month: '',
+      day: ''
+    },
     username: '',
+    password: '',
+    // Datos de perfil
+    avatar: null,
     displayName: '',
     bio: '',
     gender: '',
     favoriteRegion: '',
     language: '',
+    // Datos adicionales del perfil
     joinDate: 'Enero 2024',
     stats: {
       favorites: 24,

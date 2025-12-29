@@ -4,6 +4,7 @@ import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { FormInputComponent } from '../../../components/shared/form-input/form-input';
 import { ButtonComponent } from '../../../components/shared/button/button';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,7 +20,10 @@ import { ButtonComponent } from '../../../components/shared/button/button';
   styleUrls: ['./login.scss']
 })
 export class LoginComponent {
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   // Datos del formulario
   formData = {
@@ -31,6 +35,7 @@ export class LoginComponent {
   isSubmitting = false;
   showPassword = false;
   hasAttemptedSubmit = false;
+  loginError = '';
   errors = {
     username: '',
     password: ''
@@ -70,6 +75,7 @@ export class LoginComponent {
   onSubmit(event: Event): void {
     event.preventDefault();
     this.hasAttemptedSubmit = true;
+    this.loginError = '';
 
     if (!this.validateForm()) {
       return;
@@ -77,12 +83,21 @@ export class LoginComponent {
 
     this.isSubmitting = true;
 
-    // Simular login
-    setTimeout(() => {
-      this.isSubmitting = false;
-      console.log('Login:', this.formData);
-      // TODO: Implementar lógica de autenticación real
-    }, 1500);
+    this.authService.login({
+      username: this.formData.username,
+      password: this.formData.password
+    }).subscribe({
+      next: (response) => {
+        this.isSubmitting = false;
+        console.log('Login exitoso:', response);
+        this.router.navigate(['/pokedex']);
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        console.error('Error de login:', err);
+        this.loginError = 'Usuario o contraseña incorrectos';
+      }
+    });
   }
 
   // Navegación
@@ -91,18 +106,15 @@ export class LoginComponent {
   }
 
   onForgotPassword(): void {
-    // TODO: Implementar recuperación de contraseña
     console.log('Forgot password clicked');
   }
 
   // Login social
   loginWithGoogle(): void {
     console.log('Login with Google');
-    // TODO: Implementar login con Google
   }
 
   loginWithApple(): void {
     console.log('Login with Apple');
-    // TODO: Implementar login con Apple
   }
 }

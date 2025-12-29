@@ -7,6 +7,9 @@ public class RegisterRequest {
     private String username;
     private String password;
     private String email;
+    private String pais;
+    private java.time.LocalDate fechaNacimiento;
+
 
     public RegisterRequest() {
     }
@@ -39,5 +42,21 @@ public class RegisterRequest {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public String getPais() {
+        return pais;
+    }
+
+    public void setPais(String pais) {
+        this.pais = pais;
+    }
+
+    public java.time.LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(java.time.LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
     }
 }

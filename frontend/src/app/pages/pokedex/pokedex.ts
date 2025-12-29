@@ -2,10 +2,12 @@
 //          POKEDEX PAGE - Página principal de la Pokédex
 // ============================================================================
 
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { FavoritoService } from '../../services/favorito.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-pokedex',
@@ -14,9 +16,27 @@ import { Router, RouterLink } from '@angular/router';
   templateUrl: './pokedex.html',
   styleUrl: './pokedex.scss'
 })
-export class PokedexComponent {
+export class PokedexComponent implements OnInit {
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private favoritoService: FavoritoService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+    // Cargar favoritos al iniciar si el usuario está logueado
+    if (this.authService.isLoggedIn()) {
+      this.favoritoService.cargarFavoritos();
+
+      // Suscribirse a cambios en favoritos
+      this.favoritoService.favoritos$.subscribe(favoritos => {
+        this.pokemons.forEach(pokemon => {
+          pokemon.isFavorite = favoritos.includes(pokemon.id);
+        });
+      });
+    }
+  }
 
   // ========== FILTROS DE TIPO ==========
   types = [
@@ -180,25 +200,21 @@ export class PokedexComponent {
 
   // ========== MÉTODOS ==========
   toggleAdvancedSearch(): void {
-    // Evitar clics durante la animación de cierre
     if (this.isAdvancedSearchClosing) {
       return;
     }
 
     if (this.showAdvancedSearch) {
-      // Cerrar con animación
       this.isAdvancedSearchClosing = true;
       setTimeout(() => {
         this.showAdvancedSearch = false;
         this.isAdvancedSearchClosing = false;
       }, 300);
     } else {
-      // Abrir
       this.showAdvancedSearch = true;
     }
   }
 
-  // Getter para el estado del botón (abierto/cerrado visualmente)
   get isAdvancedSearchOpen(): boolean {
     return this.showAdvancedSearch && !this.isAdvancedSearchClosing;
   }
@@ -234,19 +250,24 @@ export class PokedexComponent {
     if (types.length === 1) {
       return this.getTypeColor(types[0]);
     }
-    // Para dos tipos, crear gradiente
     const color1 = this.getTypeColor(types[0]);
     const color2 = this.getTypeColor(types[1]);
     return `linear-gradient(135deg, ${color1} 50%, ${color2} 50%)`;
   }
 
   loadMorePokemon(): void {
-    // Aquí irá la lógica para cargar más Pokémon desde la API
     console.log('Cargando más Pokémon...');
   }
 
   toggleFavorite(event: Event, pokemonId: number): void {
     event.stopPropagation();
+
+    // Verificar si está logueado
+    if (!this.authService.isLoggedIn()) {
+      this.router.navigate(['/login']);
+      return;
+    }
+
     const button = event.currentTarget as HTMLElement;
     const pokemon = this.pokemons.find(p => p.id === pokemonId);
 
@@ -255,13 +276,19 @@ export class PokedexComponent {
       button.classList.add('animate-wave');
       button.classList.add('animate-heart-beat');
 
-      // Remover las clases después de las animaciones
       setTimeout(() => button.classList.remove('animate-wave'), 600);
       setTimeout(() => button.classList.remove('animate-heart-beat'), 400);
 
-      // Toggle del estado
-      pokemon.isFavorite = !pokemon.isFavorite;
-      console.log(`${pokemon.name} favorito: ${pokemon.isFavorite}`);
+      // Llamar al backend
+      this.favoritoService.toggleFavorito(pokemonId).subscribe({
+        next: (response) => {
+          pokemon.isFavorite = response.esFavorito;
+          console.log(`${pokemon.name} favorito: ${pokemon.isFavorite}`);
+        },
+        error: (err) => {
+          console.error('Error al cambiar favorito:', err);
+        }
+      });
     }
   }
 
@@ -306,7 +333,6 @@ export class PokedexComponent {
   }
 
   applyFilters(): void {
-    // Aquí irá la lógica para aplicar los filtros
     console.log('Aplicando filtros...');
     console.log('Tipos seleccionados:', this.advancedTypes.filter(t => t.typeSelected));
     console.log('Debilidades seleccionadas:', this.advancedTypes.filter(t => t.weaknessSelected));

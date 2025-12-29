@@ -164,17 +164,17 @@
           <!-- Campos: Fecha de nacimiento -->
           <div class="register-card__birthdate">
             <div class="register-card__field">
-              <label class="register-card__label">Año</label>
+              <label class="register-card__label">Día</label>
               <div class="register-card__select-wrapper">
                 <select
-                  id="birthYear"
-                  name="birthYear"
+                  id="birthDay"
+                  name="birthDay"
                   class="register-card__select"
-                  [class.register-card__select--error]="hasAttemptedSubmit && errors['birthYear']"
-                  [(ngModel)]="formData.birthYear">
+                  [class.register-card__select--error]="hasAttemptedSubmit && errors['birthDay']"
+                  [(ngModel)]="formData.birthDay">
                   <option value="">---</option>
-                  @for (year of years; track year) {
-                    <option [value]="year">{{ year }}</option>
+                  @for (day of days; track day) {
+                    <option [value]="day">{{ day }}</option>
                   }
                 </select>
                 <svg class="register-card__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -204,17 +204,17 @@
             </div>
 
             <div class="register-card__field">
-              <label class="register-card__label">Día</label>
+              <label class="register-card__label">Año</label>
               <div class="register-card__select-wrapper">
                 <select
-                  id="birthDay"
-                  name="birthDay"
+                  id="birthYear"
+                  name="birthYear"
                   class="register-card__select"
-                  [class.register-card__select--error]="hasAttemptedSubmit && errors['birthDay']"
-                  [(ngModel)]="formData.birthDay">
+                  [class.register-card__select--error]="hasAttemptedSubmit && errors['birthYear']"
+                  [(ngModel)]="formData.birthYear">
                   <option value="">---</option>
-                  @for (day of days; track day) {
-                    <option [value]="day">{{ day }}</option>
+                  @for (year of years; track year) {
+                    <option [value]="year">{{ year }}</option>
                   }
                 </select>
                 <svg class="register-card__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">

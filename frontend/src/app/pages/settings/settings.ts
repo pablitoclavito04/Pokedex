@@ -24,8 +24,16 @@ export class SettingsComponent implements OnInit {
 
   // ========== DATOS DEL FORMULARIO ==========
   profileData: UserProfile = {
-    avatar: null,
+    email: '',
+    country: '',
+    birthDate: {
+      year: '',
+      month: '',
+      day: ''
+    },
     username: '',
+    password: '',
+    avatar: null,
     displayName: '',
     bio: '',
     gender: '',
@@ -127,6 +135,11 @@ export class SettingsComponent implements OnInit {
 
   saveChanges(): void {
     if (!this.canSave) return;
+
+    // Si se ingresó una nueva contraseña, actualizarla
+    if (this.passwordData.newPassword) {
+      this.profileData.password = this.passwordData.newPassword;
+    }
 
     // Guardar cambios en el servicio
     this.userService.updateProfile(this.profileData);
