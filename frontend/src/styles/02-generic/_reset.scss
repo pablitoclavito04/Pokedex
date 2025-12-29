@@ -28,8 +28,8 @@ html {
   // Previene ajuste de tamaño de fuente en iOS
   -webkit-text-size-adjust: 100%;
   
-  // Comportamiento de scroll suave
-  scroll-behavior: smooth;
+  // Comportamiento de scroll instantáneo
+  scroll-behavior: auto;
   
   // Altura completa para aplicaciones SPA
   height: 100%;

@@ -3,8 +3,8 @@
 // ============================================================================
 
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { CommonModule, Location } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { UserService, UserProfile } from '../../../services/user.service';
@@ -20,7 +20,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
   private subscription!: Subscription;
 
   constructor(
-    private location: Location,
+    private router: Router,
     private userService: UserService
   ) {}
 
@@ -77,7 +77,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   // ========== MÉTODOS ==========
   goBack(): void {
-    this.location.back();
+    this.router.navigate(['/pokedex']);
   }
 
   onAvatarClick(): void {

@@ -1,0 +1,255 @@
+<!-- ============================================================================
+     POKEMON DETAIL PAGE - Página de detalle del Pokémon
+
+     Secciones:
+     - Navegación superior (anterior/siguiente)
+     - Nombre y número
+     - Imagen y datos básicos
+     - Estadísticas base
+     - Evoluciones
+     ============================================================================ -->
+
+<main class="pokemon-detail">
+
+  <!-- ========== NAVEGACIÓN SUPERIOR ========== -->
+  <nav class="pokemon-nav">
+    <button class="pokemon-nav__btn pokemon-nav__btn--prev" (click)="goToPrevious()">
+      <span class="pokemon-nav__arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </span>
+      @if (previousPokemon) {
+        <span class="pokemon-nav__info">
+          <span class="pokemon-nav__id">N.º {{ previousPokemon.id.toString().padStart(4, '0') }}</span>
+          <span class="pokemon-nav__name">{{ previousPokemon.name }}</span>
+        </span>
+      }
+    </button>
+
+    <button class="pokemon-nav__btn pokemon-nav__btn--next" (click)="goToNext()">
+      @if (nextPokemon) {
+        <span class="pokemon-nav__info">
+          <span class="pokemon-nav__name">{{ nextPokemon.name }}</span>
+          <span class="pokemon-nav__id">N.º {{ nextPokemon.id.toString().padStart(4, '0') }}</span>
+        </span>
+      }
+      <span class="pokemon-nav__arrow">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </span>
+    </button>
+  </nav>
+
+  <!-- ========== ENCABEZADO CON NOMBRE ========== -->
+  <header class="pokemon-header">
+    <h1 class="pokemon-header__title">
+      <span class="pokemon-header__name">{{ pokemon.name }}</span>
+      <span class="pokemon-header__id">{{ formatPokemonId(pokemon.id) }}</span>
+    </h1>
+  </header>
+
+  <!-- ========== CONTENIDO PRINCIPAL ========== -->
+  <div class="pokemon-content">
+
+    <!-- Columna izquierda: Imagen y Stats -->
+    <div class="pokemon-content__left">
+
+      <!-- Imagen principal -->
+      <div class="pokemon-image">
+        <img
+          [src]="pokemon.image"
+          [alt]="pokemon.name"
+          class="pokemon-image__img">
+      </div>
+
+      <!-- Estadísticas base -->
+      <div class="pokemon-stats">
+        <div class="pokemon-stats__grid">
+
+          <!-- PS -->
+          <div class="pokemon-stats__row">
+            <span class="pokemon-stats__label">PS</span>
+            <div class="pokemon-stats__bar-container">
+              <div
+                class="pokemon-stats__bar"
+                [style.width.%]="getStatPercentage(pokemon.stats.hp)">
+              </div>
+            </div>
+            <span class="pokemon-stats__value">{{ pokemon.stats.hp }}</span>
+          </div>
+
+          <!-- Ataque -->
+          <div class="pokemon-stats__row">
+            <span class="pokemon-stats__label">Ataque</span>
+            <div class="pokemon-stats__bar-container">
+              <div
+                class="pokemon-stats__bar"
+                [style.width.%]="getStatPercentage(pokemon.stats.attack)">
+              </div>
+            </div>
+            <span class="pokemon-stats__value">{{ pokemon.stats.attack }}</span>
+          </div>
+
+          <!-- Defensa -->
+          <div class="pokemon-stats__row">
+            <span class="pokemon-stats__label">Defensa</span>
+            <div class="pokemon-stats__bar-container">
+              <div
+                class="pokemon-stats__bar"
+                [style.width.%]="getStatPercentage(pokemon.stats.defense)">
+              </div>
+            </div>
+            <span class="pokemon-stats__value">{{ pokemon.stats.defense }}</span>
+          </div>
+
+          <!-- Velocidad -->
+          <div class="pokemon-stats__row">
+            <span class="pokemon-stats__label">Velocidad</span>
+            <div class="pokemon-stats__bar-container">
+              <div
+                class="pokemon-stats__bar"
+                [style.width.%]="getStatPercentage(pokemon.stats.speed)">
+              </div>
+            </div>
+            <span class="pokemon-stats__value">{{ pokemon.stats.speed }}</span>
+          </div>
+
+          <!-- Ataque Especial -->
+          <div class="pokemon-stats__row">
+            <span class="pokemon-stats__label">At. Esp.</span>
+            <div class="pokemon-stats__bar-container">
+              <div
+                class="pokemon-stats__bar"
+                [style.width.%]="getStatPercentage(pokemon.stats.spAttack)">
+              </div>
+            </div>
+            <span class="pokemon-stats__value">{{ pokemon.stats.spAttack }}</span>
+          </div>
+
+          <!-- Defensa Especial -->
+          <div class="pokemon-stats__row">
+            <span class="pokemon-stats__label">Def. Esp.</span>
+            <div class="pokemon-stats__bar-container">
+              <div
+                class="pokemon-stats__bar"
+                [style.width.%]="getStatPercentage(pokemon.stats.spDefense)">
+              </div>
+            </div>
+            <span class="pokemon-stats__value">{{ pokemon.stats.spDefense }}</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Columna derecha: Información -->
+    <div class="pokemon-content__right">
+
+      <!-- Descripción -->
+      <p class="pokemon-description">{{ pokemon.description }}</p>
+
+      <!-- Datos básicos -->
+      <div class="pokemon-info">
+        <div class="pokemon-info__grid">
+
+          <div class="pokemon-info__item">
+            <span class="pokemon-info__label">Altura</span>
+            <span class="pokemon-info__value">{{ pokemon.height }} m</span>
+          </div>
+
+          <div class="pokemon-info__item">
+            <span class="pokemon-info__label">Peso</span>
+            <span class="pokemon-info__value">{{ pokemon.weight }} kg</span>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tipo -->
+      <div class="pokemon-types">
+        <h3 class="pokemon-types__title">Tipo</h3>
+        <div class="pokemon-types__list">
+          @for (type of pokemon.types; track type) {
+            <span
+              class="pokemon-types__badge"
+              [style.background-color]="getTypeColor(type)">
+              {{ getTypeName(type) }}
+            </span>
+          }
+        </div>
+      </div>
+
+      <!-- Debilidades -->
+      <div class="pokemon-weaknesses">
+        <h3 class="pokemon-weaknesses__title">Debilidad</h3>
+        <div class="pokemon-weaknesses__list">
+          @for (weakness of pokemon.weaknesses; track weakness) {
+            <span
+              class="pokemon-weaknesses__badge"
+              [style.background-color]="getTypeColor(weakness)">
+              {{ getTypeName(weakness) }}
+            </span>
+          }
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- ========== EVOLUCIONES ========== -->
+  @if (pokemon.evolutions && pokemon.evolutions.length > 1) {
+    <section class="pokemon-evolutions">
+      <h2 class="pokemon-evolutions__title">Evoluciones</h2>
+      <div class="pokemon-evolutions__chain">
+        @for (evo of pokemon.evolutions; track evo.id; let i = $index; let last = $last) {
+          <div class="pokemon-evolutions__item" (click)="navigateToPokemon(evo.id)">
+            <div class="pokemon-evolutions__image-wrapper">
+              <img
+                [src]="evo.image"
+                [alt]="evo.name"
+                class="pokemon-evolutions__image">
+            </div>
+            <div class="pokemon-evolutions__info">
+              <span class="pokemon-evolutions__name">{{ evo.name }}</span>
+              <span class="pokemon-evolutions__id">{{ formatPokemonId(evo.id) }}</span>
+            </div>
+            <div class="pokemon-evolutions__types">
+              @for (type of evo.types; track type) {
+                <span
+                  class="pokemon-evolutions__type"
+                  [style.background-color]="getTypeColor(type)">
+                  {{ getTypeName(type) }}
+                </span>
+              }
+            </div>
+          </div>
+          @if (!last) {
+            <div class="pokemon-evolutions__arrow">
+              @if (pokemon.evolutions[i + 1]?.level) {
+                <span class="pokemon-evolutions__level">Nivel {{ pokemon.evolutions[i + 1].level }}</span>
+              }
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"/>
+              </svg>
+            </div>
+          }
+        }
+      </div>
+    </section>
+  }
+
+  <!-- ========== BOTÓN VOLVER ========== -->
+  <section class="pokemon-back">
+    <button class="pokemon-back__btn" (click)="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 18l-6-6 6-6"/>
+      </svg>
+      Volver a la Pokédex
+    </button>
+  </section>
+
+</main>

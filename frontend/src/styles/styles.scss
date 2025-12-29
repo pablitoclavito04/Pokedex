@@ -119,9 +119,9 @@
 //                      ESTILOS GLOBALES DEL BODY
 // ============================================================================
 
-// Scroll suave para navegación con anchors
+// Scroll instantáneo para navegación
 html {
-  scroll-behavior: smooth;
+  scroll-behavior: auto;
   background-color: var(--bg-primary);
 }
 

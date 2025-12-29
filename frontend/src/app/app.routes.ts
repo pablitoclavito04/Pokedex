@@ -35,11 +35,11 @@ export const routes: Routes = [
   },
 
   // Detalle de Pokémon
-  // {
-  //   path: 'pokemon/:id',
-  //   loadComponent: () => import('./pages/pokemon-detail/pokemon-detail').then(m => m.PokemonDetailComponent),
-  //   title: 'Detalle Pokémon'
-  // },
+  {
+    path: 'pokemon/:id',
+    loadComponent: () => import('./pages/pokemon-detail/pokemon-detail').then(m => m.PokemonDetailComponent),
+    title: 'Detalle Pokémon'
+  },
 
   // Favoritos
   // {

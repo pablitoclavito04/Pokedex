@@ -46,6 +46,12 @@ export class SettingsComponent implements OnInit {
   usernameError: string | null = null;
   private usernamePattern = /^[a-zA-Z0-9_.]+$/;
 
+  // Datos y validación para la contraseña
+  passwordData = { newPassword: '' };
+  passwordMaxLength = 32;
+  passwordError: string | null = null;
+  showPassword = false;
+
   // Estado del formulario
   hasChanges = false;
 
@@ -143,5 +149,20 @@ export class SettingsComponent implements OnInit {
 
   onSelectBlur(selectId: string): void {
     this.selectStates[selectId] = false;
+  }
+
+  onPasswordChange(): void {
+    this.hasChanges = true;
+
+    const password = this.passwordData.newPassword;
+    if (password && password.length < 8) {
+      this.passwordError = 'La contraseña debe tener al menos 8 caracteres.';
+    } else {
+      this.passwordError = null;
+    }
+  }
+
+  togglePasswordVisibility(): void {
+    this.showPassword = !this.showPassword;
   }
 }

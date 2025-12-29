@@ -265,6 +265,36 @@
   // ========== INPUTS ==========
   &__input-wrapper {
     width: 100%;
+
+    &--password {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  &__toggle-password {
+    position: absolute;
+    right: $spacing-3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-tertiary);
+      transition: stroke 0.2s ease;
+    }
+
+    &:hover svg {
+      stroke: var(--text-primary);
+    }
   }
 
   &__input,
@@ -308,6 +338,21 @@
 
       &:focus {
         border-color: #ef4444;
+      }
+    }
+
+    &--password {
+      padding-right: 48px;
+
+      // Ocultar el icono de revelar contraseña del navegador
+      &::-ms-reveal,
+      &::-ms-clear {
+        display: none;
+      }
+
+      &::-webkit-credentials-auto-fill-button,
+      &::-webkit-password-auto-fill-button {
+        display: none !important;
       }
     }
   }
