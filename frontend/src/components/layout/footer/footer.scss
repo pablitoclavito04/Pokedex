@@ -107,12 +107,19 @@
     height: 36px;
     object-fit: contain;
     border-radius: 50%;
+    transition: $transition-all;
   }
   
   &__logo-text {
     font-family: $font-secondary;
     font-size: $font-size-xl;
     font-weight: $font-weight-bold;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    transition: color 0.3s ease, opacity 0.3s ease;
+
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    }
   }
   
   &__description {

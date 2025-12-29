@@ -120,25 +120,36 @@ export class ThemeService {
   /**
    * Aplica la clase de tema al documento
    */
- private applyThemeToDocument(theme: Theme): void {
-  if (!this.isBrowser) return;
+  private applyThemeToDocument(theme: Theme): void {
+    if (!this.isBrowser) return;
 
-  const body = document.body;
-  const html = document.documentElement;
+    const body = document.body;
+    const html = document.documentElement;
 
-  // Remover clases de tema existentes
-  body.classList.remove('light-theme', 'dark-theme');
-  html.classList.remove('light-theme', 'dark-theme');
+    // Añadir clase de transición para suavizar el cambio
+    body.classList.add('theme-transitioning');
 
-  // Aplicar nueva clase de tema
-  if (theme === 'dark') {
-    body.classList.add('dark-theme');
-    html.classList.add('dark-theme');
-  } else {
-    body.classList.add('light-theme');
-    html.classList.add('light-theme');
+    // Forzar reflow para que la clase de transición se aplique antes del cambio
+    void body.offsetHeight;
+
+    // Remover clases de tema existentes
+    body.classList.remove('light-theme', 'dark-theme');
+    html.classList.remove('light-theme', 'dark-theme');
+
+    // Aplicar nueva clase de tema
+    if (theme === 'dark') {
+      body.classList.add('dark-theme');
+      html.classList.add('dark-theme');
+    } else {
+      body.classList.add('light-theme');
+      html.classList.add('light-theme');
+    }
+
+    // Remover clase de transición después de que termine la animación
+    setTimeout(() => {
+      body.classList.remove('theme-transitioning');
+    }, 350);
   }
-}
 
   /**
    * Persiste la preferencia de tema en localStorage

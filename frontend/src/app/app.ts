@@ -17,14 +17,20 @@ import { filter } from 'rxjs/operators';
 export class App {
   // Rutas donde no se muestra header/footer
   private hiddenLayoutRoutes = ['/login', '/register'];
+  // Rutas donde no se muestra el footer
+  private hiddenFooterRoutes = ['/login', '/register', '/profile', '/settings'];
+
   showLayout = true;
+  showFooter = true;
 
   constructor(private themeService: ThemeService, private router: Router) {
     // Escuchar cambios de ruta para mostrar/ocultar layout
     this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
-        this.showLayout = !this.hiddenLayoutRoutes.includes(event.urlAfterRedirects);
+        const url = event.urlAfterRedirects;
+        this.showLayout = !this.hiddenLayoutRoutes.includes(url);
+        this.showFooter = !this.hiddenFooterRoutes.some(route => url.startsWith(route));
       });
   }
 }

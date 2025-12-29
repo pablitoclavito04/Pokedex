@@ -62,6 +62,20 @@ export const routes: Routes = [
     title: 'Crear Cuenta - Pokédex'
   },
 
+  // Profile - Perfil del usuario
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile').then(m => m.ProfileComponent),
+    title: 'Mi Perfil - Pokédex'
+  },
+
+  // Settings - Editar perfil
+  {
+    path: 'settings',
+    loadComponent: () => import('./pages/settings/settings').then(m => m.SettingsComponent),
+    title: 'Editar Perfil - Pokédex'
+  },
+
   // Ruta comodín - Redirige al inicio si no encuentra la ruta
   {
     path: '**',

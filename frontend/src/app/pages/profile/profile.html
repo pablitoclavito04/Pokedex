@@ -1,0 +1,99 @@
+<!-- ============================================================================
+     PROFILE PAGE - Página de perfil del usuario
+
+     Secciones:
+     - Botón volver
+     - Card de perfil con avatar, botones de acción
+     - Presentación (bio)
+     - Región favorita
+     ============================================================================ -->
+
+<main class="profile-page">
+
+  <!-- ========== BOTÓN VOLVER ========== -->
+  <section class="profile-page__header">
+    <button class="profile-page__back-btn" (click)="goBack()">
+      <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      Volver
+    </button>
+  </section>
+
+  <!-- ========== CARD PRINCIPAL ========== -->
+  <section class="profile-card">
+    <div class="profile-card__container">
+
+      <!-- Parte superior: Avatar y botones -->
+      <div class="profile-card__top">
+
+        <!-- Avatar y datos del usuario -->
+        <div class="profile-card__user-info">
+          <div class="profile-card__avatar-wrapper">
+            <div class="profile-card__avatar" (click)="onAvatarClick()">
+              @if (user.avatar) {
+                <img [src]="user.avatar" [alt]="user.displayName" class="profile-card__avatar-img">
+              } @else {
+                <svg class="profile-card__avatar-placeholder" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+                </svg>
+              }
+            </div>
+          </div>
+          <div class="profile-card__names">
+            <h1 class="profile-card__username">{{ user.username }}</h1>
+            <p class="profile-card__display-name">{{ user.displayName }}</p>
+          </div>
+        </div>
+
+        <!-- Botones de acción -->
+        <div class="profile-card__actions">
+          <button class="profile-card__action-btn profile-card__action-btn--settings" routerLink="/settings">
+            Editar perfil
+          </button>
+          <button class="profile-card__action-btn profile-card__action-btn--favorites" routerLink="/favorites">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+            </svg>
+            Favoritos
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Bio -->
+      <div class="profile-card__section profile-card__section--no-title">
+        <div class="profile-card__bio-container">
+          @if (isEditing) {
+            <textarea
+              class="profile-card__bio-input"
+              [(ngModel)]="editedBio"
+              rows="4"
+              placeholder="Escribe algo sobre ti...">
+            </textarea>
+            <div class="profile-card__bio-actions">
+              <button class="profile-card__bio-btn profile-card__bio-btn--cancel" (click)="cancelEdit()">
+                Cancelar
+              </button>
+              <button class="profile-card__bio-btn profile-card__bio-btn--save" (click)="saveBio()">
+                Guardar
+              </button>
+            </div>
+          } @else {
+            <p class="profile-card__bio">{{ user.bio }}</p>
+          }
+        </div>
+      </div>
+
+      <!-- Región favorita -->
+      <div class="profile-card__section">
+        <h2 class="profile-card__section-title">Mi región favorita</h2>
+        <div class="profile-card__region-container">
+          <span class="profile-card__region">{{ user.favoriteRegion }}</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+</main>

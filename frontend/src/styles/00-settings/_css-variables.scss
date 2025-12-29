@@ -23,6 +23,9 @@
 
 :root,
 .dark-theme {
+  // Transición suave para cambio de tema
+  color-scheme: dark;
+
   // --------------------------------------------------------------------------
   //                          Colores de fondo
   // --------------------------------------------------------------------------
@@ -93,6 +96,9 @@
 // Se aplica con la clase .light-theme en el <body> o elemento contenedor
 
 .light-theme {
+  // Transición suave para cambio de tema
+  color-scheme: light;
+
   // --------------------------------------------------------------------------
   //                          Colores de fondo
   // --------------------------------------------------------------------------

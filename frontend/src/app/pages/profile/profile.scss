@@ -1,0 +1,445 @@
+// ============================================================================
+//                    PROFILE PAGE - Estilos BEM
+// ============================================================================
+// Bloque: .profile-page, .profile-card
+// Elementos: __header, __back-btn, __avatar, __actions, __section, etc.
+// Modificadores: --settings, --favorites, --editing
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                      BLOQUE PRINCIPAL: .profile-page
+// ============================================================================
+.profile-page {
+  min-height: 100vh;
+  background: var(--bg-primary, #{map-get($dark-theme, bg-primary)});
+  padding: $spacing-4;
+  padding-bottom: $spacing-16;
+
+  @include respond-to('md') {
+    padding: $spacing-8;
+    padding-bottom: $spacing-16;
+  }
+
+  // ========== HEADER CON BOTÓN VOLVER ==========
+  &__header {
+    max-width: 900px;
+    margin: 0 auto $spacing-6;
+
+    @include respond-to('md') {
+      margin-bottom: $spacing-8;
+    }
+  }
+
+  &__back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-5;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-primary);
+      transition: stroke 0.3s ease;
+    }
+
+    &:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--border-secondary);
+    }
+  }
+}
+
+// ============================================================================
+//                      BLOQUE: .profile-card
+// ============================================================================
+.profile-card {
+  max-width: 900px;
+  margin: 0 auto;
+  background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
+  border: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+  border-radius: $border-radius-2xl;
+  overflow: hidden;
+  transition: $transition-all;
+
+  :host-context(.light-theme) & {
+    background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
+    border-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+  }
+
+  &__container {
+    padding: $spacing-6;
+
+    @include respond-to('md') {
+      padding: $spacing-8;
+    }
+  }
+
+  // ========== PARTE SUPERIOR: AVATAR Y BOTONES ==========
+  &__top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-6;
+    margin-bottom: $spacing-8;
+
+    @include respond-to('md') {
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: flex-start;
+    }
+  }
+
+  // ========== INFO DEL USUARIO (Avatar + Nombres) ==========
+  &__user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-4;
+    text-align: center;
+
+    @include respond-to('md') {
+      flex-direction: row;
+      text-align: left;
+      gap: $spacing-5;
+    }
+  }
+
+  &__names {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-1;
+  }
+
+  &__username {
+    font-family: $font-secondary;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    margin: 0;
+    line-height: 1.2;
+
+    @include respond-to('md') {
+      font-size: $font-size-3xl;
+    }
+
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    }
+  }
+
+  &__display-name {
+    font-size: $font-size-base;
+    font-weight: $font-weight-regular;
+    color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
+    margin: 0;
+
+    @include respond-to('md') {
+      font-size: $font-size-lg;
+    }
+
+    :host-context(.light-theme) & {
+      color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    }
+  }
+
+  // ========== AVATAR ==========
+  &__avatar-wrapper {
+    position: relative;
+    display: inline-block;
+  }
+
+  &__avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: $color-primary-500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    transition: $transition-all;
+
+    @include respond-to('md') {
+      width: 160px;
+      height: 160px;
+    }
+
+    &:hover {
+      transform: scale(1.02);
+      box-shadow: 0 8px 25px rgba($color-primary-500, 0.3);
+    }
+  }
+
+  &__avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__avatar-placeholder {
+    width: 70px;
+    height: 70px;
+    color: rgba(255, 255, 255, 0.8);
+
+    @include respond-to('md') {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  &__avatar-edit {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--bg-primary, #{map-get($dark-theme, bg-primary)});
+    border: 2px solid var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: $transition-all;
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover {
+      background: $color-primary-500;
+      color: #ffffff;
+    }
+
+    :host-context(.light-theme) & {
+      background: var(--bg-primary, #{map-get($light-theme, bg-primary)});
+      border-color: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    }
+  }
+
+  // ========== BOTONES DE ACCIÓN ==========
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+    width: 100%;
+
+    @include respond-to('sm') {
+      flex-direction: row;
+      width: auto;
+    }
+  }
+
+  &__action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: $transition-all;
+    min-width: 140px;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &--settings {
+      background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
+      border: 1px solid var(--border-secondary, #{map-get($dark-theme, border-secondary)});
+      color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+
+      &:hover {
+        background: var(--bg-card, #{map-get($dark-theme, bg-card)});
+        border-color: $color-primary-500;
+      }
+
+      :host-context(.light-theme) & {
+        background: var(--bg-tertiary, #{map-get($light-theme, bg-tertiary)});
+        border-color: var(--border-secondary, #{map-get($light-theme, border-secondary)});
+        color: var(--text-primary, #{map-get($light-theme, text-primary)});
+
+        &:hover {
+          background: var(--bg-input, #{map-get($light-theme, bg-input)});
+        }
+      }
+    }
+
+    &--favorites {
+      background: rgba($color-accent-500, 0.15);
+      border: 1px solid $color-accent-400;
+      color: $color-accent-400;
+
+      svg {
+        color: $color-accent-400;
+      }
+
+      &:hover {
+        background: rgba($color-accent-500, 0.25);
+        border-color: $color-accent-500;
+      }
+    }
+  }
+
+  // ========== SECCIONES ==========
+  &__section {
+    margin-bottom: $spacing-6;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    &--no-title {
+      margin-top: -$spacing-2;
+    }
+  }
+
+  &__section-title {
+    font-family: $font-secondary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    margin: 0 0 $spacing-3;
+
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    }
+  }
+
+  // ========== BIO / PRESENTACIÓN ==========
+  &__bio-container {
+    background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
+    border: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+    border-radius: $border-radius-lg;
+    padding: $spacing-4;
+
+    :host-context(.light-theme) & {
+      background: var(--bg-tertiary, #{map-get($light-theme, bg-tertiary)});
+      border-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+    }
+  }
+
+  &__bio {
+    font-size: $font-size-base;
+    line-height: $leading-relaxed;
+    color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
+    margin: 0;
+
+    :host-context(.light-theme) & {
+      color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    }
+  }
+
+  &__bio-input {
+    width: 100%;
+    font-family: inherit;
+    font-size: $font-size-base;
+    line-height: $leading-relaxed;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
+    border: 1px solid var(--border-secondary, #{map-get($dark-theme, border-secondary)});
+    border-radius: $border-radius-md;
+    padding: $spacing-3;
+    resize: vertical;
+    min-height: 100px;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary-500;
+      box-shadow: 0 0 0 3px rgba($color-primary-500, 0.2);
+    }
+
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+      background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
+      border-color: var(--border-secondary, #{map-get($light-theme, border-secondary)});
+    }
+  }
+
+  &__bio-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacing-2;
+    margin-top: $spacing-3;
+  }
+
+  &__bio-btn {
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius-md;
+    cursor: pointer;
+    transition: $transition-all;
+
+    &--cancel {
+      background: transparent;
+      border: 1px solid var(--border-secondary, #{map-get($dark-theme, border-secondary)});
+      color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
+
+      &:hover {
+        background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
+      }
+
+      :host-context(.light-theme) & {
+        border-color: var(--border-secondary, #{map-get($light-theme, border-secondary)});
+        color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+
+        &:hover {
+          background: var(--bg-tertiary, #{map-get($light-theme, bg-tertiary)});
+        }
+      }
+    }
+
+    &--save {
+      background: $color-primary-500;
+      border: 1px solid $color-primary-500;
+      color: #ffffff;
+
+      &:hover {
+        background: $color-primary-600;
+        border-color: $color-primary-600;
+      }
+    }
+  }
+
+  // ========== REGIÓN FAVORITA ==========
+  &__region-container {
+    background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
+    border: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+    border-radius: $border-radius-lg;
+    padding: $spacing-3 $spacing-4;
+
+    :host-context(.light-theme) & {
+      background: var(--bg-tertiary, #{map-get($light-theme, bg-tertiary)});
+      border-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+    }
+  }
+
+  &__region {
+    font-size: $font-size-base;
+    color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
+
+    :host-context(.light-theme) & {
+      color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    }
+  }
+}

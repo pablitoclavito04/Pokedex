@@ -238,7 +238,7 @@
 
       <div class="pokemon-grid">
         @for (pokemon of pokemons; track pokemon.id) {
-          <article class="pokemon-card">
+          <article class="pokemon-card" (click)="goToPokemonDetail(pokemon.id)">
 
             <!-- Botón de favorito -->
             <button
@@ -277,7 +277,7 @@
             </div>
 
             <!-- Botón más información -->
-            <button class="pokemon-card__btn">
+            <button class="pokemon-card__btn" (click)="goToPokemonDetail(pokemon.id); $event.stopPropagation()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"/>
                 <circle cx="12" cy="12" r="3"/>

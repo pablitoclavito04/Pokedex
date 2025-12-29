@@ -1,0 +1,236 @@
+<!-- ============================================================================
+     SETTINGS PAGE - Página de edición de perfil
+
+     Secciones:
+     - Header con título y botón cerrar
+     - Foto de perfil
+     - Nombre de usuario
+     - Nombre
+     - Descripción corta
+     - Género
+     - Región favorita
+     - Zona de peligro (eliminar cuenta)
+     - Botones Cancelar/Guardar
+     ============================================================================ -->
+
+<main class="settings-page">
+  <div class="settings-page__container">
+
+    <!-- ========== HEADER ========== -->
+    <header class="settings-page__header">
+      <h1 class="settings-page__title">Editar perfil</h1>
+      <button class="settings-page__close-btn" (click)="close()" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+          <line x1="18" y1="6" x2="6" y2="18"/>
+          <line x1="6" y1="6" x2="18" y2="18"/>
+        </svg>
+      </button>
+    </header>
+
+    <!-- ========== CONTENIDO ========== -->
+    <div class="settings-page__content">
+
+      <!-- Foto de perfil -->
+      <section class="settings-field">
+        <label class="settings-field__label">Foto de perfil</label>
+        <input
+          type="file"
+          #fileInput
+          class="settings-field__file-input"
+          accept="image/*"
+          (change)="onFileSelected($event)">
+        <div class="settings-field__avatar-wrapper">
+          <div class="settings-field__avatar" (click)="onAvatarClick()">
+            @if (profileData.avatar) {
+              <img [src]="profileData.avatar" alt="Foto de perfil" class="settings-field__avatar-img">
+            } @else {
+              <svg class="settings-field__avatar-placeholder" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+              </svg>
+            }
+          </div>
+          <button class="settings-field__avatar-edit" (click)="onAvatarClick()">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
+              <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+              <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+            </svg>
+          </button>
+        </div>
+      </section>
+
+      <div class="settings-page__divider"></div>
+
+      <!-- Nombre de usuario -->
+      <section class="settings-field">
+        <label class="settings-field__label" for="username">Nombre de usuario</label>
+        <div class="settings-field__input-wrapper">
+          <input
+            type="text"
+            id="username"
+            class="settings-field__input"
+            [class.settings-field__input--error]="usernameError"
+            [(ngModel)]="profileData.username"
+            (ngModelChange)="onUsernameChange($event)"
+            placeholder="nombre_de_usuario"
+            [maxlength]="usernameMaxLength">
+        </div>
+        <p class="settings-field__hint" [class.settings-field__hint--error]="usernameError">
+          @if (usernameError) {
+            {{ usernameError }}
+          } @else {
+            Solo letras, números, guiones bajos y puntos. Máximo {{ usernameMaxLength }} caracteres.
+          }
+        </p>
+        <p class="settings-field__counter">{{ profileData.username.length }}/{{ usernameMaxLength }}</p>
+      </section>
+
+      <div class="settings-page__divider"></div>
+
+      <!-- Nombre -->
+      <section class="settings-field">
+        <label class="settings-field__label" for="displayName">Nombre</label>
+        <div class="settings-field__input-wrapper">
+          <input
+            type="text"
+            id="displayName"
+            class="settings-field__input"
+            [(ngModel)]="profileData.displayName"
+            (ngModelChange)="onFieldChange()"
+            placeholder="Tu nombre"
+            maxlength="50">
+        </div>
+        <p class="settings-field__hint">
+          El nombre se puede cambiar una vez cada 7 días.
+        </p>
+      </section>
+
+      <div class="settings-page__divider"></div>
+
+      <!-- Descripción corta -->
+      <section class="settings-field">
+        <label class="settings-field__label" for="bio">Descripción corta</label>
+        <div class="settings-field__input-wrapper">
+          <textarea
+            id="bio"
+            class="settings-field__textarea"
+            [(ngModel)]="profileData.bio"
+            (ngModelChange)="onFieldChange()"
+            placeholder="Escribe algo sobre ti..."
+            [maxlength]="bioMaxLength"
+            rows="3">
+          </textarea>
+        </div>
+        <p class="settings-field__counter">{{ bioLength }}/{{ bioMaxLength }}</p>
+      </section>
+
+      <div class="settings-page__divider"></div>
+
+      <!-- Género -->
+      <section class="settings-field">
+        <label class="settings-field__label" for="gender">Género</label>
+        <div class="settings-field__select-wrapper">
+          <select
+            id="gender"
+            class="settings-field__select"
+            [(ngModel)]="profileData.gender"
+            (ngModelChange)="onFieldChange()"
+            (click)="onSelectClick('gender')"
+            (blur)="onSelectBlur('gender')">
+            @for (option of genderOptions; track option) {
+              <option [value]="option">{{ option }}</option>
+            }
+          </select>
+          <span class="settings-field__select-icon" [class.settings-field__select-icon--open]="selectStates['gender']">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </span>
+        </div>
+      </section>
+
+      <div class="settings-page__divider"></div>
+
+      <!-- Región favorita -->
+      <section class="settings-field">
+        <label class="settings-field__label" for="favoriteRegion">Región favorita</label>
+        <div class="settings-field__select-wrapper">
+          <select
+            id="favoriteRegion"
+            class="settings-field__select"
+            [(ngModel)]="profileData.favoriteRegion"
+            (ngModelChange)="onFieldChange()"
+            (click)="onSelectClick('favoriteRegion')"
+            (blur)="onSelectBlur('favoriteRegion')">
+            @for (region of regionOptions; track region) {
+              <option [value]="region">{{ region }}</option>
+            }
+          </select>
+          <span class="settings-field__select-icon" [class.settings-field__select-icon--open]="selectStates['favoriteRegion']">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="6 9 12 15 18 9"/>
+            </svg>
+          </span>
+        </div>
+      </section>
+
+      <div class="settings-page__divider"></div>
+
+      <!-- Preferencias -->
+      <section class="settings-preferences">
+        <h2 class="settings-preferences__title">Preferencias</h2>
+
+        <!-- Idioma -->
+        <div class="settings-field">
+          <label class="settings-field__label" for="language">Idioma</label>
+          <div class="settings-field__select-wrapper">
+            <select
+              id="language"
+              class="settings-field__select"
+              [(ngModel)]="profileData.language"
+              (ngModelChange)="onFieldChange()"
+              (click)="onSelectClick('language')"
+              (blur)="onSelectBlur('language')">
+              @for (lang of languageOptions; track lang) {
+                <option [value]="lang">{{ lang }}</option>
+              }
+            </select>
+            <span class="settings-field__select-icon" [class.settings-field__select-icon--open]="selectStates['language']">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"/>
+              </svg>
+            </span>
+          </div>
+        </div>
+      </section>
+
+      <div class="settings-page__divider"></div>
+
+      <!-- Zona de peligro -->
+      <section class="settings-danger">
+        <h2 class="settings-danger__title">Zona de peligro</h2>
+        <p class="settings-danger__text">
+          Esta acción no se puede deshacer. Se eliminarán todos los datos.
+        </p>
+        <button class="settings-danger__btn" (click)="deleteAccount()">
+          Eliminar cuenta
+        </button>
+      </section>
+
+    </div>
+
+    <!-- ========== FOOTER CON BOTONES ========== -->
+    <footer class="settings-page__footer">
+      <button class="settings-page__btn settings-page__btn--cancel" (click)="cancel()">
+        Cancelar
+      </button>
+      <button
+        class="settings-page__btn settings-page__btn--save"
+        [class.settings-page__btn--disabled]="!canSave"
+        [disabled]="!canSave"
+        (click)="saveChanges()">
+        Guardar
+      </button>
+    </footer>
+
+  </div>
+</main>

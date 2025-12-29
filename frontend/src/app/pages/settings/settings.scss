@@ -1,0 +1,495 @@
+// ============================================================================
+//                    SETTINGS PAGE - Estilos BEM
+// ============================================================================
+// Bloque: .settings-page, .settings-field
+// Elementos: __header, __title, __close-btn, __content, __footer, etc.
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                      BLOQUE PRINCIPAL: .settings-page
+// ============================================================================
+.settings-page {
+  min-height: 100vh;
+  background: var(--bg-primary, #{map-get($dark-theme, bg-primary)});
+  display: flex;
+  justify-content: center;
+  padding: $spacing-4;
+
+  @include respond-to('md') {
+    padding: $spacing-8;
+    align-items: flex-start;
+    padding-top: $spacing-12;
+  }
+
+  &__container {
+    width: 100%;
+    max-width: 600px;
+    background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
+    border-radius: $border-radius-2xl;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    :host-context(.light-theme) & {
+      background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
+    }
+  }
+
+  // ========== HEADER ==========
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-5 $spacing-6;
+    border-bottom: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+
+    :host-context(.light-theme) & {
+      border-bottom-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+    }
+  }
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    margin: 0;
+
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    }
+  }
+
+  &__close-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: $border-radius-full;
+    transition: background-color 0.3s ease;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--text-secondary);
+      transition: stroke 0.3s ease;
+    }
+
+    &:hover {
+      background: var(--bg-tertiary);
+
+      svg {
+        stroke: var(--text-primary);
+      }
+    }
+  }
+
+  // ========== CONTENIDO ==========
+  &__content {
+    flex: 1;
+    padding: $spacing-6;
+    overflow-y: auto;
+  }
+
+  &__divider {
+    height: 1px;
+    background: var(--border-primary, #{map-get($dark-theme, border-primary)});
+    margin: $spacing-5 0;
+
+    :host-context(.light-theme) & {
+      background: var(--border-primary, #{map-get($light-theme, border-primary)});
+    }
+  }
+
+  // ========== FOOTER ==========
+  &__footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: $spacing-3;
+    padding: $spacing-5 $spacing-6;
+    border-top: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+
+    :host-context(.light-theme) & {
+      border-top-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+    }
+  }
+
+  &__btn {
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    border-radius: $border-radius-md;
+    cursor: pointer;
+    transition: $transition-all;
+    min-width: 100px;
+
+    &--cancel {
+      background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
+      border: none;
+      color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+
+      &:hover {
+        background: var(--bg-card, #{map-get($dark-theme, bg-card)});
+      }
+
+      :host-context(.light-theme) & {
+        background: var(--bg-tertiary, #{map-get($light-theme, bg-tertiary)});
+        color: var(--text-primary, #{map-get($light-theme, text-primary)});
+
+        &:hover {
+          background: var(--bg-input, #{map-get($light-theme, bg-input)});
+        }
+      }
+    }
+
+    &--save {
+      background: $color-accent-500;
+      border: none;
+      color: #ffffff;
+
+      &:hover:not(:disabled) {
+        background: $color-accent-600;
+      }
+    }
+
+    &--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// ============================================================================
+//                      BLOQUE: .settings-field
+// ============================================================================
+.settings-field {
+  margin-bottom: 0;
+
+  &__label {
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    margin-bottom: $spacing-3;
+
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    }
+  }
+
+  // ========== FILE INPUT (oculto) ==========
+  &__file-input {
+    display: none;
+  }
+
+  // ========== AVATAR ==========
+  &__avatar-wrapper {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    padding: $spacing-4 0;
+  }
+
+  &__avatar {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background: $color-primary-500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    overflow: hidden;
+    border: 3px solid var(--border-secondary, #{map-get($dark-theme, border-secondary)});
+    transition: $transition-all;
+
+    &:hover {
+      border-color: $color-primary-400;
+    }
+
+    :host-context(.light-theme) & {
+      border-color: var(--border-secondary, #{map-get($light-theme, border-secondary)});
+    }
+  }
+
+  &__avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__avatar-placeholder {
+    width: 50px;
+    height: 50px;
+    color: rgba(255, 255, 255, 0.8);
+  }
+
+  &__avatar-edit {
+    position: absolute;
+    bottom: $spacing-4;
+    left: 50%;
+    transform: translateX(25px);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--bg-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease;
+
+    svg {
+      width: 14px;
+      height: 14px;
+      stroke: var(--text-primary);
+      transition: stroke 0.3s ease;
+    }
+
+    &:hover {
+      background: $color-primary-500;
+
+      svg {
+        stroke: #ffffff;
+      }
+    }
+  }
+
+  // ========== INPUTS ==========
+  &__input-wrapper {
+    width: 100%;
+  }
+
+  &__input,
+  &__textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: $font-size-base;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
+    border: 2px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+    border-radius: $border-radius-lg;
+    padding: $spacing-3 $spacing-4;
+    transition: $transition-all;
+
+    &::placeholder {
+      color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
+    }
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary-500;
+      background: var(--bg-card, #{map-get($dark-theme, bg-card)});
+    }
+
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+      background: var(--bg-tertiary, #{map-get($light-theme, bg-tertiary)});
+      border-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+
+      &::placeholder {
+        color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+      }
+
+      &:focus {
+        background: var(--bg-input, #{map-get($light-theme, bg-input)});
+      }
+    }
+
+    &--error {
+      border-color: #ef4444;
+
+      &:focus {
+        border-color: #ef4444;
+      }
+    }
+  }
+
+  &__select-wrapper {
+    position: relative;
+    width: 100%;
+    border: 2px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+    border-radius: $border-radius-lg;
+    overflow: hidden;
+    transition: $transition-all;
+
+    &:focus-within {
+      border-color: $color-primary-500;
+    }
+
+    :host-context(.light-theme) & {
+      border-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+    }
+  }
+
+  &__select {
+    width: 100%;
+    font-family: inherit;
+    font-size: $font-size-base;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    border: none;
+    padding: $spacing-3 $spacing-4;
+    padding-right: 56px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
+
+    &:focus {
+      outline: none;
+    }
+
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+      background: var(--bg-tertiary, #{map-get($light-theme, bg-tertiary)});
+    }
+  }
+
+  &__select-icon {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    background: var(--bg-card, #{map-get($dark-theme, bg-card)});
+    border-left: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+    pointer-events: none;
+
+    svg {
+      width: 16px;
+      height: 16px;
+      color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
+      transition: transform 0.2s ease;
+    }
+
+    &--open svg {
+      transform: rotate(180deg);
+    }
+
+    :host-context(.light-theme) & {
+      background: var(--bg-input, #{map-get($light-theme, bg-input)});
+      border-left-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+
+      svg {
+        color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+      }
+    }
+  }
+
+  &__textarea {
+    resize: none;
+    min-height: 80px;
+  }
+
+  &__hint {
+    font-size: $font-size-xs;
+    color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
+    margin: $spacing-2 0 0;
+    line-height: $leading-relaxed;
+
+    :host-context(.light-theme) & {
+      color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    }
+
+    &--error {
+      color: #ef4444;
+    }
+  }
+
+  &__counter {
+    font-size: $font-size-xs;
+    color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
+    margin: $spacing-2 0 0;
+    text-align: right;
+
+    :host-context(.light-theme) & {
+      color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    }
+  }
+}
+
+// ============================================================================
+//                      BLOQUE: .settings-preferences
+// ============================================================================
+.settings-preferences {
+  margin-top: $spacing-2;
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+    margin: 0 0 $spacing-4 0;
+    padding-bottom: $spacing-3;
+    border-bottom: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+
+    :host-context(.light-theme) & {
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+      border-bottom-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+    }
+  }
+}
+
+// ============================================================================
+//                      BLOQUE: .settings-danger
+// ============================================================================
+.settings-danger {
+  background: rgba(239, 68, 68, 0.1);
+  border: 3px solid #FF4444;
+  border-radius: $border-radius-xl;
+  padding: $spacing-5;
+  margin-top: $spacing-2;
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+    color: #ef4444;
+    margin: 0 0 $spacing-3 0;
+  }
+
+  &__text {
+    font-size: $font-size-sm;
+    color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
+    margin: 0 0 $spacing-4 0;
+    line-height: $leading-relaxed;
+
+    :host-context(.light-theme) & {
+      color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    }
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-3 $spacing-5;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: #ffffff;
+    background: #ef4444;
+    border: none;
+    border-radius: $border-radius-md;
+    cursor: pointer;
+    transition: $transition-all;
+
+    &:hover {
+      background: #dc2626;
+    }
+
+    &:active {
+      background: #b91c1c;
+    }
+  }
+}

@@ -5,7 +5,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-pokedex',
@@ -15,6 +15,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './pokedex.scss'
 })
 export class PokedexComponent {
+
+  constructor(private router: Router) {}
 
   // ========== FILTROS DE TIPO ==========
   types = [
@@ -88,13 +90,27 @@ export class PokedexComponent {
   isGenerationSelectOpen: boolean = false;
   sortOrder: string = 'number-asc';
 
-  // ========== POKÉMON DE EJEMPLO ==========
+  // ========== POKÉMON (Primeros 12) ==========
   pokemons = [
     {
       id: 1,
       name: 'Bulbasaur',
       types: ['grass', 'poison'],
       image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png',
+      isFavorite: false
+    },
+    {
+      id: 2,
+      name: 'Ivysaur',
+      types: ['grass', 'poison'],
+      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png',
+      isFavorite: false
+    },
+    {
+      id: 3,
+      name: 'Venusaur',
+      types: ['grass', 'poison'],
+      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png',
       isFavorite: false
     },
     {
@@ -105,6 +121,20 @@ export class PokedexComponent {
       isFavorite: false
     },
     {
+      id: 5,
+      name: 'Charmeleon',
+      types: ['fire'],
+      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png',
+      isFavorite: false
+    },
+    {
+      id: 6,
+      name: 'Charizard',
+      types: ['fire', 'flying'],
+      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png',
+      isFavorite: false
+    },
+    {
       id: 7,
       name: 'Squirtle',
       types: ['water'],
@@ -112,66 +142,38 @@ export class PokedexComponent {
       isFavorite: false
     },
     {
-      id: 25,
-      name: 'Pikachu',
-      types: ['electric'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/25.png',
+      id: 8,
+      name: 'Wartortle',
+      types: ['water'],
+      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/8.png',
       isFavorite: false
     },
     {
-      id: 39,
-      name: 'Jigglypuff',
-      types: ['normal', 'fairy'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/39.png',
+      id: 9,
+      name: 'Blastoise',
+      types: ['water'],
+      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png',
       isFavorite: false
     },
     {
-      id: 94,
-      name: 'Gengar',
-      types: ['ghost', 'poison'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png',
+      id: 10,
+      name: 'Caterpie',
+      types: ['bug'],
+      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png',
       isFavorite: false
     },
     {
-      id: 133,
-      name: 'Eevee',
-      types: ['normal'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/133.png',
+      id: 11,
+      name: 'Metapod',
+      types: ['bug'],
+      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/11.png',
       isFavorite: false
     },
     {
-      id: 143,
-      name: 'Snorlax',
-      types: ['normal'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/143.png',
-      isFavorite: false
-    },
-    {
-      id: 150,
-      name: 'Mewtwo',
-      types: ['psychic'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/150.png',
-      isFavorite: false
-    },
-    {
-      id: 151,
-      name: 'Mew',
-      types: ['psychic'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/151.png',
-      isFavorite: false
-    },
-    {
-      id: 248,
-      name: 'Tyranitar',
-      types: ['rock', 'dark'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/248.png',
-      isFavorite: false
-    },
-    {
-      id: 282,
-      name: 'Gardevoir',
-      types: ['psychic', 'fairy'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/282.png',
+      id: 12,
+      name: 'Butterfree',
+      types: ['bug', 'flying'],
+      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/12.png',
       isFavorite: false
     }
   ];
@@ -312,5 +314,10 @@ export class PokedexComponent {
     console.log('Altura:', this.selectedHeight);
     console.log('Peso:', this.selectedWeight);
     console.log('Secuencia:', this.sequenceStart, '-', this.sequenceEnd);
+  }
+
+  // ========== NAVEGACIÓN AL DETALLE ==========
+  goToPokemonDetail(pokemonId: number): void {
+    this.router.navigate(['/pokemon', pokemonId]);
   }
 }

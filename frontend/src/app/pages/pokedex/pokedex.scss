@@ -655,6 +655,7 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   overflow: hidden;
   transition: $transition-all;
+  cursor: pointer;
 
   :host-context(.dark-theme) & {
     background: #2F4467;

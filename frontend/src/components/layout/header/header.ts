@@ -26,6 +26,9 @@ export class HeaderComponent {
   // ¿Estamos en la landing page (sin autenticar)?
   isLandingPage: boolean = true;
 
+  // ¿Mostrar el icono de perfil?
+  showProfileIcon: boolean = false;
+
   // Navegación para landing page
   landingNavItems = [
     { label: 'Inicio', path: '/', icon: 'home' },
@@ -59,6 +62,10 @@ export class HeaderComponent {
   private checkIfLandingPage(url: string): void {
     const landingRoutes = ['/', '/login', '/register', '/style-guide', '/forms-demo'];
     this.isLandingPage = landingRoutes.includes(url) || url === '';
+
+    // Mostrar icono de perfil solo en Pokédex, Pokemon Detail, Profile y Settings
+    const profileIconRoutes = ['/pokedex', '/pokemon', '/profile', '/settings'];
+    this.showProfileIcon = profileIconRoutes.some(route => url.startsWith(route));
   }
 
   /**

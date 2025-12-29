@@ -89,6 +89,22 @@ body {
   overflow-x: hidden;
 }
 
+// Transición suave para cambio de tema en todos los elementos
+body.theme-transitioning,
+body.theme-transitioning *,
+body.theme-transitioning *::before,
+body.theme-transitioning *::after {
+  transition-property: background-color, color, border-color, fill, stroke, box-shadow !important;
+  transition-duration: 0.3s !important;
+  transition-timing-function: ease !important;
+}
+
+// Asegurar que los SVG tengan transición suave
+svg,
+svg * {
+  transition: fill 0.3s ease, stroke 0.3s ease, color 0.3s ease;
+}
+
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Poppins', sans-serif;
   font-weight: 700;
