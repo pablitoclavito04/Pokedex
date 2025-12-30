@@ -93,6 +93,31 @@
         </div>
       </div>
 
+      <!-- Pokémon favoritos -->
+      <div class="profile-card__section">
+        <h2 class="profile-card__section-title">Mis Pokémon favoritos</h2>
+        @if (isLoadingFavorites) {
+          <div class="profile-card__favorites-loading">
+            <span>Cargando favoritos...</span>
+          </div>
+        } @else if (favoritePokemon.length === 0) {
+          <div class="profile-card__favorites-empty">
+            <p class="profile-card__favorites-empty-text">No tienes ningún Pokémon favorito. Que pena.</p>
+          </div>
+        } @else {
+          <div class="profile-card__favorites-grid">
+            @for (pokemon of favoritePokemon; track pokemon.id) {
+              <div class="profile-card__favorite-item" (click)="navigateToPokemon(pokemon.id)">
+                <div class="profile-card__favorite-image-wrapper">
+                  <img [src]="pokemon.image" [alt]="pokemon.name" class="profile-card__favorite-image">
+                </div>
+                <span class="profile-card__favorite-name">{{ pokemon.name }}</span>
+              </div>
+            }
+          </div>
+        }
+      </div>
+
     </div>
   </section>
 

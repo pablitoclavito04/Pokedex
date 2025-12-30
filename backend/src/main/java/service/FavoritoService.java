@@ -22,13 +22,13 @@ public class FavoritoService {
     private UserRepository userRepository;
 
     /**
-     * Obtener todos los IDs de Pokémon favoritos de un usuario
+     * Obtener todos los IDs de Pokémon favoritos de un usuario (ordenados por fecha, más recientes primero)
      */
     public List<Integer> obtenerFavoritos(String username) {
         User usuario = userRepository.findByUsername(username)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
 
-        return favoritoRepository.findByUsuario(usuario)
+        return favoritoRepository.findByUsuarioOrderByFechaAgregadoDesc(usuario)
                 .stream()
                 .map(Favorito::getPokemonId)
                 .collect(Collectors.toList());

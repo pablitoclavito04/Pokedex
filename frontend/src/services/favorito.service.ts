@@ -46,7 +46,8 @@ export class FavoritoService {
       tap(response => {
         const currentFavoritos = this.favoritosSubject.getValue();
         if (response.esFavorito) {
-          this.favoritosSubject.next([...currentFavoritos, pokemonId]);
+          // Añadir al principio para que los más recientes aparezcan primero
+          this.favoritosSubject.next([pokemonId, ...currentFavoritos]);
         } else {
           this.favoritosSubject.next(currentFavoritos.filter(id => id !== pokemonId));
         }

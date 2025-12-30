@@ -7,6 +7,9 @@ import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
+import { FavoritoService } from '../../../services/favorito.service';
+import { PokemonService } from '../../../services/pokemon.service';
+import { forkJoin, filter, take } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -19,7 +22,9 @@ export class ProfileComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private favoritoService: FavoritoService,
+    private pokemonService: PokemonService
   ) {}
 
   // ========== DATOS DEL USUARIO ==========
@@ -55,6 +60,10 @@ export class ProfileComponent implements OnInit {
   isEditing: boolean = false;
   editedBio: string = '';
 
+  // ========== FAVORITOS ==========
+  favoritePokemon: any[] = [];
+  isLoadingFavorites: boolean = false;
+
   ngOnInit(): void {
     // Cargar datos del usuario desde localStorage
     const username = this.authService.getUsername();
@@ -89,6 +98,64 @@ export class ProfileComponent implements OnInit {
 
     // Fecha de registro
     this.user.joinDate = this.getJoinDate();
+
+    // Cargar favoritos
+    this.loadFavorites();
+  }
+
+  loadFavorites(): void {
+    this.isLoadingFavorites = true;
+
+    // Verificar si ya hay favoritos cargados
+    const currentFavoritos = this.favoritoService.getFavoritos();
+    if (currentFavoritos.length > 0) {
+      this.loadPokemonData(currentFavoritos);
+    } else {
+      // Si no hay datos, cargar del backend
+      this.favoritoService.cargarFavoritos();
+
+      // Esperar a que lleguen los datos del backend
+      this.favoritoService.favoritos$.pipe(
+        filter(favoritos => favoritos.length > 0),
+        take(1)
+      ).subscribe(favoritos => {
+        this.loadPokemonData(favoritos);
+      });
+
+      // Timeout para manejar el caso de que no haya favoritos
+      setTimeout(() => {
+        if (this.isLoadingFavorites) {
+          const favs = this.favoritoService.getFavoritos();
+          if (favs.length === 0) {
+            this.isLoadingFavorites = false;
+          }
+        }
+      }, 1500);
+    }
+  }
+
+  private loadPokemonData(favoritos: number[]): void {
+    const orderedIds = [...favoritos];
+
+    const requests = favoritos.map(id =>
+      this.pokemonService.getPokemonById(id)
+    );
+
+    forkJoin(requests).subscribe({
+      next: (pokemons: any[]) => {
+        const pokemonMap = new Map<number, any>();
+        pokemons.forEach(p => pokemonMap.set(p.id, p));
+
+        this.favoritePokemon = orderedIds
+          .map(id => pokemonMap.get(id))
+          .filter(p => p !== undefined);
+
+        this.isLoadingFavorites = false;
+      },
+      error: () => {
+        this.isLoadingFavorites = false;
+      }
+    });
   }
 
   getJoinDate(): string {
@@ -128,5 +195,9 @@ export class ProfileComponent implements OnInit {
 
   navigateToFavorites(): void {
     this.router.navigate(['/favorites']);
+  }
+
+  navigateToPokemon(id: number): void {
+    this.router.navigate(['/pokemon', id]);
   }
 }

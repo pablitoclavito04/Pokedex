@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface FavoritoRepository extends JpaRepository<Favorito, Integer> {
 
+    List<Favorito> findByUsuarioOrderByFechaAgregadoDesc(User usuario);
+
     List<Favorito> findByUsuario(User usuario);
 
     List<Favorito> findByUsuarioId(Integer usuarioId);
