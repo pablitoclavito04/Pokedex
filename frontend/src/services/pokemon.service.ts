@@ -57,12 +57,6 @@ interface PokeApiResponse {
 
 /**
  * PokemonService - Servicio de lógica de negocio para Pokémon
- *
- * Este servicio demuestra la separación de responsabilidades:
- * - Encapsula toda la lógica de acceso a datos (API calls)
- * - Transforma los datos de la API al formato de la aplicación
- * - Maneja el estado de carga y errores
- * - Los componentes solo se preocupan por la presentación
  */
 @Injectable({
   providedIn: 'root'
@@ -117,12 +111,32 @@ export class PokemonService {
     'speed': 'Velocidad'
   };
 
+  // Mapa de nombres de tipos en español
+  private readonly typeNamesSpanish: Record<string, string> = {
+    normal: 'Normal',
+    fire: 'Fuego',
+    water: 'Agua',
+    electric: 'Eléctrico',
+    grass: 'Planta',
+    ice: 'Hielo',
+    fighting: 'Lucha',
+    poison: 'Veneno',
+    ground: 'Tierra',
+    flying: 'Volador',
+    psychic: 'Psíquico',
+    bug: 'Bicho',
+    rock: 'Roca',
+    ghost: 'Fantasma',
+    dragon: 'Dragón',
+    dark: 'Siniestro',
+    steel: 'Acero',
+    fairy: 'Hada'
+  };
+
   /**
    * Obtiene un Pokémon por su ID
-   * Demuestra: encapsulación de lógica de API, transformación de datos, manejo de errores
    */
   getPokemonById(id: number): Observable<Pokemon> {
-    // Verificar cache primero
     if (this.pokemonCache.has(id)) {
       const cached = this.pokemonCache.get(id)!;
       this.currentPokemonSubject.next(cached);
@@ -176,13 +190,101 @@ export class PokemonService {
   }
 
   /**
+   * Obtiene una lista de Pokémon con paginación
+   */
+  getPokemonList(offset: number = 0, limit: number = 20): Observable<Pokemon[]> {
+    this.isLoadingSubject.next(true);
+
+    return this.http.get<{ results: { name: string; url: string }[] }>(
+      `${this.API_URL}?offset=${offset}&limit=${limit}`
+    ).pipe(
+      map(response => {
+        return response.results.map(p => {
+          const urlParts = p.url.split('/');
+          const id = parseInt(urlParts[urlParts.length - 2]);
+          return {
+            id,
+            name: this.capitalizeFirstLetter(this.cleanPokemonName(p.name)),
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
+            types: [],
+            stats: [],
+            height: 0,
+            weight: 0
+          } as Pokemon;
+        });
+      }),
+      tap(() => this.isLoadingSubject.next(false)),
+      catchError(error => {
+        this.isLoadingSubject.next(false);
+        this.toastService.error('Error al cargar los Pokémon');
+        console.error('Error fetching Pokemon list:', error);
+        return of([]);
+      })
+    );
+  }
+
+  /**
+   * Obtiene la lista completa de todos los Pokémon (solo nombres e IDs)
+   */
+  getAllPokemonNames(): Observable<{id: number, name: string}[]> {
+    return this.http.get<{ results: { name: string; url: string }[] }>(
+      `${this.API_URL}?limit=1025`
+    ).pipe(
+      map(response => {
+        return response.results.map(p => {
+          const urlParts = p.url.split('/');
+          const id = parseInt(urlParts[urlParts.length - 2]);
+          return {
+            id,
+            name: this.capitalizeFirstLetter(this.cleanPokemonName(p.name))
+          };
+        });
+      }),
+      catchError(error => {
+        console.error('Error fetching all Pokemon names:', error);
+        return of([]);
+      })
+    );
+  }
+
+  /**
+   * Obtiene los detalles completos de un Pokémon (incluye tipos)
+   */
+  getPokemonDetails(id: number): Observable<Pokemon> {
+    if (this.pokemonCache.has(id)) {
+      return of(this.pokemonCache.get(id)!);
+    }
+
+    return this.http.get<PokeApiResponse>(`${this.API_URL}/${id}`).pipe(
+      map(response => this.transformPokemonData(response)),
+      tap(pokemon => this.pokemonCache.set(id, pokemon)),
+      catchError(error => {
+        console.error('Error fetching Pokemon details:', error);
+        throw error;
+      })
+    );
+  }
+
+  /**
+   * Busca Pokémon por nombre o número
+   */
+  searchPokemon(query: string, pokemonList: any[]): any[] {
+    const lowerQuery = query.toLowerCase().trim();
+    if (!lowerQuery) return pokemonList;
+
+    return pokemonList.filter(p =>
+      p.name.toLowerCase().includes(lowerQuery) ||
+      p.id.toString().includes(lowerQuery)
+    );
+  }
+
+  /**
    * Transforma los datos de la API al formato de la aplicación
-   * Esta es la lógica de negocio que NO debe estar en los componentes
    */
   private transformPokemonData(response: PokeApiResponse): Pokemon {
     return {
       id: response.id,
-      name: this.capitalizeFirstLetter(response.name),
+      name: this.capitalizeFirstLetter(this.cleanPokemonName(response.name)),
       image: response.sprites.other['official-artwork'].front_default,
       types: response.types.map(t => ({
         name: this.capitalizeFirstLetter(t.type.name),
@@ -192,8 +294,8 @@ export class PokemonService {
         name: this.statNames[s.stat.name] || s.stat.name,
         value: s.base_stat
       })),
-      height: response.height / 10, // Convertir a metros
-      weight: response.weight / 10  // Convertir a kg
+      height: response.height / 10,
+      weight: response.weight / 10
     };
   }
 
@@ -202,6 +304,51 @@ export class PokemonService {
    */
   private capitalizeFirstLetter(str: string): string {
     return str.charAt(0).toUpperCase() + str.slice(1);
+  }
+
+  /**
+   * Limpia el nombre del Pokémon eliminando sufijos de forma
+   */
+  private cleanPokemonName(name: string): string {
+    // Lista de sufijos de forma que deben eliminarse
+    const formSuffixes = [
+      '-altered', '-origin', '-land', '-sky', '-normal', '-attack', '-defense', '-speed',
+      '-plant', '-sandy', '-trash', '-heat', '-wash', '-frost', '-fan', '-mow',
+      '-standard', '-zen', '-ordinary', '-resolute', '-aria', '-pirouette',
+      '-incarnate', '-therian', '-black', '-white', '-50', '-10',
+      '-average', '-small', '-large', '-super', '-confined', '-unbound',
+      '-baile', '-pom-pom', '-pau', '-sensu', '-midday', '-midnight', '-dusk',
+      '-solo', '-school', '-meteor', '-core', '-disguised', '-busted',
+      '-red-striped', '-blue-striped', '-shield', '-blade', '-male', '-female',
+      '-single-strike', '-rapid-strike', '-ice', '-shadow', '-hero',
+      '-full-belly', '-hangry', '-green-plumage', '-yellow-plumage', '-blue-plumage', '-white-plumage',
+      '-chest', '-roaming', '-combat', '-blaze', '-aqua',
+      '-family-of-three', '-family-of-four', '-curly', '-droopy', '-stretchy',
+      '-three-segment', '-four-segment', '-zero', '-counterfeit', '-artisan', '-masterpiece'
+    ];
+
+    let cleanName = name.toLowerCase();
+    for (const suffix of formSuffixes) {
+      if (cleanName.endsWith(suffix)) {
+        cleanName = cleanName.replace(suffix, '');
+        break;
+      }
+    }
+    return cleanName;
+  }
+
+  /**
+   * Obtiene el color de un tipo
+   */
+  getTypeColor(typeName: string): string {
+    return this.typeColors[typeName.toLowerCase()] || '#777777';
+  }
+
+  /**
+   * Obtiene el nombre en español de un tipo
+   */
+  getTypeNameSpanish(typeName: string): string {
+    return this.typeNamesSpanish[typeName.toLowerCase()] || typeName;
   }
 
   /**

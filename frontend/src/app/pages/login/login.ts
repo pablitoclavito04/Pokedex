@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { FormInputComponent } from '../../../components/shared/form-input/form-input';
 import { ButtonComponent } from '../../../components/shared/button/button';
 import { AuthService } from '../../../services/auth.service';
+import { LoadingService } from '../../../services/loading.service';
 
 @Component({
   selector: 'app-login',
@@ -22,7 +23,8 @@ import { AuthService } from '../../../services/auth.service';
 export class LoginComponent {
   constructor(
     private router: Router,
-    private authService: AuthService
+    private authService: AuthService,
+    private loadingService: LoadingService
   ) {}
 
   // Datos del formulario
@@ -90,7 +92,12 @@ export class LoginComponent {
       next: (response) => {
         this.isSubmitting = false;
         console.log('Login exitoso:', response);
-        this.router.navigate(['/pokedex']);
+        // Mostrar pantalla de carga durante 3 segundos y redirigir a Pokédex
+        this.loadingService.show();
+        setTimeout(() => {
+          this.loadingService.hide();
+          this.router.navigate(['/pokedex']);
+        }, 3000);
       },
       error: (err) => {
         this.isSubmitting = false;

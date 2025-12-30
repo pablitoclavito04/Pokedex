@@ -2,12 +2,11 @@
 //          PROFILE PAGE - Página de perfil del usuario
 // ============================================================================
 
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { Subscription } from 'rxjs';
-import { UserService, UserProfile } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -16,39 +15,26 @@ import { UserService, UserProfile } from '../../../services/user.service';
   templateUrl: './profile.html',
   styleUrl: './profile.scss'
 })
-export class ProfileComponent implements OnInit, OnDestroy {
-  private subscription!: Subscription;
+export class ProfileComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private userService: UserService
+    private authService: AuthService
   ) {}
 
   // ========== DATOS DEL USUARIO ==========
-  user: UserProfile & { joinDate: string; stats: { favorites: number; captured: number; quizScore: number } } = {
-    // Datos de registro
-    email: '',
-    country: '',
-    birthDate: {
-      year: '',
-      month: '',
-      day: ''
-    },
+  user = {
     username: '',
-    password: '',
-    // Datos de perfil
-    avatar: null,
     displayName: '',
-    bio: '',
-    gender: '',
-    favoriteRegion: '',
-    language: '',
-    // Datos adicionales del perfil
-    joinDate: 'Enero 2024',
+    email: '',
+    avatar: null as string | null,
+    bio: 'Escribe algo sobre ti...',
+    favoriteRegion: 'Kanto',
+    joinDate: '',
     stats: {
-      favorites: 24,
-      captured: 151,
-      quizScore: 850
+      favorites: 0,
+      captured: 0,
+      quizScore: 0
     }
   };
 
@@ -70,20 +56,46 @@ export class ProfileComponent implements OnInit, OnDestroy {
   editedBio: string = '';
 
   ngOnInit(): void {
-    // Suscribirse a cambios en el perfil del usuario
-    this.subscription = this.userService.userProfile$.subscribe(profile => {
-      this.user = {
-        ...profile,
-        joinDate: this.user.joinDate,
-        stats: this.user.stats
-      };
-    });
+    // Cargar datos del usuario desde localStorage
+    const username = this.authService.getUsername();
+    const email = localStorage.getItem('email');
+
+    if (username) {
+      this.user.username = username;
+      this.user.displayName = localStorage.getItem('displayName') || username;
+    }
+
+    if (email) {
+      this.user.email = email;
+    }
+
+    // Cargar avatar desde localStorage
+    const savedAvatar = localStorage.getItem('userAvatar');
+    if (savedAvatar) {
+      this.user.avatar = savedAvatar;
+    }
+
+    // Cargar bio desde localStorage si existe
+    const savedBio = localStorage.getItem('userBio');
+    if (savedBio) {
+      this.user.bio = savedBio;
+    }
+
+    // Cargar región favorita desde localStorage si existe
+    const savedRegion = localStorage.getItem('userFavoriteRegion');
+    if (savedRegion) {
+      this.user.favoriteRegion = savedRegion;
+    }
+
+    // Fecha de registro
+    this.user.joinDate = this.getJoinDate();
   }
 
-  ngOnDestroy(): void {
-    if (this.subscription) {
-      this.subscription.unsubscribe();
-    }
+  getJoinDate(): string {
+    const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+                    'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+    const now = new Date();
+    return `${months[now.getMonth()]} ${now.getFullYear()}`;
   }
 
   // ========== MÉTODOS ==========
@@ -92,7 +104,6 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   onAvatarClick(): void {
-    // Aquí se abriría el selector de archivo para cambiar el avatar
     console.log('Cambiar avatar');
   }
 
@@ -103,7 +114,7 @@ export class ProfileComponent implements OnInit, OnDestroy {
 
   saveBio(): void {
     this.user.bio = this.editedBio;
-    this.userService.updateProfile({ bio: this.editedBio });
+    localStorage.setItem('userBio', this.editedBio);
     this.isEditing = false;
   }
 
@@ -112,10 +123,10 @@ export class ProfileComponent implements OnInit, OnDestroy {
   }
 
   navigateToSettings(): void {
-    console.log('Navegando a ajustes...');
+    this.router.navigate(['/settings']);
   }
 
   navigateToFavorites(): void {
-    console.log('Navegando a favoritos...');
+    this.router.navigate(['/favorites']);
   }
 }

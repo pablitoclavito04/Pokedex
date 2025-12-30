@@ -201,46 +201,242 @@
   </div>
 
   <!-- ========== EVOLUCIONES ========== -->
-  @if (pokemon.evolutions && pokemon.evolutions.length > 1) {
-    <section class="pokemon-evolutions">
-      <h2 class="pokemon-evolutions__title">Evoluciones</h2>
-      <div class="pokemon-evolutions__chain">
-        @for (evo of pokemon.evolutions; track evo.id; let i = $index; let last = $last) {
-          <div class="pokemon-evolutions__item" (click)="navigateToPokemon(evo.id)">
-            <div class="pokemon-evolutions__image-wrapper">
-              <img
-                [src]="evo.image"
-                [alt]="evo.name"
-                class="pokemon-evolutions__image">
+  <section class="pokemon-evolutions">
+    <h2 class="pokemon-evolutions__title">Evoluciones</h2>
+
+    @if (pokemon.evolutions && pokemon.evolutions.length > 1) {
+
+      <!-- Evoluciones ramificadas -->
+      @if (pokemon.hasBranchedEvolutions) {
+
+        <!-- Ramificación nivel 2: Base → Intermedio → Ramas (Oddish→Gloom→Vileplume/Bellossom) -->
+        @if (pokemon.branchLevel === 2 && pokemon.secondStageEvolution) {
+          <div class="pokemon-evolutions__level2-branch">
+            <!-- Pokémon base -->
+            <div class="pokemon-evolutions__stage" (click)="navigateToPokemon(pokemon.evolutions[0].id)">
+              <div class="pokemon-evolutions__image-wrapper pokemon-evolutions__image-wrapper--medium">
+                <img
+                  [src]="pokemon.evolutions[0].image"
+                  [alt]="pokemon.evolutions[0].name"
+                  class="pokemon-evolutions__image">
+              </div>
+              <span class="pokemon-evolutions__name">{{ pokemon.evolutions[0].name }}</span>
+              <div class="pokemon-evolutions__types">
+                @for (type of pokemon.evolutions[0].types; track type) {
+                  <span
+                    class="pokemon-evolutions__type"
+                    [style.background-color]="getTypeColor(type)">
+                    {{ getTypeName(type) }}
+                  </span>
+                }
+              </div>
             </div>
-            <div class="pokemon-evolutions__info">
-              <span class="pokemon-evolutions__name">{{ evo.name }}</span>
-              <span class="pokemon-evolutions__id">{{ formatPokemonId(evo.id) }}</span>
-            </div>
-            <div class="pokemon-evolutions__types">
-              @for (type of evo.types; track type) {
-                <span
-                  class="pokemon-evolutions__type"
-                  [style.background-color]="getTypeColor(type)">
-                  {{ getTypeName(type) }}
-                </span>
-              }
-            </div>
-          </div>
-          @if (!last) {
+
+            <!-- Flecha hacia etapa intermedia -->
             <div class="pokemon-evolutions__arrow">
-              @if (pokemon.evolutions[i + 1]?.level) {
-                <span class="pokemon-evolutions__level">Nivel {{ pokemon.evolutions[i + 1].level }}</span>
+              @if (pokemon.secondStageEvolution.evolutionMethod) {
+                <span class="pokemon-evolutions__method">{{ pokemon.secondStageEvolution.evolutionMethod }}</span>
               }
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M9 18l6-6-6-6"/>
               </svg>
             </div>
-          }
+
+            <!-- Pokémon etapa intermedia -->
+            <div class="pokemon-evolutions__stage" (click)="navigateToPokemon(pokemon.secondStageEvolution.id)">
+              <div class="pokemon-evolutions__image-wrapper pokemon-evolutions__image-wrapper--medium">
+                <img
+                  [src]="pokemon.secondStageEvolution.image"
+                  [alt]="pokemon.secondStageEvolution.name"
+                  class="pokemon-evolutions__image">
+              </div>
+              <span class="pokemon-evolutions__name">{{ pokemon.secondStageEvolution.name }}</span>
+              <div class="pokemon-evolutions__types">
+                @for (type of pokemon.secondStageEvolution.types; track type) {
+                  <span
+                    class="pokemon-evolutions__type"
+                    [style.background-color]="getTypeColor(type)">
+                    {{ getTypeName(type) }}
+                  </span>
+                }
+              </div>
+            </div>
+
+            <!-- Columna de ramificaciones finales -->
+            <div class="pokemon-evolutions__branches-column">
+              @for (evo of pokemon.evolutions.slice(1); track evo.id) {
+                <div class="pokemon-evolutions__branch-row" (click)="navigateToPokemon(evo.id)">
+                  <div class="pokemon-evolutions__branch-connector">
+                    <span class="pokemon-evolutions__method-text">{{ evo.evolutionMethod || '' }}</span>
+                    <div class="pokemon-evolutions__arrow-line">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9 18l6-6-6-6"/>
+                      </svg>
+                    </div>
+                  </div>
+                  <div class="pokemon-evolutions__branch-pokemon">
+                    <div class="pokemon-evolutions__image-wrapper pokemon-evolutions__image-wrapper--small">
+                      <img
+                        [src]="evo.image"
+                        [alt]="evo.name"
+                        class="pokemon-evolutions__image">
+                    </div>
+                    <span class="pokemon-evolutions__name pokemon-evolutions__name--small">{{ evo.name }}</span>
+                    <div class="pokemon-evolutions__types">
+                      @for (type of evo.types; track type) {
+                        <span
+                          class="pokemon-evolutions__type"
+                          [style.background-color]="getTypeColor(type)">
+                          {{ getTypeName(type) }}
+                        </span>
+                      }
+                    </div>
+                  </div>
+                </div>
+              }
+            </div>
+          </div>
+        } @else {
+          <!-- Ramificación nivel 1: Base → Múltiples ramas (Eevee, Applin) -->
+          <div class="pokemon-evolutions__branched">
+            <!-- Pokémon base a la izquierda -->
+            <div class="pokemon-evolutions__base" (click)="navigateToPokemon(pokemon.evolutions[0].id)">
+              <div class="pokemon-evolutions__image-wrapper pokemon-evolutions__image-wrapper--base">
+                <img
+                  [src]="pokemon.evolutions[0].image"
+                  [alt]="pokemon.evolutions[0].name"
+                  class="pokemon-evolutions__image">
+              </div>
+              <span class="pokemon-evolutions__name">{{ pokemon.evolutions[0].name }}</span>
+              <div class="pokemon-evolutions__types">
+                @for (type of pokemon.evolutions[0].types; track type) {
+                  <span
+                    class="pokemon-evolutions__type"
+                    [style.background-color]="getTypeColor(type)">
+                    {{ getTypeName(type) }}
+                  </span>
+                }
+              </div>
+            </div>
+
+            <!-- Columna de evoluciones a la derecha -->
+            <div class="pokemon-evolutions__branches-column">
+              @for (evo of pokemon.evolutions.slice(1); track evo.id) {
+                <!-- Solo mostrar evoluciones directas del base (no sub-evoluciones) -->
+                @if (!isSubEvolution(evo)) {
+                  <div class="pokemon-evolutions__branch-row">
+                    <div class="pokemon-evolutions__branch-connector">
+                      <span class="pokemon-evolutions__method-text">{{ evo.evolutionMethod || '' }}</span>
+                      <div class="pokemon-evolutions__arrow-line">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                          <path d="M9 18l6-6-6-6"/>
+                        </svg>
+                      </div>
+                    </div>
+                    <div class="pokemon-evolutions__branch-pokemon" (click)="navigateToPokemon(evo.id)">
+                      <div class="pokemon-evolutions__image-wrapper pokemon-evolutions__image-wrapper--small">
+                        <img
+                          [src]="evo.image"
+                          [alt]="evo.name"
+                          class="pokemon-evolutions__image">
+                      </div>
+                      <span class="pokemon-evolutions__name pokemon-evolutions__name--small">{{ evo.name }}</span>
+                      <div class="pokemon-evolutions__types">
+                        @for (type of evo.types; track type) {
+                          <span
+                            class="pokemon-evolutions__type"
+                            [style.background-color]="getTypeColor(type)">
+                            {{ getTypeName(type) }}
+                          </span>
+                        }
+                      </div>
+                    </div>
+                    <!-- Sub-evoluciones (como Hydrapple de Dipplin) -->
+                    @for (subEvo of pokemon.evolutions.slice(1); track subEvo.id) {
+                      @if (subEvo.evolvesFromId === evo.id) {
+                        <div class="pokemon-evolutions__sub-evolution">
+                          <div class="pokemon-evolutions__sub-connector">
+                            <span class="pokemon-evolutions__method-text">{{ subEvo.evolutionMethod || '' }}</span>
+                            <div class="pokemon-evolutions__arrow-line">
+                              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M9 18l6-6-6-6"/>
+                              </svg>
+                            </div>
+                          </div>
+                          <div class="pokemon-evolutions__sub-pokemon" (click)="navigateToPokemon(subEvo.id)">
+                            <div class="pokemon-evolutions__image-wrapper pokemon-evolutions__image-wrapper--small">
+                              <img
+                                [src]="subEvo.image"
+                                [alt]="subEvo.name"
+                                class="pokemon-evolutions__image">
+                            </div>
+                            <span class="pokemon-evolutions__name pokemon-evolutions__name--small">{{ subEvo.name }}</span>
+                            <div class="pokemon-evolutions__types">
+                              @for (type of subEvo.types; track type) {
+                                <span
+                                  class="pokemon-evolutions__type"
+                                  [style.background-color]="getTypeColor(type)">
+                                  {{ getTypeName(type) }}
+                                </span>
+                              }
+                            </div>
+                          </div>
+                        </div>
+                      }
+                    }
+                  </div>
+                }
+              }
+            </div>
+          </div>
         }
+
+      } @else {
+        <!-- Evoluciones lineales normales -->
+        <div class="pokemon-evolutions__chain">
+          @for (evo of pokemon.evolutions; track evo.id; let i = $index; let last = $last) {
+            <div class="pokemon-evolutions__item" (click)="navigateToPokemon(evo.id)">
+              <div class="pokemon-evolutions__image-wrapper">
+                <img
+                  [src]="evo.image"
+                  [alt]="evo.name"
+                  class="pokemon-evolutions__image">
+              </div>
+              <div class="pokemon-evolutions__info">
+                <span class="pokemon-evolutions__name">{{ evo.name }}</span>
+                <span class="pokemon-evolutions__id">{{ formatPokemonId(evo.id) }}</span>
+              </div>
+              <div class="pokemon-evolutions__types">
+                @for (type of evo.types; track type) {
+                  <span
+                    class="pokemon-evolutions__type"
+                    [style.background-color]="getTypeColor(type)">
+                    {{ getTypeName(type) }}
+                  </span>
+                }
+              </div>
+            </div>
+            @if (!last) {
+              <div class="pokemon-evolutions__arrow">
+                @if (pokemon.evolutions[i + 1]?.evolutionMethod) {
+                  <span class="pokemon-evolutions__method">{{ pokemon.evolutions[i + 1].evolutionMethod }}</span>
+                }
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M9 18l6-6-6-6"/>
+                </svg>
+              </div>
+            }
+          }
+        </div>
+      }
+
+    } @else {
+      <!-- No tiene evoluciones -->
+      <div class="pokemon-evolutions__no-evolution">
+        <p class="pokemon-evolutions__no-evolution-text">Este Pokémon no evoluciona</p>
       </div>
-    </section>
-  }
+    }
+  </section>
 
   <!-- ========== BOTÓN VOLVER ========== -->
   <section class="pokemon-back">

@@ -7,6 +7,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../services/user.service';
+import { LoadingService } from '../../../services/loading.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -18,7 +20,9 @@ export class RegisterComponent {
 
   constructor(
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private loadingService: LoadingService,
+    private authService: AuthService
   ) {
     // Generar años (desde 1920 hasta el año actual)
     const currentYear = new Date().getFullYear();
@@ -103,6 +107,7 @@ export class RegisterComponent {
   hasAttemptedSubmit = false;
   isSubmitting = false;
   showPassword = false;
+  registerError = '';
 
   // ========== VALIDACIÓN DE CONTRASEÑA ==========
   passwordRequirements = {
@@ -226,6 +231,7 @@ export class RegisterComponent {
   onSubmit(event: Event): void {
     event.preventDefault();
     this.hasAttemptedSubmit = true;
+    this.registerError = '';
 
     if (!this.validateStep3()) {
       return;
@@ -233,23 +239,48 @@ export class RegisterComponent {
 
     this.isSubmitting = true;
 
-    // Registrar usuario en el servicio
-    this.userService.registerUser({
-      email: this.formData.email,
-      country: this.formData.country,
-      birthYear: this.formData.birthYear,
-      birthMonth: this.formData.birthMonth,
-      birthDay: this.formData.birthDay,
-      username: this.formData.username,
-      password: this.formData.password
-    });
+    // Construir fecha de nacimiento
+    const fechaNacimiento = `${this.formData.birthYear}-${this.formData.birthMonth}-${this.formData.birthDay.toString().padStart(2, '0')}`;
 
-    // Simulación de tiempo de registro (cuando tengas backend, aquí iría la llamada HTTP)
-    setTimeout(() => {
-      console.log('Registro exitoso:', this.formData);
-      this.isSubmitting = false;
-      // Redirigir al perfil después del registro
-      this.router.navigate(['/profile']);
-    }, 1500);
+    // Llamar al backend
+    this.authService.register({
+      username: this.formData.username,
+      password: this.formData.password,
+      email: this.formData.email,
+      pais: this.formData.country,
+      fechaNacimiento: fechaNacimiento
+    }).subscribe({
+      next: (response) => {
+        console.log('Registro exitoso:', response);
+        this.isSubmitting = false;
+        
+        // Guardar también en el UserService local
+        this.userService.registerUser({
+          email: this.formData.email,
+          country: this.formData.country,
+          birthYear: this.formData.birthYear,
+          birthMonth: this.formData.birthMonth,
+          birthDay: this.formData.birthDay,
+          username: this.formData.username,
+          password: this.formData.password
+        });
+
+        // Mostrar pantalla de carga y redirigir
+        this.loadingService.show();
+        setTimeout(() => {
+          this.loadingService.hide();
+          this.router.navigate(['/pokedex']);
+        }, 2000);
+      },
+      error: (err) => {
+        this.isSubmitting = false;
+        console.error('Error de registro:', err);
+        if (err.error && typeof err.error === 'string') {
+          this.registerError = err.error;
+        } else {
+          this.registerError = 'Error al crear la cuenta. El usuario o email ya existe.';
+        }
+      }
+    });
   }
 }

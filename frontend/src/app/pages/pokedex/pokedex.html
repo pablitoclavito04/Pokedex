@@ -27,7 +27,8 @@
           type="text"
           class="search-section__input"
           placeholder="Nombre o número"
-          [(ngModel)]="searchQuery">
+          [(ngModel)]="searchQuery"
+          (input)="onSearchChange()">
       </div>
 
       <p class="search-section__hint">
@@ -200,7 +201,7 @@
   <!-- ========== BARRA DE ACCIONES ========== -->
   <section class="actions-bar">
     <div class="actions-bar__container">
-      <button class="actions-bar__surprise-btn">
+      <button class="actions-bar__surprise-btn" (click)="onSurprise()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M23 4v6h-6"/>
           <path d="M1 20v-6h6"/>
@@ -218,7 +219,7 @@
             <line x1="2" y1="12" x2="9" y2="12"/>
             <line x1="15" y1="12" x2="22" y2="12"/>
           </svg>
-          <select class="actions-bar__select" [(ngModel)]="sortOrder">
+          <select class="actions-bar__select" [(ngModel)]="sortOrder" (change)="onSortChange()">
             <option value="number-asc">Número inferior</option>
             <option value="number-desc">Número superior</option>
             <option value="name-asc">A - Z</option>
@@ -235,6 +236,13 @@
   <!-- ========== GRID DE POKÉMON ========== -->
   <section class="pokemon-grid-section">
     <div class="pokemon-grid-section__container">
+
+      <!-- Loading -->
+      @if (isLoading && pokemons.length === 0) {
+        <div class="pokemon-grid-section__loading">
+          <p>Cargando Pokémon...</p>
+        </div>
+      }
 
       <div class="pokemon-grid">
         @for (pokemon of pokemons; track pokemon.id) {
@@ -292,11 +300,17 @@
       </div>
 
       <!-- Botón cargar más -->
-      <div class="pokemon-grid-section__load-more">
-        <button class="load-more-btn" (click)="loadMorePokemon()">
-          Cargar más Pokémon
-        </button>
-      </div>
+      @if (hasMorePokemon) {
+        <div class="pokemon-grid-section__load-more">
+          <button class="load-more-btn" (click)="loadMorePokemon()" [disabled]="isLoading">
+            @if (isLoading) {
+              Cargando...
+            } @else {
+              Cargar más Pokémon
+            }
+          </button>
+        </div>
+      }
 
     </div>
   </section>

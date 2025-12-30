@@ -2,12 +2,14 @@
 //          POKEDEX PAGE - Página principal de la Pokédex
 // ============================================================================
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
-import { FavoritoService } from '../../services/favorito.service';
-import { AuthService } from '../../services/auth.service';
+import { FavoritoService } from '../../../services/favorito.service';
+import { AuthService } from '../../../services/auth.service';
+import { PokemonService } from '../../../services/pokemon.service';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-pokedex',
@@ -21,22 +23,37 @@ export class PokedexComponent implements OnInit {
   constructor(
     private router: Router,
     private favoritoService: FavoritoService,
-    private authService: AuthService
+    private authService: AuthService,
+    private pokemonService: PokemonService,
+    private cdr: ChangeDetectorRef
   ) {}
 
-  ngOnInit(): void {
-    // Cargar favoritos al iniciar si el usuario está logueado
-    if (this.authService.isLoggedIn()) {
-      this.favoritoService.cargarFavoritos();
+  // ========== ESTADO ==========
+  pokemons: any[] = [];
+  allPokemons: any[] = [];
+  allPokemonNames: {id: number, name: string}[] = [];
+  sortedPokemonNames: {id: number, name: string}[] = [];
+  filteredPokemonIds: {id: number, name: string}[] = [];
+  isLoading = false;
+  currentOffset = 0;
+  filterOffset = 0;
+  limit = 20;
+  totalPokemon = 1025;
+  isRandomMode = false;
+  isFilterMode = false;
 
-      // Suscribirse a cambios en favoritos
-      this.favoritoService.favoritos$.subscribe(favoritos => {
-        this.pokemons.forEach(pokemon => {
-          pokemon.isFavorite = favoritos.includes(pokemon.id);
-        });
-      });
-    }
-  }
+  // ========== RANGOS DE GENERACIONES ==========
+  generationRanges: Record<string, {start: number, end: number}> = {
+    '1': { start: 1, end: 151 },
+    '2': { start: 152, end: 251 },
+    '3': { start: 252, end: 386 },
+    '4': { start: 387, end: 493 },
+    '5': { start: 494, end: 649 },
+    '6': { start: 650, end: 721 },
+    '7': { start: 722, end: 809 },
+    '8': { start: 810, end: 905 },
+    '9': { start: 906, end: 1025 }
+  };
 
   // ========== FILTROS DE TIPO ==========
   types = [
@@ -110,93 +127,266 @@ export class PokedexComponent implements OnInit {
   isGenerationSelectOpen: boolean = false;
   sortOrder: string = 'number-asc';
 
-  // ========== POKÉMON (Primeros 12) ==========
-  pokemons = [
-    {
-      id: 1,
-      name: 'Bulbasaur',
-      types: ['grass', 'poison'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png',
-      isFavorite: false
-    },
-    {
-      id: 2,
-      name: 'Ivysaur',
-      types: ['grass', 'poison'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/2.png',
-      isFavorite: false
-    },
-    {
-      id: 3,
-      name: 'Venusaur',
-      types: ['grass', 'poison'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/3.png',
-      isFavorite: false
-    },
-    {
-      id: 4,
-      name: 'Charmander',
-      types: ['fire'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/4.png',
-      isFavorite: false
-    },
-    {
-      id: 5,
-      name: 'Charmeleon',
-      types: ['fire'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/5.png',
-      isFavorite: false
-    },
-    {
-      id: 6,
-      name: 'Charizard',
-      types: ['fire', 'flying'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/6.png',
-      isFavorite: false
-    },
-    {
-      id: 7,
-      name: 'Squirtle',
-      types: ['water'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/7.png',
-      isFavorite: false
-    },
-    {
-      id: 8,
-      name: 'Wartortle',
-      types: ['water'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/8.png',
-      isFavorite: false
-    },
-    {
-      id: 9,
-      name: 'Blastoise',
-      types: ['water'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/9.png',
-      isFavorite: false
-    },
-    {
-      id: 10,
-      name: 'Caterpie',
-      types: ['bug'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/10.png',
-      isFavorite: false
-    },
-    {
-      id: 11,
-      name: 'Metapod',
-      types: ['bug'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/11.png',
-      isFavorite: false
-    },
-    {
-      id: 12,
-      name: 'Butterfree',
-      types: ['bug', 'flying'],
-      image: 'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/12.png',
-      isFavorite: false
+  // Clave para persistir el orden en sessionStorage
+  private readonly SORT_ORDER_KEY = 'pokedex_sort_order';
+
+  // Filtros activos para cargar más
+  activeFilters = {
+    types: [] as string[],
+    height: '',
+    weight: ''
+  };
+
+  ngOnInit(): void {
+    // Recuperar el orden guardado en sessionStorage
+    const savedSortOrder = sessionStorage.getItem(this.SORT_ORDER_KEY);
+    if (savedSortOrder) {
+      this.sortOrder = savedSortOrder;
     }
-  ];
+
+    this.pokemonService.getAllPokemonNames().subscribe(names => {
+      this.allPokemonNames = names;
+      this.sortedPokemonNames = [...names];
+      this.loadPokemonsBySort();
+    });
+
+    if (this.authService.isLoggedIn()) {
+      this.favoritoService.cargarFavoritos();
+      this.favoritoService.favoritos$.subscribe(favoritos => {
+        this.pokemons.forEach(pokemon => {
+          pokemon.isFavorite = favoritos.includes(pokemon.id);
+        });
+        this.cdr.detectChanges();
+      });
+    }
+  }
+
+  // ========== CARGAR POKÉMON SEGÚN ORDEN ==========
+  loadPokemonsBySort(): void {
+    this.isLoading = true;
+    this.pokemons = [];
+    this.allPokemons = [];
+    this.currentOffset = 0;
+    this.isRandomMode = false;
+    this.isFilterMode = false;
+    this.cdr.detectChanges();
+
+    switch (this.sortOrder) {
+      case 'number-asc':
+        this.sortedPokemonNames = [...this.allPokemonNames].sort((a, b) => a.id - b.id);
+        break;
+      case 'number-desc':
+        this.sortedPokemonNames = [...this.allPokemonNames].sort((a, b) => b.id - a.id);
+        break;
+      case 'name-asc':
+        this.sortedPokemonNames = [...this.allPokemonNames].sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'name-desc':
+        this.sortedPokemonNames = [...this.allPokemonNames].sort((a, b) => b.name.localeCompare(a.name));
+        break;
+    }
+
+    this.loadMorePokemonSorted();
+  }
+
+  loadMorePokemonSorted(): void {
+    if (this.isLoading && this.pokemons.length > 0) return;
+    if (this.currentOffset >= this.sortedPokemonNames.length) return;
+
+    this.isLoading = true;
+    this.cdr.detectChanges();
+
+    const nextBatch = this.sortedPokemonNames.slice(this.currentOffset, this.currentOffset + this.limit);
+
+    const newPokemons = nextBatch.map(p => {
+      const pokemon = {
+        id: p.id,
+        name: p.name,
+        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png`,
+        types: [] as string[],
+        height: 0,
+        weight: 0,
+        isFavorite: false
+      };
+      this.loadPokemonDetails(pokemon);
+      return pokemon;
+    });
+
+    this.pokemons = [...this.pokemons, ...newPokemons];
+    this.allPokemons = [...this.pokemons];
+    this.currentOffset += this.limit;
+    this.isLoading = false;
+
+    if (this.authService.isLoggedIn()) {
+      const favoritos = this.favoritoService.getFavoritos();
+      this.pokemons.forEach(p => {
+        p.isFavorite = favoritos.includes(p.id);
+      });
+    }
+
+    this.cdr.detectChanges();
+  }
+
+  loadPokemonDetails(pokemon: any): void {
+    this.pokemonService.getPokemonDetails(pokemon.id).subscribe({
+      next: (details) => {
+        pokemon.types = details.types.map(t => t.name.toLowerCase());
+        pokemon.height = details.height;
+        pokemon.weight = details.weight;
+        this.cdr.detectChanges();
+      },
+      error: (err) => console.error('Error cargando detalles:', err)
+    });
+  }
+
+  loadMorePokemon(): void {
+    if (this.isFilterMode) {
+      this.loadMoreFilteredPokemon();
+    } else if (!this.isLoading && this.currentOffset < this.sortedPokemonNames.length) {
+      this.loadMorePokemonSorted();
+    }
+  }
+
+  // ========== SORPRÉNDEME ==========
+  onSurprise(): void {
+    this.isLoading = true;
+    this.isRandomMode = true;
+    this.isFilterMode = false;
+    this.searchQuery = '';
+    this.cdr.detectChanges();
+
+    const randomIds: number[] = [];
+    while (randomIds.length < this.limit) {
+      const randomId = Math.floor(Math.random() * this.totalPokemon) + 1;
+      if (!randomIds.includes(randomId)) {
+        randomIds.push(randomId);
+      }
+    }
+
+    this.pokemons = randomIds.map(id => {
+      const nameData = this.allPokemonNames.find(p => p.id === id);
+      const pokemon = {
+        id,
+        name: nameData ? nameData.name : `Pokemon #${id}`,
+        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
+        types: [] as string[],
+        height: 0,
+        weight: 0,
+        isFavorite: false
+      };
+      this.loadPokemonDetails(pokemon);
+      return pokemon;
+    });
+
+    if (this.authService.isLoggedIn()) {
+      const favoritos = this.favoritoService.getFavoritos();
+      this.pokemons.forEach(p => {
+        p.isFavorite = favoritos.includes(p.id);
+      });
+    }
+
+    this.isLoading = false;
+    this.cdr.detectChanges();
+  }
+
+  // ========== BÚSQUEDA ==========
+  onSearchChange(): void {
+    const query = this.searchQuery.trim().toLowerCase();
+
+    if (query === '') {
+      this.isRandomMode = false;
+      this.isFilterMode = false;
+      this.pokemons = [...this.allPokemons];
+      this.cdr.detectChanges();
+      return;
+    }
+
+    this.isRandomMode = false;
+    this.isFilterMode = false;
+
+    const matchingNames = this.allPokemonNames.filter(p =>
+      p.name.toLowerCase().includes(query) ||
+      p.id.toString() === query
+    );
+
+    let sortedMatches = [...matchingNames];
+    switch (this.sortOrder) {
+      case 'number-asc':
+        sortedMatches.sort((a, b) => a.id - b.id);
+        break;
+      case 'number-desc':
+        sortedMatches.sort((a, b) => b.id - a.id);
+        break;
+      case 'name-asc':
+        sortedMatches.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'name-desc':
+        sortedMatches.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+    }
+
+    this.pokemons = sortedMatches.slice(0, 50).map(p => {
+      const existing = this.allPokemons.find(ap => ap.id === p.id);
+      if (existing) {
+        return existing;
+      }
+      const newPokemon = {
+        id: p.id,
+        name: p.name,
+        image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png`,
+        types: [] as string[],
+        height: 0,
+        weight: 0,
+        isFavorite: false
+      };
+      this.loadPokemonDetails(newPokemon);
+      return newPokemon;
+    });
+
+    if (this.authService.isLoggedIn()) {
+      const favoritos = this.favoritoService.getFavoritos();
+      this.pokemons.forEach(p => {
+        p.isFavorite = favoritos.includes(p.id);
+      });
+    }
+
+    this.cdr.detectChanges();
+  }
+
+  // ========== ORDENAR ==========
+  onSortChange(): void {
+    // Guardar el orden en sessionStorage para persistirlo
+    sessionStorage.setItem(this.SORT_ORDER_KEY, this.sortOrder);
+
+    this.isRandomMode = false;
+    if (this.isFilterMode) {
+      this.sortFilteredIds();
+      this.filterOffset = 0;
+      this.pokemons = [];
+      this.loadMoreFilteredPokemon();
+    } else if (this.searchQuery.trim() !== '') {
+      this.onSearchChange();
+    } else {
+      this.loadPokemonsBySort();
+    }
+  }
+
+  sortFilteredIds(): void {
+    switch (this.sortOrder) {
+      case 'number-asc':
+        this.filteredPokemonIds.sort((a, b) => a.id - b.id);
+        break;
+      case 'number-desc':
+        this.filteredPokemonIds.sort((a, b) => b.id - a.id);
+        break;
+      case 'name-asc':
+        this.filteredPokemonIds.sort((a, b) => a.name.localeCompare(b.name));
+        break;
+      case 'name-desc':
+        this.filteredPokemonIds.sort((a, b) => b.name.localeCompare(a.name));
+        break;
+    }
+  }
 
   // ========== MÉTODOS ==========
   toggleAdvancedSearch(): void {
@@ -209,10 +399,12 @@ export class PokedexComponent implements OnInit {
       setTimeout(() => {
         this.showAdvancedSearch = false;
         this.isAdvancedSearchClosing = false;
+        this.cdr.detectChanges();
       }, 300);
     } else {
       this.showAdvancedSearch = true;
     }
+    this.cdr.detectChanges();
   }
 
   get isAdvancedSearchOpen(): boolean {
@@ -228,17 +420,17 @@ export class PokedexComponent implements OnInit {
   }
 
   getTypeColor(type: string): string {
-    const typeObj = this.types.find(t => t.value === type);
+    const typeObj = this.types.find(t => t.value === type.toLowerCase());
     return typeObj ? typeObj.color : '#A8A8A8';
   }
 
   getTypeName(type: string): string {
-    const typeObj = this.types.find(t => t.value === type);
+    const typeObj = this.types.find(t => t.value === type.toLowerCase());
     return typeObj ? typeObj.name : type;
   }
 
   getTypeIcon(type: string): string {
-    const typeObj = this.types.find(t => t.value === type);
+    const typeObj = this.types.find(t => t.value === type.toLowerCase());
     return typeObj ? typeObj.icon : '⭐';
   }
 
@@ -247,6 +439,7 @@ export class PokedexComponent implements OnInit {
   }
 
   getCardBackground(types: string[]): string {
+    if (types.length === 0) return '#A8A8A8';
     if (types.length === 1) {
       return this.getTypeColor(types[0]);
     }
@@ -255,14 +448,9 @@ export class PokedexComponent implements OnInit {
     return `linear-gradient(135deg, ${color1} 50%, ${color2} 50%)`;
   }
 
-  loadMorePokemon(): void {
-    console.log('Cargando más Pokémon...');
-  }
-
   toggleFavorite(event: Event, pokemonId: number): void {
     event.stopPropagation();
 
-    // Verificar si está logueado
     if (!this.authService.isLoggedIn()) {
       this.router.navigate(['/login']);
       return;
@@ -272,18 +460,17 @@ export class PokedexComponent implements OnInit {
     const pokemon = this.pokemons.find(p => p.id === pokemonId);
 
     if (pokemon) {
-      // Añadir animaciones
       button.classList.add('animate-wave');
       button.classList.add('animate-heart-beat');
 
       setTimeout(() => button.classList.remove('animate-wave'), 600);
       setTimeout(() => button.classList.remove('animate-heart-beat'), 400);
 
-      // Llamar al backend
       this.favoritoService.toggleFavorito(pokemonId).subscribe({
         next: (response) => {
           pokemon.isFavorite = response.esFavorito;
           console.log(`${pokemon.name} favorito: ${pokemon.isFavorite}`);
+          this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error al cambiar favorito:', err);
@@ -330,20 +517,171 @@ export class PokedexComponent implements OnInit {
     this.selectedWeight = '';
     this.sequenceStart = 1;
     this.sequenceEnd = 1025;
+    this.searchQuery = '';
+    this.isRandomMode = false;
+    this.isFilterMode = false;
+    this.loadPokemonsBySort();
   }
 
   applyFilters(): void {
-    console.log('Aplicando filtros...');
-    console.log('Tipos seleccionados:', this.advancedTypes.filter(t => t.typeSelected));
-    console.log('Debilidades seleccionadas:', this.advancedTypes.filter(t => t.weaknessSelected));
-    console.log('Generación:', this.selectedGeneration);
-    console.log('Altura:', this.selectedHeight);
-    console.log('Peso:', this.selectedWeight);
-    console.log('Secuencia:', this.sequenceStart, '-', this.sequenceEnd);
+    this.isLoading = true;
+    this.isFilterMode = true;
+    this.isRandomMode = false;
+    this.searchQuery = '';
+    this.pokemons = [];
+    this.filterOffset = 0;
+    this.cdr.detectChanges();
+
+    // Guardar filtros activos
+    this.activeFilters.types = this.advancedTypes.filter(t => t.typeSelected).map(t => t.value);
+    this.activeFilters.height = this.selectedHeight;
+    this.activeFilters.weight = this.selectedWeight;
+
+    // Filtrar por secuencia (rango de IDs)
+    let filteredIds = this.allPokemonNames.filter(p => 
+      p.id >= this.sequenceStart && p.id <= this.sequenceEnd
+    );
+
+    // Filtrar por generación
+    if (this.selectedGeneration !== 'all') {
+      const genRange = this.generationRanges[this.selectedGeneration];
+      if (genRange) {
+        filteredIds = filteredIds.filter(p => 
+          p.id >= genRange.start && p.id <= genRange.end
+        );
+      }
+    }
+
+    // Guardar IDs filtrados para paginación
+    this.filteredPokemonIds = filteredIds;
+    this.sortFilteredIds();
+
+    // Cargar el primer lote
+    this.loadMoreFilteredPokemon();
+  }
+
+  loadMoreFilteredPokemon(): void {
+    if (this.isLoading && this.pokemons.length > 0) return;
+    if (this.filterOffset >= this.filteredPokemonIds.length) {
+      this.isLoading = false;
+      this.cdr.detectChanges();
+      return;
+    }
+
+    this.isLoading = true;
+    this.cdr.detectChanges();
+
+    const targetCount = 20; // Queremos mostrar 20 Pokémon
+    const maxAttempts = 5; // Máximo de intentos para llenar
+    
+    this.loadFilteredBatch(targetCount, 0, maxAttempts);
+  }
+
+  private loadFilteredBatch(targetCount: number, currentAttempt: number, maxAttempts: number): void {
+    if (this.filterOffset >= this.filteredPokemonIds.length || currentAttempt >= maxAttempts) {
+      this.isLoading = false;
+      this.cdr.detectChanges();
+      return;
+    }
+
+    // Cargar lotes más grandes para compensar los filtros
+    const batchSize = 50;
+    const nextBatch = this.filteredPokemonIds.slice(this.filterOffset, this.filterOffset + batchSize);
+
+    if (nextBatch.length === 0) {
+      this.isLoading = false;
+      this.cdr.detectChanges();
+      return;
+    }
+
+    const pokemonObservables = nextBatch.map(p => this.pokemonService.getPokemonDetails(p.id));
+
+    forkJoin(pokemonObservables).subscribe({
+      next: (pokemonDetails) => {
+        let results = pokemonDetails.map(details => ({
+          id: details.id,
+          name: details.name,
+          image: details.image,
+          types: details.types.map(t => t.name.toLowerCase()),
+          height: details.height,
+          weight: details.weight,
+          isFavorite: false
+        }));
+
+        // Filtrar por tipo
+        if (this.activeFilters.types.length > 0) {
+          results = results.filter(p =>
+            p.types.some(t => this.activeFilters.types.includes(t))
+          );
+        }
+
+        // Filtrar por altura (en metros, ya convertido por el servicio)
+        // Pequeño: <= 1m, Mediano: 1.1m - 2m, Grande: >= 2.1m
+        if (this.activeFilters.height) {
+          results = results.filter(p => {
+            const h = p.height;
+            switch (this.activeFilters.height) {
+              case 'small': return h <= 1;
+              case 'medium': return h >= 1.1 && h <= 2;
+              case 'large': return h >= 2.1;
+              default: return true;
+            }
+          });
+        }
+
+        // Filtrar por peso (en kg, ya convertido por el servicio)
+        // Ligero: 0.1 - 20kg, Mediano: 20.1 - 60kg, Pesado: >= 60.1kg
+        if (this.activeFilters.weight) {
+          results = results.filter(p => {
+            const w = p.weight;
+            switch (this.activeFilters.weight) {
+              case 'light': return w <= 20;
+              case 'medium': return w >= 20.1 && w <= 60;
+              case 'heavy': return w >= 60.1;
+              default: return true;
+            }
+          });
+        }
+
+        // Verificar favoritos
+        if (this.authService.isLoggedIn()) {
+          const favoritos = this.favoritoService.getFavoritos();
+          results.forEach(p => {
+            p.isFavorite = favoritos.includes(p.id);
+          });
+        }
+
+        this.pokemons = [...this.pokemons, ...results];
+        this.filterOffset += batchSize;
+
+        // Si no tenemos suficientes resultados, seguir cargando
+        if (this.pokemons.length < targetCount && this.filterOffset < this.filteredPokemonIds.length) {
+          this.loadFilteredBatch(targetCount, currentAttempt + 1, maxAttempts);
+        } else {
+          this.isLoading = false;
+          this.cdr.detectChanges();
+        }
+      },
+      error: (err) => {
+        console.error('Error aplicando filtros:', err);
+        this.isLoading = false;
+        this.cdr.detectChanges();
+      }
+    });
   }
 
   // ========== NAVEGACIÓN AL DETALLE ==========
   goToPokemonDetail(pokemonId: number): void {
     this.router.navigate(['/pokemon', pokemonId]);
+  }
+
+  // ========== VERIFICAR SI HAY MÁS POKÉMON ==========
+  get hasMorePokemon(): boolean {
+    if (this.isFilterMode) {
+      return this.filterOffset < this.filteredPokemonIds.length;
+    }
+    return this.currentOffset < this.sortedPokemonNames.length && 
+           this.searchQuery === '' && 
+           !this.isRandomMode;
   }
 }

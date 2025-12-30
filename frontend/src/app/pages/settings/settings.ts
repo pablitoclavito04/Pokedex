@@ -5,7 +5,7 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { UserService, UserProfile } from '../../../services/user.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-settings',
@@ -19,11 +19,11 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private location: Location,
-    private userService: UserService
+    private authService: AuthService
   ) {}
 
   // ========== DATOS DEL FORMULARIO ==========
-  profileData: UserProfile = {
+  profileData = {
     email: '',
     country: '',
     birthDate: {
@@ -33,7 +33,7 @@ export class SettingsComponent implements OnInit {
     },
     username: '',
     password: '',
-    avatar: null,
+    avatar: null as string | null,
     displayName: '',
     bio: '',
     gender: '',
@@ -71,8 +71,19 @@ export class SettingsComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    // Cargar datos actuales del usuario
-    this.profileData = { ...this.userService.currentProfile };
+    // Cargar datos desde localStorage
+    const username = this.authService.getUsername();
+    const email = localStorage.getItem('email');
+
+    this.profileData.username = username || '';
+    this.profileData.displayName = localStorage.getItem('displayName') || username || '';
+    this.profileData.email = email || '';
+    this.profileData.bio = localStorage.getItem('userBio') || '';
+    this.profileData.gender = localStorage.getItem('userGender') || '';
+    this.profileData.favoriteRegion = localStorage.getItem('userFavoriteRegion') || 'Kanto';
+    this.profileData.language = localStorage.getItem('userLanguage') || 'Español';
+    this.profileData.avatar = localStorage.getItem('userAvatar') || null;
+    this.profileData.country = localStorage.getItem('userCountry') || '';
   }
 
   // ========== MÉTODOS ==========
@@ -89,13 +100,11 @@ export class SettingsComponent implements OnInit {
     if (input.files && input.files[0]) {
       const file = input.files[0];
 
-      // Validar que sea una imagen
       if (!file.type.startsWith('image/')) {
         console.error('El archivo debe ser una imagen');
         return;
       }
 
-      // Convertir a base64 para previsualización
       const reader = new FileReader();
       reader.onload = (e) => {
         this.profileData.avatar = e.target?.result as string;
@@ -112,7 +121,6 @@ export class SettingsComponent implements OnInit {
   onUsernameChange(value: string): void {
     this.hasChanges = true;
 
-    // Validar caracteres permitidos
     if (value && !this.usernamePattern.test(value)) {
       this.usernameError = 'Solo puede contener letras, números, guiones bajos (_) y puntos (.)';
     } else if (value && value.length < 3) {
@@ -136,13 +144,18 @@ export class SettingsComponent implements OnInit {
   saveChanges(): void {
     if (!this.canSave) return;
 
-    // Si se ingresó una nueva contraseña, actualizarla
-    if (this.passwordData.newPassword) {
-      this.profileData.password = this.passwordData.newPassword;
+    // Guardar en localStorage
+    localStorage.setItem('username', this.profileData.username);
+    localStorage.setItem('displayName', this.profileData.displayName);
+    localStorage.setItem('userBio', this.profileData.bio);
+    localStorage.setItem('userGender', this.profileData.gender);
+    localStorage.setItem('userFavoriteRegion', this.profileData.favoriteRegion);
+    localStorage.setItem('userLanguage', this.profileData.language);
+    
+    if (this.profileData.avatar) {
+      localStorage.setItem('userAvatar', this.profileData.avatar);
     }
 
-    // Guardar cambios en el servicio
-    this.userService.updateProfile(this.profileData);
     this.hasChanges = false;
     this.close();
   }
@@ -152,7 +165,6 @@ export class SettingsComponent implements OnInit {
   }
 
   deleteAccount(): void {
-    // Aquí iría la lógica para eliminar la cuenta (mostrar modal de confirmación)
     console.log('Eliminar cuenta solicitado');
   }
 
