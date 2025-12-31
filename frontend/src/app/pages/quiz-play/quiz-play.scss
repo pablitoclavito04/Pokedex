@@ -22,10 +22,11 @@ $button-primary: #6366f1;
   background: url('/Imagen quiz.png') no-repeat center center;
   background-size: cover;
   padding: $spacing-4;
+  padding-top: 75px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   position: relative;
 
   // Capa de opacidad sobre el fondo
@@ -42,6 +43,7 @@ $button-primary: #6366f1;
 
   @include respond-to('md') {
     padding: $spacing-8;
+    padding-top: 75px;
   }
 
   // ========== CARD ==========
@@ -63,23 +65,23 @@ $button-primary: #6366f1;
 
   // ========== HEADER ==========
   &__header {
-    padding: $spacing-4;
+    padding: $spacing-3;
 
     @include respond-to('md') {
-      padding: $spacing-5;
+      padding: $spacing-4;
     }
   }
 
   &__title {
     font-family: $font-secondary;
-    font-size: $font-size-xl;
+    font-size: $font-size-lg;
     font-weight: $font-weight-bold;
     color: var(--text-primary);
-    margin: 0 0 $spacing-4;
+    margin: 0 0 $spacing-3;
     text-align: center;
 
     @include respond-to('md') {
-      font-size: $font-size-2xl;
+      font-size: $font-size-xl;
     }
   }
 
@@ -87,8 +89,8 @@ $button-primary: #6366f1;
   &__progress {
     display: flex;
     align-items: center;
-    gap: $spacing-3;
-    padding-bottom: $spacing-4;
+    gap: $spacing-2;
+    padding-bottom: $spacing-3;
     border-bottom: 2px solid #b0bac7;
 
     :host-context(.dark-theme) & {
@@ -131,46 +133,56 @@ $button-primary: #6366f1;
 
   // ========== CONTENIDO ==========
   &__content {
-    padding: $spacing-4;
+    padding: $spacing-3;
 
     @include respond-to('md') {
-      padding: $spacing-5;
+      padding: $spacing-4;
     }
+
+    &--loading {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 150px;
+    }
+  }
+
+  &__loading-text {
+    font-family: $font-secondary;
+    font-size: $font-size-lg;
+    color: var(--text-secondary);
+    text-align: center;
   }
 
   &__question {
     font-family: $font-secondary;
-    font-size: $font-size-base;
+    font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
     color: var(--text-primary);
-    margin: 0 0 $spacing-4;
+    margin: 0 0 $spacing-3;
     line-height: 1.4;
     text-align: center;
 
     @include respond-to('md') {
-      font-size: $font-size-lg;
+      font-size: $font-size-base;
     }
   }
 
   // ========== OPCIONES ==========
   &__options {
-    display: grid;
-    grid-template-columns: 1fr;
+    display: flex;
+    flex-direction: column;
     gap: $spacing-2;
-
-    @include respond-to('sm') {
-      grid-template-columns: repeat(2, 1fr);
-    }
   }
 
   &__option {
     display: flex;
     align-items: center;
     gap: $spacing-2;
-    padding: $spacing-3;
+    padding: $spacing-2;
     background: var(--bg-primary);
     border: 2px solid #b0bac7;
-    border-radius: $border-radius-xl;
+    border-radius: $border-radius-lg;
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: left;
@@ -216,43 +228,47 @@ $button-primary: #6366f1;
   }
 
   &__option-letter {
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     display: flex;
     align-items: center;
     justify-content: center;
     background: var(--bg-tertiary);
-    border-radius: $border-radius-lg;
-    font-size: $font-size-sm;
+    border-radius: $border-radius-md;
+    font-size: $font-size-xs;
     font-weight: $font-weight-bold;
     color: var(--text-primary);
     flex-shrink: 0;
     transition: all 0.2s ease;
 
     @include respond-to('md') {
-      width: 36px;
-      height: 36px;
-      font-size: $font-size-base;
+      width: 32px;
+      height: 32px;
+      font-size: $font-size-sm;
     }
   }
 
   &__option-text {
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     color: var(--text-primary);
     transition: all 0.2s ease;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    flex: 1;
+    min-width: 0;
 
     @include respond-to('md') {
-      font-size: $font-size-base;
+      font-size: $font-size-sm;
     }
   }
 
   // ========== FOOTER ==========
   &__footer {
-    padding: $spacing-4;
+    padding: $spacing-3;
     padding-top: 0;
 
     @include respond-to('md') {
-      padding: $spacing-5;
+      padding: $spacing-4;
       padding-top: 0;
     }
   }
@@ -263,13 +279,13 @@ $button-primary: #6366f1;
     align-items: center;
     justify-content: center;
     gap: $spacing-2;
-    padding: $spacing-3 $spacing-6;
+    padding: $spacing-2 $spacing-4;
     font-size: $font-size-sm;
     font-weight: $font-weight-bold;
     color: #ffffff;
     background: #22C55E;
     border: none;
-    border-radius: $border-radius-xl;
+    border-radius: $border-radius-lg;
     cursor: pointer;
     transition: all 0.3s ease;
 
@@ -278,8 +294,8 @@ $button-primary: #6366f1;
     }
 
     @include respond-to('md') {
-      font-size: $font-size-base;
-      padding: $spacing-4 $spacing-8;
+      font-size: $font-size-sm;
+      padding: $spacing-3 $spacing-6;
     }
 
     &:hover:not(:disabled) {
@@ -298,13 +314,13 @@ $button-primary: #6366f1;
     }
 
     svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       transition: transform 0.3s ease;
 
       @include respond-to('md') {
-        width: 24px;
-        height: 24px;
+        width: 20px;
+        height: 20px;
       }
     }
 
@@ -315,29 +331,29 @@ $button-primary: #6366f1;
 
   // ========== BOTÓN SALIR ==========
   &__exit-btn {
-    max-width: 500px;
-    width: 100%;
-    padding: $spacing-3 $spacing-6;
-    margin-top: $spacing-4;
-    font-size: $font-size-sm;
+    position: absolute;
+    top: $spacing-4;
+    left: $spacing-4;
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-xs;
     font-weight: $font-weight-bold;
     color: #ffffff;
     background: #ef4444;
     border: none;
-    border-radius: $border-radius-xl;
+    border-radius: $border-radius-lg;
     cursor: pointer;
     transition: all 0.3s ease;
-    position: relative;
-    z-index: 1;
-    text-align: center;
+    z-index: 10;
 
     :host-context(.dark-theme) & {
       background: #CA0B0B;
     }
 
     @include respond-to('md') {
-      font-size: $font-size-base;
-      padding: $spacing-4 $spacing-8;
+      font-size: $font-size-sm;
+      padding: $spacing-3 $spacing-6;
+      top: $spacing-6;
+      left: $spacing-6;
     }
 
     &:hover {

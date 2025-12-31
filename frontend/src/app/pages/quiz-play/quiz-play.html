@@ -4,6 +4,11 @@
 
 <main class="quiz-play">
 
+  <!-- Botón Salir en la esquina superior izquierda -->
+  <button class="quiz-play__exit-btn" (click)="openExitModal()">
+    Salir del Quiz
+  </button>
+
   <!-- ========== CARD PRINCIPAL ========== -->
   <section class="quiz-play__card">
 
@@ -23,8 +28,15 @@
       </div>
     </div>
 
+    <!-- Estado de carga -->
+    @if (isLoading) {
+      <div class="quiz-play__content quiz-play__content--loading">
+        <p class="quiz-play__loading-text">Cargando preguntas...</p>
+      </div>
+    }
+
     <!-- Contenido de la pregunta -->
-    @if (currentQuestion) {
+    @if (!isLoading && currentQuestion) {
       <div class="quiz-play__content">
 
         <!-- Pregunta -->
@@ -60,11 +72,6 @@
     }
 
   </section>
-
-  <!-- Botón Salir fuera de la card -->
-  <button class="quiz-play__exit-btn" (click)="openExitModal()">
-    Salir del Quiz
-  </button>
 
   <!-- ========== MODAL DE CONFIRMACIÓN ========== -->
   @if (showExitModal) {

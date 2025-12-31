@@ -1,0 +1,1560 @@
+{
+  "easy": [
+    {
+      "question": "¿Cómo se llama el protagonista principal del anime Pokémon?",
+      "options": ["Red", "Ash Ketchum", "Gary Oak", "Brock"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿De qué tipo es Pikachu?",
+      "options": ["Fuego", "Agua", "Eléctrico", "Normal"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es el Pokémon número 1 en la Pokédex nacional?",
+      "options": ["Pikachu", "Bulbasaur", "Charmander", "Mew"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿De qué color es Squirtle?",
+      "options": ["Rojo", "Verde", "Azul", "Amarillo"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon es la mascota oficial de la franquicia?",
+      "options": ["Charizard", "Eevee", "Pikachu", "Mewtwo"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es la evolución de Charmander?",
+      "options": ["Charizard", "Charmeleon", "Magmar", "Flareon"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿De qué tipo es Bulbasaur?",
+      "options": ["Planta/Veneno", "Planta/Agua", "Solo Planta", "Planta/Tierra"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Quién es el rival de Ash en la primera temporada del anime?",
+      "options": ["Brock", "Misty", "Gary Oak", "Tracey"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué objeto se usa para capturar Pokémon?",
+      "options": ["Pokédex", "Poké Ball", "Poción", "Piedra evolutiva"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántos Pokémon iniciales puedes elegir normalmente al comenzar un juego?",
+      "options": ["2", "3", "4", "5"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿De qué tipo es Charizard?",
+      "options": ["Fuego/Volador", "Fuego/Dragón", "Solo Fuego", "Fuego/Roca"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cómo se llama el profesor que entrega los Pokémon iniciales en Kanto?",
+      "options": ["Profesor Elm", "Profesor Oak", "Profesor Birch", "Profesor Rowan"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon dice únicamente su nombre en el anime?",
+      "options": ["Meowth", "Pikachu", "Todos los Pokémon", "Ninguno"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es la evolución final de Squirtle?",
+      "options": ["Wartortle", "Blastoise", "Lapras", "Gyarados"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué equipo villano aparece en los juegos Rojo y Azul?",
+      "options": ["Team Aqua", "Team Magma", "Team Rocket", "Team Plasma"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿De qué tipo es Jigglypuff?",
+      "options": ["Normal/Hada", "Solo Normal", "Solo Hada", "Psíquico"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué Pokémon evoluciona a Raichu?",
+      "options": ["Pichu", "Pikachu", "Plusle", "Pachirisu"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el Pokémon más grande de la primera generación?",
+      "options": ["Snorlax", "Onix", "Gyarados", "Dragonite"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué tipo es super efectivo contra los Pokémon de tipo Agua?",
+      "options": ["Fuego", "Tierra", "Planta", "Hielo"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cómo se llama la región donde se desarrollan los juegos Rojo y Azul?",
+      "options": ["Johto", "Hoenn", "Kanto", "Sinnoh"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon acompaña siempre a Jessie y James del Team Rocket?",
+      "options": ["Pikachu", "Wobbuffet", "Meowth", "Ekans"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuántos tipos de Pokémon existen actualmente?",
+      "options": ["15", "17", "18", "20"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué evolución de Eevee se obtiene con una Piedra Agua?",
+      "options": ["Jolteon", "Flareon", "Vaporeon", "Espeon"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿De qué tipo es Geodude?",
+      "options": ["Solo Roca", "Roca/Tierra", "Roca/Acero", "Solo Tierra"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es la evolución de Magikarp?",
+      "options": ["Goldeen", "Seaking", "Gyarados", "Milotic"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon legendario aparece en la portada de Pokémon Rojo?",
+      "options": ["Mewtwo", "Charizard", "Moltres", "Articuno"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿De qué tipo es Gastly?",
+      "options": ["Solo Fantasma", "Fantasma/Veneno", "Fantasma/Siniestro", "Solo Veneno"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué hace una Poción en los juegos?",
+      "options": ["Captura Pokémon", "Restaura PS", "Cura estados", "Aumenta estadísticas"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cómo se llama la compañera de Ash que es líder de gimnasio de tipo Agua?",
+      "options": ["May", "Dawn", "Misty", "Serena"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon es conocido por dormir todo el tiempo?",
+      "options": ["Abra", "Snorlax", "Slaking", "Komala"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿De qué tipo es Mewtwo?",
+      "options": ["Psíquico", "Psíquico/Lucha", "Siniestro", "Normal"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el primer gimnasio al que se enfrenta Ash en el anime?",
+      "options": ["Gimnasio de Ciudad Celeste", "Gimnasio de Ciudad Plateada", "Gimnasio de Ciudad Carmín", "Gimnasio de Ciudad Azulona"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué piedra necesita Pikachu para evolucionar?",
+      "options": ["Piedra Lunar", "Piedra Trueno", "Piedra Fuego", "Piedra Solar"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántas evoluciones tiene Eevee?",
+      "options": ["5", "7", "8", "9"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon puede transformarse en cualquier otro Pokémon?",
+      "options": ["Mew", "Ditto", "Zoroark", "Smeargle"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el tipo de Psyduck?",
+      "options": ["Agua/Psíquico", "Solo Agua", "Solo Psíquico", "Normal/Agua"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon legendario es conocido como el Pokémon Genético?",
+      "options": ["Mew", "Mewtwo", "Deoxys", "Genesect"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿En qué año se lanzaron los primeros juegos de Pokémon en Japón?",
+      "options": ["1994", "1996", "1998", "1999"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué tipo es débil contra Fuego?",
+      "options": ["Agua", "Planta", "Roca", "Tierra"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cómo se llama el dispositivo que registra información de los Pokémon?",
+      "options": ["PokéNav", "Pokédex", "Poké Radar", "Pokégear"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon tiene forma de ratón y mejillas rojas?",
+      "options": ["Raichu", "Pikachu", "Plusle", "Dedenne"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál de estos NO es un Pokémon inicial?",
+      "options": ["Chikorita", "Cyndaquil", "Pikachu", "Totodile"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon es mitad Normal y mitad Volador en la primera generación?",
+      "options": ["Pidgey", "Spearow", "Farfetch'd", "Todos los anteriores"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿De qué tipo es el gimnasio de Brock?",
+      "options": ["Tierra", "Roca", "Acero", "Lucha"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon fantasma lame a sus víctimas?",
+      "options": ["Gastly", "Haunter", "Gengar", "Misdreavus"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es la forma pre-evolucionada de Pikachu?",
+      "options": ["No tiene", "Pichu", "Raichu", "Plusle"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon legendario representa el hielo en Kanto?",
+      "options": ["Moltres", "Zapdos", "Articuno", "Suicune"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuántas medallas de gimnasio se necesitan para acceder a la Liga Pokémon?",
+      "options": ["6", "7", "8", "10"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué movimiento es la firma de Pikachu?",
+      "options": ["Trueno", "Rayo", "Impactrueno", "Placaje eléctrico"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿De qué tipo es Onix?",
+      "options": ["Solo Roca", "Roca/Tierra", "Roca/Acero", "Solo Tierra"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon es el número 150 en la Pokédex?",
+      "options": ["Mew", "Mewtwo", "Dragonite", "Ditto"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el nombre japonés de Pokémon?",
+      "options": ["ポケットモンスター (Pocket Monsters)", "ポケモン (Pokemon)", "モンスター (Monster)", "ピカチュウ (Pikachu)"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué Pokémon tiene una flor en su espalda?",
+      "options": ["Oddish", "Bulbasaur", "Bellsprout", "Vileplume"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Quién creó Pokémon?",
+      "options": ["Shigeru Miyamoto", "Satoshi Tajiri", "Junichi Masuda", "Ken Sugimori"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué compañía desarrolla los videojuegos principales de Pokémon?",
+      "options": ["Nintendo", "Game Freak", "The Pokémon Company", "Creatures Inc."],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el tipo de Clefairy?",
+      "options": ["Normal", "Hada", "Psíquico", "Normal/Hada"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué tipo de Pokémon es Machop?",
+      "options": ["Normal", "Roca", "Lucha", "Tierra"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es el Pokémon que tiene una cuchara y es de tipo Psíquico?",
+      "options": ["Hypno", "Alakazam", "Mr. Mime", "Espeon"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué hace el movimiento 'Protección'?",
+      "options": ["Aumenta defensa", "Bloquea todos los ataques por un turno", "Cura estados", "Aumenta evasión"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿De qué tipo es Lapras?",
+      "options": ["Agua", "Agua/Hielo", "Hielo", "Agua/Dragón"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon evoluciona con amistad durante el día?",
+      "options": ["Umbreon", "Espeon", "Lucario", "Sylveon"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántos Pokémon hay en la primera generación?",
+      "options": ["150", "151", "152", "149"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué tipo es inmune a los ataques de tipo Normal?",
+      "options": ["Roca", "Acero", "Fantasma", "Siniestro"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué evolución de Eevee es de tipo Fuego?",
+      "options": ["Vaporeon", "Jolteon", "Flareon", "Espeon"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cómo se llama el líder del Team Rocket?",
+      "options": ["Archer", "Giovanni", "Maxie", "Cyrus"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué objeto restaura todos los PS de un Pokémon?",
+      "options": ["Poción", "Super Poción", "Restaura Todo", "Máx. Poción"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es el Pokémon pájaro de la primera generación que evoluciona dos veces?",
+      "options": ["Pidgey", "Spearow", "Farfetch'd", "Doduo"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿De qué tipo es Dragonite?",
+      "options": ["Dragón", "Dragón/Volador", "Dragón/Agua", "Dragón/Fuego"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon se esconde dentro de su caparazón cuando tiene miedo?",
+      "options": ["Squirtle", "Shellder", "Slowpoke", "Kabuto"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el ataque más fuerte de tipo Normal?",
+      "options": ["Hiperrayo", "Explosión", "Gigaimpacto", "Última baza"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon tiene la habilidad de volar y es de tipo Bicho/Volador en Kanto?",
+      "options": ["Butterfree", "Beedrill", "Scyther", "Pinsir"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cómo se llaman los tres pájaros legendarios de Kanto?",
+      "options": ["Raikou, Entei, Suicune", "Articuno, Zapdos, Moltres", "Lugia, Ho-Oh, Celebi", "Regirock, Regice, Registeel"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué tipo de Pokémon es débil contra el tipo Psíquico?",
+      "options": ["Normal", "Veneno", "Agua", "Planta"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es la evolución de Haunter?",
+      "options": ["Gastly", "Gengar", "Misdreavus", "Dusclops"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon puede aprender casi cualquier movimiento mediante MT?",
+      "options": ["Ditto", "Mew", "Smeargle", "Arceus"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿De qué tipo es Snorlax?",
+      "options": ["Normal", "Normal/Tierra", "Normal/Lucha", "Tierra"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué Pokémon tiene una llama en la punta de su cola?",
+      "options": ["Vulpix", "Charmander", "Ponyta", "Magmar"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál de estos es un Pokémon fósil de Kanto?",
+      "options": ["Lileep", "Kabuto", "Cranidos", "Tirtouga"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué líder de gimnasio usa Pokémon de tipo Eléctrico en Kanto?",
+      "options": ["Brock", "Misty", "Lt. Surge", "Erika"],
+      "correctAnswer": 2
+    }
+  ],
+  "normal": [
+    {
+      "question": "¿En qué generación se introdujo el tipo Hada?",
+      "options": ["Generación 4", "Generación 5", "Generación 6", "Generación 7"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es el Pokémon más pesado registrado?",
+      "options": ["Snorlax", "Wailord", "Groudon", "Celesteela"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué Pokémon tiene la habilidad 'Impostor'?",
+      "options": ["Mew", "Ditto", "Zoroark", "Smeargle"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿En qué región se encuentra Ciudad Luminalia?",
+      "options": ["Kanto", "Johto", "Kalos", "Alola"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuántos Pokémon legendarios hay en la primera generación?",
+      "options": ["4", "5", "6", "7"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué tipo es inmune a los movimientos de tipo Dragón?",
+      "options": ["Acero", "Hada", "Hielo", "Normal"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántas formas tiene Rotom?",
+      "options": ["4", "5", "6", "7"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon tiene el mayor stat base de HP?",
+      "options": ["Snorlax", "Wobbuffet", "Blissey", "Wailord"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿En qué juego apareció por primera vez la mecánica de Mega Evolución?",
+      "options": ["Pokémon Negro y Blanco", "Pokémon X e Y", "Pokémon Sol y Luna", "Pokémon Espada y Escudo"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el nombre del campeón de la región de Sinnoh?",
+      "options": ["Lance", "Steven", "Cynthia", "Alder"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué tipo fue añadido en la segunda generación?",
+      "options": ["Hada", "Siniestro y Acero", "Solo Acero", "Dragón"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es la única combinación de tipos que tiene Spiritomb?",
+      "options": ["Fantasma/Siniestro", "Fantasma/Psíquico", "Siniestro/Veneno", "Fantasma/Veneno"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué Pokémon necesita conocer el movimiento 'Espacio Raro' para evolucionar?",
+      "options": ["Mime Jr.", "Lickilicky", "Tangrowth", "Ninguno de los anteriores"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿En qué año se lanzó Pokémon GO?",
+      "options": ["2015", "2016", "2017", "2018"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es la habilidad oculta de Greninja?",
+      "options": ["Mutatipo", "Torrente", "Protean", "Inicio Lento"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué objeto aumenta el daño de los movimientos de tipo Agua en un 20%?",
+      "options": ["Agua Mística", "Gota Agua", "Incienso Aqua", "Orbe Azul"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuántas megaevoluciones tiene Charizard?",
+      "options": ["1", "2", "3", "0"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon es conocido por tener diferentes formas según la isla de Alola?",
+      "options": ["Oricorio", "Lycanroc", "Wishiwashi", "Minior"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el nombre del profesor de la región de Alola?",
+      "options": ["Profesor Oak", "Profesor Kukui", "Profesor Sycamore", "Profesor Magnolia"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon fue el primero en ser creado por Game Freak?",
+      "options": ["Pikachu", "Mew", "Rhydon", "Bulbasaur"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es el stat base total de los Pokémon pseudo-legendarios?",
+      "options": ["580", "600", "620", "680"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon tiene la forma 'Ash-Greninja'?",
+      "options": ["Pikachu", "Greninja", "Lucario", "Charizard"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿En qué generación se introdujeron las Poké Balls especiales como la Malla Ball?",
+      "options": ["Generación 2", "Generación 3", "Generación 4", "Generación 5"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué líder de gimnasio de Johto usa Pokémon de tipo Fantasma?",
+      "options": ["Whitney", "Morty", "Chuck", "Jasmine"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es la evolución de Feebas?",
+      "options": ["Magikarp", "Milotic", "Gyarados", "Lumineon"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué movimiento tiene prioridad +5?",
+      "options": ["Velocidad Extrema", "Protección", "Anticipo", "Persecución"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuántos Pokémon iniciales de tipo Fuego se han introducido en total?",
+      "options": ["7", "8", "9", "10"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué región está basada en Francia?",
+      "options": ["Unova", "Kalos", "Galar", "Paldea"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el Pokémon más pequeño en términos de altura?",
+      "options": ["Joltik", "Flabébé", "Cutiefly", "Cosmoem"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué compositor es conocido por crear la música de los juegos Pokémon?",
+      "options": ["Koji Kondo", "Junichi Masuda", "Nobuo Uematsu", "Shoji Meguro"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál fue el primer opening del anime Pokémon en español?",
+      "options": ["ViPokemon", "Quiero ser el mejor", "Pokémon Johto", "El Heredero"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon causó ataques de epilepsia en Japón en 1997?",
+      "options": ["Pikachu", "Porygon", "Jigglypuff", "Electrode"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué habilidad hace que los ataques siempre golpeen primero con prioridad +1?",
+      "options": ["Bromista", "Piel Celeste", "Toque Curación", "Cola Escama"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el Pokémon número 666 en la Pokédex Nacional?",
+      "options": ["Vivillon", "Yveltal", "Hoopa", "Volcanion"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué Pokémon tiene más formas regionales?",
+      "options": ["Meowth", "Pikachu", "Geodude", "Rattata"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿En qué juego se introdujo la Región de Galar?",
+      "options": ["Pokémon Sol y Luna", "Pokémon Espada y Escudo", "Pokémon Let's Go", "Pokémon Escarlata y Púrpura"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon tiene la mayor cantidad de evoluciones posibles?",
+      "options": ["Eevee", "Wurmple", "Tyrogue", "Poliwag"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el nombre del antagonista principal en Pokémon Negro y Blanco?",
+      "options": ["Cyrus", "Ghetsis", "Lysandre", "Giovanni"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon puede cambiar su tipo según la forma que adopte?",
+      "options": ["Ditto", "Arceus", "Silvally", "Todos los anteriores"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿En qué generación se introdujo la mecánica de objetos equipables?",
+      "options": ["Generación 1", "Generación 2", "Generación 3", "Generación 4"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon tiene la habilidad 'Presión'?",
+      "options": ["Solo legendarios", "Mewtwo", "Absol", "Varios Pokémon, incluyendo legendarios"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Cuántos gimnasios hay en la región de Galar?",
+      "options": ["8", "10", "18", "Depende de la versión"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué película de Pokémon fue la primera en estrenarse?",
+      "options": ["Pokémon: El poder de uno", "Pokémon: La película", "Pokémon 3", "Pokémon Heroes"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon es considerado un pseudo-legendario de Hoenn?",
+      "options": ["Metagross", "Salamence", "Ambos", "Ninguno"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es el efecto del estado 'Quemado'?",
+      "options": ["Reduce velocidad", "Reduce ataque físico y daño continuo", "Solo daño continuo", "Reduce defensa"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué tipo de Pokémon es Lucario?",
+      "options": ["Lucha", "Lucha/Acero", "Acero/Psíquico", "Lucha/Psíquico"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el nombre del Team villano de Hoenn que quiere expandir la tierra?",
+      "options": ["Team Aqua", "Team Magma", "Team Galactic", "Team Flare"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon tiene la evolución más larga en términos de nivel?",
+      "options": ["Larvesta", "Deino", "Zweilous", "Volcarona"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué objeto permite a Ditto transformarse automáticamente al entrar en combate?",
+      "options": ["Pañuelo Elección", "Polvo Metálico", "Polvo Rápido", "No necesita objeto"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿En qué generación apareció el Centro de Pokémon subterráneo?",
+      "options": ["Generación 3", "Generación 4", "Generación 5", "No existe"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon es la contraparte de Latios?",
+      "options": ["Latias", "Lugia", "Cresselia", "Uxie"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuántas formas de Pikachu con gorra existen en Pokémon GO?",
+      "options": ["5", "7", "8", "Más de 10"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué habilidad duplica la velocidad bajo la lluvia?",
+      "options": ["Nado Rápido", "Hidratación", "Absorbe Agua", "Piel Seca"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el Pokémon signature de Cynthia?",
+      "options": ["Milotic", "Garchomp", "Lucario", "Spiritomb"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué juego introdujo los Concursos Pokémon?",
+      "options": ["Pokémon Oro y Plata", "Pokémon Rubí y Zafiro", "Pokémon Diamante y Perla", "Pokémon Negro y Blanco"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el tipo de Giratina en su forma Origen?",
+      "options": ["Fantasma/Dragón", "Fantasma/Siniestro", "Dragón/Siniestro", "Fantasma"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué Pokémon necesita sostener un objeto específico para evolucionar y ser intercambiado?",
+      "options": ["Onix", "Scyther", "Porygon", "Todos los anteriores"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Cuál es el efecto de la habilidad 'Levitación'?",
+      "options": ["Aumenta evasión", "Inmunidad a Tierra", "Inmunidad a Lucha", "Aumenta velocidad"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon representa a la Luna en la tercera generación?",
+      "options": ["Lunatone", "Solrock", "Cresselia", "Lunala"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuántos Pokémon Ultraentes existen en total?",
+      "options": ["7", "9", "11", "13"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon es el guardián de la isla Melemele en Alola?",
+      "options": ["Tapu Koko", "Tapu Lele", "Tapu Bulu", "Tapu Fini"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿En qué año celebró Pokémon su 25 aniversario?",
+      "options": ["2020", "2021", "2022", "2023"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon tiene el movimiento exclusivo 'Llama Final'?",
+      "options": ["Charizard", "Infernape", "Cualquier inicial de Fuego en última etapa", "Blaziken"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es la capital de la región Unova?",
+      "options": ["Ciudad Porcelana", "Ciudad Mayólica", "Ciudad Teja", "Ciudad Nimbasa"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué profesor entrega los iniciales en la región de Paldea?",
+      "options": ["Profesor Turo/Sada", "Profesor Jacq", "Director Clavell", "Ninguno de los anteriores"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál fue el primer Pokémon de tipo Hada antes de la sexta generación (reclasificado)?",
+      "options": ["Clefairy", "Jigglypuff", "Togepi", "Todos fueron reclasificados"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué Pokémon cambió de tipo Normal a Hada en la sexta generación?",
+      "options": ["Clefairy", "Snubbull", "Wigglytuff", "Todos los anteriores"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Cuál es la habilidad característica de Slaking?",
+      "options": ["Ausente", "Lento Arranque", "Holgazán", "Inicio Tardo"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué movimiento permite atacar dos veces en un turno?",
+      "options": ["Ida y Vuelta", "Golpe Bis", "Doble Golpe", "Todos los anteriores"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántos Pokémon pueden aprender el movimiento 'Esquema'?",
+      "options": ["1", "2", "3", "Ninguno"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué versión de Deoxys tiene el mayor stat de Ataque?",
+      "options": ["Normal", "Ataque", "Defensa", "Velocidad"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es la evolución de Riolu?",
+      "options": ["Zoroark", "Lucario", "Mienfoo", "Machoke"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué condición se necesita para que Riolu evolucione?",
+      "options": ["Nivel 32", "Piedra evolutiva", "Amistad alta + subir nivel de día", "Intercambio"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es el Pokémon más rápido de tipo Fantasma?",
+      "options": ["Gengar", "Dragapult", "Shadow Rider Calyrex", "Spectrier"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿En qué generación se introdujo la habilidad 'Mutatipo'?",
+      "options": ["Generación 5", "Generación 6", "Generación 7", "Generación 8"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué región está basada en el Reino Unido?",
+      "options": ["Kalos", "Unova", "Galar", "Paldea"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuántos movimientos puede conocer un Pokémon a la vez?",
+      "options": ["3", "4", "5", "6"],
+      "correctAnswer": 1
+    }
+  ],
+  "hard": [
+    {
+      "question": "¿Cuál es el stat base total de Arceus?",
+      "options": ["680", "700", "720", "670"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon tiene el Speed base más alto sin contar formas?",
+      "options": ["Ninjask", "Deoxys-Speed", "Electrode", "Regieleki"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Cuál es la única combinación de tipos que no existe actualmente?",
+      "options": ["Fuego/Hada", "Normal/Hielo", "Bicho/Dragón", "Veneno/Acero"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué habilidad anula los movimientos de prioridad del oponente?",
+      "options": ["Armadura Frágil", "Espacio Raro", "Bromista", "Corte Fuerte"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Cuál es el daño base del movimiento Explosión?",
+      "options": ["200", "250", "300", "170"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿En qué generación se cambió el sistema de IVs de 0-15 a 0-31?",
+      "options": ["Gen 2", "Gen 3", "Gen 4", "Gen 5"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el Pokémon más ligero?",
+      "options": ["Gastly", "Haunter", "Kartana", "Flabébé"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué naturaleza aumenta Ataque y baja Velocidad?",
+      "options": ["Firme", "Osada", "Activa", "Huraña"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuántos EVs se pueden tener en total en un Pokémon?",
+      "options": ["510", "508", "512", "252"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué objeto aumenta la precisión en un 10%?",
+      "options": ["Lupa", "Cinta Ancha", "Zoom", "Gafas Especiales"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el único Pokémon con el tipo Normal/Fantasma?",
+      "options": ["No existe", "Hisuian Zoroark", "Shedinja", "Spectrier"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué movimiento de Smeargle puede copiar permanentemente otros movimientos?",
+      "options": ["Copión", "Transformación", "Esquema", "Imitación"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es la probabilidad de crítico base en la generación actual?",
+      "options": ["1/16", "1/24", "1/8", "1/12"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon tiene la combinación única de Hielo/Bicho?",
+      "options": ["Frosmoth", "Snom", "Galvantula", "Dewpider"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuántos puntos de felicidad máximos puede tener un Pokémon?",
+      "options": ["255", "220", "256", "200"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué habilidad duplica el peso del Pokémon?",
+      "options": ["Sebo", "Metal Pesado", "Liviano", "Gravedad"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el multiplicador de STAB (Same Type Attack Bonus)?",
+      "options": ["1.25", "1.5", "2.0", "1.75"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon fue baneado de VGC por ser demasiado fuerte?",
+      "options": ["Mega Rayquaza", "Zacian", "Calyrex Shadow", "Todos han sido baneados alguna vez"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Cuál es el efecto de la habilidad 'Bromista' en combate?",
+      "options": ["Movimientos de estado con +1 prioridad", "Inmunidad a movimientos de estado", "Confunde al oponente", "Copia la habilidad del rival"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué Pokémon tiene acceso exclusivo al movimiento 'Melodía Lunar'?",
+      "options": ["Cresselia", "Primarina", "Meloetta", "Lunala"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿En qué porcentaje aumenta la Lluvia el daño de ataques tipo Agua?",
+      "options": ["25%", "50%", "75%", "100%"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántos Pokémon pueden tener la habilidad 'Maravilla Guardián'?",
+      "options": ["1", "2", "3", "Más de 3"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el nombre interno del primer Pokémon en el código de los juegos?",
+      "options": ["Bulbasaur", "Rhydon", "MissingNo.", "Mew"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon tiene la habilidad exclusiva 'RKS System'?",
+      "options": ["Arceus", "Silvally", "Genesect", "Type: Null"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es la precisión del movimiento 'Fisura'?",
+      "options": ["30%", "Variable según nivel", "20%", "50%"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué tipo de ataque ignora las mejoras de evasión?",
+      "options": ["Golpes certeros", "Prioridad alta", "Ataques de sonido", "Ataques físicos"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el Pokémon con el stat de Defensa base más alto?",
+      "options": ["Shuckle", "Steelix", "Mega Aggron", "Eternatus Eternamax"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué Pokémon puede tener la habilidad 'Imantapullas'?",
+      "options": ["Magnezone", "Probopass", "Ambos", "Ninguno"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es el efecto de Toxispikes cuando se usan dos capas?",
+      "options": ["Más daño", "Envenena gravemente", "Paraliza", "Daño inmediato"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué generación introdujo los ataques físicos y especiales separados por movimiento?",
+      "options": ["Generación 2", "Generación 3", "Generación 4", "Generación 5"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es la única forma de obtener a Melmetal?",
+      "options": ["Evolucionar Meltan", "Evento especial", "Pokémon GO", "Transferir desde Let's Go"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon tiene el stat total más alto de todos (sin contar formas temporales)?",
+      "options": ["Arceus", "Eternatus", "Zacian Coronado", "Calyrex con jinete"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántos movimientos de tipo Hada existían en su generación de debut?",
+      "options": ["10", "15", "20", "25"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué item hace que los movimientos de prioridad fallen contra el portador?",
+      "options": ["Hierba Mental", "Gafas Protectoras", "Chaleco Asalto", "No existe tal item"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Cuál es el único Pokémon que puede aprender tanto Llamarada como Ventisca sin MT?",
+      "options": ["Kyurem", "Reshiram", "Volcarona", "Ninguno"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué movimiento tiene la mayor potencia base (sin condiciones)?",
+      "options": ["Explosión", "Llama Final V", "Impacto Feroz", "Rayo Solar"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el porcentaje de vida que recupera 'Descanso'?",
+      "options": ["50%", "75%", "100%", "Variable"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon de tipo Bicho tiene el mayor stat total?",
+      "options": ["Scizor", "Volcarona", "Genesect", "Pheromosa"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuántas veces puede un Pokémon usar 'Protección' seguidas con 100% de éxito?",
+      "options": ["1", "2", "3", "Siempre funciona igual"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué efecto tiene el objeto 'Bola Férrea' además de bajar velocidad?",
+      "options": ["Anula Levitación", "Aumenta Defensa", "Inmunidad a Trueno", "Nada más"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el único tipo que resiste a sí mismo además de Acero?",
+      "options": ["Dragón", "Fantasma", "Ninguno", "Siniestro"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon fue el primero en tener un stat base de 1?",
+      "options": ["Shedinja", "Wishiwashi Solo", "Magikarp", "Feebas"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿En qué juego apareció por primera vez el breeding/crianza?",
+      "options": ["Pokémon Rojo/Azul", "Pokémon Oro/Plata", "Pokémon Rubí/Zafiro", "Pokémon Diamante/Perla"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el efecto de la habilidad 'Potencia Bruta'?",
+      "options": ["+30% daño, sin efectos secundarios", "+50% daño, sin efectos secundarios", "+30% daño, reduce precisión", "Ignora habilidades defensivas"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué Pokémon tiene la combinación única Fuego/Agua?",
+      "options": ["Volcanion", "No existe", "Galarian Stunfisk", "Hisuian Typhlosion"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el único movimiento que puede golpear a un Pokémon usando 'Vuelo' con 100% precisión?",
+      "options": ["Trueno", "Vendaval", "Ataque Aéreo", "Golpe Roca"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué habilidad permite atacar dos veces pero con menos poder?",
+      "options": ["Habilidad Parental", "Adaptable", "Experto", "Piel Helada"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuántos huevos se necesitan estadísticamente para obtener un shiny con Masuda Method en Gen 6+?",
+      "options": ["683", "512", "1024", "4096"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon tiene acceso a 'Danza Espada' y 'Ala de Acero' sin MT?",
+      "options": ["Skarmory", "Scizor", "Corviknight", "Honchkrow"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es la habilidad signature de Greninja en competitivo?",
+      "options": ["Torrente", "Protean", "Mutatipo", "Experto"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué efecto tiene el movimiento 'Truco' en combate?",
+      "options": ["Roba objeto", "Intercambia objetos", "Copia objeto", "Destruye objeto"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el número máximo de PP que puede tener un movimiento?",
+      "options": ["40", "48", "56", "64"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué Pokémon con la habilidad 'Regeneración' es común en competitivo?",
+      "options": ["Slowbro", "Toxapex", "Amoonguss", "Todos los anteriores"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Cuál es el efecto del clima 'Arena' además de daño?",
+      "options": ["Sube Def. Esp. tipo Roca", "Sube Defensa tipo Tierra", "Baja Precisión", "Sube Velocidad tipo Acero"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué movimiento de entrada causa daño según el tipo del Pokémon entrante?",
+      "options": ["Trampa Rocas", "Púas", "Red Viscosa", "Ninguno hace eso"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuántos Pokémon pueden Gigantamaxear?",
+      "options": ["26", "32", "35", "40"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué habilidad hace que el clima dure 8 turnos en lugar de 5?",
+      "options": ["Pronóstico", "Ninguna, se necesita objeto", "Clima Variable", "Sequía/Llovizna mejoradas"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es la potencia del movimiento 'Golpe Bajo' cuando el rival va a atacar?",
+      "options": ["40", "60", "80", "Variable"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué Pokémon tiene la combinación Veneno/Dragón?",
+      "options": ["Dragalge", "Naganadel", "Eternatus", "Todos los anteriores"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿En qué tier competitivo de Smogon está usualmente Landorus-Therian?",
+      "options": ["UU", "OU", "Ubers", "AG"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el porcentaje de daño que inflige 'Tormento' por turno?",
+      "options": ["No hace daño", "6.25%", "12.5%", "25%"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué Pokémon fue creado por error de programación?",
+      "options": ["MissingNo.", "Mew", "Ditto", "Porygon"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es la habilidad oculta de los iniciales de agua generalmente?",
+      "options": ["Torrente", "Mutatipo", "Cura Lluvia", "Absorbe Agua"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué movimiento Z de tipo Normal tiene la mayor potencia base?",
+      "options": ["Carrera Arrolladora", "Gigaimpacto Z", "Explosión Z", "Hiperrayo Z"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuántos Pokémon tienen la habilidad 'Inicio Lento'?",
+      "options": ["1", "2", "3", "4"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué item aumenta la potencia de movimientos tipo Hada en un 20%?",
+      "options": ["Hada Placa", "Lazo Destino", "Objeto Hada", "No existe uno específico"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el efecto de 'Poder Oculto' en generaciones recientes?",
+      "options": ["Tipo variable según IVs", "Siempre tipo Normal", "Fue eliminado", "Tipo según naturaleza"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon tiene la mayor cantidad de debilidades (7)?",
+      "options": ["Tyranitar", "Terrakion", "Snover", "Celebi"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es el efecto del item 'Seguro Debilidad'?",
+      "options": ["Reduce daño super efectivo", "Aumenta Ataque tras daño super efectivo", "Cura al recibir crítico", "Refleja daño"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué porcentaje de recuperación da 'Deseo' al Pokémon que lo recibe?",
+      "options": ["25%", "50%", "100%", "Variable según quien lo use"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántos turnos dura el efecto de 'Mofa'?",
+      "options": ["2", "3", "4", "5"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué habilidad anula el retroceso de movimientos?",
+      "options": ["Roca Sólida", "Robustez", "Imprudente", "Cabeza de Roca"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Cuál es el único Pokémon con tipo Eléctrico/Fantasma?",
+      "options": ["Rotom base", "Rotom formas", "No existe base", "Todos los Rotom"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué item dobla la Velocidad pero bloquea cambio de movimiento?",
+      "options": ["Pañuelo Elección", "Banda Elección", "Gafas Elección", "Bufanda Elección"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el ratio de género más común en Pokémon iniciales?",
+      "options": ["50/50", "87.5% macho / 12.5% hembra", "75/25", "100% macho"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon fue vetado de competitivo por el 'Moody Clause'?",
+      "options": ["Glalie", "Bidoof", "Smeargle", "Octillery"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuántos tipos resiste el tipo Acero?",
+      "options": ["8", "10", "11", "9"],
+      "correctAnswer": 1
+    }
+  ],
+  "expert": [
+    {
+      "question": "¿Cuál es la probabilidad exacta de encontrar un shiny en Gen 2-5?",
+      "options": ["1/4096", "1/8192", "1/512", "1/1365"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿En qué episodio del anime Pokémon ocurrió el incidente de epilepsia en Japón?",
+      "options": ["EP035", "EP038", "EP052", "EP018"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántos pasos base necesita un huevo de Magikarp para eclosionar?",
+      "options": ["1280", "2560", "1024", "5120"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué glitch en Gen 1 permite capturar a Mew?",
+      "options": ["Glitch de Safari", "Glitch del Anciano", "Glitch Mew", "Glitch del Cable Link"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es el multiplicador exacto de un golpe crítico en Gen 6+?",
+      "options": ["2.0", "1.5", "2.25", "1.75"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿En qué año se fundó Game Freak?",
+      "options": ["1985", "1989", "1983", "1991"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál fue el nombre del manga que inspiró a Satoshi Tajiri?",
+      "options": ["No fue un manga", "Capsule Monsters", "Pocket Monsters", "Ultra Kaiju"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué Pokémon tiene exactamente 1 de HP base y sigue siendo competitivamente viable?",
+      "options": ["Shedinja", "Chansey", "Shuckle", "Wobbuffet"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el número hexadecimal de MissingNo. más común?",
+      "options": ["000", "255", "Pokemon #0", "Varía"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué compositor creó el tema 'Pokémon Theme' del anime occidental?",
+      "options": ["John Loeffler", "Junichi Masuda", "Hirokazu Tanaka", "John Siegler"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuántos Pokémon fueron cortados del código de Rojo/Azul?",
+      "options": ["39", "52", "28", "15"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué empresa posee la marca registrada Pokémon?",
+      "options": ["Nintendo", "Game Freak", "The Pokémon Company", "Creatures Inc."],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿En qué año exacto se vendió la primera carta de Pokémon TCG en Japón?",
+      "options": ["1995", "1996", "1997", "1998"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál fue el precio récord de venta de una carta Pokémon (hasta 2023)?",
+      "options": ["$420,000", "$900,000", "$5,275,000", "Más de $6,000,000"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué carta Pokémon alcanzó ese precio récord?",
+      "options": ["Charizard 1st Edition", "Pikachu Illustrator", "Blastoise Galaxy Star", "Umbreon Gold Star"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántas veces cambió Jigglypuff de tipo a lo largo de las generaciones?",
+      "options": ["0", "1", "2", "3"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué porcentaje exacto de PS recupera la habilidad 'Cura Lluvia' por turno?",
+      "options": ["6.25%", "12.5%", "16.67%", "25%"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el frame rate objetivo de los juegos Pokémon en Nintendo Switch?",
+      "options": ["30 FPS", "60 FPS", "Variable 20-30", "24 FPS"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuántas copias vendió Pokémon Rojo/Verde en su primera semana en Japón?",
+      "options": ["500,000", "1,000,000", "No hay datos exactos", "200,000"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué Pokémon fue diseñado primero: Mew o Mewtwo?",
+      "options": ["Mew", "Mewtwo", "Ambos a la vez", "Ninguno, Mewtwo es solo un clon en la historia"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Quién añadió a Mew secretamente en el código del juego?",
+      "options": ["Satoshi Tajiri", "Shigeki Morimoto", "Ken Sugimori", "Junichi Masuda"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál fue el bug que causó el ' Pokemon Sword and Shield Controversy'?",
+      "options": ["Dexit", "Graficos de árboles", "Animaciones recicladas", "Todo lo anterior"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Cuántos Pokémon fueron eliminados de la Pokédex Nacional en Sword/Shield al lanzamiento?",
+      "options": ["234", "400", "490", "Más de 400"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué significa 'Effort Values' (EVs) en términos de mecánicas?",
+      "options": ["Puntos ganados al derrotar Pokémon", "Valores heredados", "Puntos de experiencia", "Modificadores temporales"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el máximo de EVs que puedes tener en un solo stat?",
+      "options": ["252", "255", "256", "250"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Por qué el máximo efectivo es 252 y no 255?",
+      "options": ["Límite del juego", "252 es divisible por 4", "255 no es divisible por 4", "Balance competitivo"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué evento causó que el episodio 'Electric Soldier Porygon' nunca se emitiera fuera de Japón?",
+      "options": ["Contenido violento", "Ataques epilépticos en niños", "Problemas de licencia", "Baja audiencia"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántos niños fueron hospitalizados por el incidente de Porygon?",
+      "options": ["150", "310", "685", "Más de 600"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué demanda legal enfrentó Nintendo por el diseño de Kadabra?",
+      "options": ["Demanda de Uri Geller", "Derechos de autor de magia", "Símbolos ofensivos", "Plagio de diseño"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Por qué no hubo cartas de Kadabra por años en el TCG?",
+      "options": ["Baja popularidad", "Demanda de Uri Geller", "Error de impresión", "Decisión creativa"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿En qué año se resolvió la disputa de Uri Geller permitiendo cartas de Kadabra?",
+      "options": ["2018", "2020", "2022", "2023"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuándo fue el primer torneo oficial de Pokémon VGC?",
+      "options": ["2008", "2009", "2010", "2004"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué formato se usa en los campeonatos mundiales de Pokémon VGC?",
+      "options": ["Singles 6v6", "Doubles 4v4", "Doubles traer 6, usar 4", "Singles Best of 3"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál fue la controversia del Pokémon World Championships 2019?",
+      "options": ["Hackers", "Robo de 3DS", "Descalificaciones polémicas", "Cancelación por COVID"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué técnica de speedrun usa el glitch 'ACE' en Pokémon?",
+      "options": ["Arbitrary Code Execution", "Advanced Combat Engine", "Auto Complete Event", "Accelerated Catch Exploit"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál es el récord mundial de speedrun de Pokémon Rojo (Any%) aproximadamente?",
+      "options": ["Menos de 1 hora", "Menos de 30 minutos", "Menos de 2 horas", "Menos de 15 minutos"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué Pokémon aparece en el logo de Game Freak?",
+      "options": ["Pikachu", "Un personaje original (no Pokémon)", "Mew", "Ninguno"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántos empleados tenía Game Freak cuando creó Pokémon Rojo/Verde?",
+      "options": ["4-5", "10-15", "20-30", "Más de 50"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuántos años tardó en desarrollarse Pokémon Rojo/Verde?",
+      "options": ["2 años", "4 años", "6 años", "8 años"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué consola casi canceló el desarrollo de Pokémon por su 'muerte'?",
+      "options": ["NES", "SNES", "Game Boy", "Virtual Boy"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Quién convenció a Nintendo de publicar Pokémon cuando dudaban?",
+      "options": ["Shigeru Miyamoto", "Satoru Iwata", "Gunpei Yokoi", "Hiroshi Yamauchi"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué elemento del diseño original de Pokémon fue cambiado por Nintendo of America?",
+      "options": ["Sprites de Pokémon", "Nombres de personajes", "Referencias a juegos de azar", "Todas las anteriores"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Por qué Jynx fue rediseñada con piel púrpura?",
+      "options": ["Mejor diseño", "Controversia por blackface", "Petición de fans", "Error de color original"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué símbolo fue removido de las cartas japonesas de Pokémon para occidente?",
+      "options": ["Manji/Swastika budista", "Kanji específico", "Sol naciente", "Ninguno fue removido"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuál fue el nombre original propuesto para Pokémon en occidente?",
+      "options": ["Pocket Monsters", "Capsule Monsters", "PoKéMoN", "Pokémon se mantuvo"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Por qué 'Pocket Monsters' no se usó en occidente?",
+      "options": ["Ya estaba registrado", "Difícil de pronunciar", "No sonaba bien", "Problemas legales con 'Monster in My Pocket'"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué artista ha colaborado con Pokémon para música promocional recientemente?",
+      "options": ["Katy Perry", "Ed Sheeran", "Post Malone", "Todos los anteriores"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Cuál fue el álbum de Pokémon que alcanzó el Billboard 200?",
+      "options": ["Pokémon 2.B.A. Master", "Pokémon: The First Movie OST", "Pokémon X", "Pokémon 25: The Album"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué compositor japonés creó la mayoría de la música de las primeras generaciones?",
+      "options": ["Junichi Masuda", "Go Ichinose", "Hitomi Sato", "Shota Kageyama"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Cuántas películas de Pokémon se han producido hasta 2023?",
+      "options": ["20", "23", "25", "Más de 25"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué película de Pokémon fue la primera en usar CGI completamente?",
+      "options": ["Detective Pikachu", "Mewtwo Strikes Back: Evolution", "Pokémon: Secrets of the Jungle", "Ninguna es completamente CGI"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuánto recaudó Detective Pikachu en taquilla mundial?",
+      "options": ["$250 millones", "$433 millones", "$600 millones", "$1 billón"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué actor interpretó a Detective Pikachu?",
+      "options": ["Danny DeVito", "Ryan Reynolds", "Chris Pratt", "Dwayne Johnson"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es el Pokémon Center más grande del mundo?",
+      "options": ["Tokyo", "Osaka", "New York (cerrado)", "Pokémon Center Mega Tokyo"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿En qué año abrió el primer Pokémon Center en Japón?",
+      "options": ["1996", "1998", "2000", "2002"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué porcentaje de las ganancias de Pokémon viene del merchandising?",
+      "options": ["25%", "50%", "Más del 60%", "Menos del 20%"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es la franquicia de medios más valiosa del mundo?",
+      "options": ["Star Wars", "Marvel", "Pokémon", "Hello Kitty"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuánto ha generado Pokémon en total (hasta 2023)?",
+      "options": ["$50 billones", "Más de $100 billones", "$75 billones", "$150 billones"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué Pokémon fue votado como el más popular en el 'Pokémon of the Year' 2020?",
+      "options": ["Pikachu", "Charizard", "Greninja", "Mimikyu"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es la controversia conocida como 'Garchomp Gate'?",
+      "options": ["Nerf en competitivo", "Diseño filtrado", "Animación de caminar en BDSP", "Mega evolución cancelada"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué significa el término 'Smogon' en la comunidad competitiva?",
+      "options": ["Nombre de un sitio web de estrategia", "Nombre japonés de Koffing", "Ambos están relacionados", "Nombre de un torneo"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué cláusula prohíbe dormir a más de un Pokémon rival a la vez?",
+      "options": ["Sleep Clause", "Evasion Clause", "OHKO Clause", "Species Clause"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Por qué Blaziken fue baneado a Ubers en Gen 5?",
+      "options": ["Stats muy altos", "Habilidad oculta Speed Boost", "Movepool muy amplio", "Mega evolución"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué evento distribuyó el primer Mew legítimo fuera de Japón?",
+      "options": ["Nintendo Power", "Toys 'R' Us Events", "Pokémon Tour 99", "Club Nintendo"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Cuál es el nombre del programa de Nintendo que conectaba GB con N64?",
+      "options": ["Transfer Pak", "Link Cable", "Game Boy Player", "Super Game Boy"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿Qué juego de N64 permitía ver Pokémon en 3D por primera vez?",
+      "options": ["Pokémon Stadium", "Pokémon Snap", "Hey You, Pikachu!", "Pokémon Puzzle League"],
+      "correctAnswer": 0
+    },
+    {
+      "question": "¿En qué año se descontinuó la producción de cartas de Wizards of the Coast?",
+      "options": ["2001", "2003", "2005", "2000"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Quién es el ilustrador más famoso de cartas Pokémon?",
+      "options": ["Ken Sugimori", "Mitsuhiro Arita", "Atsuko Nishida", "Todos son igualmente famosos"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál fue el primer set de cartas Pokémon?",
+      "options": ["Base Set", "Jungle", "Fossil", "Pocket Monsters Card Game"],
+      "correctAnswer": 3
+    },
+    {
+      "question": "¿Qué Pokémon tiene el cry (sonido) más largo en los juegos?",
+      "options": ["Jynx", "Kricketune", "Chatot", "Staravia"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuál es la fórmula de daño simplificada en Pokémon?",
+      "options": ["((Ataque/Defensa) x Poder x Modificadores)+2", "Más compleja con nivel y constantes", "Poder x STAB x Efectividad", "Ataque - Defensa + Poder"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué valor de IV da el máximo HP posible a nivel 100?",
+      "options": ["15", "31", "30", "Depende del Pokémon"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántos bytes ocupa cada Pokémon en la RAM de Gen 1?",
+      "options": ["33", "44", "52", "64"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Qué causó la duplicación de items usando el 'Old Man Glitch'?",
+      "options": ["Overflow de memoria", "Nombre del jugador como wild data", "Error de tiles", "Bug del menú"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿En qué versión de Pokémon GO se introdujo el PvP?",
+      "options": ["0.125.0", "0.131.0", "1.0.0", "0.99.0"],
+      "correctAnswer": 1
+    },
+    {
+      "question": "¿Cuántos usuarios activos mensuales tenía Pokémon GO en su pico?",
+      "options": ["50 millones", "100 millones", "Más de 150 millones", "200 millones"],
+      "correctAnswer": 2
+    },
+    {
+      "question": "¿Qué evento de Pokémon GO causó problemas legales en Japón?",
+      "options": ["Accidentes de tráfico", "Invasión de propiedad privada", "Ambos", "Ninguno fue legal"],
+      "correctAnswer": 2
+    }
+  ]
+}
