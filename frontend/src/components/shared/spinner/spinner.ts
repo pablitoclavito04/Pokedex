@@ -19,4 +19,5 @@ import { LoadingService } from '../../../services/loading.service';
 export class SpinnerComponent {
   private loadingService = inject(LoadingService);
   isLoading$ = this.loadingService.isLoading$;
+  message$ = this.loadingService.message$;
 }

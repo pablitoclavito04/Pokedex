@@ -262,4 +262,25 @@
     </footer>
 
   </div>
+
+  <!-- ========== MODAL DE CONFIRMACIÓN ELIMINAR CUENTA ========== -->
+  @if (showDeleteModal) {
+    <div class="settings-page__modal-overlay" (click)="closeDeleteModal()">
+      <div class="settings-page__modal" (click)="$event.stopPropagation()">
+        <p class="settings-page__modal-text">
+          ¿Estás seguro?<br>
+          No podrás recuperar tus datos después de eliminar tu cuenta.
+        </p>
+        <div class="settings-page__modal-actions">
+          <button class="settings-page__modal-btn settings-page__modal-btn--delete" (click)="confirmDeleteAccount()">
+            Sí, eliminar
+          </button>
+          <button class="settings-page__modal-btn settings-page__modal-btn--cancel" (click)="closeDeleteModal()">
+            Mejor lo pienso
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
 </main>

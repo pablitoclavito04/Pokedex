@@ -27,6 +27,7 @@
     width: 100%;
     max-width: 600px;
     background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
+    border: 3px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
     border-radius: $border-radius-2xl;
     overflow: hidden;
     display: flex;
@@ -34,6 +35,7 @@
 
     :host-context(.light-theme) & {
       background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
+      border-color: var(--border-primary, #{map-get($light-theme, border-primary)});
     }
   }
 
@@ -163,6 +165,101 @@
       cursor: not-allowed;
     }
   }
+
+  // ========== MODAL ==========
+  &__modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+  }
+
+  &__modal {
+    background: var(--bg-primary);
+    border-radius: $border-radius-2xl;
+    padding: $spacing-6;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+
+    :host-context(.dark-theme) & {
+      background: #1C2739;
+    }
+  }
+
+  &__modal-text {
+    font-family: $font-secondary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-6;
+    line-height: 1.5;
+  }
+
+  &__modal-actions {
+    display: flex;
+    gap: $spacing-3;
+    justify-content: center;
+  }
+
+  &__modal-btn {
+    flex: 1;
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    border: none;
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+
+    @include respond-to('md') {
+      font-size: $font-size-base;
+      padding: $spacing-4 $spacing-8;
+    }
+
+    &--delete {
+      background: #ef4444;
+      color: #ffffff;
+
+      :host-context(.dark-theme) & {
+        background: #CA0B0B;
+      }
+
+      &:hover {
+        background: darken(#ef4444, 10%);
+
+        :host-context(.dark-theme) & {
+          background: darken(#CA0B0B, 10%);
+        }
+      }
+    }
+
+    &--cancel {
+      background: #22c55e;
+      color: #ffffff;
+
+      :host-context(.dark-theme) & {
+        background: #1B9D4A;
+      }
+
+      &:hover {
+        background: darken(#22c55e, 10%);
+
+        :host-context(.dark-theme) & {
+          background: darken(#1B9D4A, 10%);
+        }
+      }
+    }
+  }
+
 }
 
 // ============================================================================

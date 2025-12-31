@@ -41,10 +41,15 @@
     font-weight: $font-weight-medium;
     color: var(--text-primary);
     background: var(--bg-secondary);
-    border: 1px solid var(--border-primary);
+    border: 2px solid var(--border-secondary);
     border-radius: $border-radius-xl;
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+
+    :host-context(.dark-theme) & {
+      background: #1C2739;
+      border-color: #3d5a80;
+    }
 
     svg {
       width: 18px;
@@ -56,6 +61,11 @@
     &:hover {
       background: var(--bg-tertiary);
       border-color: var(--border-secondary);
+
+      :host-context(.dark-theme) & {
+        background: #2F4467;
+        border-color: #64748b;
+      }
     }
   }
 }
@@ -67,7 +77,7 @@
   max-width: 900px;
   margin: 0 auto;
   background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
-  border: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+  border: 3px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
   border-radius: $border-radius-2xl;
   overflow: hidden;
   transition: $transition-all;
@@ -255,7 +265,7 @@
     font-weight: $font-weight-semibold;
     border-radius: $border-radius-xl;
     cursor: pointer;
-    transition: $transition-all;
+    transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s ease;
     min-width: 140px;
 
     svg {
@@ -265,21 +275,22 @@
 
     &--settings {
       background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
-      border: 1px solid var(--border-secondary, #{map-get($dark-theme, border-secondary)});
+      border: 2px solid var(--border-secondary, #{map-get($dark-theme, border-secondary)});
       color: var(--text-primary, #{map-get($dark-theme, text-primary)});
 
       &:hover {
         background: var(--bg-card, #{map-get($dark-theme, bg-card)});
-        border-color: $color-primary-500;
+        border-color: #30A7D7;
       }
 
       :host-context(.light-theme) & {
-        background: var(--bg-tertiary, #{map-get($light-theme, bg-tertiary)});
-        border-color: var(--border-secondary, #{map-get($light-theme, border-secondary)});
+        background: #ffffff;
+        border-color: #cbd5e1;
         color: var(--text-primary, #{map-get($light-theme, text-primary)});
 
         &:hover {
-          background: var(--bg-input, #{map-get($light-theme, bg-input)});
+          background: #e2e8f0;
+          border-color: #30A7D7;
         }
       }
     }
@@ -508,8 +519,6 @@
 
     &:hover {
       transform: scale(1.05);
-      border-color: $color-primary-500;
-      box-shadow: 0 4px 12px rgba($color-primary-500, 0.2);
     }
 
     :host-context(.light-theme) & {

@@ -334,13 +334,13 @@ $button-primary: #6366f1;
     position: absolute;
     top: $spacing-4;
     left: $spacing-4;
-    padding: $spacing-2 $spacing-4;
-    font-size: $font-size-xs;
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-sm;
     font-weight: $font-weight-bold;
     color: #ffffff;
     background: #ef4444;
     border: none;
-    border-radius: $border-radius-lg;
+    border-radius: $border-radius-xl;
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 10;
@@ -350,8 +350,8 @@ $button-primary: #6366f1;
     }
 
     @include respond-to('md') {
-      font-size: $font-size-sm;
-      padding: $spacing-3 $spacing-6;
+      font-size: $font-size-base;
+      padding: $spacing-4 $spacing-8;
       top: $spacing-6;
       left: $spacing-6;
     }
@@ -396,7 +396,7 @@ $button-primary: #6366f1;
 
   &__modal-text {
     font-family: $font-secondary;
-    font-size: $font-size-lg;
+    font-size: $font-size-base;
     font-weight: $font-weight-semibold;
     color: var(--text-primary);
     margin: 0 0 $spacing-6;

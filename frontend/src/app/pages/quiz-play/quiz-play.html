@@ -77,7 +77,7 @@
   @if (showExitModal) {
     <div class="quiz-play__modal-overlay" (click)="closeExitModal()">
       <div class="quiz-play__modal" (click)="$event.stopPropagation()">
-        <p class="quiz-play__modal-text">Cuidado, si sales ahora perderás tu progreso.</p>
+        <p class="quiz-play__modal-text">¡Cuidado! Si sales ahora perderás tu progreso.<br>¿Seguro que quieres salir?</p>
         <div class="quiz-play__modal-actions">
           <button class="quiz-play__modal-btn quiz-play__modal-btn--exit" (click)="confirmExit()">
             Salir

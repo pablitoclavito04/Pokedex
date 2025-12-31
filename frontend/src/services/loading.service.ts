@@ -14,6 +14,9 @@ export class LoadingService {
   private loadingSubject = new BehaviorSubject<boolean>(false);
   public isLoading$: Observable<boolean> = this.loadingSubject.asObservable();
 
+  private messageSubject = new BehaviorSubject<string>('Cargando...');
+  public message$: Observable<string> = this.messageSubject.asObservable();
+
   private requestCount = 0;
 
   /**
@@ -26,9 +29,11 @@ export class LoadingService {
   /**
    * Muestra el spinner de carga
    * Incrementa el contador de peticiones
+   * @param message Mensaje personalizado (opcional)
    */
-  show(): void {
+  show(message: string = 'Cargando...'): void {
     this.requestCount++;
+    this.messageSubject.next(message);
     this.loadingSubject.next(true);
   }
 

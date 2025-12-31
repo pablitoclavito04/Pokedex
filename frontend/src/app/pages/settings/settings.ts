@@ -5,7 +5,9 @@
 import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { LoadingService } from '../../../services/loading.service';
 
 @Component({
   selector: 'app-settings',
@@ -19,7 +21,9 @@ export class SettingsComponent implements OnInit {
 
   constructor(
     private location: Location,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router,
+    private loadingService: LoadingService
   ) {}
 
   // ========== DATOS DEL FORMULARIO ==========
@@ -62,6 +66,9 @@ export class SettingsComponent implements OnInit {
 
   // Estado del formulario
   hasChanges = false;
+
+  // Estado del modal de eliminar cuenta
+  showDeleteModal = false;
 
   // Estado de apertura de los selects
   selectStates: { [key: string]: boolean } = {
@@ -165,7 +172,23 @@ export class SettingsComponent implements OnInit {
   }
 
   deleteAccount(): void {
-    console.log('Eliminar cuenta solicitado');
+    this.showDeleteModal = true;
+  }
+
+  closeDeleteModal(): void {
+    this.showDeleteModal = false;
+  }
+
+  confirmDeleteAccount(): void {
+    this.showDeleteModal = false;
+    this.loadingService.show('Eliminando cuenta...');
+
+    // Simular tiempo de carga y luego redirigir
+    setTimeout(() => {
+      this.loadingService.hide();
+      this.authService.logout();
+      this.router.navigate(['/']);
+    }, 2000);
   }
 
   onSelectClick(selectId: string): void {

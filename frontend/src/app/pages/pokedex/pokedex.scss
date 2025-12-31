@@ -22,7 +22,7 @@
   text-align: center;
 
   :host-context(.dark-theme) & {
-    background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
+    background: #1C2739;
   }
 
   @include respond-to('md') {
@@ -72,6 +72,10 @@
     height: 20px;
     color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
     pointer-events: none;
+
+    :host-context(.dark-theme) & {
+      color: #64748B;
+    }
   }
 
   &__input {
@@ -84,8 +88,16 @@
     border-radius: $border-radius-xl;
     transition: $transition-all;
 
+    :host-context(.dark-theme) & {
+      color: #1a1a1a;
+    }
+
     &::placeholder {
       color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+
+      :host-context(.dark-theme) & {
+        color: #64748b;
+      }
     }
 
     &:focus {
@@ -727,8 +739,8 @@
     }
 
     &--active svg {
-      color: #EF4444;
-      fill: #EF4444;
+      color: #FE2C55;
+      fill: #FE2C55;
     }
 
     // Animación de ondas al hacer click
@@ -740,7 +752,7 @@
       width: 100%;
       height: 100%;
       border-radius: 50%;
-      background: rgba(239, 68, 68, 0.3);
+      background: rgba(254, 44, 85, 0.3);
       transform: translate(-50%, -50%) scale(0);
       opacity: 0;
       pointer-events: none;
