@@ -1,0 +1,523 @@
+// ============================================================================
+//                    QUIZ PAGE - Estilos BEM
+// ============================================================================
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                      VARIABLES LOCALES
+// ============================================================================
+$difficulty-easy: #22c55e;
+$difficulty-normal: #eab308;
+$difficulty-hard: #f97316;
+$difficulty-expert: #ef4444;
+
+// ============================================================================
+//                      BLOQUE PRINCIPAL: .quiz-page
+// ============================================================================
+.quiz-page {
+  min-height: 100vh;
+  background: url('/Imagen quiz.png') no-repeat center center;
+  background-size: cover;
+  padding: $spacing-4;
+  padding-bottom: $spacing-16;
+  position: relative;
+  overflow: hidden;
+
+  // Capa de opacidad sobre el fondo
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 0;
+  }
+
+  @include respond-to('md') {
+    padding: $spacing-8;
+    padding-bottom: $spacing-16;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+
+  // ========== HEADER ==========
+  &__header {
+    max-width: 600px;
+    width: 100%;
+    margin: 0 auto $spacing-6;
+    position: relative;
+    z-index: 1;
+
+    @include respond-to('md') {
+      position: absolute;
+      top: $spacing-8;
+      left: $spacing-8;
+      margin: 0;
+      max-width: none;
+      width: auto;
+    }
+  }
+
+  &__back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-4 $spacing-6;
+    font-size: $font-size-base;
+    font-weight: $font-weight-medium;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border: 1px solid var(--border-primary);
+    border-radius: $border-radius-2xl;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+
+    svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--text-primary);
+    }
+
+    &:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--border-secondary);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    :host-context(.light-theme) & {
+      background: #ffffff;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+      &:hover {
+        background: #f8f9fa;
+      }
+    }
+  }
+}
+
+// ============================================================================
+//                      BLOQUE: .quiz-card
+// ============================================================================
+.quiz-card {
+  max-width: 600px;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-primary);
+  border-radius: $border-radius-2xl;
+  overflow: hidden;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+
+  // ========== HEADER ==========
+  &__header {
+    text-align: center;
+    padding: $spacing-8 $spacing-6 $spacing-6;
+    border-bottom: 1px solid var(--border-primary);
+
+    @include respond-to('md') {
+      padding: $spacing-10 $spacing-8 $spacing-8;
+    }
+  }
+
+  &__icon {
+    width: 80px;
+    height: 80px;
+    margin: 0 auto $spacing-4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include respond-to('md') {
+      width: 100px;
+      height: 100px;
+    }
+  }
+
+  &__icon-img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+  }
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-3;
+
+    @include respond-to('md') {
+      font-size: $font-size-3xl;
+    }
+  }
+
+  &__description {
+    font-size: $font-size-sm;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin: 0;
+    max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
+
+    @include respond-to('md') {
+      font-size: $font-size-base;
+    }
+  }
+
+  // ========== CONTENIDO ==========
+  &__content {
+    padding: $spacing-6;
+
+    @include respond-to('md') {
+      padding: $spacing-8;
+    }
+  }
+
+  &__section {
+    margin-bottom: $spacing-8;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+
+  &__section-title {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0 0 $spacing-4;
+
+    @include respond-to('md') {
+      font-size: $font-size-sm;
+    }
+  }
+
+  // ========== FOOTER ==========
+  &__footer {
+    padding: $spacing-6;
+    padding-top: 0;
+    text-align: center;
+
+    @include respond-to('md') {
+      padding: $spacing-8;
+      padding-top: 0;
+    }
+  }
+
+  &__start-btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-3;
+    padding: $spacing-4 $spacing-8;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    color: #ffffff;
+    background: linear-gradient(135deg, #4CAF50, #43A047);
+    border: none;
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
+
+    @include respond-to('md') {
+      font-size: $font-size-lg;
+      padding: $spacing-5 $spacing-10;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+
+      @include respond-to('md') {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+
+      svg {
+        transform: translateX(4px);
+      }
+    }
+
+    &:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  &__hint {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    margin-top: $spacing-4;
+    font-size: $font-size-xs;
+    color: var(--text-tertiary);
+
+    @include respond-to('md') {
+      font-size: $font-size-sm;
+    }
+
+    svg {
+      width: 14px;
+      height: 14px;
+      opacity: 0.7;
+
+      @include respond-to('md') {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}
+
+// ============================================================================
+//                      SELECTOR DE DIFICULTAD
+// ============================================================================
+.difficulty-selector {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-3;
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-4;
+    padding: $spacing-4;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-primary);
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+
+    &:hover {
+      border-color: var(--border-secondary);
+      background: var(--bg-primary);
+    }
+
+    // Estados activos por dificultad
+    &--active {
+      border-color: var(--border-secondary);
+      background: var(--bg-primary);
+    }
+
+    &--active[data-difficulty="easy"] {
+      border-color: $difficulty-easy;
+      background: rgba($difficulty-easy, 0.05);
+
+      .difficulty-selector__circle {
+        border-color: $difficulty-easy;
+      }
+
+      .difficulty-selector__circle-inner {
+        background: $difficulty-easy;
+        transform: scale(1);
+      }
+
+      .difficulty-selector__label {
+        color: $difficulty-easy;
+      }
+    }
+
+    &--active[data-difficulty="normal"] {
+      border-color: $difficulty-normal;
+      background: rgba($difficulty-normal, 0.05);
+
+      .difficulty-selector__circle {
+        border-color: $difficulty-normal;
+      }
+
+      .difficulty-selector__circle-inner {
+        background: $difficulty-normal;
+        transform: scale(1);
+      }
+
+      .difficulty-selector__label {
+        color: $difficulty-normal;
+      }
+    }
+
+    &--active[data-difficulty="hard"] {
+      border-color: $difficulty-hard;
+      background: rgba($difficulty-hard, 0.05);
+
+      .difficulty-selector__circle {
+        border-color: $difficulty-hard;
+      }
+
+      .difficulty-selector__circle-inner {
+        background: $difficulty-hard;
+        transform: scale(1);
+      }
+
+      .difficulty-selector__label {
+        color: $difficulty-hard;
+      }
+    }
+
+    &--active[data-difficulty="expert"] {
+      border-color: $difficulty-expert;
+      background: rgba($difficulty-expert, 0.05);
+
+      .difficulty-selector__circle {
+        border-color: $difficulty-expert;
+      }
+
+      .difficulty-selector__circle-inner {
+        background: $difficulty-expert;
+        transform: scale(1);
+      }
+
+      .difficulty-selector__label {
+        color: $difficulty-expert;
+      }
+    }
+  }
+
+  &__circle {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 2px solid var(--border-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: border-color 0.2s ease;
+
+    @include respond-to('md') {
+      width: 28px;
+      height: 28px;
+    }
+  }
+
+  &__circle-inner {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: transparent;
+    transform: scale(0);
+    transition: all 0.2s ease;
+
+    @include respond-to('md') {
+      width: 14px;
+      height: 14px;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: var(--text-primary);
+    transition: color 0.2s ease;
+
+    @include respond-to('md') {
+      font-size: $font-size-lg;
+    }
+  }
+
+  &__desc {
+    margin-left: auto;
+    font-size: $font-size-xs;
+    color: var(--text-tertiary);
+    display: none;
+
+    @include respond-to('sm') {
+      display: block;
+    }
+
+    @include respond-to('md') {
+      font-size: $font-size-sm;
+    }
+  }
+}
+
+// ============================================================================
+//                      SELECTOR DE PREGUNTAS
+// ============================================================================
+.questions-selector {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-3;
+
+  &__item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-4 $spacing-2;
+    background: var(--bg-tertiary);
+    border: 2px solid var(--border-primary);
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    @include respond-to('md') {
+      padding: $spacing-5 $spacing-4;
+    }
+
+    &:hover:not(&--active) {
+      border-color: var(--border-secondary);
+      background: var(--bg-primary);
+    }
+
+    &--active,
+    &--active:hover {
+      border-color: #4CAF50;
+      background: rgba(76, 175, 80, 0.1);
+
+      .questions-selector__number {
+        color: #4CAF50;
+      }
+
+      .questions-selector__label {
+        color: #4CAF50;
+      }
+    }
+  }
+
+  &__number {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+    line-height: 1;
+    transition: color 0.2s ease;
+
+    @include respond-to('md') {
+      font-size: $font-size-2xl;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-xs;
+    color: var(--text-tertiary);
+    margin-top: $spacing-1;
+    transition: color 0.2s ease;
+  }
+}

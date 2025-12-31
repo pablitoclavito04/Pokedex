@@ -1,0 +1,86 @@
+<!-- ============================================================================
+     QUIZ PLAY PAGE - Página de juego del Quiz Pokémon
+     ============================================================================ -->
+
+<main class="quiz-play">
+
+  <!-- ========== CARD PRINCIPAL ========== -->
+  <section class="quiz-play__card">
+
+    <!-- Header -->
+    <div class="quiz-play__header">
+      <h1 class="quiz-play__title">Quiz Pokemon</h1>
+
+      <!-- Barra de progreso -->
+      <div class="quiz-play__progress">
+        <div class="quiz-play__progress-bar">
+          <div
+            class="quiz-play__progress-fill"
+            [style.width.%]="progressPercentage">
+          </div>
+        </div>
+        <span class="quiz-play__progress-text">{{ currentQuestionIndex + 1 }}/{{ totalQuestions }}</span>
+      </div>
+    </div>
+
+    <!-- Contenido de la pregunta -->
+    @if (currentQuestion) {
+      <div class="quiz-play__content">
+
+        <!-- Pregunta -->
+        <h2 class="quiz-play__question">{{ currentQuestion.question }}</h2>
+
+        <!-- Opciones -->
+        <div class="quiz-play__options">
+          @for (option of currentQuestion.options; track $index) {
+            <button
+              class="quiz-play__option"
+              [class.quiz-play__option--selected]="isSelected($index)"
+              (click)="selectAnswer($index)">
+              <span class="quiz-play__option-letter">{{ getOptionLetter($index) }}</span>
+              <span class="quiz-play__option-text">{{ option }}</span>
+            </button>
+          }
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="quiz-play__footer">
+        <button
+          class="quiz-play__next-btn"
+          [disabled]="selectedAnswer === null"
+          (click)="nextQuestion()">
+          <span>{{ currentQuestionIndex < totalQuestions - 1 ? 'Siguiente pregunta' : 'Ver resultados' }}</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </button>
+      </div>
+    }
+
+  </section>
+
+  <!-- Botón Salir fuera de la card -->
+  <button class="quiz-play__exit-btn" (click)="openExitModal()">
+    Salir del Quiz
+  </button>
+
+  <!-- ========== MODAL DE CONFIRMACIÓN ========== -->
+  @if (showExitModal) {
+    <div class="quiz-play__modal-overlay" (click)="closeExitModal()">
+      <div class="quiz-play__modal" (click)="$event.stopPropagation()">
+        <p class="quiz-play__modal-text">Cuidado, si sales ahora perderás tu progreso.</p>
+        <div class="quiz-play__modal-actions">
+          <button class="quiz-play__modal-btn quiz-play__modal-btn--exit" (click)="confirmExit()">
+            Salir
+          </button>
+          <button class="quiz-play__modal-btn quiz-play__modal-btn--continue" (click)="closeExitModal()">
+            Continuar
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+</main>

@@ -28,7 +28,9 @@
         @for (item of currentNavItems; track item.path) {
           <li class="header__nav-item">
             <a [routerLink]="item.path"
+               [fragment]="item.fragment"
                class="header__nav-link"
+               [ngClass]="item.colorClass"
                (click)="closeMenu()">
               {{ item.label }}
             </a>

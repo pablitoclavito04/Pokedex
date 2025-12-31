@@ -151,16 +151,55 @@
     text-decoration: none;
     border-bottom: 3px solid var(--border-secondary, #{map-get($light-theme, border-secondary)});
     border-radius: 0;
-    transition: $transition-all;
+    transition: all 0.3s ease;
 
+    // Color por defecto (Pokédex - rojo)
     @include hover {
-      border-bottom-color: var(--text-primary, #{map-get($light-theme, text-primary)});
+      color: #ffffff;
+      background-color: #E3350D;
+      border-bottom-color: #E3350D;
+      border-radius: $border-radius-md;
     }
 
-    // MODIFICADOR: --active (enlace activo)
-    &--active {
-      border-bottom-color: var(--text-primary, #{map-get($light-theme, text-primary)});
-      font-weight: $font-weight-semibold;
+    // Modo oscuro - Pokédex
+    :host-context(.dark-theme) & {
+      @include hover {
+        background-color: #862009;
+        border-bottom-color: #862009;
+      }
+    }
+
+    // Favoritos - rosa/rojo
+    &--favoritos {
+      @include hover {
+        background-color: #FF3B5C;
+        border-bottom-color: #FF3B5C;
+      }
+
+      // Modo oscuro - Favoritos
+      :host-context(.dark-theme) & {
+        @include hover {
+          background-color: #CA022A;
+          border-bottom-color: #CA022A;
+        }
+      }
+    }
+
+    // Quiz - amarillo
+    &--quiz {
+      @include hover {
+        color: #1a1a1a;
+        background-color: #E6BC2F;
+        border-bottom-color: #E6BC2F;
+      }
+
+      // Modo oscuro - Quiz
+      :host-context(.dark-theme) & {
+        @include hover {
+          background-color: #DBAE1A;
+          border-bottom-color: #DBAE1A;
+        }
+      }
     }
 
     @include respond-to('md') {

@@ -76,6 +76,27 @@ export const routes: Routes = [
     title: 'Editar Perfil - Pokédex'
   },
 
+  // Quiz - Quiz Pokémon
+  {
+    path: 'quiz',
+    loadComponent: () => import('./pages/quiz/quiz').then(m => m.QuizComponent),
+    title: 'Quiz Pokémon - Pokédex'
+  },
+
+  // Quiz Play - Jugar Quiz
+  {
+    path: 'quiz/play',
+    loadComponent: () => import('./pages/quiz-play/quiz-play').then(m => m.QuizPlayComponent),
+    title: 'Jugando Quiz - Pokédex'
+  },
+
+  // Quiz Results - Resultados del Quiz
+  {
+    path: 'quiz/results',
+    loadComponent: () => import('./pages/quiz-results/quiz-results').then(m => m.QuizResultsComponent),
+    title: 'Resultados Quiz - Pokédex'
+  },
+
   // Ruta comodín - Redirige al inicio si no encuentra la ruta
   {
     path: '**',

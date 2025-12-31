@@ -1,0 +1,409 @@
+// ============================================================================
+//                    QUIZ RESULTS PAGE - Estilos BEM
+// ============================================================================
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                      VARIABLES LOCALES
+// ============================================================================
+$results-bg: #E2E8F0;
+$results-bg-dark: #1a2744;
+$correct-color: #22c55e;
+$incorrect-color: #ef4444;
+$button-primary: #6366f1;
+
+// ============================================================================
+//                      BLOQUE PRINCIPAL: .quiz-results
+// ============================================================================
+.quiz-results {
+  min-height: 100vh;
+  background: $results-bg;
+  padding: $spacing-4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  :host-context(.dark-theme) & {
+    background: $results-bg-dark;
+  }
+
+  @include respond-to('md') {
+    padding: $spacing-8;
+  }
+
+  // ========== ESTADO: 0 ACIERTOS ==========
+  &--zero {
+    background: url('/Pikachu llorando.gif') no-repeat center center;
+    background-size: cover;
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+
+    .quiz-results__card {
+      position: relative;
+      z-index: 1;
+      max-width: 400px;
+      padding: $spacing-6 $spacing-5;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      @include respond-to('md') {
+        padding: $spacing-8 $spacing-6;
+      }
+    }
+
+    .quiz-results__title {
+      font-size: $font-size-4xl;
+      margin-bottom: $spacing-2;
+      color: #ffffff;
+      white-space: nowrap;
+      text-align: center;
+
+      @include respond-to('md') {
+        font-size: $font-size-5xl;
+      }
+    }
+
+    .quiz-results__message--top {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .quiz-results__score-value {
+      color: #ffffff;
+    }
+
+    .quiz-results__score {
+      margin-bottom: $spacing-4;
+    }
+
+    .quiz-results__stats {
+      margin-bottom: $spacing-6;
+    }
+
+    :host-context(.dark-theme) & {
+      background: url('/Pikachu llorando.gif') no-repeat center center;
+      background-size: cover;
+    }
+  }
+
+  // ========== ESTADO: PUNTUACIÓN PERFECTA ==========
+  &--perfect {
+    background: url('/Ash ganador.gif') no-repeat center center;
+    background-size: cover;
+    align-items: flex-start;
+    padding-top: $spacing-8;
+
+    @include respond-to('md') {
+      padding-top: $spacing-12;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+
+    .quiz-results__card {
+      position: relative;
+      z-index: 1;
+      max-width: 400px;
+      padding: $spacing-4 $spacing-5;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+
+      @include respond-to('md') {
+        padding: $spacing-6 $spacing-6;
+      }
+    }
+
+    .quiz-results__title {
+      font-size: $font-size-4xl;
+      margin-bottom: $spacing-2;
+      color: #ffffff;
+
+      @include respond-to('md') {
+        font-size: $font-size-5xl;
+      }
+    }
+
+    .quiz-results__score-value {
+      color: #ffffff;
+    }
+
+    .quiz-results__message {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .quiz-results__score {
+      margin-bottom: $spacing-4;
+    }
+
+    .quiz-results__stats {
+      margin-bottom: $spacing-6;
+    }
+
+    :host-context(.dark-theme) & {
+      background: url('/Ash ganador.gif') no-repeat center center;
+      background-size: cover;
+    }
+  }
+
+  // ========== ESTADO: PUNTUACIÓN NORMAL (entre 1 y 99%) ==========
+  &--normal {
+    background: url('/Squirtle comiendo.gif') no-repeat center center;
+    background-size: cover;
+    align-items: flex-start;
+    padding-top: $spacing-8;
+
+    @include respond-to('md') {
+      padding-top: $spacing-12;
+    }
+
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 0;
+    }
+
+    .quiz-results__card {
+      position: relative;
+      z-index: 1;
+      max-width: 400px;
+      padding: $spacing-4 $spacing-5;
+      background: transparent;
+      border: none;
+      box-shadow: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+
+      @include respond-to('md') {
+        padding: $spacing-6 $spacing-6;
+      }
+    }
+
+    .quiz-results__title {
+      font-size: $font-size-4xl;
+      margin-bottom: $spacing-2;
+      color: #ffffff;
+      white-space: nowrap;
+      text-align: center;
+
+      @include respond-to('md') {
+        font-size: $font-size-5xl;
+      }
+    }
+
+    .quiz-results__score-value {
+      color: #ffffff;
+    }
+
+    .quiz-results__message {
+      color: rgba(255, 255, 255, 0.8);
+    }
+
+    .quiz-results__score {
+      margin-bottom: $spacing-4;
+    }
+
+    .quiz-results__stats {
+      margin-bottom: $spacing-6;
+    }
+
+    :host-context(.dark-theme) & {
+      background: url('/Squirtle comiendo.gif') no-repeat center center;
+      background-size: cover;
+    }
+  }
+
+  // Mensaje en la parte superior (para score 0)
+  &__message--top {
+    margin-bottom: $spacing-4;
+    white-space: nowrap;
+  }
+
+  // ========== CARD ==========
+  &__card {
+    max-width: 500px;
+    width: 100%;
+    background: var(--bg-primary);
+    border: 2px dashed var(--border-secondary);
+    border-radius: $border-radius-2xl;
+    padding: $spacing-8 $spacing-6;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+
+    @include respond-to('md') {
+      padding: $spacing-10 $spacing-8;
+    }
+  }
+
+  // ========== TÍTULO ==========
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-extrabold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-6;
+    letter-spacing: -0.02em;
+
+    @include respond-to('md') {
+      font-size: $font-size-4xl;
+    }
+  }
+
+  // ========== PUNTUACIÓN ==========
+  &__score {
+    margin-bottom: $spacing-4;
+  }
+
+  &__score-value {
+    font-family: $font-secondary;
+    font-size: $font-size-4xl;
+    font-weight: $font-weight-extrabold;
+    color: var(--text-primary);
+
+    @include respond-to('md') {
+      font-size: $font-size-5xl;
+    }
+  }
+
+  // ========== MENSAJE ==========
+  &__message {
+    font-size: $font-size-base;
+    color: var(--text-secondary);
+    margin: 0 0 $spacing-8;
+    line-height: 1.5;
+
+    @include respond-to('md') {
+      font-size: $font-size-lg;
+    }
+  }
+
+  // ========== ESTADÍSTICAS ==========
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-4;
+    margin-bottom: $spacing-8;
+  }
+
+  &__stat {
+    padding: $spacing-5 $spacing-4;
+    background: var(--bg-primary);
+    border: 2px solid var(--border-primary);
+    border-radius: $border-radius-xl;
+
+    &--correct {
+      .quiz-results__stat-value {
+        color: $correct-color;
+      }
+    }
+
+    &--incorrect {
+      .quiz-results__stat-value {
+        color: $incorrect-color;
+      }
+    }
+  }
+
+  &__stat-value {
+    display: block;
+    font-family: $font-secondary;
+    font-size: $font-size-3xl;
+    font-weight: $font-weight-bold;
+    line-height: 1;
+    margin-bottom: $spacing-2;
+
+    @include respond-to('md') {
+      font-size: $font-size-4xl;
+    }
+  }
+
+  &__stat-label {
+    font-size: $font-size-sm;
+    color: var(--text-secondary);
+    font-weight: $font-weight-medium;
+
+    @include respond-to('md') {
+      font-size: $font-size-base;
+    }
+  }
+
+  // ========== BOTÓN ==========
+  &__btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-3;
+    padding: $spacing-4 $spacing-8;
+    font-size: $font-size-base;
+    font-weight: $font-weight-bold;
+    color: #ffffff;
+    background: #E3350D;
+    border: none;
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    :host-context(.dark-theme) & {
+      background: #862009;
+    }
+
+    @include respond-to('md') {
+      font-size: $font-size-lg;
+      padding: $spacing-5 $spacing-10;
+    }
+
+    &:hover {
+      background: darken(#E3350D, 10%);
+      transform: translateY(-2px);
+
+      :host-context(.dark-theme) & {
+        background: darken(#862009, 10%);
+      }
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+
+      @include respond-to('md') {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    &:hover svg {
+      transform: translateX(-4px);
+    }
+  }
+}

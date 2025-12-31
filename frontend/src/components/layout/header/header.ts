@@ -1,12 +1,13 @@
 import { Component, HostListener, ElementRef, ViewChild, inject } from '@angular/core';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
+import { CommonModule } from '@angular/common';
 import { ThemeService } from '../../../services/theme.service';
 import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-header',
   standalone: true,
-  imports: [RouterModule],
+  imports: [RouterModule, CommonModule],
   templateUrl: './header.html',
   styleUrls: ['./header.scss']
 })
@@ -30,18 +31,18 @@ export class HeaderComponent {
   showProfileIcon: boolean = false;
 
   // Navegación para landing page
-  landingNavItems = [
+  landingNavItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [
     { label: 'Inicio', path: '/', icon: 'home' },
     { label: 'Style Guide', path: '/style-guide', icon: 'palette' },
     { label: 'Página Principal', path: '/pokedex', icon: 'list' }
   ];
 
   // Navegación principal (cuando esté autenticado)
-  navItems = [
+  navItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [
     { label: 'Inicio', path: '/', icon: 'home' },
     { label: 'Pokédex', path: '/pokedex', icon: 'list' },
-    { label: 'Favoritos', path: '/favorites', icon: 'heart' },
-    { label: 'Quiz', path: '/quiz', icon: 'game' }
+    { label: 'Favoritos', path: '/profile', fragment: 'favoritos', icon: 'heart', colorClass: 'header__nav-link--favoritos' },
+    { label: 'Quiz', path: '/quiz', icon: 'game', colorClass: 'header__nav-link--quiz' }
   ];
 
   constructor(public themeService: ThemeService) {
@@ -63,8 +64,8 @@ export class HeaderComponent {
     const landingRoutes = ['/', '/login', '/register', '/style-guide', '/forms-demo'];
     this.isLandingPage = landingRoutes.includes(url) || url === '';
 
-    // Mostrar icono de perfil solo en Pokédex, Pokemon Detail, Profile y Settings
-    const profileIconRoutes = ['/pokedex', '/pokemon', '/profile', '/settings'];
+    // Mostrar icono de perfil solo en Pokédex, Pokemon Detail, Profile, Settings y Quiz
+    const profileIconRoutes = ['/pokedex', '/pokemon', '/profile', '/settings', '/quiz'];
     this.showProfileIcon = profileIconRoutes.some(route => url.startsWith(route));
   }
 

@@ -2,14 +2,14 @@
 //          PROFILE PAGE - Página de perfil del usuario
 // ============================================================================
 
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { FavoritoService } from '../../../services/favorito.service';
 import { PokemonService } from '../../../services/pokemon.service';
-import { forkJoin, filter, take } from 'rxjs';
+import { forkJoin, take } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -18,14 +18,17 @@ import { forkJoin, filter, take } from 'rxjs';
   templateUrl: './profile.html',
   styleUrl: './profile.scss'
 })
-export class ProfileComponent implements OnInit {
+export class ProfileComponent implements OnInit, AfterViewInit {
 
   constructor(
     private router: Router,
+    private route: ActivatedRoute,
     private authService: AuthService,
     private favoritoService: FavoritoService,
     private pokemonService: PokemonService
   ) {}
+
+  private fragment: string | null = null;
 
   // ========== DATOS DEL USUARIO ==========
   user = {
@@ -65,6 +68,11 @@ export class ProfileComponent implements OnInit {
   isLoadingFavorites: boolean = false;
 
   ngOnInit(): void {
+    // Suscribirse al fragmento de la URL
+    this.route.fragment.subscribe(fragment => {
+      this.fragment = fragment;
+    });
+
     // Cargar datos del usuario desde localStorage
     const username = this.authService.getUsername();
     const email = localStorage.getItem('email');
@@ -103,6 +111,18 @@ export class ProfileComponent implements OnInit {
     this.loadFavorites();
   }
 
+  ngAfterViewInit(): void {
+    // Hacer scroll al fragmento si existe
+    if (this.fragment) {
+      setTimeout(() => {
+        const element = document.getElementById(this.fragment!);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 100);
+    }
+  }
+
   loadFavorites(): void {
     this.isLoadingFavorites = true;
 
@@ -116,21 +136,16 @@ export class ProfileComponent implements OnInit {
 
       // Esperar a que lleguen los datos del backend
       this.favoritoService.favoritos$.pipe(
-        filter(favoritos => favoritos.length > 0),
         take(1)
       ).subscribe(favoritos => {
-        this.loadPokemonData(favoritos);
-      });
-
-      // Timeout para manejar el caso de que no haya favoritos
-      setTimeout(() => {
-        if (this.isLoadingFavorites) {
-          const favs = this.favoritoService.getFavoritos();
-          if (favs.length === 0) {
-            this.isLoadingFavorites = false;
-          }
+        if (favoritos.length > 0) {
+          this.loadPokemonData(favoritos);
+        } else {
+          // No hay favoritos
+          this.favoritePokemon = [];
+          this.isLoadingFavorites = false;
         }
-      }, 1500);
+      });
     }
   }
 

@@ -1,0 +1,445 @@
+// ============================================================================
+//                    QUIZ PLAY PAGE - Estilos BEM
+// ============================================================================
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                      VARIABLES LOCALES
+// ============================================================================
+$quiz-bg: #E2E8F0;
+$quiz-bg-dark: #1a2744;
+$option-correct: #22c55e;
+$option-wrong: #ef4444;
+$button-primary: #6366f1;
+
+// ============================================================================
+//                      BLOQUE PRINCIPAL: .quiz-play
+// ============================================================================
+.quiz-play {
+  min-height: 100vh;
+  background: url('/Imagen quiz.png') no-repeat center center;
+  background-size: cover;
+  padding: $spacing-4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+
+  // Capa de opacidad sobre el fondo
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6);
+    z-index: 0;
+  }
+
+  @include respond-to('md') {
+    padding: $spacing-8;
+  }
+
+  // ========== CARD ==========
+  &__card {
+    max-width: 500px;
+    width: 100%;
+    background: #E2E8F0;
+    border: 2px dashed var(--border-secondary);
+    border-radius: $border-radius-2xl;
+    overflow: hidden;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    position: relative;
+    z-index: 1;
+
+    :host-context(.dark-theme) & {
+      background: #1C2739;
+    }
+  }
+
+  // ========== HEADER ==========
+  &__header {
+    padding: $spacing-4;
+
+    @include respond-to('md') {
+      padding: $spacing-5;
+    }
+  }
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-4;
+    text-align: center;
+
+    @include respond-to('md') {
+      font-size: $font-size-2xl;
+    }
+  }
+
+  // ========== PROGRESO ==========
+  &__progress {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding-bottom: $spacing-4;
+    border-bottom: 2px solid #b0bac7;
+
+    :host-context(.dark-theme) & {
+      border-bottom-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &__progress-bar {
+    flex: 1;
+    height: 12px;
+    background: #c1ccd9;
+    border-radius: $border-radius-full;
+    overflow: hidden;
+
+    :host-context(.dark-theme) & {
+      background: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  &__progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #22c55e, #16a34a);
+    border-radius: $border-radius-full;
+    transition: width 0.3s ease;
+  }
+
+  &__progress-text {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--text-secondary);
+    min-width: 40px;
+    text-align: right;
+  }
+
+  &__question-count {
+    font-size: $font-size-sm;
+    color: var(--text-tertiary);
+    margin: 0;
+  }
+
+  // ========== CONTENIDO ==========
+  &__content {
+    padding: $spacing-4;
+
+    @include respond-to('md') {
+      padding: $spacing-5;
+    }
+  }
+
+  &__question {
+    font-family: $font-secondary;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-4;
+    line-height: 1.4;
+    text-align: center;
+
+    @include respond-to('md') {
+      font-size: $font-size-lg;
+    }
+  }
+
+  // ========== OPCIONES ==========
+  &__options {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-2;
+
+    @include respond-to('sm') {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-3;
+    background: var(--bg-primary);
+    border: 2px solid #b0bac7;
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+
+    :host-context(.dark-theme) & {
+      background: #2F4467;
+      border-color: var(--border-primary);
+    }
+
+    &:hover:not(:disabled):not(.quiz-play__option--selected) {
+      border-color: #8a95a5;
+      background: var(--bg-secondary);
+
+      :host-context(.dark-theme) & {
+        border-color: var(--border-secondary);
+      }
+    }
+
+    &:disabled {
+      cursor: default;
+    }
+
+    // Estado seleccionado
+    &--selected {
+      border-color: #64748b;
+      background: #d1d5db;
+
+      .quiz-play__option-letter {
+        background: #475569;
+        color: #ffffff;
+      }
+
+      :host-context(.dark-theme) & {
+        border-color: #94a3b8;
+        background: #3d5a80;
+
+        .quiz-play__option-letter {
+          background: #cbd5e1;
+          color: #1e293b;
+        }
+      }
+    }
+  }
+
+  &__option-letter {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg-tertiary);
+    border-radius: $border-radius-lg;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+    flex-shrink: 0;
+    transition: all 0.2s ease;
+
+    @include respond-to('md') {
+      width: 36px;
+      height: 36px;
+      font-size: $font-size-base;
+    }
+  }
+
+  &__option-text {
+    font-size: $font-size-sm;
+    color: var(--text-primary);
+    transition: all 0.2s ease;
+
+    @include respond-to('md') {
+      font-size: $font-size-base;
+    }
+  }
+
+  // ========== FOOTER ==========
+  &__footer {
+    padding: $spacing-4;
+    padding-top: 0;
+
+    @include respond-to('md') {
+      padding: $spacing-5;
+      padding-top: 0;
+    }
+  }
+
+  &__next-btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    color: #ffffff;
+    background: #22C55E;
+    border: none;
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    :host-context(.dark-theme) & {
+      background: #1B9D4A;
+    }
+
+    @include respond-to('md') {
+      font-size: $font-size-base;
+      padding: $spacing-4 $spacing-8;
+    }
+
+    &:hover:not(:disabled) {
+      background: darken(#22C55E, 10%);
+      transform: translateY(-2px);
+
+      :host-context(.dark-theme) & {
+        background: darken(#1B9D4A, 10%);
+      }
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    svg {
+      width: 20px;
+      height: 20px;
+      transition: transform 0.3s ease;
+
+      @include respond-to('md') {
+        width: 24px;
+        height: 24px;
+      }
+    }
+
+    &:hover:not(:disabled) svg {
+      transform: translateX(4px);
+    }
+  }
+
+  // ========== BOTÓN SALIR ==========
+  &__exit-btn {
+    max-width: 500px;
+    width: 100%;
+    padding: $spacing-3 $spacing-6;
+    margin-top: $spacing-4;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    color: #ffffff;
+    background: #ef4444;
+    border: none;
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    z-index: 1;
+    text-align: center;
+
+    :host-context(.dark-theme) & {
+      background: #CA0B0B;
+    }
+
+    @include respond-to('md') {
+      font-size: $font-size-base;
+      padding: $spacing-4 $spacing-8;
+    }
+
+    &:hover {
+      background: darken(#ef4444, 10%);
+      transform: translateY(-2px);
+
+      :host-context(.dark-theme) & {
+        background: darken(#CA0B0B, 10%);
+      }
+    }
+  }
+
+  // ========== MODAL ==========
+  &__modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+  }
+
+  &__modal {
+    background: var(--bg-primary);
+    border-radius: $border-radius-2xl;
+    padding: $spacing-6;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+
+    :host-context(.dark-theme) & {
+      background: #1C2739;
+    }
+  }
+
+  &__modal-text {
+    font-family: $font-secondary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-6;
+    line-height: 1.4;
+  }
+
+  &__modal-actions {
+    display: flex;
+    gap: $spacing-3;
+    justify-content: center;
+  }
+
+  &__modal-btn {
+    flex: 1;
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    border: none;
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    @include respond-to('md') {
+      font-size: $font-size-base;
+      padding: $spacing-4 $spacing-8;
+    }
+
+    &--exit {
+      background: #ef4444;
+      color: #ffffff;
+
+      :host-context(.dark-theme) & {
+        background: #CA0B0B;
+      }
+
+      &:hover {
+        background: darken(#ef4444, 10%);
+
+        :host-context(.dark-theme) & {
+          background: darken(#CA0B0B, 10%);
+        }
+      }
+    }
+
+    &--continue {
+      background: #22c55e;
+      color: #ffffff;
+
+      :host-context(.dark-theme) & {
+        background: #1B9D4A;
+      }
+
+      &:hover {
+        background: darken(#22c55e, 10%);
+
+        :host-context(.dark-theme) & {
+          background: darken(#1B9D4A, 10%);
+        }
+      }
+    }
+  }
+}

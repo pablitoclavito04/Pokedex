@@ -1,0 +1,51 @@
+<!-- ============================================================================
+     QUIZ RESULTS PAGE - Página de resultados del Quiz Pokémon
+     ============================================================================ -->
+
+<main class="quiz-results" [class.quiz-results--zero]="score === 0" [class.quiz-results--perfect]="percentage === 100" [class.quiz-results--normal]="score > 0 && percentage < 100">
+
+  <!-- ========== CARD DE RESULTADOS ========== -->
+  <section class="quiz-results__card">
+
+    <!-- Título -->
+    <h1 class="quiz-results__title">{{ resultTitle }}</h1>
+
+    <!-- Mensaje (solo para score 0, debajo del título) -->
+    @if (score === 0) {
+      <p class="quiz-results__message quiz-results__message--top">{{ resultMessage }}</p>
+    }
+
+
+    <!-- Puntuación -->
+    <div class="quiz-results__score">
+      <span class="quiz-results__score-value">{{ score }}/{{ totalQuestions }}</span>
+    </div>
+
+    <!-- Mensaje (para score > 0) -->
+    @if (score > 0) {
+      <p class="quiz-results__message">{{ resultMessage }}</p>
+    }
+
+    <!-- Estadísticas -->
+    <div class="quiz-results__stats">
+      <div class="quiz-results__stat quiz-results__stat--correct">
+        <span class="quiz-results__stat-value">{{ score }}</span>
+        <span class="quiz-results__stat-label">Correctas</span>
+      </div>
+      <div class="quiz-results__stat quiz-results__stat--incorrect">
+        <span class="quiz-results__stat-value">{{ incorrectAnswers }}</span>
+        <span class="quiz-results__stat-label">Incorrectas</span>
+      </div>
+    </div>
+
+    <!-- Botón -->
+    <button class="quiz-results__btn" (click)="goToPokedex()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      <span>Volver a la Pokédex</span>
+    </button>
+
+  </section>
+
+</main>
