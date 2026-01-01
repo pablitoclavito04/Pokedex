@@ -222,6 +222,42 @@ export class RegisterComponent {
     return Object.values(this.passwordRequirements).every(req => req);
   }
 
+  // ========== VALIDACIÓN DE NOMBRE DE USUARIO EN TIEMPO REAL ==========
+  isUsernameValid(): boolean {
+    const username = this.formData.username;
+    if (!username) return true; // No mostrar error si está vacío
+    // Solo letras, números, guiones bajos y puntos
+    const usernameRegex = /^[a-zA-Z0-9_.]+$/;
+    return usernameRegex.test(username);
+  }
+
+  hasUsernameError(): boolean {
+    const username = this.formData.username;
+    if (!username) return false;
+    return !this.isUsernameValid();
+  }
+
+  // ========== VALIDACIÓN EN TIEMPO REAL POR PASO ==========
+  isStep1Valid(): boolean {
+    return this.formData.email.trim().length > 0 &&
+           this.isValidEmail(this.formData.email) &&
+           this.formData.confirmEmail.trim().length > 0 &&
+           this.formData.email === this.formData.confirmEmail;
+  }
+
+  isStep2Valid(): boolean {
+    return this.formData.country !== '' &&
+           this.formData.birthYear !== '' &&
+           this.formData.birthMonth !== '' &&
+           this.formData.birthDay !== '';
+  }
+
+  isStep3Valid(): boolean {
+    return this.formData.username.trim().length >= 3 &&
+           this.isUsernameValid() &&
+           this.isPasswordValid();
+  }
+
   // ========== TOGGLE CONTRASEÑA ==========
   togglePasswordVisibility(): void {
     this.showPassword = !this.showPassword;

@@ -199,16 +199,34 @@
       color: #9CA3AF;
     }
 
+    // Estilos para autocompletado del navegador
+    &:-webkit-autofill,
+    &:-webkit-autofill:hover {
+      -webkit-box-shadow: 0 0 0 1000px #3D3D3D inset, 0 0 0 3px rgba(59, 130, 246, 0.3) !important;
+      -webkit-text-fill-color: #ffffff !important;
+      border-color: #3B82F6 !important;
+      caret-color: #ffffff;
+    }
+
+    &:-webkit-autofill:focus {
+      -webkit-box-shadow: 0 0 0 1000px #3D3D3D inset, 0 0 0 3px rgba(59, 130, 246, 0.3) !important;
+      -webkit-text-fill-color: #ffffff !important;
+      border-color: #3B82F6 !important;
+      caret-color: #ffffff;
+    }
+
     &:focus {
       outline: none;
-      border-color: $color-primary-500;
-      box-shadow: 0 0 0 3px rgba($color-primary-500, 0.2);
+      border-color: #3B82F6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
     }
 
     &--error {
       border-color: $color-error;
+      box-shadow: 0 0 0 3px rgba($color-error, 0.2);
 
       &:focus {
+        border-color: $color-error;
         box-shadow: 0 0 0 3px rgba($color-error, 0.2);
       }
     }
@@ -219,6 +237,19 @@
 
       &::placeholder {
         color: #6B7280;
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover {
+        -webkit-box-shadow: 0 0 0 1000px #1a1a2e inset, 0 0 0 3px rgba(59, 130, 246, 0.3) !important;
+        -webkit-text-fill-color: #ffffff !important;
+        border-color: #3B82F6 !important;
+      }
+
+      &:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px #1a1a2e inset, 0 0 0 3px rgba(59, 130, 246, 0.3) !important;
+        -webkit-text-fill-color: #ffffff !important;
+        border-color: #3B82F6 !important;
       }
     }
   }
@@ -261,6 +292,23 @@
     font-size: $font-size-xs;
     color: $color-error;
     margin-top: $spacing-1;
+  }
+
+  &__login-error {
+    background: rgba($color-error, 0.1);
+    border: 1px solid $color-error;
+    border-radius: $border-radius-lg;
+    padding: $spacing-3;
+    text-align: center;
+    font-size: $font-size-sm;
+    color: $color-error;
+    margin-top: $spacing-2;
+
+    .dark-theme & {
+      background: rgba(239, 68, 68, 0.15);
+      border-color: #f87171;
+      color: #f87171;
+    }
   }
 
   // ========== ENLACE OLVIDÉ CONTRASEÑA ==========

@@ -91,14 +91,14 @@
     text-decoration: none;
     color: var(--text-primary, #{map-get($dark-theme, text-primary)});
     margin-bottom: $spacing-4;
-    transition: $transition-all;
-    
+
     :host-context(.light-theme) & {
       color: var(--text-primary, #{map-get($light-theme, text-primary)});
     }
-    
+
     @include hover {
       opacity: 0.8;
+      transition: opacity 0.3s ease;
     }
   }
   
@@ -115,7 +115,6 @@
     font-size: $font-size-xl;
     font-weight: $font-weight-bold;
     color: var(--text-primary, #{map-get($dark-theme, text-primary)});
-    transition: color 0.3s ease, opacity 0.3s ease;
 
     :host-context(.light-theme) & {
       color: var(--text-primary, #{map-get($light-theme, text-primary)});
@@ -171,9 +170,9 @@
     color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
     text-decoration: none;
     padding: $spacing-1 0;
-    transition: $transition-all;
     cursor: pointer;
     position: relative;
+    transition: color 0.3s ease;
 
     // Línea de subrayado animada
     &::after {
@@ -183,19 +182,27 @@
       left: 0;
       width: 0;
       height: 2px;
-      background: $color-primary-500;
+      background: #ffffff;
       transition: width $duration-fast $ease-out;
+
+      :host-context(.light-theme) & {
+        background: #64748b;
+      }
     }
 
     :host-context(.light-theme) & {
       color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
     }
 
-    @include hover {
-      color: $color-primary-500;
+    &:hover {
+      color: #ffffff;
 
       &::after {
         width: 100%;
+      }
+
+      :host-context(.light-theme) & {
+        color: #64748b;
       }
     }
 
@@ -229,21 +236,51 @@
     background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
     border-radius: $border-radius-full;
     color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
-    transition: $transition-all;
-    
+
     :host-context(.light-theme) & {
       background: var(--bg-tertiary, #{map-get($light-theme, bg-primary)});
       color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
     }
-    
+
     svg {
       @include size(20px);
     }
-    
-    @include hover {
-      background: $color-primary-500;
+
+    &:hover {
       color: #ffffff;
       transform: translateY(-2px);
+      transition: background-color 0.3s ease, transform 0.3s ease;
+
+      :host-context(.light-theme) & {
+        color: #ffffff;
+      }
+    }
+
+    // GitHub
+    &--github:hover {
+      background: #772F9D;
+
+      :host-context(.light-theme) & {
+        background: #772F9D;
+      }
+    }
+
+    // X (Twitter)
+    &--x:hover {
+      background: #000000;
+
+      :host-context(.light-theme) & {
+        background: #000000;
+      }
+    }
+
+    // LinkedIn
+    &--linkedin:hover {
+      background: #0A66C2;
+
+      :host-context(.light-theme) & {
+        background: #0A66C2;
+      }
     }
   }
   
@@ -290,14 +327,43 @@
     font-size: $font-size-xs;
     color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
     text-decoration: none;
-    transition: $transition-all;
+    transition: color 0.3s ease;
 
     :host-context(.light-theme) & {
       color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
     }
 
-    @include hover {
-      color: $color-primary-500;
+    &:hover {
+      color: #ffffff;
+
+      :host-context(.light-theme) & {
+        color: #64748b;
+      }
+    }
+  }
+}
+
+// ============================================================================
+//                   ESTILOS DEL MODAL DEL FOOTER
+// ============================================================================
+.footer-modal__actions {
+  display: flex;
+  justify-content: center;
+
+  // Override del botón para que sea azul en vez de morado
+  ::ng-deep .button--primary {
+    background: #3B82F6 !important;
+    border-color: #3B82F6 !important;
+
+    &:hover:not(:disabled) {
+      background: #2563eb !important;
+      border-color: #2563eb !important;
+      box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4) !important;
+    }
+
+    &:active:not(:disabled) {
+      background: #1d4ed8 !important;
+      border-color: #1d4ed8 !important;
     }
   }
 }

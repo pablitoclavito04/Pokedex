@@ -2,7 +2,7 @@
 //          SETTINGS PAGE - Página de edición de perfil
 // ============================================================================
 
-import { Component, ViewChild, ElementRef, OnInit } from '@angular/core';
+import { Component, ViewChild, ElementRef, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule, Location } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -23,7 +23,8 @@ export class SettingsComponent implements OnInit {
     private location: Location,
     private authService: AuthService,
     private router: Router,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   // ========== DATOS DEL FORMULARIO ==========
@@ -54,7 +55,7 @@ export class SettingsComponent implements OnInit {
   bioMaxLength = 80;
 
   // Límite y validación para el nombre de usuario
-  usernameMaxLength = 18;
+  usernameMaxLength = 24;
   usernameError: string | null = null;
   private usernamePattern = /^[a-zA-Z0-9_.]+$/;
 
@@ -116,6 +117,7 @@ export class SettingsComponent implements OnInit {
       reader.onload = (e) => {
         this.profileData.avatar = e.target?.result as string;
         this.hasChanges = true;
+        this.cdr.detectChanges();
       };
       reader.readAsDataURL(file);
     }

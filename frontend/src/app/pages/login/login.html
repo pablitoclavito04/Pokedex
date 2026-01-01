@@ -107,6 +107,13 @@
         ¿Tienes problemas para iniciar sesión?
       </a>
 
+      <!-- Error de login -->
+      @if (loginError) {
+        <div class="login-card__login-error">
+          {{ loginError }}
+        </div>
+      }
+
       <!-- Botón: Iniciar sesión -->
       <button
         type="submit"
@@ -157,7 +164,7 @@
 
     <!-- ========== FOOTER ========== -->
     <footer class="login-card__footer">
-      <p>&copy;2025 Pokémon.</p>
+      <p>&copy;2025 Pokédex.</p>
     </footer>
 
   </div>

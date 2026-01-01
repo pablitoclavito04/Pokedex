@@ -235,9 +235,9 @@
     }
 
     @include hover {
-      color: $color-primary-500;
-      background: rgba($color-primary-500, 0.1);
-      border-color: rgba($color-primary-500, 0.2);
+      color: #3B82F6;
+      background: rgba(59, 130, 246, 0.1);
+      border-color: rgba(59, 130, 246, 0.2);
     }
 
     @include respond-to('md') {
@@ -267,6 +267,58 @@
   // Botón de usuario
   &__user-btn {
     // Visible siempre
+  }
+
+  // ============================================================================
+  //        ELEMENTO: __auth-buttons (Botones de autenticación en landing)
+  // ============================================================================
+  &__auth-buttons {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+  }
+
+  &__auth-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    text-decoration: none;
+    border-radius: $border-radius-lg;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+
+    @include respond-to('md') {
+      padding: $spacing-2 $spacing-5;
+      font-size: $font-size-base;
+    }
+
+    // Botón "Inicia sesión" - estilo texto con hover gris
+    &--login {
+      background: transparent;
+      color: var(--text-primary, #{map-get($light-theme, text-primary)});
+      border: 1px solid transparent;
+
+      &:hover {
+        background: #e2e8f0;
+        border-color: #cbd5e1;
+        color: var(--text-primary, #{map-get($light-theme, text-primary)});
+      }
+    }
+
+    // Botón "Únete" - estilo azul sólido
+    &--register {
+      background: #3B82F6;
+      color: #ffffff;
+      border: 1px solid #3B82F6;
+
+      &:hover {
+        background: #2563eb;
+        border-color: #2563eb;
+      }
+    }
   }
   
   // ============================================================================

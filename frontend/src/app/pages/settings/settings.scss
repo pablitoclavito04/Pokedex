@@ -133,19 +133,23 @@
 
     &--cancel {
       background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
-      border: none;
+      border: 2px solid var(--border-secondary, #{map-get($dark-theme, border-secondary)});
       color: var(--text-primary, #{map-get($dark-theme, text-primary)});
+      transition: background-color 0.3s ease, border-color 0.3s ease;
 
       &:hover {
         background: var(--bg-card, #{map-get($dark-theme, bg-card)});
+        border-color: #64748b;
       }
 
       :host-context(.light-theme) & {
         background: var(--bg-tertiary, #{map-get($light-theme, bg-tertiary)});
+        border-color: var(--border-secondary, #{map-get($light-theme, border-secondary)});
         color: var(--text-primary, #{map-get($light-theme, text-primary)});
 
         &:hover {
           background: var(--bg-input, #{map-get($light-theme, bg-input)});
+          border-color: #94a3b8;
         }
       }
     }
@@ -294,8 +298,8 @@
   }
 
   &__avatar {
-    width: 100px;
-    height: 100px;
+    width: 140px;
+    height: 140px;
     border-radius: 50%;
     background: $color-primary-500;
     display: flex;
@@ -322,8 +326,8 @@
   }
 
   &__avatar-placeholder {
-    width: 50px;
-    height: 50px;
+    width: 70px;
+    height: 70px;
     color: rgba(255, 255, 255, 0.8);
   }
 
@@ -331,7 +335,7 @@
     position: absolute;
     bottom: $spacing-4;
     left: 50%;
-    transform: translateX(25px);
+    transform: translateX(45px);
     width: 32px;
     height: 32px;
     border-radius: 50%;
@@ -412,7 +416,7 @@
 
     &:focus {
       outline: none;
-      border-color: $color-primary-500;
+      border-color: #94a3b8;
       background: var(--bg-card, #{map-get($dark-theme, bg-card)});
     }
 
@@ -426,6 +430,7 @@
       }
 
       &:focus {
+        border-color: #64748b;
         background: var(--bg-input, #{map-get($light-theme, bg-input)});
       }
     }
@@ -463,11 +468,15 @@
     transition: $transition-all;
 
     &:focus-within {
-      border-color: $color-primary-500;
+      border-color: #94a3b8;
     }
 
     :host-context(.light-theme) & {
       border-color: var(--border-primary, #{map-get($light-theme, border-primary)});
+
+      &:focus-within {
+        border-color: #64748b;
+      }
     }
   }
 

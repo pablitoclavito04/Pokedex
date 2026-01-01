@@ -39,7 +39,6 @@ export class HeaderComponent {
 
   // Navegación principal (cuando esté autenticado)
   navItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [
-    { label: 'Inicio', path: '/', icon: 'home' },
     { label: 'Pokédex', path: '/pokedex', icon: 'list' },
     { label: 'Favoritos', path: '/profile', fragment: 'favoritos', icon: 'heart', colorClass: 'header__nav-link--favoritos' },
     { label: 'Quiz', path: '/quiz', icon: 'game', colorClass: 'header__nav-link--quiz' }

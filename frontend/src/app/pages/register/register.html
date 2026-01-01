@@ -112,13 +112,14 @@
           <!-- Aviso sobre correo -->
           <div class="register-card__notice">
             <p>No uses un correo electrónico al que puedes perder acceso, como un correo electrónico educativo o de trabajo. No utilices tampoco un correo electrónico que no sea compatible con HTML, como un correo electrónico SMS.</p>
+            <p class="register-card__notice-important"><strong>Importante:</strong> El correo electrónico no se podrá cambiar una vez que crees la cuenta.</p>
           </div>
 
           <!-- Botón Continuar -->
           <button
             type="submit"
             class="register-card__submit"
-            [disabled]="isSubmitting">
+            [disabled]="isSubmitting || !isStep1Valid()">
             Continuar
           </button>
         </form>
@@ -228,7 +229,7 @@
           <button
             type="submit"
             class="register-card__submit"
-            [disabled]="isSubmitting">
+            [disabled]="isSubmitting || !isStep2Valid()">
             Continuar
           </button>
         </form>
@@ -243,6 +244,14 @@
         </h2>
 
         <form class="register-card__form" (ngSubmit)="onSubmit($event)" novalidate>
+          <!-- Aviso sobre nombre de usuario -->
+          <div class="register-card__hint-wrapper">
+            <p class="register-card__hint" [class.register-card__hint--error]="hasUsernameError()">
+              Solo letras, números, guiones bajos y puntos. Máximo 24 caracteres.
+            </p>
+            <span class="register-card__char-count" [class.register-card__char-count--error]="hasUsernameError()">{{ formData.username?.length || 0 }}/24</span>
+          </div>
+
           <!-- Campo: Nombre de usuario -->
           <div class="register-card__field">
             <input
@@ -250,9 +259,10 @@
               id="username"
               name="username"
               class="register-card__input"
-              [class.register-card__input--error]="hasAttemptedSubmit && errors['username']"
+              [class.register-card__input--error]="hasUsernameError() || (hasAttemptedSubmit && errors['username'])"
               placeholder="Nombre de usuario"
               [(ngModel)]="formData.username"
+              maxlength="24"
               autocomplete="username">
             @if (hasAttemptedSubmit && errors['username']) {
               <span class="register-card__error">{{ errors['username'] }}</span>
@@ -361,7 +371,7 @@
           <button
             type="submit"
             class="register-card__submit"
-            [disabled]="isSubmitting || !isPasswordValid()">
+            [disabled]="isSubmitting || !isStep3Valid()">
             @if (isSubmitting) {
               <svg class="register-card__spinner" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" opacity="0.3"/>
@@ -378,7 +388,7 @@
 
     <!-- ========== FOOTER ========== -->
     <footer class="register-card__footer">
-      <p>&copy;2025 Pokémon.</p>
+      <p>&copy;2025 Pokédex.</p>
     </footer>
 
   </div>
