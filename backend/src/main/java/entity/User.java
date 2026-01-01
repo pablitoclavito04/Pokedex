@@ -1,7 +1,15 @@
 package entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDateTime;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "users")
@@ -32,6 +40,26 @@ public class User {
     @Column(name = "enabled", nullable = false)
     private Boolean enabled = true;
 
+    // ========== CAMPOS DE PERFIL ==========
+    @Column(name = "display_name", length = 50)
+    private String displayName;
+
+    @Column(name = "bio", length = 200)
+    private String bio;
+
+    @Column(name = "gender", length = 30)
+    private String gender;
+
+    @Column(name = "favorite_region", length = 30)
+    private String favoriteRegion;
+
+    @Column(name = "language", length = 20)
+    private String language;
+
+    @Lob
+    @Column(name = "avatar", columnDefinition = "LONGTEXT")
+    private String avatar;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 
@@ -44,6 +72,8 @@ public class User {
         this.updatedAt = LocalDateTime.now();
         this.enabled = true;
         this.role = "USER";
+        this.favoriteRegion = "Kanto";
+        this.language = "Español";
     }
 
     public User(String username, String password, String email) {
@@ -51,6 +81,7 @@ public class User {
         this.username = username;
         this.password = password;
         this.email = email;
+        this.displayName = username;
     }
 
     public User(String username, String password, String email, String role) {
@@ -121,6 +152,54 @@ public class User {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getDisplayName() {
+        return displayName;
+    }
+
+    public void setDisplayName(String displayName) {
+        this.displayName = displayName;
+    }
+
+    public String getBio() {
+        return bio;
+    }
+
+    public void setBio(String bio) {
+        this.bio = bio;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getFavoriteRegion() {
+        return favoriteRegion;
+    }
+
+    public void setFavoriteRegion(String favoriteRegion) {
+        this.favoriteRegion = favoriteRegion;
+    }
+
+    public String getLanguage() {
+        return language;
+    }
+
+    public void setLanguage(String language) {
+        this.language = language;
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public LocalDateTime getCreatedAt() {

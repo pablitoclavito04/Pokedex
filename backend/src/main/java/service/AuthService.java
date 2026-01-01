@@ -1,17 +1,17 @@
 package service;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import dto.AuthResponse;
 import dto.LoginRequest;
+import dto.ProfileUpdateRequest;
 import dto.RegisterRequest;
 import entity.User;
 import repository.UserRepository;
 import util.JwtUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.context.annotation.Lazy;
 
 /**
  * Servicio de autenticación
@@ -60,12 +60,15 @@ public class AuthService {
         // Crear nuevo usuario
         User user = new User();
         user.setUsername(request.getUsername());
-        user.setPassword(passwordEncoder.encode(request.getPassword())); // Encriptar contraseña
+        user.setPassword(passwordEncoder.encode(request.getPassword()));
         user.setEmail(request.getEmail());
         user.setPais(request.getPais());
         user.setFechaNacimiento(request.getFechaNacimiento());
-        user.setRole("USER"); // Rol por defecto
+        user.setRole("USER");
         user.setEnabled(true);
+        user.setDisplayName(request.getUsername()); // Por defecto, displayName = username
+        user.setFavoriteRegion("Kanto");
+        user.setLanguage("Español");
 
         // Guardar usuario
         userRepository.save(user);
@@ -73,8 +76,19 @@ public class AuthService {
         // Generar token
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
 
-        // Retornar respuesta
-        return new AuthResponse(token, user.getUsername(), user.getEmail(), user.getRole());
+        // Retornar respuesta con todos los datos del perfil
+        return new AuthResponse(
+            token,
+            user.getUsername(),
+            user.getEmail(),
+            user.getRole(),
+            user.getDisplayName(),
+            user.getBio(),
+            user.getGender(),
+            user.getFavoriteRegion(),
+            user.getLanguage(),
+            user.getAvatar()
+        );
     }
 
     /**
@@ -98,8 +112,67 @@ public class AuthService {
         // Generar token
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
 
-        // Retornar respuesta
-        return new AuthResponse(token, user.getUsername(), user.getEmail(), user.getRole());
+        // Retornar respuesta con todos los datos del perfil
+        return new AuthResponse(
+            token,
+            user.getUsername(),
+            user.getEmail(),
+            user.getRole(),
+            user.getDisplayName(),
+            user.getBio(),
+            user.getGender(),
+            user.getFavoriteRegion(),
+            user.getLanguage(),
+            user.getAvatar()
+        );
+    }
+
+    /**
+     * Actualizar perfil del usuario
+     */
+    public AuthResponse updateProfile(String username, ProfileUpdateRequest request) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Actualizar campos del perfil
+        if (request.getDisplayName() != null) {
+            user.setDisplayName(request.getDisplayName());
+        }
+        if (request.getBio() != null) {
+            user.setBio(request.getBio());
+        }
+        if (request.getGender() != null) {
+            user.setGender(request.getGender());
+        }
+        if (request.getFavoriteRegion() != null) {
+            user.setFavoriteRegion(request.getFavoriteRegion());
+        }
+        if (request.getLanguage() != null) {
+            user.setLanguage(request.getLanguage());
+        }
+        if (request.getAvatar() != null) {
+            user.setAvatar(request.getAvatar());
+        }
+
+        // Guardar cambios
+        userRepository.save(user);
+
+        // Generar nuevo token
+        String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
+
+        // Retornar respuesta actualizada
+        return new AuthResponse(
+            token,
+            user.getUsername(),
+            user.getEmail(),
+            user.getRole(),
+            user.getDisplayName(),
+            user.getBio(),
+            user.getGender(),
+            user.getFavoriteRegion(),
+            user.getLanguage(),
+            user.getAvatar()
+        );
     }
 
     /**

@@ -2,6 +2,7 @@ package controller;
 
 import dto.AuthResponse;
 import dto.LoginRequest;
+import dto.ProfileUpdateRequest;
 import dto.RegisterRequest;
 import service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,6 +46,36 @@ public class AuthController {
             return ResponseEntity.ok(response);
         } catch (RuntimeException e) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+        }
+    }
+
+    /**
+     * Actualizar perfil del usuario
+     * PUT /api/auth/profile
+     */
+    @PutMapping("/profile")
+    public ResponseEntity<?> updateProfile(
+            @RequestHeader("Authorization") String authHeader,
+            @RequestBody ProfileUpdateRequest request) {
+        try {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token no proporcionado");
+            }
+
+            String token = authHeader.substring(7);
+            
+            if (!authService.validateToken(token)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido");
+            }
+
+            String username = authService.getUsernameFromToken(token);
+            AuthResponse response = authService.updateProfile(username, request);
+
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al actualizar el perfil");
         }
     }
 

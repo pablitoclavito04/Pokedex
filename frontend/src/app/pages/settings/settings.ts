@@ -155,21 +155,29 @@ export class SettingsComponent implements OnInit {
   saveChanges(): void {
     if (!this.canSave) return;
 
-    // Guardar en sessionStorage
-    sessionStorage.setItem('username', this.profileData.username);
-    sessionStorage.setItem('displayName', this.profileData.displayName);
-    sessionStorage.setItem('userBio', this.profileData.bio);
-    sessionStorage.setItem('userGender', this.profileData.gender);
-    sessionStorage.setItem('userFavoriteRegion', this.profileData.favoriteRegion);
-    sessionStorage.setItem('userLanguage', this.profileData.language);
-    
-    if (this.profileData.avatar) {
-      sessionStorage.setItem('userAvatar', this.profileData.avatar);
-    }
+    this.loadingService.show('Guardando cambios...');
 
-    this.hasChanges = false;
-    this.toastService.success('Cambios guardados correctamente');
-    this.close();
+    // Guardar en la base de datos
+    this.authService.updateProfile({
+      displayName: this.profileData.displayName,
+      bio: this.profileData.bio,
+      gender: this.profileData.gender,
+      favoriteRegion: this.profileData.favoriteRegion,
+      language: this.profileData.language,
+      avatar: this.profileData.avatar || undefined
+    }).subscribe({
+      next: () => {
+        this.loadingService.hide();
+        this.hasChanges = false;
+        this.toastService.success('Cambios guardados correctamente');
+        this.close();
+      },
+      error: (err) => {
+        this.loadingService.hide();
+        console.error('Error al guardar cambios:', err);
+        this.toastService.error('Error al guardar los cambios. Inténtalo de nuevo.');
+      }
+    });
   }
 
   cancel(): void {

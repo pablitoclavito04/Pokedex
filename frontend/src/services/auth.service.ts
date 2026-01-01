@@ -15,11 +15,26 @@ export interface RegisterRequest {
   fechaNacimiento?: string;
 }
 
+export interface ProfileUpdateRequest {
+  displayName?: string;
+  bio?: string;
+  gender?: string;
+  favoriteRegion?: string;
+  language?: string;
+  avatar?: string;
+}
+
 export interface AuthResponse {
   token: string;
   username: string;
   email: string;
   role: string;
+  displayName?: string;
+  bio?: string;
+  gender?: string;
+  favoriteRegion?: string;
+  language?: string;
+  avatar?: string;
 }
 
 @Injectable({
@@ -38,9 +53,7 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials)
       .pipe(
         tap(response => {
-          sessionStorage.setItem(this.tokenKey, response.token);
-          sessionStorage.setItem('username', response.username);
-          sessionStorage.setItem('email', response.email);
+          this.saveUserData(response);
           this.isLoggedInSubject.next(true);
         })
       );
@@ -50,18 +63,27 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data)
       .pipe(
         tap(response => {
-          sessionStorage.setItem(this.tokenKey, response.token);
-          sessionStorage.setItem('username', response.username);
-          sessionStorage.setItem('email', response.email);
+          this.saveUserData(response);
           this.isLoggedInSubject.next(true);
         })
       );
   }
 
+  updateProfile(data: ProfileUpdateRequest): Observable<AuthResponse> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`
+    });
+
+    return this.http.put<AuthResponse>(`${this.apiUrl}/profile`, data, { headers })
+      .pipe(
+        tap(response => {
+          this.saveUserData(response);
+        })
+      );
+  }
+
   logout(): void {
-    sessionStorage.removeItem(this.tokenKey);
-    sessionStorage.removeItem('username');
-    sessionStorage.removeItem('email');
+    sessionStorage.clear();
     this.isLoggedInSubject.next(false);
   }
 
@@ -73,11 +95,35 @@ export class AuthService {
     return this.http.delete(`${this.apiUrl}/delete-account`, { headers })
       .pipe(
         tap(() => {
-          // Limpiar todos los datos de sesión
           sessionStorage.clear();
           this.isLoggedInSubject.next(false);
         })
       );
+  }
+
+  private saveUserData(response: AuthResponse): void {
+    sessionStorage.setItem(this.tokenKey, response.token);
+    sessionStorage.setItem('username', response.username);
+    sessionStorage.setItem('email', response.email);
+    
+    if (response.displayName) {
+      sessionStorage.setItem('displayName', response.displayName);
+    }
+    if (response.bio) {
+      sessionStorage.setItem('userBio', response.bio);
+    }
+    if (response.gender) {
+      sessionStorage.setItem('userGender', response.gender);
+    }
+    if (response.favoriteRegion) {
+      sessionStorage.setItem('userFavoriteRegion', response.favoriteRegion);
+    }
+    if (response.language) {
+      sessionStorage.setItem('userLanguage', response.language);
+    }
+    if (response.avatar) {
+      sessionStorage.setItem('userAvatar', response.avatar);
+    }
   }
 
   getToken(): string | null {
@@ -86,6 +132,14 @@ export class AuthService {
 
   getUsername(): string | null {
     return sessionStorage.getItem('username');
+  }
+
+  getDisplayName(): string | null {
+    return sessionStorage.getItem('displayName') || sessionStorage.getItem('username');
+  }
+
+  getAvatar(): string | null {
+    return sessionStorage.getItem('userAvatar');
   }
 
   isLoggedIn(): boolean {
