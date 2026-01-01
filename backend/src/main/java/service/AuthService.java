@@ -143,6 +143,14 @@ public class AuthService {
             user.setUsername(request.getUsername());
         }
 
+        // Actualizar contraseña si se proporciona una nueva
+        if (request.getPassword() != null && !request.getPassword().isEmpty()) {
+            if (request.getPassword().length() < 6) {
+                throw new RuntimeException("La contraseña debe tener al menos 6 caracteres");
+            }
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+        }
+
         // Actualizar campos del perfil
         if (request.getDisplayName() != null) {
             user.setDisplayName(request.getDisplayName());

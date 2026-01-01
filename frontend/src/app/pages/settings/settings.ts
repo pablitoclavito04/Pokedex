@@ -63,10 +63,11 @@ export class SettingsComponent implements OnInit {
   displayNameMaxLength = 50;
 
   // Datos y validación para la contraseña
-  passwordData = { newPassword: '' };
+  passwordData = { currentPassword: '', newPassword: '' };
   passwordMaxLength = 32;
   passwordError: string | null = null;
-  showPassword = false;
+  showCurrentPassword = false;
+  showNewPassword = false;
 
   // Estado del formulario
   hasChanges = false;
@@ -96,6 +97,8 @@ export class SettingsComponent implements OnInit {
     this.profileData.avatar = sessionStorage.getItem('userAvatar') || null;
     this.profileData.country = sessionStorage.getItem('userCountry') || '';
 
+    // Cargar contraseña actual
+    this.passwordData.currentPassword = this.authService.getPassword() || '';
   }
 
   // ========== MÉTODOS ==========
@@ -159,8 +162,8 @@ export class SettingsComponent implements OnInit {
 
     this.loadingService.show('Guardando cambios...');
 
-    // Guardar en la base de datos
-    this.authService.updateProfile({
+    // Preparar datos para enviar
+    const updateData: any = {
       username: this.profileData.username,
       displayName: this.profileData.displayName,
       bio: this.profileData.bio,
@@ -168,8 +171,23 @@ export class SettingsComponent implements OnInit {
       favoriteRegion: this.profileData.favoriteRegion,
       language: this.profileData.language,
       avatar: this.profileData.avatar || undefined
-    }).subscribe({
+    };
+
+    // Solo enviar contraseña si se ha introducido una nueva
+    if (this.passwordData.newPassword) {
+      updateData.password = this.passwordData.newPassword;
+    }
+
+    // Guardar en la base de datos
+    this.authService.updateProfile(updateData).subscribe({
       next: () => {
+        // Si se cambió la contraseña, actualizar la contraseña actual mostrada
+        if (this.passwordData.newPassword) {
+          this.authService.setPassword(this.passwordData.newPassword);
+          this.passwordData.currentPassword = this.passwordData.newPassword;
+          this.passwordData.newPassword = '';
+        }
+
         this.loadingService.hide();
         this.hasChanges = false;
         this.close();
@@ -228,7 +246,11 @@ export class SettingsComponent implements OnInit {
     }
   }
 
-  togglePasswordVisibility(): void {
-    this.showPassword = !this.showPassword;
+  toggleCurrentPasswordVisibility(): void {
+    this.showCurrentPassword = !this.showCurrentPassword;
+  }
+
+  toggleNewPasswordVisibility(): void {
+    this.showNewPassword = !this.showNewPassword;
   }
 }

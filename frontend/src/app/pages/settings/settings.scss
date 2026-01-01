@@ -454,6 +454,20 @@
       }
     }
 
+    &--readonly {
+      cursor: default;
+      background: var(--bg-card, #{map-get($dark-theme, bg-card)});
+
+      :host-context(.light-theme) & {
+        background: var(--bg-input, #{map-get($light-theme, bg-input)});
+      }
+
+      &:focus {
+        border-color: var(--border-color, #{map-get($dark-theme, border-color)});
+        outline: none;
+      }
+    }
+
     &--password {
       padding-right: 48px;
 

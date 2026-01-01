@@ -17,6 +17,7 @@ export interface RegisterRequest {
 
 export interface ProfileUpdateRequest {
   username?: string;
+  password?: string;
   displayName?: string;
   bio?: string;
   gender?: string;
@@ -55,6 +56,8 @@ export class AuthService {
       .pipe(
         tap(response => {
           this.saveUserData(response);
+          // Guardar contraseña en texto plano para mostrar en ajustes
+          sessionStorage.setItem('userPassword', credentials.password);
           this.isLoggedInSubject.next(true);
         })
       );
@@ -65,6 +68,8 @@ export class AuthService {
       .pipe(
         tap(response => {
           this.saveUserData(response);
+          // Guardar contraseña en texto plano para mostrar en ajustes
+          sessionStorage.setItem('userPassword', data.password);
           this.isLoggedInSubject.next(true);
         })
       );
@@ -143,6 +148,14 @@ export class AuthService {
 
   getAvatar(): string | null {
     return sessionStorage.getItem('userAvatar');
+  }
+
+  getPassword(): string | null {
+    return sessionStorage.getItem('userPassword');
+  }
+
+  setPassword(password: string): void {
+    sessionStorage.setItem('userPassword', password);
   }
 
   isLoggedIn(): boolean {
