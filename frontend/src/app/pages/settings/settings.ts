@@ -8,7 +8,6 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { LoadingService } from '../../../services/loading.service';
-import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-settings',
@@ -25,7 +24,6 @@ export class SettingsComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private loadingService: LoadingService,
-    private toastService: ToastService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -61,6 +59,9 @@ export class SettingsComponent implements OnInit {
   usernameError: string | null = null;
   private usernamePattern = /^[a-zA-Z0-9_.]+$/;
 
+  // Límite de caracteres para el nombre
+  displayNameMaxLength = 50;
+
   // Datos y validación para la contraseña
   passwordData = { newPassword: '' };
   passwordMaxLength = 32;
@@ -94,6 +95,7 @@ export class SettingsComponent implements OnInit {
     this.profileData.language = sessionStorage.getItem('userLanguage') || 'Español';
     this.profileData.avatar = sessionStorage.getItem('userAvatar') || null;
     this.profileData.country = sessionStorage.getItem('userCountry') || '';
+
   }
 
   // ========== MÉTODOS ==========
@@ -159,6 +161,7 @@ export class SettingsComponent implements OnInit {
 
     // Guardar en la base de datos
     this.authService.updateProfile({
+      username: this.profileData.username,
       displayName: this.profileData.displayName,
       bio: this.profileData.bio,
       gender: this.profileData.gender,
@@ -169,13 +172,11 @@ export class SettingsComponent implements OnInit {
       next: () => {
         this.loadingService.hide();
         this.hasChanges = false;
-        this.toastService.success('Cambios guardados correctamente');
         this.close();
       },
       error: (err) => {
         this.loadingService.hide();
         console.error('Error al guardar cambios:', err);
-        this.toastService.error('Error al guardar los cambios. Inténtalo de nuevo.');
       }
     });
   }
@@ -199,13 +200,11 @@ export class SettingsComponent implements OnInit {
     this.authService.deleteAccount().subscribe({
       next: () => {
         this.loadingService.hide();
-        this.toastService.success('Cuenta eliminada correctamente');
         this.router.navigate(['/']);
       },
       error: (err) => {
         this.loadingService.hide();
         console.error('Error al eliminar cuenta:', err);
-        this.toastService.error('Error al eliminar la cuenta. Inténtalo de nuevo.');
       }
     });
   }

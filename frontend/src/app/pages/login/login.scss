@@ -222,12 +222,19 @@
     }
 
     &--error {
-      border-color: $color-error;
-      box-shadow: 0 0 0 3px rgba($color-error, 0.2);
+      border-color: $color-error !important;
+      box-shadow: 0 0 0 3px rgba($color-error, 0.2) !important;
 
       &:focus {
-        border-color: $color-error;
-        box-shadow: 0 0 0 3px rgba($color-error, 0.2);
+        border-color: $color-error !important;
+        box-shadow: 0 0 0 3px rgba($color-error, 0.2) !important;
+      }
+
+      &:-webkit-autofill,
+      &:-webkit-autofill:hover,
+      &:-webkit-autofill:focus {
+        -webkit-box-shadow: 0 0 0 1000px #3D3D3D inset, 0 0 0 3px rgba($color-error, 0.2) !important;
+        border-color: $color-error !important;
       }
     }
 
@@ -252,6 +259,12 @@
         border-color: #3B82F6 !important;
       }
     }
+  }
+
+  // Clase para ocultar texto como contraseña (sin usar type="password")
+  .password-hidden {
+    -webkit-text-security: disc;
+    text-security: disc;
   }
 
   &__password-wrapper {
@@ -454,6 +467,13 @@
   // ========== REGISTRO ==========
   &__register {
     text-align: center;
+    padding-top: $spacing-3;
+    margin-top: $spacing-3;
+    border-top: 1px solid #E5E7EB;
+
+    .dark-theme & {
+      border-top-color: rgba(255, 255, 255, 0.1);
+    }
 
     p {
       font-size: $font-size-xs;

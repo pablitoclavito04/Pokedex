@@ -30,7 +30,9 @@
           @for (link of navLinks; track link.label) {
             <li class="footer__nav-item">
               @if (link.path) {
-                <a [routerLink]="link.path" class="footer__nav-link">
+                <a [routerLink]="link.path"
+                   class="footer__nav-link"
+                   (click)="handleNavClick($event, link)">
                   {{ link.label }}
                 </a>
               }

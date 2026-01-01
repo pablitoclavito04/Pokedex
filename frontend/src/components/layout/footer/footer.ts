@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { RouterModule, Router } from '@angular/router';
 import { ModalComponent } from '../../shared/modal/modal';
 import { ButtonComponent } from '../../shared/button/button';
+import { AuthService } from '../../../services/auth.service';
 
 // Interfaz para los enlaces con contenido de modal
 interface FooterLink {
   label: string;
   path?: string;
+  protected?: boolean;
   modalContent?: {
     title: string;
     sections: { subtitle: string; text: string }[];
@@ -22,6 +24,8 @@ interface FooterLink {
   styleUrls: ['./footer.scss']
 })
 export class FooterComponent {
+  private router = inject(Router);
+  private authService = inject(AuthService);
   // Año actual para el copyright
   currentYear: number = new Date().getFullYear();
 
@@ -34,8 +38,8 @@ export class FooterComponent {
     { label: 'Inicio', path: '/' },
     { label: 'Style Guide', path: '/style-guide' },
     { label: 'Pokédex', path: '/pokedex' },
-    { label: 'Favoritos', path: '/favorites' },
-    { label: 'Quiz', path: '/quiz' }
+    { label: 'Favoritos', path: '/profile', protected: true },
+    { label: 'Quiz', path: '/quiz', protected: true }
   ];
 
   // Redes sociales
@@ -136,5 +140,15 @@ export class FooterComponent {
   closeModal(): void {
     this.isModalOpen = false;
     this.currentModalContent = null;
+  }
+
+  /**
+   * Maneja la navegación verificando autenticación para rutas protegidas
+   */
+  handleNavClick(event: Event, link: FooterLink): void {
+    if (link.protected && !this.authService.isLoggedIn()) {
+      event.preventDefault();
+      this.router.navigate(['/login']);
+    }
   }
 }

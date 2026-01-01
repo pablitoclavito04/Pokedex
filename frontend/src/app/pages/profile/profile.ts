@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { FavoritoService } from '../../../services/favorito.service';
 import { PokemonService } from '../../../services/pokemon.service';
-import { forkJoin, take } from 'rxjs';
+import { forkJoin, skip, take } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -126,17 +126,16 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   loadFavorites(): void {
     this.isLoadingFavorites = true;
 
-    // Verificar si ya hay favoritos cargados
+    // Verificar si ya hay favoritos cargados en memoria
     const currentFavoritos = this.favoritoService.getFavoritos();
     if (currentFavoritos.length > 0) {
       this.loadPokemonData(currentFavoritos);
     } else {
-      // Si no hay datos, cargar del backend
-      this.favoritoService.cargarFavoritos();
-
-      // Esperar a que lleguen los datos del backend
+      // Si no hay datos en memoria, cargar del backend
+      // Primero suscribirse para capturar el próximo valor (skip ignora el valor actual vacío)
       this.favoritoService.favoritos$.pipe(
-        take(1)
+        skip(1), // Ignorar el valor actual (vacío)
+        take(1)  // Tomar solo el siguiente valor (respuesta del backend)
       ).subscribe(favoritos => {
         if (favoritos.length > 0) {
           this.loadPokemonData(favoritos);
@@ -146,6 +145,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           this.isLoadingFavorites = false;
         }
       });
+
+      // Luego disparar la carga del backend
+      this.favoritoService.cargarFavoritos();
     }
   }
 

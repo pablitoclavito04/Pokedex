@@ -126,11 +126,8 @@
             [(ngModel)]="profileData.displayName"
             (ngModelChange)="onFieldChange()"
             placeholder="Tu nombre"
-            maxlength="50">
+            [maxlength]="displayNameMaxLength">
         </div>
-        <p class="settings-field__hint">
-          El nombre se puede cambiar una vez cada 7 días.
-        </p>
       </section>
 
       <div class="settings-page__divider"></div>

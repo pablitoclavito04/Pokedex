@@ -36,6 +36,9 @@ export class ModalComponent {
   
   // ¿Mostrar botón de cerrar?
   @Input() showCloseButton: boolean = true;
+
+  // ¿Bloquear scroll del body cuando está abierto?
+  @Input() blockScroll: boolean = true;
   
   // ============================================================================
   //                               OUTPUTS
@@ -67,7 +70,7 @@ export class ModalComponent {
   
   // Prevenir scroll del body cuando el modal está abierto
   ngOnChanges(): void {
-    if (this.isBrowser) {
+    if (this.isBrowser && this.blockScroll) {
       if (this.isOpen) {
         document.body.style.overflow = 'hidden';
       } else {

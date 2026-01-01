@@ -130,9 +130,18 @@ public class AuthService {
     /**
      * Actualizar perfil del usuario
      */
-    public AuthResponse updateProfile(String username, ProfileUpdateRequest request) {
-        User user = userRepository.findByUsername(username)
+    public AuthResponse updateProfile(String currentUsername, ProfileUpdateRequest request) {
+        User user = userRepository.findByUsername(currentUsername)
                 .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+
+        // Actualizar username si se proporciona uno nuevo
+        if (request.getUsername() != null && !request.getUsername().equals(currentUsername)) {
+            // Verificar que el nuevo username no esté en uso
+            if (userRepository.existsByUsername(request.getUsername())) {
+                throw new RuntimeException("El nombre de usuario ya está en uso");
+            }
+            user.setUsername(request.getUsername());
+        }
 
         // Actualizar campos del perfil
         if (request.getDisplayName() != null) {
@@ -157,7 +166,7 @@ public class AuthService {
         // Guardar cambios
         userRepository.save(user);
 
-        // Generar nuevo token
+        // Generar nuevo token con el username actualizado
         String token = jwtUtil.generateToken(user.getUsername(), user.getRole());
 
         // Retornar respuesta actualizada

@@ -4,6 +4,7 @@ package dto;
  * DTO para actualizar el perfil del usuario
  */
 public class ProfileUpdateRequest {
+    private String username;
     private String displayName;
     private String bio;
     private String gender;
@@ -15,6 +16,14 @@ public class ProfileUpdateRequest {
     }
 
     // Getters y Setters
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
     public String getDisplayName() {
         return displayName;
     }

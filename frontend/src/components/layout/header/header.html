@@ -31,9 +31,19 @@
                [fragment]="item.fragment"
                class="header__nav-link"
                [ngClass]="item.colorClass"
-               (click)="closeMenu()">
+               (click)="handleNavClick($event, item)">
               {{ item.label }}
             </a>
+          </li>
+        }
+        <!-- Opción Salir en menú móvil (solo cuando está logueado) -->
+        @if (showProfileIcon) {
+          <li class="header__nav-item header__nav-item--mobile-only">
+            <button
+              class="header__nav-link header__nav-link--logout"
+              (click)="openLogoutModal(); closeMenu()">
+              Salir
+            </button>
           </li>
         }
       </ul>
@@ -54,8 +64,8 @@
         </div>
       }
 
-      <!-- Botón de tema (oculto en landing page) -->
-      @if (!isLandingPage) {
+      <!-- Botón de tema (en rutas de la app) -->
+      @if (showThemeButton) {
         <button class="header__action-btn header__theme-btn"
                 (click)="toggleTheme()"
                 [attr.aria-label]="themeService.isDarkTheme() ? 'Cambiar a tema claro' : 'Cambiar a tema oscuro'"
@@ -83,7 +93,19 @@
         </button>
       }
 
-      <!-- Botón de usuario/perfil (solo en Pokédex y Profile) -->
+      <!-- Botones de autenticación (cuando no está logueado en rutas de la app) -->
+      @if (showThemeButton && !isAuthenticated()) {
+        <div class="header__auth-buttons">
+          <a routerLink="/login" class="header__auth-btn header__auth-btn--login">
+            Iniciar sesión
+          </a>
+          <a routerLink="/register" class="header__auth-btn header__auth-btn--register">
+            Únete
+          </a>
+        </div>
+      }
+
+      <!-- Botón de usuario/perfil (solo cuando está logueado) -->
       @if (showProfileIcon) {
         <a routerLink="/profile"
            class="header__action-btn header__user-btn"
@@ -93,6 +115,19 @@
             <circle cx="12" cy="7" r="4"/>
           </svg>
         </a>
+
+        <!-- Botón de cerrar sesión -->
+        <button
+          class="header__action-btn header__logout-btn"
+          (click)="openLogoutModal()"
+          aria-label="Cerrar sesión"
+          type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </button>
       }
 
       <!-- Botón menú hamburguesa (solo móvil) -->
@@ -111,6 +146,25 @@
       </button>
 
     </div>
-    
+
   </div>
 </header>
+
+<!-- Modal de confirmación de logout -->
+@if (isLogoutModalOpen) {
+  <app-modal
+    [isOpen]="isLogoutModalOpen"
+    [showCloseButton]="false"
+    [closeOnOverlay]="true"
+    [blockScroll]="false"
+    size="sm"
+    (closed)="closeLogoutModal()">
+    <div class="header__logout-modal-content">
+      <p class="header__logout-modal-text">¿Quieres salir de la app?</p>
+      <div class="header__logout-modal-actions">
+        <app-button variant="primary" (click)="confirmLogout()">Aceptar</app-button>
+        <app-button variant="secondary" (click)="closeLogoutModal()">Cancelar</app-button>
+      </div>
+    </div>
+  </app-modal>
+}

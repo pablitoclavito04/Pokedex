@@ -16,6 +16,7 @@ export interface RegisterRequest {
 }
 
 export interface ProfileUpdateRequest {
+  username?: string;
   displayName?: string;
   bio?: string;
   gender?: string;

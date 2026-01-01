@@ -23,7 +23,17 @@ body {
   font-weight: $font-weight-regular;
   color: var(--text-primary);
   background-color: var(--bg-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
+
+  // Transición solo cuando se usa el botón de toggle (no en navegación)
+  &.theme-transitioning {
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  // Deshabilitar TODAS las transiciones (para cambio de tema instantáneo)
+  &.no-transitions,
+  &.no-transitions * {
+    transition: none !important;
+  }
 }
 
 // ============================================================================

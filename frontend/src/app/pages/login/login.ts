@@ -6,6 +6,8 @@ import { FormInputComponent } from '../../../components/shared/form-input/form-i
 import { ButtonComponent } from '../../../components/shared/button/button';
 import { AuthService } from '../../../services/auth.service';
 import { LoadingService } from '../../../services/loading.service';
+import { timeout, catchError } from 'rxjs/operators';
+import { throwError } from 'rxjs';
 
 @Component({
   selector: 'app-login',
@@ -84,25 +86,40 @@ export class LoginComponent {
     }
 
     this.isSubmitting = true;
+    this.loadingService.show('Iniciando sesión...');
 
     this.authService.login({
       username: this.formData.username,
       password: this.formData.password
-    }).subscribe({
+    }).pipe(
+      timeout(10000),
+      catchError(err => {
+        return throwError(() => err);
+      })
+    ).subscribe({
       next: (response) => {
-        this.isSubmitting = false;
         console.log('Login exitoso:', response);
-        // Mostrar pantalla de carga durante 3 segundos y redirigir a Pokédex
-        this.loadingService.show();
+        // Mantener pantalla de carga y redirigir a Pokédex
         setTimeout(() => {
+          this.isSubmitting = false;
           this.loadingService.hide();
           this.router.navigate(['/pokedex']);
         }, 3000);
       },
       error: (err) => {
-        this.isSubmitting = false;
         console.error('Error de login:', err);
-        this.loginError = 'Usuario o contraseña incorrectos';
+        // Mostrar pantalla de carga durante 3 segundos antes de mostrar el error
+        setTimeout(() => {
+          this.isSubmitting = false;
+          this.loadingService.hide();
+          if (err.name === 'TimeoutError') {
+            this.loginError = 'El servidor no responde. Inténtalo de nuevo.';
+          } else if (err.status === 0) {
+            this.loginError = 'No se puede conectar con el servidor.';
+          } else {
+            this.loginError = 'Usuario o contraseña incorrectos';
+          }
+        }, 3000);
       }
     });
   }

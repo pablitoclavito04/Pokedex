@@ -91,6 +91,12 @@
     text-decoration: none;
     color: var(--text-primary, #{map-get($dark-theme, text-primary)});
     margin-bottom: $spacing-4;
+    outline: none;
+
+    &:focus,
+    &:focus-visible {
+      outline: none;
+    }
 
     :host-context(.light-theme) & {
       color: var(--text-primary, #{map-get($light-theme, text-primary)});

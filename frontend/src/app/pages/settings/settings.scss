@@ -248,10 +248,11 @@
 
     &--cancel {
       background: #22c55e;
-      color: #ffffff;
+      color: #000000;
 
       :host-context(.dark-theme) & {
         background: #1B9D4A;
+        color: #ffffff;
       }
 
       &:hover {
@@ -443,6 +444,16 @@
       }
     }
 
+    &--disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      background: var(--bg-card, #{map-get($dark-theme, bg-card)});
+
+      :host-context(.light-theme) & {
+        background: var(--bg-input, #{map-get($light-theme, bg-input)});
+      }
+    }
+
     &--password {
       padding-right: 48px;
 
@@ -555,6 +566,10 @@
 
     &--error {
       color: #ef4444;
+    }
+
+    &--warning {
+      color: #f59e0b;
     }
   }
 

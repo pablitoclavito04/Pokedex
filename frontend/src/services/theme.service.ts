@@ -41,11 +41,15 @@ export class ThemeService {
   }
 
   /**
-   * Inicializa el tema siempre en modo claro
+   * Inicializa el tema basándose en la preferencia guardada o el tema claro por defecto
    */
   private initializeTheme(): void {
-    // Siempre iniciar en tema claro
-    this.setTheme('light');
+    const savedTheme = this.getSavedTheme();
+    if (savedTheme) {
+      this.setTheme(savedTheme);
+    } else {
+      this.setTheme('light');
+    }
   }
 
   /**
@@ -97,6 +101,61 @@ export class ThemeService {
       this.applyThemeToDocument(theme);
       this.persistTheme(theme);
     }
+  }
+
+  /**
+   * Aplica el tema claro temporalmente sin guardarlo (para landing pages)
+   * Cambio instantáneo sin transición
+   */
+  setTemporaryLightTheme(): void {
+    this.currentTheme.set('light');
+    if (this.isBrowser) {
+      this.applyThemeInstant('light');
+    }
+  }
+
+  /**
+   * Restaura el tema guardado en localStorage
+   * Cambio instantáneo sin transición
+   */
+  restoreSavedTheme(): void {
+    const savedTheme = this.getSavedTheme();
+    if (savedTheme) {
+      this.currentTheme.set(savedTheme);
+      if (this.isBrowser) {
+        this.applyThemeInstant(savedTheme);
+      }
+    }
+  }
+
+  /**
+   * Aplica el tema instantáneamente sin transición (para navegación)
+   */
+  private applyThemeInstant(theme: Theme): void {
+    if (!this.isBrowser) return;
+
+    const body = document.body;
+    const html = document.documentElement;
+
+    // Deshabilitar todas las transiciones temporalmente
+    body.classList.add('no-transitions');
+
+    // Remover clases de tema existentes
+    body.classList.remove('light-theme', 'dark-theme', 'theme-transitioning');
+    html.classList.remove('light-theme', 'dark-theme');
+
+    // Aplicar nueva clase de tema
+    if (theme === 'dark') {
+      body.classList.add('dark-theme');
+      html.classList.add('dark-theme');
+    } else {
+      body.classList.add('light-theme');
+      html.classList.add('light-theme');
+    }
+
+    // Forzar reflow y reactivar transiciones
+    void body.offsetHeight;
+    body.classList.remove('no-transitions');
   }
 
   /**
