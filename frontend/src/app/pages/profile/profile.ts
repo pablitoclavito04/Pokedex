@@ -73,33 +73,33 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       this.fragment = fragment;
     });
 
-    // Cargar datos del usuario desde localStorage
+    // Cargar datos del usuario desde sessionStorage
     const username = this.authService.getUsername();
-    const email = localStorage.getItem('email');
+    const email = sessionStorage.getItem('email');
 
     if (username) {
       this.user.username = username;
-      this.user.displayName = localStorage.getItem('displayName') || username;
+      this.user.displayName = sessionStorage.getItem('displayName') || username;
     }
 
     if (email) {
       this.user.email = email;
     }
 
-    // Cargar avatar desde localStorage
-    const savedAvatar = localStorage.getItem('userAvatar');
+    // Cargar avatar desde sessionStorage
+    const savedAvatar = sessionStorage.getItem('userAvatar');
     if (savedAvatar) {
       this.user.avatar = savedAvatar;
     }
 
-    // Cargar bio desde localStorage si existe
-    const savedBio = localStorage.getItem('userBio');
+    // Cargar bio desde sessionStorage si existe
+    const savedBio = sessionStorage.getItem('userBio');
     if (savedBio) {
       this.user.bio = savedBio;
     }
 
-    // Cargar región favorita desde localStorage si existe
-    const savedRegion = localStorage.getItem('userFavoriteRegion');
+    // Cargar región favorita desde sessionStorage si existe
+    const savedRegion = sessionStorage.getItem('userFavoriteRegion');
     if (savedRegion) {
       this.user.favoriteRegion = savedRegion;
     }
@@ -196,7 +196,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
 
   saveBio(): void {
     this.user.bio = this.editedBio;
-    localStorage.setItem('userBio', this.editedBio);
+    sessionStorage.setItem('userBio', this.editedBio);
     this.isEditing = false;
   }
 

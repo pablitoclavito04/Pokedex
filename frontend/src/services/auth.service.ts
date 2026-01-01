@@ -87,18 +87,20 @@ export class AuthService {
     this.isLoggedInSubject.next(false);
   }
 
-  deleteAccount(): Observable<any> {
+  deleteAccount(): Observable<string> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`
     });
 
-    return this.http.delete(`${this.apiUrl}/delete-account`, { headers })
-      .pipe(
-        tap(() => {
-          sessionStorage.clear();
-          this.isLoggedInSubject.next(false);
-        })
-      );
+    return this.http.delete(`${this.apiUrl}/delete-account`, { 
+      headers,
+      responseType: 'text'
+    }).pipe(
+      tap(() => {
+        sessionStorage.clear();
+        this.isLoggedInSubject.next(false);
+      })
+    );
   }
 
   private saveUserData(response: AuthResponse): void {
