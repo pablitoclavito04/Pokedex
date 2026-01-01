@@ -49,6 +49,34 @@ public class AuthController {
     }
 
     /**
+     * Eliminar cuenta de usuario
+     * DELETE /api/auth/delete-account
+     */
+    @DeleteMapping("/delete-account")
+    public ResponseEntity<?> deleteAccount(@RequestHeader("Authorization") String authHeader) {
+        try {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token no proporcionado");
+            }
+
+            String token = authHeader.substring(7);
+            
+            if (!authService.validateToken(token)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token inválido");
+            }
+
+            String username = authService.getUsernameFromToken(token);
+            authService.deleteAccount(username);
+
+            return ResponseEntity.ok("Cuenta eliminada correctamente");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al eliminar la cuenta");
+        }
+    }
+
+    /**
      * Verificar si el usuario está autenticado (endpoint de prueba)
      * GET /api/auth/validate
      */

@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { LoadingService } from '../../../services/loading.service';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-settings',
@@ -24,6 +25,7 @@ export class SettingsComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private loadingService: LoadingService,
+    private toastService: ToastService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -79,19 +81,19 @@ export class SettingsComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    // Cargar datos desde localStorage
+    // Cargar datos desde sessionStorage
     const username = this.authService.getUsername();
-    const email = localStorage.getItem('email');
+    const email = sessionStorage.getItem('email');
 
     this.profileData.username = username || '';
-    this.profileData.displayName = localStorage.getItem('displayName') || username || '';
+    this.profileData.displayName = sessionStorage.getItem('displayName') || username || '';
     this.profileData.email = email || '';
-    this.profileData.bio = localStorage.getItem('userBio') || '';
-    this.profileData.gender = localStorage.getItem('userGender') || '';
-    this.profileData.favoriteRegion = localStorage.getItem('userFavoriteRegion') || 'Kanto';
-    this.profileData.language = localStorage.getItem('userLanguage') || 'Español';
-    this.profileData.avatar = localStorage.getItem('userAvatar') || null;
-    this.profileData.country = localStorage.getItem('userCountry') || '';
+    this.profileData.bio = sessionStorage.getItem('userBio') || '';
+    this.profileData.gender = sessionStorage.getItem('userGender') || '';
+    this.profileData.favoriteRegion = sessionStorage.getItem('userFavoriteRegion') || 'Kanto';
+    this.profileData.language = sessionStorage.getItem('userLanguage') || 'Español';
+    this.profileData.avatar = sessionStorage.getItem('userAvatar') || null;
+    this.profileData.country = sessionStorage.getItem('userCountry') || '';
   }
 
   // ========== MÉTODOS ==========
@@ -153,19 +155,20 @@ export class SettingsComponent implements OnInit {
   saveChanges(): void {
     if (!this.canSave) return;
 
-    // Guardar en localStorage
-    localStorage.setItem('username', this.profileData.username);
-    localStorage.setItem('displayName', this.profileData.displayName);
-    localStorage.setItem('userBio', this.profileData.bio);
-    localStorage.setItem('userGender', this.profileData.gender);
-    localStorage.setItem('userFavoriteRegion', this.profileData.favoriteRegion);
-    localStorage.setItem('userLanguage', this.profileData.language);
+    // Guardar en sessionStorage
+    sessionStorage.setItem('username', this.profileData.username);
+    sessionStorage.setItem('displayName', this.profileData.displayName);
+    sessionStorage.setItem('userBio', this.profileData.bio);
+    sessionStorage.setItem('userGender', this.profileData.gender);
+    sessionStorage.setItem('userFavoriteRegion', this.profileData.favoriteRegion);
+    sessionStorage.setItem('userLanguage', this.profileData.language);
     
     if (this.profileData.avatar) {
-      localStorage.setItem('userAvatar', this.profileData.avatar);
+      sessionStorage.setItem('userAvatar', this.profileData.avatar);
     }
 
     this.hasChanges = false;
+    this.toastService.success('Cambios guardados correctamente');
     this.close();
   }
 
@@ -185,12 +188,18 @@ export class SettingsComponent implements OnInit {
     this.showDeleteModal = false;
     this.loadingService.show('Eliminando cuenta...');
 
-    // Simular tiempo de carga y luego redirigir
-    setTimeout(() => {
-      this.loadingService.hide();
-      this.authService.logout();
-      this.router.navigate(['/']);
-    }, 2000);
+    this.authService.deleteAccount().subscribe({
+      next: () => {
+        this.loadingService.hide();
+        this.toastService.success('Cuenta eliminada correctamente');
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.loadingService.hide();
+        console.error('Error al eliminar cuenta:', err);
+        this.toastService.error('Error al eliminar la cuenta. Inténtalo de nuevo.');
+      }
+    });
   }
 
   onSelectClick(selectId: string): void {

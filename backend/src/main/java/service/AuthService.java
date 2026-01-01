@@ -1,16 +1,17 @@
 package service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import dto.AuthResponse;
 import dto.LoginRequest;
 import dto.RegisterRequest;
 import entity.User;
 import repository.UserRepository;
 import util.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.context.annotation.Lazy;
 
 /**
  * Servicio de autenticación
@@ -99,6 +100,16 @@ public class AuthService {
 
         // Retornar respuesta
         return new AuthResponse(token, user.getUsername(), user.getEmail(), user.getRole());
+    }
+
+    /**
+     * Eliminar cuenta de usuario
+     */
+    public void deleteAccount(String username) {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+        
+        userRepository.delete(user);
     }
 
     /**

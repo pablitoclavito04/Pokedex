@@ -19,11 +19,11 @@ export class ThemeService {
   private readonly STORAGE_KEY = 'theme';
   private readonly isBrowser: boolean;
 
-  // Signal reactivo para el tema actual
-  readonly currentTheme = signal<Theme>('dark');
+  // Signal reactivo para el tema actual (por defecto: light)
+  readonly currentTheme = signal<Theme>('light');
 
   // Signal computado para saber si es tema oscuro
-  readonly isDarkTheme = signal<boolean>(true);
+  readonly isDarkTheme = signal<boolean>(false);
 
   constructor(@Inject(PLATFORM_ID) platformId: Object) {
     this.isBrowser = isPlatformBrowser(platformId);
@@ -41,28 +41,18 @@ export class ThemeService {
   }
 
   /**
-   * Inicializa el tema basándose en:
-   * 1. Preferencia guardada en localStorage
-   * 2. Preferencia del sistema (prefers-color-scheme)
-   * 3. Tema oscuro por defecto
+   * Inicializa el tema siempre en modo claro
    */
   private initializeTheme(): void {
-    const savedTheme = this.getSavedTheme();
-
-    if (savedTheme) {
-      this.setTheme(savedTheme);
-    } else {
-      // Detectar preferencia del sistema
-      const prefersDark = this.getSystemThemePreference();
-      this.setTheme(prefersDark ? 'dark' : 'light');
-    }
+    // Siempre iniciar en tema claro
+    this.setTheme('light');
   }
 
   /**
    * Detecta la preferencia de tema del sistema operativo
    */
   private getSystemThemePreference(): boolean {
-    if (!this.isBrowser) return true;
+    if (!this.isBrowser) return false;
 
     return window.matchMedia('(prefers-color-scheme: dark)').matches;
   }
@@ -161,13 +151,12 @@ export class ThemeService {
   }
 
   /**
-   * Limpia la preferencia guardada y vuelve a la del sistema
+   * Limpia la preferencia guardada y vuelve al tema claro
    */
   resetToSystemPreference(): void {
     if (this.isBrowser) {
       localStorage.removeItem(this.STORAGE_KEY);
-      const prefersDark = this.getSystemThemePreference();
-      this.setTheme(prefersDark ? 'dark' : 'light');
+      this.setTheme('light');
     }
   }
 }

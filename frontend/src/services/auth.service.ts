@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 export interface LoginRequest {
@@ -38,9 +38,9 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/login`, credentials)
       .pipe(
         tap(response => {
-          localStorage.setItem(this.tokenKey, response.token);
-          localStorage.setItem('username', response.username);
-          localStorage.setItem('email', response.email);
+          sessionStorage.setItem(this.tokenKey, response.token);
+          sessionStorage.setItem('username', response.username);
+          sessionStorage.setItem('email', response.email);
           this.isLoggedInSubject.next(true);
         })
       );
@@ -50,27 +50,42 @@ export class AuthService {
     return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data)
       .pipe(
         tap(response => {
-          localStorage.setItem(this.tokenKey, response.token);
-          localStorage.setItem('username', response.username);
-          localStorage.setItem('email', response.email);
+          sessionStorage.setItem(this.tokenKey, response.token);
+          sessionStorage.setItem('username', response.username);
+          sessionStorage.setItem('email', response.email);
           this.isLoggedInSubject.next(true);
         })
       );
   }
 
   logout(): void {
-    localStorage.removeItem(this.tokenKey);
-    localStorage.removeItem('username');
-    localStorage.removeItem('email');
+    sessionStorage.removeItem(this.tokenKey);
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('email');
     this.isLoggedInSubject.next(false);
   }
 
+  deleteAccount(): Observable<any> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`
+    });
+
+    return this.http.delete(`${this.apiUrl}/delete-account`, { headers })
+      .pipe(
+        tap(() => {
+          // Limpiar todos los datos de sesión
+          sessionStorage.clear();
+          this.isLoggedInSubject.next(false);
+        })
+      );
+  }
+
   getToken(): string | null {
-    return localStorage.getItem(this.tokenKey);
+    return sessionStorage.getItem(this.tokenKey);
   }
 
   getUsername(): string | null {
-    return localStorage.getItem('username');
+    return sessionStorage.getItem('username');
   }
 
   isLoggedIn(): boolean {
@@ -78,6 +93,6 @@ export class AuthService {
   }
 
   private hasToken(): boolean {
-    return !!localStorage.getItem(this.tokenKey);
+    return !!sessionStorage.getItem(this.tokenKey);
   }
 }
