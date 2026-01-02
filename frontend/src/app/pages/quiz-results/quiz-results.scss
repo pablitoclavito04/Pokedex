@@ -20,14 +20,19 @@ $button-primary: #6366f1;
 .quiz-results {
   min-height: 100vh;
   background: $results-bg;
-  padding: $spacing-4;
+  padding: $spacing-3;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
+  overflow-x: hidden; // Prevenir scroll horizontal
 
   :host-context(.dark-theme) & {
     background: $results-bg-dark;
+  }
+
+  @include respond-to('sm') {
+    padding: $spacing-4;
   }
 
   @include respond-to('md') {
@@ -54,7 +59,7 @@ $button-primary: #6366f1;
       position: relative;
       z-index: 1;
       max-width: 400px;
-      padding: $spacing-6 $spacing-5;
+      padding: $spacing-4;
       background: transparent;
       border: none;
       box-shadow: none;
@@ -62,17 +67,25 @@ $button-primary: #6366f1;
       flex-direction: column;
       align-items: center;
 
+      @include respond-to('sm') {
+        padding: $spacing-6 $spacing-5;
+      }
+
       @include respond-to('md') {
         padding: $spacing-8 $spacing-6;
       }
     }
 
     .quiz-results__title {
-      font-size: $font-size-4xl;
+      font-size: $font-size-2xl;
       margin-bottom: $spacing-2;
       color: #ffffff;
       white-space: nowrap;
       text-align: center;
+
+      @include respond-to('sm') {
+        font-size: $font-size-3xl;
+      }
 
       @include respond-to('md') {
         font-size: $font-size-5xl;
@@ -81,6 +94,11 @@ $button-primary: #6366f1;
 
     .quiz-results__message--top {
       color: rgba(255, 255, 255, 0.8);
+      font-size: $font-size-sm;
+
+      @include respond-to('sm') {
+        font-size: $font-size-base;
+      }
     }
 
     .quiz-results__score-value {
@@ -88,7 +106,11 @@ $button-primary: #6366f1;
     }
 
     .quiz-results__score {
-      margin-bottom: $spacing-4;
+      margin-bottom: $spacing-3;
+
+      @include respond-to('sm') {
+        margin-bottom: $spacing-4;
+      }
 
       @include respond-to('md') {
         margin-bottom: $spacing-6;
@@ -106,7 +128,11 @@ $button-primary: #6366f1;
     background: url('/Ash ganador.gif') no-repeat center center;
     background-size: cover;
     align-items: flex-start;
-    padding-top: $spacing-8;
+    padding-top: $spacing-6;
+
+    @include respond-to('sm') {
+      padding-top: $spacing-8;
+    }
 
     @include respond-to('md') {
       padding-top: $spacing-12;
@@ -127,20 +153,29 @@ $button-primary: #6366f1;
       position: relative;
       z-index: 1;
       max-width: 400px;
-      padding: $spacing-4 $spacing-5;
+      padding: $spacing-3;
       background: transparent;
       border: none;
       box-shadow: none;
 
+      @include respond-to('sm') {
+        padding: $spacing-4 $spacing-5;
+      }
+
       @include respond-to('md') {
-        padding: $spacing-6 $spacing-6;
+        padding: $spacing-6;
       }
     }
 
     .quiz-results__title {
-      font-size: $font-size-4xl;
-      margin-bottom: $spacing-4;
+      font-size: $font-size-2xl;
+      margin-bottom: $spacing-3;
       color: #ffffff;
+
+      @include respond-to('sm') {
+        font-size: $font-size-3xl;
+        margin-bottom: $spacing-4;
+      }
 
       @include respond-to('md') {
         font-size: $font-size-5xl;
@@ -157,7 +192,11 @@ $button-primary: #6366f1;
     }
 
     .quiz-results__score {
-      margin-bottom: $spacing-4;
+      margin-bottom: $spacing-3;
+
+      @include respond-to('sm') {
+        margin-bottom: $spacing-4;
+      }
 
       @include respond-to('md') {
         margin-bottom: $spacing-6;
@@ -175,7 +214,11 @@ $button-primary: #6366f1;
     background: url('/Squirtle comiendo.gif') no-repeat center center;
     background-size: cover;
     align-items: flex-start;
-    padding-top: $spacing-8;
+    padding-top: $spacing-6;
+
+    @include respond-to('sm') {
+      padding-top: $spacing-8;
+    }
 
     @include respond-to('md') {
       padding-top: $spacing-12;
@@ -196,7 +239,7 @@ $button-primary: #6366f1;
       position: relative;
       z-index: 1;
       max-width: 400px;
-      padding: 70px $spacing-5 $spacing-4;
+      padding: $spacing-10 $spacing-4 $spacing-4;
       background: transparent;
       border: none;
       box-shadow: none;
@@ -204,17 +247,26 @@ $button-primary: #6366f1;
       flex-direction: column;
       align-items: center;
 
+      @include respond-to('sm') {
+        padding: 60px $spacing-5 $spacing-4;
+      }
+
       @include respond-to('md') {
         padding: 70px $spacing-6 $spacing-6;
       }
     }
 
     .quiz-results__title {
-      font-size: $font-size-4xl;
-      margin-bottom: $spacing-4;
+      font-size: $font-size-2xl;
+      margin-bottom: $spacing-3;
       color: #ffffff;
       white-space: nowrap;
       text-align: center;
+
+      @include respond-to('sm') {
+        font-size: $font-size-3xl;
+        margin-bottom: $spacing-4;
+      }
 
       @include respond-to('md') {
         font-size: $font-size-5xl;
@@ -231,7 +283,11 @@ $button-primary: #6366f1;
     }
 
     .quiz-results__score {
-      margin-bottom: $spacing-4;
+      margin-bottom: $spacing-3;
+
+      @include respond-to('sm') {
+        margin-bottom: $spacing-4;
+      }
 
       @include respond-to('md') {
         margin-bottom: $spacing-6;
@@ -246,8 +302,12 @@ $button-primary: #6366f1;
 
   // Mensaje en la parte superior (para score 0)
   &__message--top {
-    margin-bottom: $spacing-4;
+    margin-bottom: $spacing-3;
     white-space: nowrap;
+
+    @include respond-to('sm') {
+      margin-bottom: $spacing-4;
+    }
   }
 
   // ========== CARD ==========
@@ -256,10 +316,15 @@ $button-primary: #6366f1;
     width: 100%;
     background: var(--bg-primary);
     border: 2px dashed var(--border-secondary);
-    border-radius: $border-radius-2xl;
-    padding: $spacing-8 $spacing-6;
+    border-radius: $border-radius-xl;
+    padding: $spacing-5 $spacing-4;
     text-align: center;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+
+    @include respond-to('sm') {
+      padding: $spacing-6;
+      border-radius: $border-radius-2xl;
+    }
 
     @include respond-to('md') {
       padding: $spacing-10 $spacing-8;
@@ -269,27 +334,41 @@ $button-primary: #6366f1;
   // ========== TÍTULO ==========
   &__title {
     font-family: $font-secondary;
-    font-size: $font-size-3xl;
+    font-size: $font-size-2xl;
     font-weight: $font-weight-extrabold;
     color: var(--text-primary);
-    margin: 0 0 $spacing-6;
+    margin: 0 0 $spacing-4;
     letter-spacing: -0.02em;
+
+    @include respond-to('sm') {
+      font-size: $font-size-3xl;
+      margin-bottom: $spacing-5;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-4xl;
+      margin-bottom: $spacing-6;
     }
   }
 
   // ========== PUNTUACIÓN ==========
   &__score {
-    margin-bottom: $spacing-4;
+    margin-bottom: $spacing-3;
+
+    @include respond-to('sm') {
+      margin-bottom: $spacing-4;
+    }
   }
 
   &__score-value {
     font-family: $font-secondary;
-    font-size: $font-size-4xl;
+    font-size: $font-size-3xl;
     font-weight: $font-weight-extrabold;
     color: var(--text-primary);
+
+    @include respond-to('sm') {
+      font-size: $font-size-4xl;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-5xl;
@@ -298,14 +377,19 @@ $button-primary: #6366f1;
 
   // ========== MENSAJE ==========
   &__message {
-    font-size: $font-size-base;
+    font-size: $font-size-sm;
     color: var(--text-secondary);
-    margin: 0 0 $spacing-6;
+    margin: 0 0 $spacing-4;
     line-height: 1.5;
+
+    @include respond-to('sm') {
+      font-size: $font-size-base;
+      margin-bottom: $spacing-6;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-lg;
-      margin: 0 0 $spacing-8;
+      margin-bottom: $spacing-8;
     }
   }
 
@@ -313,15 +397,25 @@ $button-primary: #6366f1;
   &__stats {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: $spacing-4;
-    margin-bottom: $spacing-8;
+    gap: $spacing-3;
+    margin-bottom: $spacing-6;
+
+    @include respond-to('sm') {
+      gap: $spacing-4;
+      margin-bottom: $spacing-8;
+    }
   }
 
   &__stat {
-    padding: $spacing-5 $spacing-4;
+    padding: $spacing-4 $spacing-3;
     background: var(--bg-primary);
     border: 2px solid var(--border-primary);
-    border-radius: $border-radius-xl;
+    border-radius: $border-radius-lg;
+
+    @include respond-to('sm') {
+      padding: $spacing-5 $spacing-4;
+      border-radius: $border-radius-xl;
+    }
 
     &--correct {
       .quiz-results__stat-value {
@@ -339,10 +433,15 @@ $button-primary: #6366f1;
   &__stat-value {
     display: block;
     font-family: $font-secondary;
-    font-size: $font-size-3xl;
+    font-size: $font-size-2xl;
     font-weight: $font-weight-bold;
     line-height: 1;
-    margin-bottom: $spacing-2;
+    margin-bottom: $spacing-1;
+
+    @include respond-to('sm') {
+      font-size: $font-size-3xl;
+      margin-bottom: $spacing-2;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-4xl;
@@ -350,9 +449,13 @@ $button-primary: #6366f1;
   }
 
   &__stat-label {
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     color: var(--text-secondary);
     font-weight: $font-weight-medium;
+
+    @include respond-to('sm') {
+      font-size: $font-size-sm;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-base;
@@ -365,7 +468,11 @@ $button-primary: #6366f1;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: $spacing-3;
+    gap: $spacing-2;
+
+    @include respond-to('sm') {
+      gap: $spacing-3;
+    }
 
     @include respond-to('md') {
       flex-direction: row;
@@ -378,14 +485,15 @@ $button-primary: #6366f1;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: $spacing-3;
-    padding: $spacing-4 $spacing-6;
-    font-size: $font-size-base;
+    gap: $spacing-2;
+    width: 100%;
+    padding: $spacing-3 $spacing-4;
+    font-size: $font-size-sm;
     font-weight: $font-weight-bold;
     color: #ffffff;
     background: #E3350D;
     border: none;
-    border-radius: $border-radius-xl;
+    border-radius: $border-radius-lg;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
@@ -394,7 +502,15 @@ $button-primary: #6366f1;
       background: #862009;
     }
 
+    @include respond-to('sm') {
+      padding: $spacing-4 $spacing-6;
+      font-size: $font-size-base;
+      gap: $spacing-3;
+      border-radius: $border-radius-xl;
+    }
+
     @include respond-to('md') {
+      width: auto;
       font-size: $font-size-lg;
       padding: $spacing-5 $spacing-8;
     }
@@ -409,10 +525,15 @@ $button-primary: #6366f1;
     }
 
     svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       flex-shrink: 0;
       transition: transform 0.3s ease;
+
+      @include respond-to('sm') {
+        width: 20px;
+        height: 20px;
+      }
 
       @include respond-to('md') {
         width: 24px;

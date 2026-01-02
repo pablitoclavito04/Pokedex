@@ -30,11 +30,17 @@ export class HeaderComponent {
   // ¿Estamos en la landing page (sin autenticar)?
   isLandingPage: boolean = true;
 
+  // ¿Estamos en una ruta de la app (pokedex, quiz, etc)?
+  isAppRoute: boolean = false;
+
   // ¿Mostrar el icono de perfil?
   showProfileIcon: boolean = false;
 
   // ¿Mostrar el botón de tema?
   showThemeButton: boolean = false;
+
+  // ¿Mostrar el menú hamburguesa?
+  showHamburgerMenu: boolean = false;
 
   // Estado del modal de logout
   isLogoutModalOpen: boolean = false;
@@ -57,7 +63,6 @@ export class HeaderComponent {
 
   // Navegación para usuarios no autenticados en rutas de la app
   unauthenticatedNavItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [
-    { label: 'Inicio', path: '/', icon: 'home' },
     { label: 'Pokédex', path: '/pokedex', icon: 'list' },
     { label: 'Favoritos', path: '/profile', fragment: 'favoritos', icon: 'heart', colorClass: 'header__nav-link--favoritos' },
     { label: 'Quiz', path: '/quiz', icon: 'game', colorClass: 'header__nav-link--quiz' }
@@ -83,19 +88,25 @@ export class HeaderComponent {
    */
   private checkIfLandingPage(url: string): void {
     const landingRoutes = ['/', '/login', '/register', '/style-guide', '/forms-demo'];
+    const appRoutes = ['/pokedex', '/pokemon', '/profile', '/settings', '/quiz'];
+    
     const wasLandingPage = this.isLandingPage;
     this.isLandingPage = landingRoutes.includes(url) || url === '';
+    
+    // Comprobar si estamos en una ruta de la app
+    this.isAppRoute = appRoutes.some(route => url.startsWith(route));
 
     // Comprobar si estamos en modo quiz (solo jugando)
     this.isQuizMode = url.startsWith('/quiz/play');
 
-    // Mostrar icono de perfil solo si está logueado, en rutas específicas y no en modo quiz
-    const profileIconRoutes = ['/pokedex', '/pokemon', '/profile', '/settings', '/quiz'];
-    const isInProfileRoute = profileIconRoutes.some(route => url.startsWith(route));
-    this.showProfileIcon = isInProfileRoute && this.authService.isLoggedIn() && !this.isQuizMode;
+    // Mostrar icono de perfil solo si está logueado, en rutas de app y no en modo quiz
+    this.showProfileIcon = this.isAppRoute && this.authService.isLoggedIn() && !this.isQuizMode;
 
     // Mostrar botón de tema en rutas de la app (no en landing)
-    this.showThemeButton = isInProfileRoute;
+    this.showThemeButton = this.isAppRoute;
+
+    // Mostrar menú hamburguesa en rutas de la app y no en modo quiz
+    this.showHamburgerMenu = this.isAppRoute && !this.isQuizMode;
 
     // Gestión del tema según la página
     if (this.isLandingPage) {
@@ -121,6 +132,7 @@ export class HeaderComponent {
     if (this.isLandingPage) {
       return this.landingNavItems;
     }
+    // En rutas de la app, mostrar navItems si está autenticado, sino unauthenticatedNavItems
     return this.authService.isLoggedIn() ? this.navItems : this.unauthenticatedNavItems;
   }
 

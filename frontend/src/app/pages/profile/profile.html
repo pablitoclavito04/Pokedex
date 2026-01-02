@@ -10,13 +10,16 @@
 
 <main class="profile-page">
 
-  <!-- ========== BOTÓN VOLVER ========== -->
+  <!-- ========== HEADER: VOLVER Y EDITAR ========== -->
   <section class="profile-page__header">
     <button class="profile-page__back-btn" (click)="goBack()">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
         <path d="M19 12H5M12 19l-7-7 7-7"/>
       </svg>
       Volver
+    </button>
+    <button class="profile-page__edit-btn" routerLink="/settings">
+      Editar perfil
     </button>
   </section>
 
@@ -44,13 +47,6 @@
             <h1 class="profile-card__username">{{ user.username }}</h1>
             <p class="profile-card__display-name">{{ user.displayName }}</p>
           </div>
-        </div>
-
-        <!-- Botón de acción -->
-        <div class="profile-card__actions">
-          <button class="profile-card__action-btn profile-card__action-btn--settings" routerLink="/settings">
-            Editar perfil
-          </button>
         </div>
 
       </div>
@@ -90,11 +86,7 @@
       <!-- Pokémon favoritos -->
       <div id="favoritos" class="profile-card__section">
         <h2 class="profile-card__section-title">Mis Pokémon favoritos</h2>
-        @if (isLoadingFavorites) {
-          <div class="profile-card__favorites-loading">
-            <span>Cargando favoritos...</span>
-          </div>
-        } @else if (favoritePokemon.length === 0) {
+        @if (favoritePokemon.length === 0) {
           <div class="profile-card__favorites-empty">
             <p class="profile-card__favorites-empty-text">No tienes ningún Pokémon favorito. Que pena.</p>
           </div>

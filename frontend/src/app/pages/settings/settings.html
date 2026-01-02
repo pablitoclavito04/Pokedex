@@ -281,36 +281,6 @@
 
       <div class="settings-page__divider"></div>
 
-      <!-- Preferencias -->
-      <section class="settings-preferences">
-        <h2 class="settings-preferences__title">Preferencias</h2>
-
-        <!-- Idioma -->
-        <div class="settings-field">
-          <label class="settings-field__label" for="language">Idioma</label>
-          <div class="settings-field__select-wrapper">
-            <select
-              id="language"
-              class="settings-field__select"
-              [(ngModel)]="profileData.language"
-              (ngModelChange)="onFieldChange()"
-              (click)="onSelectClick('language')"
-              (blur)="onSelectBlur('language')">
-              @for (lang of languageOptions; track lang) {
-                <option [value]="lang">{{ lang }}</option>
-              }
-            </select>
-            <span class="settings-field__select-icon" [class.settings-field__select-icon--open]="selectStates['language']">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <polyline points="6 9 12 15 18 9"/>
-              </svg>
-            </span>
-          </div>
-        </div>
-      </section>
-
-      <div class="settings-page__divider"></div>
-
       <!-- Zona de peligro -->
       <section class="settings-danger">
         <h2 class="settings-danger__title">Zona de peligro</h2>

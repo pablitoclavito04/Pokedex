@@ -20,10 +20,10 @@ $difficulty-expert: #ef4444;
   min-height: 100vh;
   background: url('/Imagen quiz.png') no-repeat center center;
   background-size: cover;
-  padding: $spacing-4;
-  padding-bottom: $spacing-16;
+  padding: $spacing-3;
+  padding-bottom: $spacing-12;
   position: relative;
-  overflow: hidden;
+  overflow-x: hidden; // Prevenir scroll horizontal
 
   // Capa de opacidad sobre el fondo
   &::before {
@@ -35,6 +35,11 @@ $difficulty-expert: #ef4444;
     bottom: 0;
     background: rgba(0, 0, 0, 0.6);
     z-index: 0;
+  }
+
+  @include respond-to('sm') {
+    padding: $spacing-4;
+    padding-bottom: $spacing-16;
   }
 
   @include respond-to('md') {
@@ -50,9 +55,13 @@ $difficulty-expert: #ef4444;
   &__header {
     max-width: 600px;
     width: 100%;
-    margin: 0 auto $spacing-6;
+    margin: 0 auto $spacing-4;
     position: relative;
     z-index: 1;
+
+    @include respond-to('sm') {
+      margin-bottom: $spacing-6;
+    }
 
     @include respond-to('md') {
       position: absolute;
@@ -68,8 +77,8 @@ $difficulty-expert: #ef4444;
     display: inline-flex;
     align-items: center;
     gap: $spacing-2;
-    padding: $spacing-3 $spacing-5;
-    font-size: $font-size-sm;
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-xs;
     font-weight: $font-weight-medium;
     color: var(--text-primary);
     background: var(--bg-secondary);
@@ -78,11 +87,21 @@ $difficulty-expert: #ef4444;
     cursor: pointer;
     transition: all 0.3s ease;
 
+    @include respond-to('sm') {
+      padding: $spacing-3 $spacing-5;
+      font-size: $font-size-sm;
+    }
+
     svg {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       stroke: var(--text-primary);
       transition: stroke 0.3s ease;
+
+      @include respond-to('sm') {
+        width: 18px;
+        height: 18px;
+      }
     }
 
     &:hover {
@@ -108,17 +127,25 @@ $difficulty-expert: #ef4444;
   margin: 0 auto;
   background: var(--bg-secondary);
   border: 1px solid var(--border-primary);
-  border-radius: $border-radius-2xl;
+  border-radius: $border-radius-xl;
   overflow: hidden;
   position: relative;
   z-index: 1;
   box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
 
+  @include respond-to('sm') {
+    border-radius: $border-radius-2xl;
+  }
+
   // ========== HEADER ==========
   &__header {
     text-align: center;
-    padding: $spacing-8 $spacing-6 $spacing-6;
+    padding: $spacing-5 $spacing-4 $spacing-4;
     border-bottom: 1px solid var(--border-primary);
+
+    @include respond-to('sm') {
+      padding: $spacing-6 $spacing-6 $spacing-5;
+    }
 
     @include respond-to('md') {
       padding: $spacing-10 $spacing-8 $spacing-8;
@@ -126,12 +153,18 @@ $difficulty-expert: #ef4444;
   }
 
   &__icon {
-    width: 80px;
-    height: 80px;
-    margin: 0 auto $spacing-4;
+    width: 60px;
+    height: 60px;
+    margin: 0 auto $spacing-3;
     display: flex;
     align-items: center;
     justify-content: center;
+
+    @include respond-to('sm') {
+      width: 80px;
+      height: 80px;
+      margin-bottom: $spacing-4;
+    }
 
     @include respond-to('md') {
       width: 100px;
@@ -148,10 +181,15 @@ $difficulty-expert: #ef4444;
 
   &__title {
     font-family: $font-secondary;
-    font-size: $font-size-2xl;
+    font-size: $font-size-xl;
     font-weight: $font-weight-bold;
     color: var(--text-primary);
-    margin: 0 0 $spacing-3;
+    margin: 0 0 $spacing-2;
+
+    @include respond-to('sm') {
+      font-size: $font-size-2xl;
+      margin-bottom: $spacing-3;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-3xl;
@@ -159,13 +197,18 @@ $difficulty-expert: #ef4444;
   }
 
   &__description {
-    font-size: $font-size-sm;
-    line-height: 1.6;
+    font-size: $font-size-xs;
+    line-height: 1.5;
     color: var(--text-secondary);
     margin: 0;
     max-width: 500px;
     margin-left: auto;
     margin-right: auto;
+
+    @include respond-to('sm') {
+      font-size: $font-size-sm;
+      line-height: 1.6;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-base;
@@ -174,7 +217,11 @@ $difficulty-expert: #ef4444;
 
   // ========== CONTENIDO ==========
   &__content {
-    padding: $spacing-6;
+    padding: $spacing-4;
+
+    @include respond-to('sm') {
+      padding: $spacing-6;
+    }
 
     @include respond-to('md') {
       padding: $spacing-8;
@@ -182,7 +229,11 @@ $difficulty-expert: #ef4444;
   }
 
   &__section {
-    margin-bottom: $spacing-8;
+    margin-bottom: $spacing-6;
+
+    @include respond-to('sm') {
+      margin-bottom: $spacing-8;
+    }
 
     &:last-child {
       margin-bottom: 0;
@@ -190,12 +241,17 @@ $difficulty-expert: #ef4444;
   }
 
   &__section-title {
-    font-size: $font-size-xs;
+    font-size: 10px;
     font-weight: $font-weight-semibold;
     color: var(--text-tertiary);
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    margin: 0 0 $spacing-4;
+    margin: 0 0 $spacing-3;
+
+    @include respond-to('sm') {
+      font-size: $font-size-xs;
+      margin-bottom: $spacing-4;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-sm;
@@ -204,9 +260,14 @@ $difficulty-expert: #ef4444;
 
   // ========== FOOTER ==========
   &__footer {
-    padding: $spacing-6;
+    padding: $spacing-4;
     padding-top: 0;
     text-align: center;
+
+    @include respond-to('sm') {
+      padding: $spacing-6;
+      padding-top: 0;
+    }
 
     @include respond-to('md') {
       padding: $spacing-8;
@@ -219,9 +280,9 @@ $difficulty-expert: #ef4444;
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: $spacing-3;
-    padding: $spacing-4 $spacing-8;
-    font-size: $font-size-base;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-sm;
     font-weight: $font-weight-bold;
     color: #ffffff;
     background: linear-gradient(135deg, #4CAF50, #43A047);
@@ -231,15 +292,26 @@ $difficulty-expert: #ef4444;
     transition: all 0.3s ease;
     box-shadow: 0 4px 15px rgba(76, 175, 80, 0.3);
 
+    @include respond-to('sm') {
+      padding: $spacing-4 $spacing-8;
+      font-size: $font-size-base;
+      gap: $spacing-3;
+    }
+
     @include respond-to('md') {
       font-size: $font-size-lg;
       padding: $spacing-5 $spacing-10;
     }
 
     svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       transition: transform 0.3s ease;
+
+      @include respond-to('sm') {
+        width: 20px;
+        height: 20px;
+      }
 
       @include respond-to('md') {
         width: 24px;
@@ -272,18 +344,28 @@ $difficulty-expert: #ef4444;
     display: inline-flex;
     align-items: center;
     gap: $spacing-2;
-    margin-top: $spacing-4;
-    font-size: $font-size-xs;
+    margin-top: $spacing-3;
+    font-size: 10px;
     color: var(--text-tertiary);
+
+    @include respond-to('sm') {
+      margin-top: $spacing-4;
+      font-size: $font-size-xs;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-sm;
     }
 
     svg {
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       opacity: 0.7;
+
+      @include respond-to('sm') {
+        width: 14px;
+        height: 14px;
+      }
 
       @include respond-to('md') {
         width: 16px;
@@ -299,19 +381,29 @@ $difficulty-expert: #ef4444;
 .difficulty-selector {
   display: flex;
   flex-direction: column;
-  gap: $spacing-3;
+  gap: $spacing-2;
+
+  @include respond-to('sm') {
+    gap: $spacing-3;
+  }
 
   &__item {
     display: flex;
     align-items: center;
-    gap: $spacing-4;
-    padding: $spacing-4;
+    gap: $spacing-3;
+    padding: $spacing-3;
     background: var(--bg-tertiary);
     border: 2px solid var(--border-primary);
-    border-radius: $border-radius-xl;
+    border-radius: $border-radius-lg;
     cursor: pointer;
     transition: all 0.2s ease;
     text-align: left;
+
+    @include respond-to('sm') {
+      gap: $spacing-4;
+      padding: $spacing-4;
+      border-radius: $border-radius-xl;
+    }
 
     &:hover {
       border-color: var(--border-secondary);
@@ -398,8 +490,8 @@ $difficulty-expert: #ef4444;
   }
 
   &__circle {
-    width: 24px;
-    height: 24px;
+    width: 20px;
+    height: 20px;
     border-radius: 50%;
     border: 2px solid var(--border-secondary);
     display: flex;
@@ -408,6 +500,11 @@ $difficulty-expert: #ef4444;
     flex-shrink: 0;
     transition: border-color 0.2s ease;
 
+    @include respond-to('sm') {
+      width: 24px;
+      height: 24px;
+    }
+
     @include respond-to('md') {
       width: 28px;
       height: 28px;
@@ -415,12 +512,17 @@ $difficulty-expert: #ef4444;
   }
 
   &__circle-inner {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     border-radius: 50%;
     background: transparent;
     transform: scale(0);
     transition: all 0.2s ease;
+
+    @include respond-to('sm') {
+      width: 12px;
+      height: 12px;
+    }
 
     @include respond-to('md') {
       width: 14px;
@@ -429,10 +531,14 @@ $difficulty-expert: #ef4444;
   }
 
   &__label {
-    font-size: $font-size-base;
+    font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
     color: var(--text-primary);
     transition: color 0.2s ease;
+
+    @include respond-to('sm') {
+      font-size: $font-size-base;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-lg;
@@ -441,12 +547,13 @@ $difficulty-expert: #ef4444;
 
   &__desc {
     margin-left: auto;
-    font-size: $font-size-xs;
+    font-size: 10px;
     color: var(--text-tertiary);
     display: none;
 
     @include respond-to('sm') {
       display: block;
+      font-size: $font-size-xs;
     }
 
     @include respond-to('md') {
@@ -461,19 +568,28 @@ $difficulty-expert: #ef4444;
 .questions-selector {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: $spacing-3;
+  gap: $spacing-2;
+
+  @include respond-to('sm') {
+    gap: $spacing-3;
+  }
 
   &__item {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: $spacing-4 $spacing-2;
+    padding: $spacing-3 $spacing-1;
     background: var(--bg-tertiary);
     border: 2px solid var(--border-primary);
-    border-radius: $border-radius-xl;
+    border-radius: $border-radius-lg;
     cursor: pointer;
     transition: all 0.2s ease;
+
+    @include respond-to('sm') {
+      padding: $spacing-4 $spacing-2;
+      border-radius: $border-radius-xl;
+    }
 
     @include respond-to('md') {
       padding: $spacing-5 $spacing-4;
@@ -513,11 +629,15 @@ $difficulty-expert: #ef4444;
   }
 
   &__number {
-    font-size: $font-size-xl;
+    font-size: $font-size-lg;
     font-weight: $font-weight-bold;
     color: var(--text-primary);
     line-height: 1;
     transition: color 0.2s ease;
+
+    @include respond-to('sm') {
+      font-size: $font-size-xl;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-2xl;
@@ -525,9 +645,15 @@ $difficulty-expert: #ef4444;
   }
 
   &__label {
-    font-size: $font-size-xs;
+    font-size: 9px;
     color: var(--text-tertiary);
-    margin-top: $spacing-1;
+    margin-top: 2px;
     transition: color 0.2s ease;
+
+    @include respond-to('sm') {
+      font-size: $font-size-xs;
+      margin-top: $spacing-1;
+    }
   }
 }
+

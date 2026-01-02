@@ -9,10 +9,11 @@ import { Router, RouterLink } from '@angular/router';
 import { UserService } from '../../../services/user.service';
 import { LoadingService } from '../../../services/loading.service';
 import { AuthService } from '../../../services/auth.service';
+import { CustomSelectComponent, CustomSelectOption } from '../../../components/shared/custom-select/custom-select';
 
 @Component({
   selector: 'app-register',
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, CustomSelectComponent],
   templateUrl: './register.html',
   styleUrl: './register.scss'
 })
@@ -28,11 +29,17 @@ export class RegisterComponent {
     const currentYear = new Date().getFullYear();
     for (let year = currentYear; year >= 1920; year--) {
       this.years.push(year);
+      this.yearOptions.push({ value: year, label: year.toString() });
     }
     // Generar días (1-31)
     for (let day = 1; day <= 31; day++) {
       this.days.push(day);
+      this.dayOptions.push({ value: day, label: day.toString() });
     }
+    // Generar opciones de meses
+    this.monthOptions = this.months.map(m => ({ value: m.value, label: m.label }));
+    // Generar opciones de países
+    this.countryOptions = this.countries.map(c => ({ value: c, label: c }));
   }
 
   // ========== ESTADO DEL FORMULARIO ==========
@@ -102,6 +109,12 @@ export class RegisterComponent {
     { value: '12', label: 'Diciembre' }
   ];
   days: number[] = [];
+
+  // Opciones para los custom selects
+  dayOptions: CustomSelectOption[] = [];
+  monthOptions: CustomSelectOption[] = [];
+  yearOptions: CustomSelectOption[] = [];
+  countryOptions: CustomSelectOption[] = [];
 
   errors: Record<string, string> = {};
   hasAttemptedSubmit = false;

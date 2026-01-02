@@ -1,0 +1,304 @@
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+.custom-select {
+  position: relative;
+  width: 100%;
+
+  // ========== TRIGGER ==========
+  &__trigger {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    padding: $spacing-3;
+    padding-right: $spacing-8;
+    font-size: $font-size-sm;
+    font-family: inherit;
+    color: #ffffff;
+    background: #374151;
+    border: 2px solid transparent;
+    border-radius: $border-radius-lg;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: left;
+    min-height: 44px;
+
+    &:hover:not(:disabled) {
+      border-color: rgba(255, 255, 255, 0.3);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: #30A7D7;
+      box-shadow: 0 0 0 2px rgba(48, 167, 215, 0.3);
+    }
+
+    &:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  &__value {
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    &--placeholder {
+      color: rgba(255, 255, 255, 0.5);
+    }
+  }
+
+  &__arrow {
+    position: absolute;
+    right: $spacing-3;
+    width: 20px;
+    height: 20px;
+    color: #ffffff;
+    transition: transform 0.2s ease;
+    pointer-events: none;
+  }
+
+  // ========== DROPDOWN ==========
+  &__dropdown {
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    min-width: 100%;
+    width: max-content;
+    z-index: 100;
+    background: #374151;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: $border-radius-lg;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    animation: dropdownOpen 0.15s ease-out;
+  }
+
+  // Contenedor con sombras de scroll
+  &__options-wrapper {
+    position: relative;
+    
+    // Sombra superior - indica que hay contenido arriba
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 10px; // Dejar espacio para el scrollbar
+      height: 24px;
+      background: linear-gradient(
+        to bottom,
+        #374151 0%,
+        #374151 20%,
+        rgba(55, 65, 81, 0) 100%
+      );
+      border-radius: $border-radius-lg $border-radius-lg 0 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+
+    // Sombra inferior - indica que hay contenido abajo
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 10px; // Dejar espacio para el scrollbar
+      height: 24px;
+      background: linear-gradient(
+        to top,
+        #374151 0%,
+        #374151 20%,
+        rgba(55, 65, 81, 0) 100%
+      );
+      border-radius: 0 0 $border-radius-lg $border-radius-lg;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 1; // Visible por defecto (asumiendo que hay scroll)
+      transition: opacity 0.2s ease;
+    }
+
+    // Clases para controlar las sombras via JS
+    &--scrolled-top::before {
+      opacity: 1;
+    }
+
+    &--scrolled-bottom::after {
+      opacity: 0;
+    }
+
+    // Si no hay scroll, ocultar ambas sombras
+    &--no-scroll {
+      &::before,
+      &::after {
+        opacity: 0;
+      }
+    }
+  }
+
+  &__options {
+    max-height: 200px;
+    overflow-y: scroll;
+    padding: $spacing-1;
+    padding-right: 18px; // Más espacio para el scrollbar custom
+
+    // Ocultar scrollbar nativo en todos los navegadores
+    // pero mantener funcionalidad de scroll
+    &::-webkit-scrollbar {
+      width: 0;
+      display: none;
+    }
+
+    // Firefox - ocultar scrollbar
+    scrollbar-width: none;
+    
+    // IE/Edge legacy
+    -ms-overflow-style: none;
+    
+    // Mantener scroll suave en móviles
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  // Scrollbar custom visible siempre
+  &__scrollbar {
+    position: absolute;
+    top: 4px;
+    right: 6px;
+    bottom: 4px;
+    width: 6px;
+    background: #4B5563;
+    border-radius: 3px;
+    z-index: 3;
+    
+    &-thumb {
+      position: absolute;
+      width: 100%;
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 3px;
+      min-height: 30px;
+      cursor: pointer;
+      transition: background 0.15s ease;
+      
+      &:hover {
+        background: rgba(255, 255, 255, 0.7);
+      }
+    }
+  }
+
+  &__option {
+    display: block;
+    width: 100%;
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-sm;
+    font-family: inherit;
+    color: #ffffff;
+    background: transparent;
+    border: none;
+    border-radius: $border-radius-md;
+    cursor: pointer;
+    text-align: left;
+    transition: background 0.15s ease;
+    white-space: nowrap; // No cortar texto
+    overflow: visible; // Permitir que se vea todo
+
+    &:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    &--selected {
+      background: #30A7D7;
+      color: #ffffff;
+
+      &:hover:not(:disabled) {
+        background: #2896c4;
+      }
+    }
+
+    &--disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // ========== ESTADOS ==========
+  &--open {
+    .custom-select__arrow {
+      transform: rotate(180deg);
+    }
+
+    .custom-select__trigger {
+      border-color: #30A7D7;
+    }
+  }
+
+  &--error {
+    .custom-select__trigger {
+      border-color: #EF4444;
+
+      &:focus {
+        border-color: #EF4444;
+        box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.3);
+      }
+    }
+  }
+
+  &--disabled {
+    .custom-select__trigger {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+  }
+
+  // ========== ABRIR HACIA ARRIBA ==========
+  &--upward {
+    .custom-select__dropdown {
+      top: auto;
+      bottom: calc(100% + 4px);
+      animation: dropdownOpenUpward 0.15s ease-out;
+    }
+
+    // Invertir las sombras cuando abre hacia arriba
+    .custom-select__options-wrapper {
+      &::before {
+        opacity: 1;
+      }
+      &::after {
+        opacity: 0;
+      }
+
+      &--scrolled-top::before {
+        opacity: 1;
+      }
+
+      &--scrolled-bottom::after {
+        opacity: 1;
+      }
+    }
+  }
+}
+
+@keyframes dropdownOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes dropdownOpenUpward {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

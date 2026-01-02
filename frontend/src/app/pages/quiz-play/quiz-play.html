@@ -5,7 +5,7 @@
 <main class="quiz-play">
 
   <!-- Botón Salir en la esquina superior izquierda -->
-  <button class="quiz-play__exit-btn" (click)="openExitModal()">
+  <button class="quiz-play__exit-btn" (click)="openExitModal()" [disabled]="isFinishing">
     Salir del Quiz
   </button>
 
@@ -36,7 +36,7 @@
     }
 
     <!-- Contenido de la pregunta -->
-    @if (!isLoading && currentQuestion) {
+    @if (!isLoading && currentQuestion && !isFinishing) {
       <div class="quiz-play__content">
 
         <!-- Pregunta -->

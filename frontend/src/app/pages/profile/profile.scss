@@ -22,8 +22,11 @@
     padding-bottom: $spacing-16;
   }
 
-  // ========== HEADER CON BOTÓN VOLVER ==========
+  // ========== HEADER CON BOTÓN VOLVER Y EDITAR ==========
   &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     max-width: 900px;
     margin: 0 auto $spacing-6;
 
@@ -56,6 +59,36 @@
       height: 18px;
       stroke: var(--text-primary);
       transition: stroke 0.3s ease;
+    }
+
+    &:hover {
+      background: var(--bg-tertiary);
+      border-color: var(--border-secondary);
+
+      :host-context(.dark-theme) & {
+        background: #2F4467;
+        border-color: #64748b;
+      }
+    }
+  }
+
+  &__edit-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-5;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--text-primary);
+    background: var(--bg-secondary);
+    border: 2px solid var(--border-secondary);
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+
+    :host-context(.dark-theme) & {
+      background: #1C2739;
+      border-color: #3d5a80;
     }
 
     &:hover {
@@ -494,14 +527,16 @@
   &__favorites-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: $spacing-4;
+    gap: $spacing-2;
 
     @include respond-to('sm') {
       grid-template-columns: repeat(4, 1fr);
+      gap: $spacing-3;
     }
 
     @include respond-to('md') {
       grid-template-columns: repeat(6, 1fr);
+      gap: $spacing-4;
     }
   }
 
@@ -509,13 +544,19 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: $spacing-2;
-    padding: $spacing-3;
+    gap: $spacing-1;
+    padding: $spacing-2;
     background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
     border: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
     border-radius: $border-radius-lg;
     cursor: pointer;
     transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    overflow: hidden;
+
+    @include respond-to('sm') {
+      padding: $spacing-3;
+      gap: $spacing-2;
+    }
 
     &:hover {
       transform: scale(1.05);
@@ -553,6 +594,11 @@
     color: var(--text-primary, #{map-get($dark-theme, text-primary)});
     text-align: center;
     text-transform: capitalize;
+    width: 100%;
+    line-height: 1.2;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 
     @include respond-to('md') {
       font-size: $font-size-sm;

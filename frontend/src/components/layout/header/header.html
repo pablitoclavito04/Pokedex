@@ -8,14 +8,14 @@
     <!-- ========== LOGO ========== -->
     <!-- El logo es un enlace a la página principal -->
     <a routerLink="/" class="header__logo" aria-label="Ir a la página principal">
-  <!-- Logo Pokéball -->
-  <img
-    src="favicon.png"
-    alt="Pokéball"
-    class="header__logo-icon"
-    aria-hidden="true">
-  <span class="header__logo-text">{{ title }}</span>
-</a>
+      <!-- Logo Pokéball -->
+      <img
+        src="favicon.png"
+        alt="Pokéball"
+        class="header__logo-icon"
+        aria-hidden="true">
+      <span class="header__logo-text">{{ title }}</span>
+    </a>
     
     <!-- ========== NAVEGACIÓN PRINCIPAL ========== -->
     <!-- Elemento semántico <nav> para la navegación (oculto en modo quiz) -->
@@ -96,7 +96,7 @@
       }
 
       <!-- Botones de autenticación (cuando no está logueado en rutas de la app) -->
-      @if (showThemeButton && !isAuthenticated()) {
+      @if (isAppRoute && !isAuthenticated() && !isLandingPage) {
         <div class="header__auth-buttons">
           <a routerLink="/login" class="header__auth-btn header__auth-btn--login">
             Iniciar sesión
@@ -118,7 +118,7 @@
           </svg>
         </a>
 
-        <!-- Botón de cerrar sesión -->
+        <!-- Botón de cerrar sesión (solo desktop) -->
         <button
           class="header__action-btn header__logout-btn"
           (click)="openLogoutModal()"
@@ -132,8 +132,8 @@
         </button>
       }
 
-      <!-- Botón menú hamburguesa (solo móvil, oculto en modo quiz) -->
-      @if (!isQuizMode) {
+      <!-- Botón menú hamburguesa (solo móvil, en rutas de la app) -->
+      @if (showHamburgerMenu) {
         <button #menuButton
                 class="header__menu-btn"
                 (click)="toggleMenu()"

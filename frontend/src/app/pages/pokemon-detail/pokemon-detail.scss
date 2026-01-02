@@ -15,6 +15,7 @@
   padding: 0;
   padding-bottom: $spacing-16;
   position: relative;
+  overflow-x: hidden; // Prevenir scroll horizontal
 
   // Patrón de líneas diagonales de fondo
   &::before {
@@ -59,11 +60,16 @@
   display: flex;
   justify-content: space-between;
   align-items: stretch;
+  width: 100%;
   max-width: 100%;
   margin: 0 0 $spacing-4;
   background: transparent;
   position: relative;
-  height: 56px;
+  height: 50px;
+
+  @include respond-to('sm') {
+    height: 56px;
+  }
 
   @include respond-to('md') {
     margin-bottom: $spacing-6;
@@ -74,8 +80,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: $spacing-3;
-    padding: $spacing-3 $spacing-5;
+    gap: $spacing-1;
+    padding: $spacing-2 $spacing-3;
     background: #3174F1;
     border: none;
     cursor: pointer;
@@ -87,6 +93,11 @@
     :host-context(.dark-theme) & {
       background: #2563EB;
       box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+    }
+
+    @include respond-to('sm') {
+      gap: $spacing-2;
+      padding: $spacing-3 $spacing-4;
     }
 
     @include respond-to('md') {
@@ -113,12 +124,17 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 24px;
+    height: 24px;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.2);
     flex-shrink: 0;
     transition: background 0.2s ease;
+
+    @include respond-to('sm') {
+      width: 28px;
+      height: 28px;
+    }
 
     @include respond-to('md') {
       width: 36px;
@@ -126,10 +142,15 @@
     }
 
     svg {
-      width: 18px;
-      height: 18px;
+      width: 14px;
+      height: 14px;
       stroke: #ffffff;
       stroke-width: 2.5;
+
+      @include respond-to('sm') {
+        width: 16px;
+        height: 16px;
+      }
 
       @include respond-to('md') {
         width: 20px;
@@ -143,12 +164,19 @@
   }
 
   &__btn--prev {
-    justify-content: center;
-    padding-left: $spacing-4;
-    padding-right: $spacing-10;
-    width: 44%;
-    clip-path: polygon(0 0, 100% 0, calc(100% - 30px) 100%, 0 100%);
+    justify-content: flex-start;
+    padding-left: $spacing-2;
+    padding-right: $spacing-6;
+    width: 48%;
+    clip-path: polygon(0 0, 100% 0, calc(100% - 20px) 100%, 0 100%);
     border-radius: 0;
+
+    @include respond-to('sm') {
+      padding-left: $spacing-3;
+      padding-right: $spacing-8;
+      width: 46%;
+      clip-path: polygon(0 0, 100% 0, calc(100% - 25px) 100%, 0 100%);
+    }
 
     @include respond-to('md') {
       padding-left: $spacing-6;
@@ -159,12 +187,19 @@
   }
 
   &__btn--next {
-    justify-content: center;
-    padding-right: $spacing-4;
-    padding-left: $spacing-10;
-    width: 44%;
-    clip-path: polygon(30px 0, 100% 0, 100% 100%, 0 100%);
+    justify-content: flex-end;
+    padding-right: $spacing-2;
+    padding-left: $spacing-6;
+    width: 48%;
+    clip-path: polygon(20px 0, 100% 0, 100% 100%, 0 100%);
     border-radius: 0;
+
+    @include respond-to('sm') {
+      padding-right: $spacing-3;
+      padding-left: $spacing-8;
+      width: 46%;
+      clip-path: polygon(25px 0, 100% 0, 100% 100%, 0 100%);
+    }
 
     @include respond-to('md') {
       padding-right: $spacing-6;
@@ -176,19 +211,41 @@
 
   &__info {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: $spacing-2;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+    min-width: 0; // Permitir truncado
+    overflow: hidden;
+
+    @include respond-to('sm') {
+      flex-direction: row;
+      align-items: center;
+      gap: $spacing-2;
+    }
 
     @include respond-to('md') {
       gap: $spacing-3;
     }
   }
 
+  // Para el botón next, alinear a la derecha
+  &__btn--next &__info {
+    align-items: flex-end;
+
+    @include respond-to('sm') {
+      align-items: center;
+    }
+  }
+
   &__id {
-    font-size: $font-size-sm;
+    font-size: 9px;
     font-weight: $font-weight-semibold;
-    color: rgba(255, 255, 255, 0.8);
+    color: rgba(255, 255, 255, 0.7);
+    white-space: nowrap;
+
+    @include respond-to('sm') {
+      font-size: $font-size-xs;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-base;
@@ -196,13 +253,23 @@
   }
 
   &__name {
-    font-size: $font-size-base;
+    font-size: 11px;
     font-weight: $font-weight-bold;
     color: #ffffff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 80px;
+
+    @include respond-to('sm') {
+      font-size: $font-size-sm;
+      max-width: 120px;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-lg;
+      max-width: none;
     }
   }
 }
@@ -212,9 +279,13 @@
 // ============================================================================
 .pokemon-header {
   text-align: center;
-  padding: $spacing-4 $spacing-4;
+  padding: $spacing-3 $spacing-3;
   max-width: 1200px;
   margin: 0 auto;
+
+  @include respond-to('sm') {
+    padding: $spacing-4 $spacing-4;
+  }
 
   @include respond-to('md') {
     padding: $spacing-6 $spacing-8;
@@ -224,15 +295,24 @@
     display: flex;
     align-items: baseline;
     justify-content: center;
-    gap: $spacing-3;
+    gap: $spacing-2;
     margin: 0;
+    flex-wrap: wrap;
+
+    @include respond-to('sm') {
+      gap: $spacing-3;
+    }
   }
 
   &__name {
-    font-size: $font-size-3xl;
+    font-size: $font-size-2xl;
     font-weight: $font-weight-bold;
     color: var(--text-primary);
     text-transform: capitalize;
+
+    @include respond-to('sm') {
+      font-size: $font-size-3xl;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-4xl;
@@ -240,9 +320,13 @@
   }
 
   &__id {
-    font-size: $font-size-xl;
+    font-size: $font-size-base;
     font-weight: $font-weight-semibold;
     color: var(--text-tertiary);
+
+    @include respond-to('sm') {
+      font-size: $font-size-xl;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-2xl;
@@ -256,10 +340,15 @@
 .pokemon-content {
   display: grid;
   grid-template-columns: 1fr;
-  gap: $spacing-6;
+  gap: $spacing-4;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 $spacing-4;
+  padding: 0 $spacing-3;
+
+  @include respond-to('sm') {
+    gap: $spacing-6;
+    padding: 0 $spacing-4;
+  }
 
   @include respond-to('md') {
     grid-template-columns: 1fr 1fr;
@@ -271,13 +360,21 @@
   &__left {
     display: flex;
     flex-direction: column;
-    gap: $spacing-6;
+    gap: $spacing-4;
+
+    @include respond-to('md') {
+      gap: $spacing-6;
+    }
   }
 
   &__right {
     display: flex;
     flex-direction: column;
-    gap: $spacing-5;
+    gap: $spacing-4;
+
+    @include respond-to('md') {
+      gap: $spacing-5;
+    }
   }
 }
 
@@ -290,9 +387,13 @@
   align-items: center;
   background: var(--bg-secondary);
   border-radius: $border-radius-xl;
-  padding: $spacing-8;
+  padding: $spacing-6;
   position: relative;
   overflow: hidden;
+
+  @include respond-to('sm') {
+    padding: $spacing-8;
+  }
 
   // Fondo del cuadro
   &::before {
@@ -312,11 +413,15 @@
 
   &__img {
     width: 100%;
-    max-width: 300px;
+    max-width: 220px;
     height: auto;
     position: relative;
     z-index: 1;
     filter: drop-shadow(0 4px 20px rgba(0, 0, 0, 0.3));
+
+    @include respond-to('sm') {
+      max-width: 300px;
+    }
 
     @include respond-to('md') {
       max-width: 400px;
@@ -328,13 +433,19 @@
 //                      DESCRIPCIÓN
 // ============================================================================
 .pokemon-description {
-  font-size: $font-size-base;
-  line-height: 1.7;
+  font-size: $font-size-sm;
+  line-height: 1.6;
   color: var(--text-secondary);
   margin: 0;
-  padding: $spacing-4;
+  padding: $spacing-3;
   background: var(--bg-secondary);
   border-radius: $border-radius-lg;
+
+  @include respond-to('sm') {
+    font-size: $font-size-base;
+    padding: $spacing-4;
+    line-height: 1.7;
+  }
 
   @include respond-to('md') {
     font-size: $font-size-lg;
@@ -348,15 +459,20 @@
 .pokemon-info-card {
   background: linear-gradient(135deg, #30A7D7 0%, #2090C0 100%);
   border-radius: $border-radius-xl;
-  padding: $spacing-5;
+  padding: $spacing-3;
   display: flex;
   flex-direction: column;
-  gap: $spacing-4;
+  gap: $spacing-3;
   box-shadow: 0 4px 15px rgba(48, 167, 215, 0.3);
 
   :host-context(.dark-theme) & {
     background: linear-gradient(135deg, #1E3A5F 0%, #162D4A 100%);
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+  }
+
+  @include respond-to('sm') {
+    padding: $spacing-4;
+    gap: $spacing-4;
   }
 
   @include respond-to('md') {
@@ -366,21 +482,34 @@
   &__row {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: $spacing-4;
+    gap: $spacing-3;
+
+    @include respond-to('sm') {
+      gap: $spacing-4;
+    }
   }
 
   &__item {
     display: flex;
     flex-direction: column;
-    gap: $spacing-1;
+    gap: 2px;
+
+    @include respond-to('sm') {
+      gap: $spacing-1;
+    }
   }
 
   &__label {
-    font-size: $font-size-xs;
+    font-size: 10px;
     font-weight: $font-weight-medium;
     color: rgba(255, 255, 255, 0.75);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
+    letter-spacing: 0.3px;
+
+    @include respond-to('sm') {
+      font-size: $font-size-xs;
+      letter-spacing: 0.5px;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-sm;
@@ -388,9 +517,13 @@
   }
 
   &__value {
-    font-size: $font-size-lg;
+    font-size: $font-size-sm;
     font-weight: $font-weight-bold;
     color: #ffffff;
+
+    @include respond-to('sm') {
+      font-size: $font-size-base;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-xl;
@@ -403,9 +536,13 @@
   }
 
   &__gender {
-    font-size: $font-size-2xl;
+    font-size: $font-size-xl;
     font-weight: 900;
     -webkit-text-stroke: 1px currentColor;
+
+    @include respond-to('sm') {
+      font-size: $font-size-2xl;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-3xl;
@@ -421,12 +558,16 @@
 
     &--none {
       color: #1E5A7A;
-      font-size: $font-size-lg;
+      font-size: $font-size-sm;
       font-weight: $font-weight-bold;
       -webkit-text-stroke: 0;
 
       :host-context(.dark-theme) & {
         color: #ffffff;
+      }
+
+      @include respond-to('sm') {
+        font-size: $font-size-base;
       }
 
       @include respond-to('md') {
@@ -442,7 +583,11 @@
 .pokemon-type-weakness {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: $spacing-4;
+  gap: $spacing-3;
+
+  @include respond-to('sm') {
+    gap: $spacing-4;
+  }
 
   @include respond-to('md') {
     gap: $spacing-6;
@@ -451,16 +596,24 @@
   &__section {
     display: flex;
     flex-direction: column;
-    gap: $spacing-3;
+    gap: $spacing-2;
+
+    @include respond-to('sm') {
+      gap: $spacing-3;
+    }
   }
 
   &__title {
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
     color: var(--text-tertiary);
     margin: 0;
     text-transform: uppercase;
     letter-spacing: 0.5px;
+
+    @include respond-to('sm') {
+      font-size: $font-size-sm;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-base;
@@ -470,20 +623,30 @@
   &__list {
     display: flex;
     flex-wrap: wrap;
-    gap: $spacing-2;
+    gap: $spacing-1;
+
+    @include respond-to('sm') {
+      gap: $spacing-2;
+    }
   }
 
   &__badge {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: $spacing-2 $spacing-3;
-    border-radius: $border-radius-md;
-    font-size: $font-size-xs;
+    padding: $spacing-1 $spacing-2;
+    border-radius: $border-radius-sm;
+    font-size: 10px;
     font-weight: $font-weight-semibold;
     color: #ffffff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
+
+    @include respond-to('sm') {
+      padding: $spacing-2 $spacing-3;
+      font-size: $font-size-xs;
+      border-radius: $border-radius-md;
+    }
 
     @include respond-to('md') {
       padding: $spacing-2 $spacing-4;
@@ -497,8 +660,13 @@
 // ============================================================================
 .pokemon-stats-section {
   max-width: 1200px;
-  margin: $spacing-8 auto 0;
-  padding: 0 $spacing-4;
+  margin: $spacing-6 auto 0;
+  padding: 0 $spacing-3;
+
+  @include respond-to('sm') {
+    padding: 0 $spacing-4;
+    margin-top: $spacing-8;
+  }
 
   @include respond-to('md') {
     padding: 0 $spacing-8;
@@ -506,10 +674,15 @@
   }
 
   &__title {
-    font-size: $font-size-xl;
+    font-size: $font-size-lg;
     font-weight: $font-weight-bold;
     color: var(--text-primary);
-    margin: 0 0 $spacing-4;
+    margin: 0 0 $spacing-3;
+
+    @include respond-to('sm') {
+      font-size: $font-size-xl;
+      margin-bottom: $spacing-4;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-2xl;
@@ -521,8 +694,12 @@
 .pokemon-stats {
   background: var(--bg-secondary);
   border-radius: $border-radius-xl;
-  padding: $spacing-5;
+  padding: $spacing-3;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+
+  @include respond-to('sm') {
+    padding: $spacing-5;
+  }
 
   @include respond-to('md') {
     padding: $spacing-8;
@@ -531,14 +708,27 @@
   &__grid {
     display: flex;
     flex-direction: column;
-    gap: $spacing-4;
+    gap: $spacing-2;
+
+    @include respond-to('sm') {
+      gap: $spacing-3;
+    }
+
+    @include respond-to('md') {
+      gap: $spacing-4;
+    }
   }
 
   &__row {
     display: grid;
-    grid-template-columns: 90px 1fr 50px;
+    grid-template-columns: 55px 1fr 35px;
     align-items: center;
-    gap: $spacing-3;
+    gap: $spacing-2;
+
+    @include respond-to('sm') {
+      grid-template-columns: 80px 1fr 45px;
+      gap: $spacing-3;
+    }
 
     @include respond-to('md') {
       grid-template-columns: 120px 1fr 60px;
@@ -546,17 +736,26 @@
     }
 
     &--total {
-      margin-top: $spacing-3;
-      padding-top: $spacing-4;
+      margin-top: $spacing-2;
+      padding-top: $spacing-3;
       border-top: 2px solid var(--border-secondary);
+
+      @include respond-to('sm') {
+        margin-top: $spacing-3;
+        padding-top: $spacing-4;
+      }
     }
   }
 
   &__label {
-    font-size: $font-size-sm;
+    font-size: 10px;
     font-weight: $font-weight-semibold;
     color: var(--text-secondary);
-    text-align: right;
+    text-align: left;
+
+    @include respond-to('sm') {
+      font-size: $font-size-xs;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-base;
@@ -564,13 +763,17 @@
   }
 
   &__bar-container {
-    height: 12px;
+    height: 8px;
     background: #C8D6E5;
     border-radius: $border-radius-full;
     overflow: hidden;
 
     :host-context(.dark-theme) & {
       background: #3E4757;
+    }
+
+    @include respond-to('sm') {
+      height: 12px;
     }
 
     @include respond-to('md') {
@@ -599,10 +802,14 @@
   }
 
   &__value {
-    font-size: $font-size-base;
+    font-size: $font-size-xs;
     font-weight: $font-weight-bold;
     color: var(--text-primary);
     text-align: right;
+
+    @include respond-to('sm') {
+      font-size: $font-size-sm;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-lg;
@@ -610,7 +817,11 @@
 
     &--total {
       color: #3B82F6;
-      font-size: $font-size-lg;
+      font-size: $font-size-sm;
+
+      @include respond-to('sm') {
+        font-size: $font-size-base;
+      }
 
       @include respond-to('md') {
         font-size: $font-size-xl;
@@ -624,8 +835,13 @@
 // ============================================================================
 .pokemon-evolutions {
   max-width: 1200px;
-  margin: $spacing-8 auto 0;
-  padding: 0 $spacing-4;
+  margin: $spacing-6 auto 0;
+  padding: 0 $spacing-3;
+
+  @include respond-to('sm') {
+    padding: 0 $spacing-4;
+    margin-top: $spacing-8;
+  }
 
   @include respond-to('md') {
     padding: 0 $spacing-8;
@@ -633,33 +849,48 @@
   }
 
   &__title {
-    font-size: $font-size-xl;
+    font-size: $font-size-lg;
     font-weight: $font-weight-bold;
     color: var(--text-primary);
-    margin: 0 0 $spacing-6;
+    margin: 0 0 $spacing-3;
+
+    @include respond-to('sm') {
+      font-size: $font-size-xl;
+      margin-bottom: $spacing-4;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-2xl;
+      margin-bottom: $spacing-6;
     }
   }
 
   &__chain {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: $spacing-4;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: $spacing-1;
     background: #E2E8F0;
     border-radius: $border-radius-xl;
-    padding: $spacing-6;
+    padding: $spacing-3;
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
 
     :host-context(.dark-theme) & {
       background: #20283A;
     }
 
+    @include respond-to('sm') {
+      justify-content: center;
+      gap: $spacing-3;
+      padding: $spacing-5;
+    }
+
     @include respond-to('md') {
       gap: $spacing-6;
-      flex-wrap: nowrap;
       padding: $spacing-8;
     }
   }
@@ -668,9 +899,18 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: $spacing-3;
+    gap: $spacing-1;
     cursor: pointer;
     transition: transform 0.2s ease;
+    flex-shrink: 0;
+
+    @include respond-to('sm') {
+      gap: $spacing-2;
+    }
+
+    @include respond-to('md') {
+      gap: $spacing-3;
+    }
 
     &:hover {
       transform: scale(1.05);
@@ -678,15 +918,21 @@
   }
 
   &__image-wrapper {
-    width: 140px;
-    height: 140px;
+    width: 50px;
+    height: 50px;
     border-radius: 50%;
-    border: 3px solid var(--border-secondary);
+    border: 2px solid var(--border-secondary);
     background: var(--bg-secondary);
     display: flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+
+    @include respond-to('sm') {
+      width: 90px;
+      height: 90px;
+      border-width: 3px;
+    }
 
     @include respond-to('md') {
       width: 180px;
@@ -702,14 +948,34 @@
 
   &__info {
     display: flex;
-    align-items: baseline;
-    gap: $spacing-2;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+
+    @include respond-to('sm') {
+      flex-direction: row;
+      gap: $spacing-1;
+    }
+
+    @include respond-to('md') {
+      gap: $spacing-2;
+    }
   }
 
   &__name {
-    font-size: $font-size-lg;
+    font-size: 8px;
     font-weight: $font-weight-bold;
     color: var(--text-primary);
+    text-align: center;
+    max-width: 50px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+    @include respond-to('sm') {
+      font-size: $font-size-sm;
+      max-width: none;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-xl;
@@ -717,9 +983,15 @@
   }
 
   &__id {
-    font-size: $font-size-sm;
+    font-size: 6px;
     font-weight: $font-weight-medium;
     color: var(--text-tertiary);
+    display: none;
+
+    @include respond-to('sm') {
+      display: inline;
+      font-size: $font-size-xs;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-base;
@@ -728,19 +1000,29 @@
 
   &__types {
     display: flex;
-    gap: $spacing-1;
+    gap: 1px;
+
+    @include respond-to('sm') {
+      gap: $spacing-1;
+    }
   }
 
   &__type {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: $spacing-1 $spacing-3;
-    border-radius: $border-radius-md;
-    font-size: $font-size-xs;
+    padding: 1px 3px;
+    border-radius: 2px;
+    font-size: 6px;
     font-weight: $font-weight-semibold;
     color: #ffffff;
     text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+
+    @include respond-to('sm') {
+      padding: $spacing-1 $spacing-2;
+      font-size: $font-size-xs;
+      border-radius: $border-radius-md;
+    }
 
     @include respond-to('md') {
       padding: $spacing-1 $spacing-4;
@@ -753,12 +1035,27 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: $spacing-2;
+    gap: 1px;
+    flex-shrink: 0;
+    padding: 0;
+
+    @include respond-to('sm') {
+      gap: $spacing-1;
+    }
+
+    @include respond-to('md') {
+      gap: $spacing-2;
+    }
 
     svg {
-      width: 24px;
-      height: 24px;
+      width: 10px;
+      height: 10px;
       stroke: var(--text-tertiary);
+
+      @include respond-to('sm') {
+        width: 18px;
+        height: 18px;
+      }
 
       @include respond-to('md') {
         width: 32px;
@@ -768,31 +1065,43 @@
   }
 
   &__method {
-    font-size: $font-size-xs;
+    font-size: 6px;
     font-weight: $font-weight-semibold;
     color: var(--text-secondary);
     text-align: center;
-    max-width: 100px;
-    line-height: 1.3;
+    max-width: 35px;
+    line-height: 1;
+
+    @include respond-to('sm') {
+      font-size: 10px;
+      max-width: 65px;
+      line-height: 1.2;
+    }
 
     @include respond-to('md') {
       font-size: $font-size-sm;
       max-width: 120px;
+      line-height: 1.3;
     }
   }
 
   &__no-evolution {
     background: #E2E8F0;
     border-radius: $border-radius-xl;
-    padding: $spacing-8;
+    padding: $spacing-4;
     text-align: center;
-    font-size: $font-size-lg;
+    font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     color: var(--text-secondary);
     margin: 0;
 
     :host-context(.dark-theme) & {
       background: #20283A;
+    }
+
+    @include respond-to('sm') {
+      padding: $spacing-6;
+      font-size: $font-size-base;
     }
 
     @include respond-to('md') {
@@ -807,10 +1116,15 @@
 // ============================================================================
 .pokemon-back {
   max-width: 1200px;
-  margin: $spacing-8 auto 0;
-  padding: 0 $spacing-4;
+  margin: $spacing-6 auto 0;
+  padding: 0 $spacing-3;
   display: flex;
   justify-content: center;
+
+  @include respond-to('sm') {
+    padding: 0 $spacing-4;
+    margin-top: $spacing-8;
+  }
 
   @include respond-to('md') {
     padding: 0 $spacing-8;
@@ -821,15 +1135,20 @@
     display: flex;
     align-items: center;
     gap: $spacing-2;
-    padding: $spacing-3 $spacing-6;
+    padding: $spacing-3 $spacing-5;
     background: #30A7D7;
     color: #ffffff;
     border: none;
     border-radius: $border-radius-lg;
-    font-size: $font-size-base;
+    font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
     cursor: pointer;
     transition: background-color 0.2s ease, transform 0.2s ease;
+
+    @include respond-to('sm') {
+      padding: $spacing-3 $spacing-6;
+      font-size: $font-size-base;
+    }
 
     @include respond-to('md') {
       padding: $spacing-4 $spacing-8;
@@ -837,8 +1156,8 @@
     }
 
     svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       stroke: #ffffff;
 
       @include respond-to('md') {

@@ -139,24 +139,15 @@
 
         <form class="register-card__form" (ngSubmit)="nextStep()" novalidate>
           <!-- Campo: País o región -->
-          <div class="register-card__field">
+          <div class="register-card__field register-card__field--country">
             <label class="register-card__label">País o región</label>
-            <div class="register-card__select-wrapper">
-              <select
-                id="country"
-                name="country"
-                class="register-card__select"
-                [class.register-card__select--error]="hasAttemptedSubmit && errors['country']"
-                [(ngModel)]="formData.country">
-                <option value="">---</option>
-                @for (country of countries; track country) {
-                  <option [value]="country">{{ country }}</option>
-                }
-              </select>
-              <svg class="register-card__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M6 9l6 6 6-6"/>
-              </svg>
-            </div>
+            <app-custom-select
+              selectId="country"
+              name="country"
+              [options]="countryOptions"
+              [(ngModel)]="formData.country"
+              [hasError]="hasAttemptedSubmit && !!errors['country']">
+            </app-custom-select>
             @if (hasAttemptedSubmit && errors['country']) {
               <span class="register-card__error">{{ errors['country'] }}</span>
             }
@@ -166,62 +157,35 @@
           <div class="register-card__birthdate">
             <div class="register-card__field">
               <label class="register-card__label">Día</label>
-              <div class="register-card__select-wrapper">
-                <select
-                  id="birthDay"
-                  name="birthDay"
-                  class="register-card__select"
-                  [class.register-card__select--error]="hasAttemptedSubmit && errors['birthDay']"
-                  [(ngModel)]="formData.birthDay">
-                  <option value="">---</option>
-                  @for (day of days; track day) {
-                    <option [value]="day">{{ day }}</option>
-                  }
-                </select>
-                <svg class="register-card__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M6 9l6 6 6-6"/>
-                </svg>
-              </div>
+              <app-custom-select
+                selectId="birthDay"
+                name="birthDay"
+                [options]="dayOptions"
+                [(ngModel)]="formData.birthDay"
+                [hasError]="hasAttemptedSubmit && !!errors['birthDay']">
+              </app-custom-select>
             </div>
 
             <div class="register-card__field">
               <label class="register-card__label">Mes</label>
-              <div class="register-card__select-wrapper">
-                <select
-                  id="birthMonth"
-                  name="birthMonth"
-                  class="register-card__select"
-                  [class.register-card__select--error]="hasAttemptedSubmit && errors['birthMonth']"
-                  [(ngModel)]="formData.birthMonth">
-                  <option value="">---</option>
-                  @for (month of months; track month.value) {
-                    <option [value]="month.value">{{ month.label }}</option>
-                  }
-                </select>
-                <svg class="register-card__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M6 9l6 6 6-6"/>
-                </svg>
-              </div>
+              <app-custom-select
+                selectId="birthMonth"
+                name="birthMonth"
+                [options]="monthOptions"
+                [(ngModel)]="formData.birthMonth"
+                [hasError]="hasAttemptedSubmit && !!errors['birthMonth']">
+              </app-custom-select>
             </div>
 
             <div class="register-card__field">
               <label class="register-card__label">Año</label>
-              <div class="register-card__select-wrapper">
-                <select
-                  id="birthYear"
-                  name="birthYear"
-                  class="register-card__select"
-                  [class.register-card__select--error]="hasAttemptedSubmit && errors['birthYear']"
-                  [(ngModel)]="formData.birthYear">
-                  <option value="">---</option>
-                  @for (year of years; track year) {
-                    <option [value]="year">{{ year }}</option>
-                  }
-                </select>
-                <svg class="register-card__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                  <path d="M6 9l6 6 6-6"/>
-                </svg>
-              </div>
+              <app-custom-select
+                selectId="birthYear"
+                name="birthYear"
+                [options]="yearOptions"
+                [(ngModel)]="formData.birthYear"
+                [hasError]="hasAttemptedSubmit && !!errors['birthYear']">
+              </app-custom-select>
             </div>
           </div>
 
@@ -247,9 +211,12 @@
           <!-- Aviso sobre nombre de usuario -->
           <div class="register-card__hint-wrapper">
             <p class="register-card__hint" [class.register-card__hint--error]="hasUsernameError()">
-              Solo letras, números, guiones bajos y puntos. Máximo 24 caracteres.
+              Solo letras, números, guiones bajos y puntos.
             </p>
-            <span class="register-card__char-count" [class.register-card__char-count--error]="hasUsernameError()">{{ formData.username?.length || 0 }}/24</span>
+            <div class="register-card__hint-row">
+              <span class="register-card__hint" [class.register-card__hint--error]="hasUsernameError()">Máximo 24 caracteres.</span>
+              <span class="register-card__char-count" [class.register-card__char-count--error]="hasUsernameError()">{{ formData.username?.length || 0 }}/24</span>
+            </div>
           </div>
 
           <!-- Campo: Nombre de usuario -->

@@ -16,8 +16,10 @@
   top: 0;
   z-index: $z-index-sticky;
   width: 100%;
+  max-width: 100vw; // Prevenir desbordamiento
   background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
   border-bottom: 1px solid var(--border-secondary, #{map-get($light-theme, border-secondary)});
+  // NO usar overflow-x: hidden aquí porque oculta el menú desplegable
   
   // ============================================================================
   //                        ELEMENTO: __container
@@ -27,8 +29,10 @@
     align-items: center;
     justify-content: space-between;
     max-width: $container-max-width;
+    width: 100%;
     margin: 0 auto;
-    padding: $spacing-3 $spacing-3;
+    padding: $spacing-3;
+    box-sizing: border-box;
 
     @include respond-to('sm') {
       padding: $spacing-4 $spacing-6;
@@ -51,6 +55,7 @@
     transition: opacity 0.2s ease, transform 0.2s ease;
     flex-shrink: 0;
     outline: none;
+    min-width: 0; // Permitir que se encoja si es necesario
 
     &:focus,
     &:focus-visible {
@@ -72,10 +77,16 @@
   }
   
  &__logo-icon {
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   object-fit: contain;
   border-radius: 50%;
+  flex-shrink: 0;
+
+  @include respond-to('sm') {
+    width: 40px;
+    height: 40px;
+  }
 
   @include respond-to('md') {
     width: 48px;
@@ -85,7 +96,7 @@
   
   &__logo-text {
     font-family: $font-secondary;
-    font-size: $font-size-lg;
+    font-size: $font-size-base;
     font-weight: $font-weight-bold;
     color: var(--text-primary, #{map-get($light-theme, text-primary)});
     white-space: nowrap;
@@ -112,10 +123,12 @@
     background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
     border-bottom: 1px solid var(--border-primary, #{map-get($light-theme, border-primary)});
     padding: $spacing-4;
+    z-index: 1000; // Asegurar que esté por encima de todo
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 
     // MODIFICADOR: --open (menú abierto en móvil)
     &--open {
-      display: block;
+      display: block !important;
       animation: slideDown 0.3s ease-out;
     }
 
@@ -126,6 +139,8 @@
       background: transparent;
       border: none;
       padding: 0;
+      box-shadow: none;
+      z-index: auto;
     }
   }
   
@@ -253,6 +268,7 @@
     display: flex;
     align-items: center;
     gap: $spacing-2;
+    flex-shrink: 0;
     
     @include respond-to('md') {
       gap: $spacing-3;
@@ -396,20 +412,30 @@
   &__auth-buttons {
     display: flex;
     align-items: center;
-    gap: $spacing-3;
+    gap: $spacing-2;
+    flex-shrink: 0;
+
+    @include respond-to('sm') {
+      gap: $spacing-3;
+    }
   }
 
   &__auth-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: $spacing-2 $spacing-4;
-    font-size: $font-size-sm;
+    padding: $spacing-2 $spacing-3;
+    font-size: $font-size-xs;
     font-weight: $font-weight-medium;
     text-decoration: none;
     border-radius: $border-radius-lg;
     transition: all 0.2s ease;
     white-space: nowrap;
+
+    @include respond-to('sm') {
+      padding: $spacing-2 $spacing-4;
+      font-size: $font-size-sm;
+    }
 
     @include respond-to('md') {
       padding: $spacing-2 $spacing-5;
@@ -462,6 +488,7 @@
     border: none;
     cursor: pointer;
     padding: $spacing-2;
+    flex-shrink: 0;
     
     @include respond-to('md') {
       display: none;

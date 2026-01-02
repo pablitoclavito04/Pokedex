@@ -15,7 +15,12 @@
   background: var(--bg-primary, #{map-get($dark-theme, bg-primary)});
   display: flex;
   justify-content: center;
-  padding: $spacing-4;
+  padding: $spacing-3;
+  overflow-x: hidden;
+
+  @include respond-to('sm') {
+    padding: $spacing-4;
+  }
 
   @include respond-to('md') {
     padding: $spacing-8;
@@ -27,11 +32,16 @@
     width: 100%;
     max-width: 600px;
     background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
-    border: 3px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
-    border-radius: $border-radius-2xl;
+    border: 2px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+    border-radius: $border-radius-xl;
     overflow: hidden;
     display: flex;
     flex-direction: column;
+
+    @include respond-to('sm') {
+      border-width: 3px;
+      border-radius: $border-radius-2xl;
+    }
 
     :host-context(.light-theme) & {
       background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
@@ -44,8 +54,12 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: $spacing-5 $spacing-6;
+    padding: $spacing-4;
     border-bottom: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+
+    @include respond-to('sm') {
+      padding: $spacing-5 $spacing-6;
+    }
 
     :host-context(.light-theme) & {
       border-bottom-color: var(--border-primary, #{map-get($light-theme, border-primary)});
@@ -54,10 +68,14 @@
 
   &__title {
     font-family: $font-secondary;
-    font-size: $font-size-xl;
+    font-size: $font-size-lg;
     font-weight: $font-weight-bold;
     color: var(--text-primary, #{map-get($dark-theme, text-primary)});
     margin: 0;
+
+    @include respond-to('sm') {
+      font-size: $font-size-xl;
+    }
 
     :host-context(.light-theme) & {
       color: var(--text-primary, #{map-get($light-theme, text-primary)});
@@ -68,19 +86,29 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 36px;
-    height: 36px;
+    width: 32px;
+    height: 32px;
     background: transparent;
     border: none;
     cursor: pointer;
     border-radius: $border-radius-full;
     transition: background-color 0.3s ease;
 
+    @include respond-to('sm') {
+      width: 36px;
+      height: 36px;
+    }
+
     svg {
-      width: 24px;
-      height: 24px;
+      width: 20px;
+      height: 20px;
       stroke: var(--text-secondary);
       transition: stroke 0.3s ease;
+
+      @include respond-to('sm') {
+        width: 24px;
+        height: 24px;
+      }
     }
 
     &:hover {
@@ -95,14 +123,22 @@
   // ========== CONTENIDO ==========
   &__content {
     flex: 1;
-    padding: $spacing-6;
+    padding: $spacing-4;
     overflow-y: auto;
+
+    @include respond-to('sm') {
+      padding: $spacing-6;
+    }
   }
 
   &__divider {
     height: 1px;
     background: var(--border-primary, #{map-get($dark-theme, border-primary)});
-    margin: $spacing-5 0;
+    margin: $spacing-4 0;
+
+    @include respond-to('sm') {
+      margin: $spacing-5 0;
+    }
 
     :host-context(.light-theme) & {
       background: var(--border-primary, #{map-get($light-theme, border-primary)});
@@ -113,9 +149,14 @@
   &__footer {
     display: flex;
     justify-content: flex-end;
-    gap: $spacing-3;
-    padding: $spacing-5 $spacing-6;
+    gap: $spacing-2;
+    padding: $spacing-4;
     border-top: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+
+    @include respond-to('sm') {
+      gap: $spacing-3;
+      padding: $spacing-5 $spacing-6;
+    }
 
     :host-context(.light-theme) & {
       border-top-color: var(--border-primary, #{map-get($light-theme, border-primary)});
@@ -123,13 +164,19 @@
   }
 
   &__btn {
-    padding: $spacing-3 $spacing-6;
-    font-size: $font-size-base;
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     border-radius: $border-radius-md;
     cursor: pointer;
     transition: $transition-all;
-    min-width: 100px;
+    min-width: 80px;
+
+    @include respond-to('sm') {
+      padding: $spacing-3 $spacing-6;
+      font-size: $font-size-base;
+      min-width: 100px;
+    }
 
     &--cancel {
       background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
@@ -182,16 +229,22 @@
     align-items: center;
     justify-content: center;
     z-index: 100;
+    padding: $spacing-4;
   }
 
   &__modal {
     background: var(--bg-primary);
-    border-radius: $border-radius-2xl;
-    padding: $spacing-6;
+    border-radius: $border-radius-xl;
+    padding: $spacing-5;
     max-width: 400px;
-    width: 90%;
+    width: 100%;
     text-align: center;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+
+    @include respond-to('sm') {
+      padding: $spacing-6;
+      border-radius: $border-radius-2xl;
+    }
 
     :host-context(.dark-theme) & {
       background: #1C2739;
@@ -200,32 +253,50 @@
 
   &__modal-text {
     font-family: $font-secondary;
-    font-size: $font-size-base;
+    font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
     color: var(--text-primary);
-    margin: 0 0 $spacing-6;
+    margin: 0 0 $spacing-5;
     line-height: 1.5;
+
+    @include respond-to('sm') {
+      font-size: $font-size-base;
+      margin-bottom: $spacing-6;
+    }
   }
 
   &__modal-actions {
     display: flex;
-    gap: $spacing-3;
-    justify-content: center;
+    flex-direction: column;
+    gap: $spacing-2;
+
+    @include respond-to('sm') {
+      flex-direction: row;
+      gap: $spacing-3;
+      justify-content: center;
+    }
   }
 
   &__modal-btn {
-    flex: 1;
-    padding: $spacing-3 $spacing-6;
+    width: 100%;
+    padding: $spacing-3 $spacing-4;
     font-size: $font-size-sm;
     font-weight: $font-weight-bold;
     border: none;
-    border-radius: $border-radius-xl;
+    border-radius: $border-radius-lg;
     cursor: pointer;
     transition: all 0.3s ease;
     white-space: nowrap;
 
-    @include respond-to('md') {
+    @include respond-to('sm') {
+      width: auto;
+      flex: 1;
+      padding: $spacing-3 $spacing-6;
       font-size: $font-size-base;
+      border-radius: $border-radius-xl;
+    }
+
+    @include respond-to('md') {
       padding: $spacing-4 $spacing-8;
     }
 
@@ -280,10 +351,15 @@
 
   &__label {
     display: block;
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     font-weight: $font-weight-medium;
     color: var(--text-primary, #{map-get($dark-theme, text-primary)});
-    margin-bottom: $spacing-3;
+    margin-bottom: $spacing-2;
+
+    @include respond-to('sm') {
+      font-size: $font-size-sm;
+      margin-bottom: $spacing-3;
+    }
 
     :host-context(.light-theme) & {
       color: var(--text-primary, #{map-get($light-theme, text-primary)});
@@ -300,12 +376,16 @@
     display: flex;
     justify-content: center;
     position: relative;
-    padding: $spacing-4 0;
+    padding: $spacing-3 0;
+
+    @include respond-to('sm') {
+      padding: $spacing-4 0;
+    }
   }
 
   &__avatar {
-    width: 140px;
-    height: 140px;
+    width: 100px;
+    height: 100px;
     border-radius: 50%;
     background: $color-primary-500;
     display: flex;
@@ -313,8 +393,14 @@
     justify-content: center;
     cursor: pointer;
     overflow: hidden;
-    border: 3px solid var(--border-secondary, #{map-get($dark-theme, border-secondary)});
+    border: 2px solid var(--border-secondary, #{map-get($dark-theme, border-secondary)});
     transition: $transition-all;
+
+    @include respond-to('sm') {
+      width: 140px;
+      height: 140px;
+      border-width: 3px;
+    }
 
     &:hover {
       border-color: $color-primary-400;
@@ -332,18 +418,23 @@
   }
 
   &__avatar-placeholder {
-    width: 70px;
-    height: 70px;
+    width: 50px;
+    height: 50px;
     color: rgba(255, 255, 255, 0.8);
+
+    @include respond-to('sm') {
+      width: 70px;
+      height: 70px;
+    }
   }
 
   &__avatar-edit {
     position: absolute;
-    bottom: $spacing-4;
+    bottom: $spacing-3;
     left: 50%;
-    transform: translateX(45px);
-    width: 32px;
-    height: 32px;
+    transform: translateX(30px);
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     background: var(--bg-tertiary);
     border: 2px solid var(--bg-secondary);
@@ -353,11 +444,23 @@
     cursor: pointer;
     transition: background-color 0.3s ease, border-color 0.3s ease;
 
+    @include respond-to('sm') {
+      bottom: $spacing-4;
+      transform: translateX(45px);
+      width: 32px;
+      height: 32px;
+    }
+
     svg {
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
       stroke: var(--text-primary);
       transition: stroke 0.3s ease;
+
+      @include respond-to('sm') {
+        width: 14px;
+        height: 14px;
+      }
     }
 
     &:hover {
@@ -382,21 +485,32 @@
 
   &__toggle-password {
     position: absolute;
-    right: $spacing-3;
+    right: $spacing-2;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     background: transparent;
     border: none;
     cursor: pointer;
 
+    @include respond-to('sm') {
+      right: $spacing-3;
+      width: 32px;
+      height: 32px;
+    }
+
     svg {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       stroke: var(--text-tertiary);
       transition: stroke 0.2s ease;
+
+      @include respond-to('sm') {
+        width: 20px;
+        height: 20px;
+      }
     }
 
     &:hover svg {
@@ -408,13 +522,19 @@
   &__textarea {
     width: 100%;
     font-family: inherit;
-    font-size: $font-size-base;
+    font-size: $font-size-sm;
     color: var(--text-primary, #{map-get($dark-theme, text-primary)});
     background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
     border: 2px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
-    border-radius: $border-radius-lg;
-    padding: $spacing-3 $spacing-4;
+    border-radius: $border-radius-md;
+    padding: $spacing-2 $spacing-3;
     transition: $transition-all;
+
+    @include respond-to('sm') {
+      font-size: $font-size-base;
+      padding: $spacing-3 $spacing-4;
+      border-radius: $border-radius-lg;
+    }
 
     &::placeholder {
       color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
@@ -474,7 +594,11 @@
     }
 
     &--password {
-      padding-right: 48px;
+      padding-right: 40px;
+
+      @include respond-to('sm') {
+        padding-right: 48px;
+      }
 
       // Ocultar el icono de revelar contraseña del navegador
       &::-ms-reveal,
@@ -493,9 +617,13 @@
     position: relative;
     width: 100%;
     border: 2px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
-    border-radius: $border-radius-lg;
+    border-radius: $border-radius-md;
     overflow: hidden;
     transition: $transition-all;
+
+    @include respond-to('sm') {
+      border-radius: $border-radius-lg;
+    }
 
     &:focus-within {
       border-color: #94a3b8;
@@ -513,16 +641,22 @@
   &__select {
     width: 100%;
     font-family: inherit;
-    font-size: $font-size-base;
+    font-size: $font-size-sm;
     color: var(--text-primary, #{map-get($dark-theme, text-primary)});
     border: none;
-    padding: $spacing-3 $spacing-4;
-    padding-right: 56px;
+    padding: $spacing-2 $spacing-3;
+    padding-right: 44px;
     cursor: pointer;
     appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
+
+    @include respond-to('sm') {
+      font-size: $font-size-base;
+      padding: $spacing-3 $spacing-4;
+      padding-right: 56px;
+    }
 
     &:focus {
       outline: none;
@@ -542,16 +676,25 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 48px;
+    width: 40px;
     background: var(--bg-card, #{map-get($dark-theme, bg-card)});
     border-left: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
     pointer-events: none;
 
+    @include respond-to('sm') {
+      width: 48px;
+    }
+
     svg {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
       transition: transform 0.2s ease;
+
+      @include respond-to('sm') {
+        width: 16px;
+        height: 16px;
+      }
     }
 
     &--open svg {
@@ -570,14 +713,23 @@
 
   &__textarea {
     resize: none;
-    min-height: 80px;
+    min-height: 70px;
+
+    @include respond-to('sm') {
+      min-height: 80px;
+    }
   }
 
   &__hint {
-    font-size: $font-size-xs;
+    font-size: 10px;
     color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
-    margin: $spacing-2 0 0;
+    margin: $spacing-1 0 0;
     line-height: $leading-relaxed;
+
+    @include respond-to('sm') {
+      font-size: $font-size-xs;
+      margin-top: $spacing-2;
+    }
 
     :host-context(.light-theme) & {
       color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
@@ -593,10 +745,15 @@
   }
 
   &__counter {
-    font-size: $font-size-xs;
+    font-size: 10px;
     color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
-    margin: $spacing-2 0 0;
+    margin: $spacing-1 0 0;
     text-align: right;
+
+    @include respond-to('sm') {
+      font-size: $font-size-xs;
+      margin-top: $spacing-2;
+    }
 
     :host-context(.light-theme) & {
       color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
@@ -606,26 +763,42 @@
   // Requisitos de contraseña
   &__password-requirements {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: $spacing-2 $spacing-4;
-    margin-top: $spacing-3;
+    grid-template-columns: 1fr;
+    gap: $spacing-1;
+    margin-top: $spacing-2;
+
+    @include respond-to('sm') {
+      grid-template-columns: 1fr 1fr;
+      gap: $spacing-2 $spacing-4;
+      margin-top: $spacing-3;
+    }
   }
 
   &__requirement {
     display: flex;
     align-items: center;
-    gap: $spacing-2;
-    font-size: $font-size-sm;
+    gap: $spacing-1;
+    font-size: $font-size-xs;
     color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
+
+    @include respond-to('sm') {
+      gap: $spacing-2;
+      font-size: $font-size-sm;
+    }
 
     :host-context(.light-theme) & {
       color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
     }
 
     svg {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
       flex-shrink: 0;
+
+      @include respond-to('sm') {
+        width: 16px;
+        height: 16px;
+      }
     }
 
     &--valid {
@@ -646,12 +819,18 @@
 
   &__title {
     font-family: $font-secondary;
-    font-size: $font-size-lg;
+    font-size: $font-size-base;
     font-weight: $font-weight-bold;
     color: var(--text-primary, #{map-get($dark-theme, text-primary)});
-    margin: 0 0 $spacing-4 0;
-    padding-bottom: $spacing-3;
+    margin: 0 0 $spacing-3 0;
+    padding-bottom: $spacing-2;
     border-bottom: 1px solid var(--border-primary, #{map-get($dark-theme, border-primary)});
+
+    @include respond-to('sm') {
+      font-size: $font-size-lg;
+      margin-bottom: $spacing-4;
+      padding-bottom: $spacing-3;
+    }
 
     :host-context(.light-theme) & {
       color: var(--text-primary, #{map-get($light-theme, text-primary)});
@@ -665,24 +844,40 @@
 // ============================================================================
 .settings-danger {
   background: rgba(239, 68, 68, 0.1);
-  border: 3px solid #FF4444;
-  border-radius: $border-radius-xl;
-  padding: $spacing-5;
+  border: 2px solid #FF4444;
+  border-radius: $border-radius-lg;
+  padding: $spacing-4;
   margin-top: $spacing-2;
+
+  @include respond-to('sm') {
+    border-width: 3px;
+    border-radius: $border-radius-xl;
+    padding: $spacing-5;
+  }
 
   &__title {
     font-family: $font-secondary;
-    font-size: $font-size-lg;
+    font-size: $font-size-base;
     font-weight: $font-weight-medium;
     color: #ef4444;
-    margin: 0 0 $spacing-3 0;
+    margin: 0 0 $spacing-2 0;
+
+    @include respond-to('sm') {
+      font-size: $font-size-lg;
+      margin-bottom: $spacing-3;
+    }
   }
 
   &__text {
-    font-size: $font-size-sm;
+    font-size: $font-size-xs;
     color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
-    margin: 0 0 $spacing-4 0;
+    margin: 0 0 $spacing-3 0;
     line-height: $leading-relaxed;
+
+    @include respond-to('sm') {
+      font-size: $font-size-sm;
+      margin-bottom: $spacing-4;
+    }
 
     :host-context(.light-theme) & {
       color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
@@ -693,8 +888,8 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: $spacing-3 $spacing-5;
-    font-size: $font-size-sm;
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-xs;
     font-weight: $font-weight-semibold;
     color: #ffffff;
     background: #ef4444;
@@ -702,6 +897,11 @@
     border-radius: $border-radius-md;
     cursor: pointer;
     transition: $transition-all;
+
+    @include respond-to('sm') {
+      padding: $spacing-3 $spacing-5;
+      font-size: $font-size-sm;
+    }
 
     &:hover {
       background: #dc2626;

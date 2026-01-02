@@ -433,8 +433,66 @@
   // ========== FECHA DE NACIMIENTO ==========
   &__birthdate {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    gap: $spacing-3;
+    grid-template-columns: 1fr 1.4fr 1fr;
+    gap: $spacing-2;
+
+    @include respond-to('sm') {
+      grid-template-columns: 1fr 1.2fr 1fr;
+      gap: $spacing-3;
+    }
+
+    // Estilos para el custom select dentro de birthdate
+    app-custom-select {
+      .custom-select__trigger {
+        padding: $spacing-2;
+        padding-right: $spacing-6;
+        font-size: $font-size-xs;
+        min-height: 38px;
+
+        @include respond-to('sm') {
+          padding: $spacing-3;
+          padding-right: $spacing-8;
+          font-size: $font-size-sm;
+          min-height: 44px;
+        }
+      }
+
+      .custom-select__arrow {
+        right: $spacing-1;
+        width: 16px;
+        height: 16px;
+
+        @include respond-to('sm') {
+          right: $spacing-2;
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      .custom-select__dropdown {
+        min-width: 100%;
+      }
+
+      .custom-select__option {
+        font-size: $font-size-xs;
+        padding: $spacing-2;
+
+        @include respond-to('sm') {
+          font-size: $font-size-sm;
+          padding: $spacing-2 $spacing-3;
+        }
+      }
+    }
+
+    // El último campo (año) alinea el dropdown a la derecha
+    &:last-child {
+      app-custom-select {
+        .custom-select__dropdown {
+          left: auto;
+          right: 0;
+        }
+      }
+    }
   }
 
   // ========== AVISOS ==========
@@ -524,8 +582,14 @@
 
   &__hint-wrapper {
     display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  &__hint-row {
+    display: flex;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: $spacing-2;
   }
 

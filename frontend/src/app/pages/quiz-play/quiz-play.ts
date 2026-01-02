@@ -6,6 +6,7 @@ import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import { LoadingService } from '../../../services/loading.service';
 
 export interface Question {
   question: string;
@@ -39,7 +40,8 @@ export class QuizPlayComponent implements OnInit, OnDestroy {
     private router: Router,
     private route: ActivatedRoute,
     private http: HttpClient,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private loadingService: LoadingService
   ) {}
 
   // ========== CONFIGURACIÓN ==========
@@ -52,6 +54,7 @@ export class QuizPlayComponent implements OnInit, OnDestroy {
   selectedAnswer: number | null = null;
   showExitModal: boolean = false;
   isLoading: boolean = true;
+  isFinishing: boolean = false;
 
   // ========== PREGUNTAS ==========
   questions: Question[] = [];
@@ -186,16 +189,25 @@ export class QuizPlayComponent implements OnInit, OnDestroy {
       this.selectedAnswer = null;
       this.saveState();
     } else {
-      // Quiz terminado - guardar resultados y navegar
+      // Quiz terminado - mostrar pantalla de carga antes de ir a resultados
+      this.isFinishing = true;
+      this.loadingService.show('Calculando resultados...');
+      document.body.style.overflow = 'hidden';
       this.saveResults();
       this.clearState();
-      this.router.navigate(['/quiz/results'], {
-        queryParams: {
-          score: this.score,
-          total: this.totalQuestions,
-          difficulty: this.difficulty
-        }
-      });
+
+      // Delay para mostrar la animación de carga
+      setTimeout(() => {
+        document.body.style.overflow = '';
+        this.loadingService.hide();
+        this.router.navigate(['/quiz/results'], {
+          queryParams: {
+            score: this.score,
+            total: this.totalQuestions,
+            difficulty: this.difficulty
+          }
+        });
+      }, 4000);
     }
   }
 
