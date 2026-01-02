@@ -37,7 +37,7 @@ export class PokedexComponent implements OnInit {
   isLoading = false;
   currentOffset = 0;
   filterOffset = 0;
-  limit = 20;
+  limit = 16;
   totalPokemon = 1025;
   isRandomMode = false;
   isFilterMode = false;
@@ -129,6 +129,7 @@ export class PokedexComponent implements OnInit {
 
   // Clave para persistir el orden en sessionStorage
   private readonly SORT_ORDER_KEY = 'pokedex_sort_order';
+  private readonly FILTER_STATE_KEY = 'pokedex_filter_state';
 
   // Filtros activos para cargar más
   activeFilters = {
@@ -144,10 +145,19 @@ export class PokedexComponent implements OnInit {
       this.sortOrder = savedSortOrder;
     }
 
+    // Recuperar el estado de filtros guardado
+    const savedFilterState = sessionStorage.getItem(this.FILTER_STATE_KEY);
+
     this.pokemonService.getAllPokemonNames().subscribe(names => {
       this.allPokemonNames = names;
       this.sortedPokemonNames = [...names];
-      this.loadPokemonsBySort();
+
+      // Si hay filtros guardados, restaurarlos y aplicarlos
+      if (savedFilterState) {
+        this.restoreFilterState(JSON.parse(savedFilterState));
+      } else {
+        this.loadPokemonsBySort();
+      }
     });
 
     if (this.authService.isLoggedIn()) {
@@ -290,6 +300,44 @@ export class PokedexComponent implements OnInit {
   }
 
   // ========== BÚSQUEDA ==========
+  onSearchKeydown(event: KeyboardEvent): void {
+    const input = event.target as HTMLInputElement;
+    const currentValue = input.value;
+    const key = event.key;
+
+    // Permitir teclas de control (backspace, delete, flechas, etc.)
+    if (['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End'].includes(key)) {
+      return;
+    }
+
+    // Permitir Ctrl+A, Ctrl+C, Ctrl+V, Ctrl+X
+    if (event.ctrlKey || event.metaKey) {
+      return;
+    }
+
+    // Si el contenido actual es solo números y ya tiene 4 dígitos, bloquear más números
+    const isCurrentlyNumeric = /^\d*$/.test(currentValue);
+    const isKeyNumeric = /^\d$/.test(key);
+
+    if (isCurrentlyNumeric && isKeyNumeric && currentValue.length >= 4) {
+      event.preventDefault();
+    }
+  }
+
+  onSearchInput(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    let value = input.value;
+
+    // Si es solo números y tiene más de 4 dígitos, truncar a 4
+    if (/^\d+$/.test(value) && value.length > 4) {
+      value = value.slice(0, 4);
+      this.searchQuery = value;
+      input.value = value;
+    }
+
+    this.onSearchChange();
+  }
+
   onSearchChange(): void {
     const query = this.searchQuery.trim().toLowerCase();
 
@@ -304,10 +352,21 @@ export class PokedexComponent implements OnInit {
     this.isRandomMode = false;
     this.isFilterMode = false;
 
-    const matchingNames = this.allPokemonNames.filter(p =>
-      p.name.toLowerCase().includes(query) ||
-      p.id.toString() === query
-    );
+    // Comprobar si el query es un número (incluyendo ceros a la izquierda como 01, 001, etc.)
+    const numericQuery = parseInt(query, 10);
+    const isNumericSearch = /^\d+$/.test(query) && !isNaN(numericQuery) && numericQuery > 0;
+
+    let matchingNames: {id: number, name: string}[];
+
+    if (isNumericSearch) {
+      // Búsqueda por número exacto (01 → 1, 001 → 1, etc.)
+      matchingNames = this.allPokemonNames.filter(p => p.id === numericQuery);
+    } else {
+      // Búsqueda por nombre que contenga el texto
+      matchingNames = this.allPokemonNames.filter(p =>
+        p.name.toLowerCase().includes(query)
+      );
+    }
 
     let sortedMatches = [...matchingNames];
     switch (this.sortOrder) {
@@ -520,6 +579,10 @@ export class PokedexComponent implements OnInit {
     this.searchQuery = '';
     this.isRandomMode = false;
     this.isFilterMode = false;
+
+    // Limpiar estado de filtros guardado
+    sessionStorage.removeItem(this.FILTER_STATE_KEY);
+
     this.loadPokemonsBySort();
   }
 
@@ -537,8 +600,11 @@ export class PokedexComponent implements OnInit {
     this.activeFilters.height = this.selectedHeight;
     this.activeFilters.weight = this.selectedWeight;
 
+    // Guardar estado de filtros en sessionStorage
+    this.saveFilterState();
+
     // Filtrar por secuencia (rango de IDs)
-    let filteredIds = this.allPokemonNames.filter(p => 
+    let filteredIds = this.allPokemonNames.filter(p =>
       p.id >= this.sequenceStart && p.id <= this.sequenceEnd
     );
 
@@ -546,7 +612,7 @@ export class PokedexComponent implements OnInit {
     if (this.selectedGeneration !== 'all') {
       const genRange = this.generationRanges[this.selectedGeneration];
       if (genRange) {
-        filteredIds = filteredIds.filter(p => 
+        filteredIds = filteredIds.filter(p =>
           p.id >= genRange.start && p.id <= genRange.end
         );
       }
@@ -560,6 +626,39 @@ export class PokedexComponent implements OnInit {
     this.loadMoreFilteredPokemon();
   }
 
+  // Guardar estado de filtros en sessionStorage
+  private saveFilterState(): void {
+    const filterState = {
+      types: this.advancedTypes.filter(t => t.typeSelected).map(t => t.value),
+      generation: this.selectedGeneration,
+      height: this.selectedHeight,
+      weight: this.selectedWeight,
+      sequenceStart: this.sequenceStart,
+      sequenceEnd: this.sequenceEnd
+    };
+    sessionStorage.setItem(this.FILTER_STATE_KEY, JSON.stringify(filterState));
+  }
+
+  // Restaurar estado de filtros desde sessionStorage
+  private restoreFilterState(state: any): void {
+    // Restaurar tipos seleccionados
+    if (state.types && state.types.length > 0) {
+      this.advancedTypes.forEach(t => {
+        t.typeSelected = state.types.includes(t.value);
+      });
+    }
+
+    // Restaurar otros filtros
+    this.selectedGeneration = state.generation || 'all';
+    this.selectedHeight = state.height || '';
+    this.selectedWeight = state.weight || '';
+    this.sequenceStart = state.sequenceStart || 1;
+    this.sequenceEnd = state.sequenceEnd || 1025;
+
+    // Aplicar los filtros restaurados
+    this.applyFilters();
+  }
+
   loadMoreFilteredPokemon(): void {
     if (this.isLoading && this.pokemons.length > 0) return;
     if (this.filterOffset >= this.filteredPokemonIds.length) {
@@ -571,9 +670,11 @@ export class PokedexComponent implements OnInit {
     this.isLoading = true;
     this.cdr.detectChanges();
 
-    const targetCount = 20; // Queremos mostrar 20 Pokémon
-    const maxAttempts = 5; // Máximo de intentos para llenar
-    
+    // Queremos cargar 16 más a los que ya tenemos
+    const targetCount = this.pokemons.length + 16;
+    // Aumentar intentos para asegurar que siempre completamos filas de 4
+    const maxAttempts = 20;
+
     this.loadFilteredBatch(targetCount, 0, maxAttempts);
   }
 
@@ -651,11 +752,19 @@ export class PokedexComponent implements OnInit {
           });
         }
 
+        // Añadir los resultados filtrados
         this.pokemons = [...this.pokemons, ...results];
         this.filterOffset += batchSize;
 
-        // Si no tenemos suficientes resultados, seguir cargando
-        if (this.pokemons.length < targetCount && this.filterOffset < this.filteredPokemonIds.length) {
+        // Verificar si la última fila está completa (múltiplo de 4)
+        const isRowComplete = this.pokemons.length % 4 === 0;
+        const hasReachedTarget = this.pokemons.length >= targetCount;
+
+        // Seguir cargando si:
+        // 1. No hemos llegado al target, O
+        // 2. La fila está incompleta
+        // Y todavía hay Pokémon por cargar
+        if ((!hasReachedTarget || !isRowComplete) && this.filterOffset < this.filteredPokemonIds.length) {
           this.loadFilteredBatch(targetCount, currentAttempt + 1, maxAttempts);
         } else {
           this.isLoading = false;

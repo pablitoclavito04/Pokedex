@@ -28,7 +28,8 @@
           class="search-section__input"
           placeholder="Nombre o número"
           [(ngModel)]="searchQuery"
-          (input)="onSearchChange()">
+          (input)="onSearchInput($event)"
+          (keydown)="onSearchKeydown($event)">
       </div>
 
       <p class="search-section__hint">
@@ -225,9 +226,11 @@
             <option value="name-asc">A - Z</option>
             <option value="name-desc">Z - A</option>
           </select>
-          <svg class="actions-bar__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M6 9l6 6 6-6"/>
-          </svg>
+          <span class="actions-bar__select-arrow-wrapper">
+            <svg class="actions-bar__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M6 9l6 6 6-6"/>
+            </svg>
+          </span>
         </div>
       </div>
     </div>
@@ -241,6 +244,13 @@
       @if (isLoading && pokemons.length === 0) {
         <div class="pokemon-grid-section__loading">
           <p>Cargando Pokémon...</p>
+        </div>
+      }
+
+      <!-- No results -->
+      @if (!isLoading && pokemons.length === 0) {
+        <div class="pokemon-grid-section__no-results">
+          <p>Este Pokémon no existe</p>
         </div>
       }
 

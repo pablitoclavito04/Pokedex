@@ -29,6 +29,7 @@ interface Pokemon {
   abilityDescription?: string;
   gender: { male: boolean; female: boolean };
   description: string;
+  region: string;
   stats: {
     hp: number;
     attack: number;
@@ -45,6 +46,9 @@ interface Pokemon {
   image: string;
   versions?: string[];
 }
+
+// Cache de descripciones en español
+let spanishDescriptionsCache: Record<string, string> | null = null;
 
 @Component({
   selector: 'app-pokemon-detail',
@@ -67,6 +71,7 @@ export class PokemonDetailComponent implements OnInit {
     abilityDescription: '',
     gender: { male: true, female: true },
     description: '',
+    region: '',
     stats: {
       hp: 0,
       attack: 0,
@@ -153,81 +158,328 @@ export class PokemonDetailComponent implements OnInit {
   loadPokemon(id: number): void {
     this.isLoading = true;
 
-    // Cargar datos básicos del Pokémon
-    this.http.get<any>(`https://pokeapi.co/api/v2/pokemon/${id}`).subscribe({
-      next: (data) => {
-        // Cargar también la especie para la descripción
-        this.http.get<any>(`https://pokeapi.co/api/v2/pokemon-species/${id}`).subscribe({
-          next: (speciesData) => {
-            this.pokemon = {
-              id: data.id,
-              name: this.capitalizeFirstLetter(speciesData.name),
-              types: data.types.map((t: any) => t.type.name),
-              height: data.height / 10, // Convertir a metros
-              weight: data.weight / 10, // Convertir a kg
-              category: this.getCategory(speciesData),
-              ability: this.capitalizeFirstLetter(data.abilities[0]?.ability.name || ''),
-              gender: {
-                male: speciesData.gender_rate !== 8 && speciesData.gender_rate !== -1,
-                female: speciesData.gender_rate !== 0 && speciesData.gender_rate !== -1
-              },
-              description: this.getDescription(speciesData),
-              stats: {
-                hp: data.stats[0].base_stat,
-                attack: data.stats[1].base_stat,
-                defense: data.stats[2].base_stat,
-                spAttack: data.stats[3].base_stat,
-                spDefense: data.stats[4].base_stat,
-                speed: data.stats[5].base_stat
-              },
-              evolutions: [],
-              weaknesses: this.calculateWeaknesses(data.types.map((t: any) => t.type.name)),
-              image: data.sprites.other['official-artwork'].front_default,
-              versions: []
-            };
+    // Hacer scroll al principio de la página
+    window.scrollTo({ top: 0, behavior: 'instant' });
 
-            // Cargar cadena evolutiva
-            if (speciesData.evolution_chain?.url) {
-              this.loadEvolutionChain(speciesData.evolution_chain.url);
+    // Cargar descripciones en español si no están en cache
+    const loadDescriptions = spanishDescriptionsCache 
+      ? Promise.resolve() 
+      : this.http.get<Record<string, string>>('assets/data/pokemon-descriptions-es.json')
+          .toPromise()
+          .then(data => { spanishDescriptionsCache = data || {}; })
+          .catch(() => { spanishDescriptionsCache = {}; });
+
+    loadDescriptions.then(() => {
+      // Cargar datos básicos del Pokémon
+      this.http.get<any>(`https://pokeapi.co/api/v2/pokemon/${id}`).subscribe({
+        next: (data) => {
+          // Cargar también la especie para la descripción y nombre en español
+          this.http.get<any>(`https://pokeapi.co/api/v2/pokemon-species/${id}`).subscribe({
+            next: (speciesData) => {
+              // Cargar datos de la habilidad para obtener nombre en español
+              const abilityUrl = data.abilities[0]?.ability.url;
+              if (abilityUrl) {
+                this.http.get<any>(abilityUrl).subscribe({
+                  next: (abilityData) => {
+                    this.buildPokemonData(data, speciesData, abilityData);
+                  },
+                  error: () => {
+                    // Si falla la habilidad, continuar sin ella
+                    this.buildPokemonData(data, speciesData, null);
+                  }
+                });
+              } else {
+                this.buildPokemonData(data, speciesData, null);
+              }
+            },
+            error: (err) => {
+              console.error('Error cargando especie:', err);
+              this.isLoading = false;
+              this.cdr.detectChanges();
             }
-
-            this.setupNavigation(id);
-            this.isLoading = false;
-            this.cdr.detectChanges();
-          },
-          error: (err) => {
-            console.error('Error cargando especie:', err);
-            this.isLoading = false;
-            this.cdr.detectChanges();
-          }
-        });
-      },
-      error: (err) => {
-        console.error('Error cargando Pokémon:', err);
-        this.isLoading = false;
-        this.router.navigate(['/pokedex']);
-      }
+          });
+        },
+        error: (err) => {
+          console.error('Error cargando Pokémon:', err);
+          this.isLoading = false;
+          this.router.navigate(['/pokedex']);
+        }
+      });
     });
   }
 
-  getCategory(speciesData: any): string {
-    const genus = speciesData.genera.find((g: any) => g.language.name === 'es');
-    return genus ? genus.genus.replace(' Pokémon', '') : '';
+  buildPokemonData(data: any, speciesData: any, abilityData: any): void {
+    this.pokemon = {
+      id: data.id,
+      name: this.getPokemonName(speciesData),
+      types: data.types.map((t: any) => t.type.name),
+      height: data.height / 10, // Convertir a metros
+      weight: data.weight / 10, // Convertir a kg
+      category: this.getCategory(speciesData),
+      ability: this.getAbilityName(abilityData, data.abilities[0]?.ability.name),
+      gender: {
+        male: speciesData.gender_rate !== 8 && speciesData.gender_rate !== -1,
+        female: speciesData.gender_rate !== 0 && speciesData.gender_rate !== -1
+      },
+      description: this.getDescription(speciesData, data.id),
+      region: this.getRegion(data.id),
+      stats: {
+        hp: data.stats[0].base_stat,
+        attack: data.stats[1].base_stat,
+        defense: data.stats[2].base_stat,
+        spAttack: data.stats[3].base_stat,
+        spDefense: data.stats[4].base_stat,
+        speed: data.stats[5].base_stat
+      },
+      evolutions: [],
+      weaknesses: this.calculateWeaknesses(data.types.map((t: any) => t.type.name)),
+      image: data.sprites.other['official-artwork'].front_default,
+      versions: []
+    };
+
+    // Cargar cadena evolutiva
+    if (speciesData.evolution_chain?.url) {
+      this.loadEvolutionChain(speciesData.evolution_chain.url);
+    }
+
+    this.setupNavigation(data.id);
+    this.isLoading = false;
+    this.cdr.detectChanges();
   }
 
-  getDescription(speciesData: any): string {
-    // Buscar descripción en español
-    const entry = speciesData.flavor_text_entries.find(
+  // Obtener la región de origen según el ID del Pokémon
+  getRegion(id: number): string {
+    if (id >= 1 && id <= 151) return 'Kanto';
+    if (id >= 152 && id <= 251) return 'Johto';
+    if (id >= 252 && id <= 386) return 'Hoenn';
+    if (id >= 387 && id <= 493) return 'Sinnoh';
+    if (id >= 494 && id <= 649) return 'Teselia';
+    if (id >= 650 && id <= 721) return 'Kalos';
+    if (id >= 722 && id <= 809) return 'Alola';
+    if (id >= 810 && id <= 905) return 'Galar';
+    if (id >= 906 && id <= 1025) return 'Paldea';
+    return 'Desconocida';
+  }
+
+  // Obtener nombre del Pokémon en español
+  getPokemonName(speciesData: any): string {
+    const spanishName = speciesData.names?.find((n: any) => n.language.name === 'es');
+    if (spanishName) {
+      return spanishName.name;
+    }
+    // Fallback al nombre en inglés capitalizado
+    return this.capitalizeFirstLetter(speciesData.name);
+  }
+
+  // Obtener nombre de la habilidad en español
+  getAbilityName(abilityData: any, fallbackName: string): string {
+    if (abilityData) {
+      const spanishName = abilityData.names?.find((n: any) => n.language.name === 'es');
+      if (spanishName) {
+        return spanishName.name;
+      }
+    }
+    // Fallback formateado
+    return this.capitalizeFirstLetter(fallbackName?.replace(/-/g, ' ') || '');
+  }
+
+  getCategory(speciesData: any): string {
+    const genus = speciesData.genera?.find((g: any) => g.language.name === 'es');
+    if (genus) {
+      return genus.genus.replace(' Pokémon', '');
+    }
+    
+    // Fallback a inglés y luego traducir
+    const englishGenus = speciesData.genera?.find((g: any) => g.language.name === 'en');
+    if (englishGenus) {
+      const englishCategory = englishGenus.genus.replace(' Pokémon', '');
+      return this.translateCategory(englishCategory);
+    }
+    return '';
+  }
+
+  // Diccionario de traducciones de categorías
+  translateCategory(englishCategory: string): string {
+    const categoryTranslations: { [key: string]: string } = {
+      // Leyendas Arceus y nuevos
+      'Big Horn': 'Gran Cuerno',
+      'Axe': 'Hacha',
+      'Peat': 'Turbera',
+      'Big Fish': 'Pez Grande',
+      'Free Climb': 'Escalador',
+      'Big Wave': 'Gran Ola',
+      'Love-Hate': 'Amor-Odio',
+      // Escarlata/Púrpura
+      'Grass Cat': 'Gato Hierba',
+      'Grass Quill': 'Pluma Hierba',
+      'Magician': 'Mago',
+      'Fire Croc': 'Croco Fuego',
+      'Fire Singer': 'Cantor Fuego',
+      'Singer': 'Cantor',
+      'Duckling': 'Patito',
+      'Dancer': 'Bailarín',
+      'Hog': 'Cerdo',
+      'Tarantula': 'Tarántula',
+      'Trap Jaw': 'Mandíbula Trampa',
+      'Grasshopper': 'Saltamontes',
+      'Kicking': 'Pateador',
+      'Mouse': 'Ratón',
+      'Couple': 'Pareja',
+      'Family': 'Familia',
+      'Puppy': 'Cachorro',
+      'Dog': 'Perro',
+      'Olive': 'Oliva',
+      'Olive Roll': 'Oliva Rodante',
+      'Olive Tree': 'Olivo',
+      'Parrot': 'Loro',
+      'Rock Salt': 'Sal Gema',
+      'Rock Salt Tower': 'Torre de Sal',
+      'Rock Salt Giant': 'Gigante de Sal',
+      'Fire Warrior': 'Guerrero Fuego',
+      'Fire Blade': 'Espada Fuego',
+      'EleToad': 'EleSapo',
+      'EleFrog': 'EleRana',
+      'Storm Petrel': 'Petrel',
+      'Frigatebird': 'Fragata',
+      'Sneaky': 'Astuto',
+      'Dastardly': 'Villano',
+      'Toxic Monkey': 'Mono Tóxico',
+      'Grafitti': 'Grafiti',
+      'Tumbleweed': 'Rodadora',
+      'Toadsool': 'Falsa Seta',
+      'Woodear': 'Oreja de Madera',
+      'Ambush': 'Emboscada',
+      'Pepper': 'Pimiento',
+      'Spicy': 'Picante',
+      'Rolling': 'Rodante',
+      'Scarab': 'Escarabajo',
+      'Frill': 'Volante',
+      'Ostrich': 'Avestruz',
+      'Hammer': 'Martillo',
+      'Garden Eel': 'Anguila',
+      'Garden Eel Colony': 'Colonia de Anguilas',
+      'Bomber': 'Bombardero',
+      'Dolphin': 'Delfín',
+      'Hero': 'Héroe',
+      'Single-Cyl': 'Monocilindro',
+      'Multi-Cyl': 'Multicilindro',
+      'Mount': 'Montura',
+      'Earthworm': 'Lombriz',
+      'Ore': 'Mineral',
+      'Ghost Dog': 'Perro Fantasma',
+      'Flamingo': 'Flamenco',
+      'Ice Fin': 'Aleta Hielo',
+      'Terra Whale': 'Ballena Tierra',
+      'Jettison': 'Descarte',
+      'Big Catfish': 'Gran Siluro',
+      'Mimicry': 'Imitación',
+      'Rage Monkey': 'Mono Furia',
+      'Spike': 'Púa',
+      'Long Neck': 'Cuellilargo',
+      'Land Snake': 'Serpiente',
+      'Big Tusk': 'Gran Colmillo',
+      'Paradox': 'Paradoja',
+      'Ice Dragon': 'Dragón Hielo',
+      'Coin Chest': 'Cofre Monedas',
+      'Coin Entity': 'Entidad Monedas',
+      'Ruinous': 'Ruinoso',
+      'Treasures of Ruin': 'Tesoro Ruina',
+      'Winged King': 'Rey Alado',
+      'Iron Beast': 'Bestia Férrea',
+      'Paradise': 'Paraíso',
+      'Apple Core': 'Corazón de Manzana',
+      'Matcha': 'Matcha',
+      'Retainer': 'Sirviente',
+      'Mask': 'Máscara',
+      'Alloy': 'Aleación',
+      'Hydra Apple': 'Manzana Hidra',
+      'Terastal': 'Teracristal',
+      'Subjugation': 'Sometimiento',
+      // Galar
+      'Rillaboom': 'Tamborilero',
+      'Striker': 'Delantero',
+      'Secret Agent': 'Agente Secreto',
+      'Greedy': 'Codicioso',
+      'Tiny Bird': 'Pajarito',
+      'Raven': 'Cuervo',
+      'Larva': 'Larva',
+      'Radome': 'Cúpula',
+      'Fox': 'Zorro',
+      'Flowering': 'Floración',
+      'Cotton Bloom': 'Algodón',
+      'Sheep': 'Oveja',
+      'Bite': 'Mordisco',
+      'Water Dog': 'Perro Agua',
+      'Water Snake': 'Serpiente Agua',
+      'Electric': 'Eléctrico',
+      'Coal': 'Carbón',
+      'Apple Wing': 'Ala Manzana',
+      'Apple Nectar': 'Néctar Manzana',
+      'Sand Snake': 'Serpiente Arena',
+      'Gulp': 'Tragar',
+      'Spike Fish': 'Pez Espina',
+      'Baby': 'Bebé',
+      'Punk': 'Punk',
+      'Radiator': 'Radiador',
+      'Centipede': 'Ciempiés',
+      'Tantrum': 'Rabieta',
+      'Jujitsu': 'Jiu-Jitsu',
+      'Black Tea': 'Té Negro',
+      'Calm': 'Calma',
+      'Strong Arm': 'Brazofuerte',
+      'Formation': 'Formación',
+      'Sea Urchin': 'Erizo Mar',
+      'Worm': 'Gusano',
+      'Frost Moth': 'Polilla Hielo',
+      'Big Rock': 'Gran Roca',
+      'Ice Face': 'Cara Hielo',
+      'Emotion': 'Emoción',
+      'Two-Sided': 'Dos Caras',
+      'Copperderm': 'Cobrizo',
+      'Fossil': 'Fósil',
+      'Lingering': 'Persistente',
+      'Stealth': 'Sigilo',
+      'Warrior': 'Guerrero',
+      'Legendary': 'Legendario',
+      'Wushu': 'Wushu',
+      'Rune': 'Runa',
+      'Electron': 'Electrón',
+      'Dragon Orb': 'Orbe Dragón',
+      'Wild Horse': 'Caballo Salvaje',
+      'High King': 'Gran Rey'
+    };
+
+    return categoryTranslations[englishCategory] || englishCategory;
+  }
+
+  getDescription(speciesData: any, pokemonId: number): string {
+    // Buscar descripción en español (preferir versiones más recientes)
+    const spanishEntries = speciesData.flavor_text_entries?.filter(
       (e: any) => e.language.name === 'es'
-    );
-    if (entry) {
+    ) || [];
+    
+    if (spanishEntries.length > 0) {
+      // Tomar la última entrada (más reciente)
+      const entry = spanishEntries[spanishEntries.length - 1];
       return entry.flavor_text.replace(/\n/g, ' ').replace(/\f/g, ' ');
     }
-    // Si no hay español, buscar en inglés
-    const englishEntry = speciesData.flavor_text_entries.find(
+    
+    // Fallback: buscar en el archivo de descripciones en español
+    if (spanishDescriptionsCache && spanishDescriptionsCache[pokemonId.toString()]) {
+      return spanishDescriptionsCache[pokemonId.toString()];
+    }
+    
+    // Último fallback a inglés
+    const englishEntries = speciesData.flavor_text_entries?.filter(
       (e: any) => e.language.name === 'en'
-    );
-    return englishEntry ? englishEntry.flavor_text.replace(/\n/g, ' ').replace(/\f/g, ' ') : '';
+    ) || [];
+    
+    if (englishEntries.length > 0) {
+      const entry = englishEntries[englishEntries.length - 1];
+      return entry.flavor_text.replace(/\n/g, ' ').replace(/\f/g, ' ');
+    }
+    
+    return '';
   }
 
   calculateWeaknesses(pokemonTypes: string[]): string[] {
@@ -250,19 +502,22 @@ export class PokemonDetailComponent implements OnInit {
         const branchInfo = this.analyzeBranches(data.chain);
         this.extractEvolutions(data.chain, evolutions, null);
 
-        // Cargar detalles de cada evolución
+        // Cargar detalles de cada evolución (pokemon + species para nombre español)
         const evolutionRequests = evolutions.map(evo =>
-          this.http.get<any>(`https://pokeapi.co/api/v2/pokemon/${evo.id}`)
+          forkJoin({
+            pokemon: this.http.get<any>(`https://pokeapi.co/api/v2/pokemon/${evo.id}`),
+            species: this.http.get<any>(`https://pokeapi.co/api/v2/pokemon-species/${evo.id}`)
+          })
         );
 
         if (evolutionRequests.length > 0) {
           forkJoin(evolutionRequests).subscribe({
-            next: (pokemonData) => {
-              const allEvolutions = pokemonData.map((p, index) => ({
-                id: p.id,
-                name: this.capitalizeFirstLetter(p.name),
-                types: p.types.map((t: any) => t.type.name),
-                image: p.sprites.other['official-artwork'].front_default,
+            next: (responses) => {
+              const allEvolutions = responses.map((res, index) => ({
+                id: res.pokemon.id,
+                name: this.getPokemonName(res.species),
+                types: res.pokemon.types.map((t: any) => t.type.name),
+                image: res.pokemon.sprites.other['official-artwork'].front_default,
                 evolutionMethod: evolutions[index].evolutionMethod,
                 evolvesFromId: evolutions[index].evolvesFromId
               }));
@@ -418,10 +673,45 @@ export class PokemonDetailComponent implements OnInit {
 
     // Casos especiales para Pokémon con datos incompletos en la API
     const pokemonName = chain.species.name.toLowerCase();
-    if (pokemonName === 'dipplin' && !evolutionMethod) {
-      evolutionMethod = 'Manzana Melosa';
-    } else if (pokemonName === 'hydrapple' && !evolutionMethod) {
-      evolutionMethod = 'Conociendo Bramido Dragón + nivel';
+    if (!evolutionMethod) {
+      const specialEvolutions: { [key: string]: string } = {
+        // DLC El disco índigo
+        'dipplin': 'Manzana Melosa',
+        'hydrapple': 'Conociendo Bramido Dragón + nivel',
+        'archaludon': 'Lingote de Metal',
+        'sinistcha': 'Cuenco Mediocre / Excepcional',
+        // Leyendas Arceus
+        'wyrdeer': 'Usar Asalto Barrera 20 veces',
+        'kleavor': 'Mineral Negro',
+        'ursaluna': 'Bloque de Turba (luna llena)',
+        'basculegion': 'Recibir 294+ daño sin debilitarse',
+        'sneasler': 'Garra Afilada (día)',
+        'overqwil': 'Usar Mil Púas 20 veces',
+        // Escarlata/Púrpura
+        'kingambit': 'Subir nivel derrotando 3 Bisharp con Emblema de Líder',
+        'annihilape': 'Usar Puño Fantasma 20 veces',
+        'farigiraf': 'Conociendo Doble Rayo + nivel',
+        'dudunsparce': 'Conociendo Hipertaladro + nivel',
+        'palafin': 'Subir nivel en multijugador',
+        'maushold': 'Nivel 25',
+        'brambleghast': 'Caminar 1000 pasos en modo Pokémon Unión',
+        'rabsca': 'Caminar 1000 pasos en modo Pokémon Unión',
+        'pawmot': 'Caminar 1000 pasos en modo Pokémon Unión',
+        'gholdengo': '999 Monedas Gimmighoul',
+        'clodsire': 'Nivel 20',
+        // Galar
+        'mr-rime': 'Nivel 42',
+        'cursola': 'Nivel 38',
+        'sirfetchd': 'Asestar 3 golpes críticos en un combate',
+        'runerigus': 'Recibir 49+ daño cerca del Arco de Piedras',
+        'alcremie': 'Dar vueltas con Dulce equipado',
+        'obstagoon': 'Nivel 35 (noche)',
+        'perrserker': 'Nivel 28'
+      };
+      
+      if (specialEvolutions[pokemonName]) {
+        evolutionMethod = specialEvolutions[pokemonName];
+      }
     }
 
     evolutions.push({
@@ -481,7 +771,11 @@ export class PokemonDetailComponent implements OnInit {
       'scroll-of-waters': 'Manuscrito Aguas',
       'sweet-apple': 'Manzana Dulce',
       'tart-apple': 'Manzana Ácida',
-      'syrupy-apple': 'Manzana Melosa'
+      'syrupy-apple': 'Manzana Melosa',
+      'metal-alloy': 'Lingote de Metal',
+      'leaders-crest': 'Emblema de Líder',
+      'masterpiece-teacup': 'Cuenco Excepcional',
+      'unremarkable-teacup': 'Cuenco Mediocre'
     };
     return items[itemName] || itemName.replace(/-/g, ' ');
   }
@@ -502,7 +796,7 @@ export class PokemonDetailComponent implements OnInit {
   setupNavigation(currentId: number): void {
     // Configurar navegación anterior
     if (currentId > 1) {
-      this.loadPokemonName(currentId - 1).then(name => {
+      this.loadPokemonNameSpanish(currentId - 1).then(name => {
         this.previousPokemon = { id: currentId - 1, name };
         this.cdr.detectChanges();
       });
@@ -512,7 +806,7 @@ export class PokemonDetailComponent implements OnInit {
 
     // Configurar navegación siguiente
     if (currentId < 1025) {
-      this.loadPokemonName(currentId + 1).then(name => {
+      this.loadPokemonNameSpanish(currentId + 1).then(name => {
         this.nextPokemon = { id: currentId + 1, name };
         this.cdr.detectChanges();
       });
@@ -521,10 +815,10 @@ export class PokemonDetailComponent implements OnInit {
     }
   }
 
-  async loadPokemonName(id: number): Promise<string> {
+  async loadPokemonNameSpanish(id: number): Promise<string> {
     try {
-      const response = await this.http.get<any>(`https://pokeapi.co/api/v2/pokemon/${id}`).toPromise();
-      return this.capitalizeFirstLetter(response.name);
+      const response = await this.http.get<any>(`https://pokeapi.co/api/v2/pokemon-species/${id}`).toPromise();
+      return this.getPokemonName(response);
     } catch {
       return `Pokémon #${id}`;
     }
@@ -552,6 +846,23 @@ export class PokemonDetailComponent implements OnInit {
   getStatPercentage(value: number): number {
     // Máximo stat base es 255 (Blissey HP)
     return Math.min((value / 255) * 100, 100);
+  }
+
+  getTotalStats(): number {
+    return this.pokemon.stats.hp + 
+           this.pokemon.stats.attack + 
+           this.pokemon.stats.defense + 
+           this.pokemon.stats.spAttack + 
+           this.pokemon.stats.spDefense + 
+           this.pokemon.stats.speed;
+  }
+
+  getTotalStatPercentage(): number {
+    // Máximo total posible sería 255 * 6 = 1530 (teórico)
+    // En la práctica el máximo es Eternatus (690) o Arceus (720)
+    // Usamos 720 como referencia
+    const total = this.getTotalStats();
+    return Math.min((total / 720) * 100, 100);
   }
 
   getStatBarColor(statName: string): string {

@@ -102,8 +102,13 @@
 
     &:focus {
       outline: none;
-      border-color: $color-primary-500;
-      box-shadow: 0 0 0 3px rgba($color-primary-500, 0.2);
+      border-color: #3B82F6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+
+      :host-context(.dark-theme) & {
+        border-color: #60A5FA;
+        box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.4);
+      }
     }
   }
 
@@ -124,6 +129,10 @@
   display: flex;
   justify-content: center;
   border-radius: 0 0 $border-radius-2xl $border-radius-2xl;
+
+  :host-context(.dark-theme) & {
+    background: #374151;
+  }
 
   &__btn {
     display: inline-flex;
@@ -174,6 +183,10 @@
   max-height: 2000px;
   animation: slideDown 0.3s ease-out forwards;
   overflow: visible;
+
+  :host-context(.dark-theme) & {
+    background: #374151;
+  }
 
   &--closing {
     animation: slideUp 0.3s ease-out forwards;
@@ -285,6 +298,10 @@
     appearance: none;
     cursor: pointer;
 
+    :host-context(.dark-theme) & {
+      background: #1f2937;
+    }
+
     &:focus {
       outline: none;
       box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.3);
@@ -305,6 +322,11 @@
     border-left: 1px solid rgba(255, 255, 255, 0.2);
     border-radius: 0 $border-radius-lg $border-radius-lg 0;
     pointer-events: none;
+
+    :host-context(.dark-theme) & {
+      background: #2d3748;
+      border-left-color: rgba(255, 255, 255, 0.2);
+    }
 
     &--open .advanced-search__select-arrow {
       transform: rotate(180deg);
@@ -329,6 +351,7 @@
     }
   }
 
+  // ========== BOTÓN DE OPCIÓN (Altura/Peso) - MEJORADO ==========
   &__option-btn {
     width: 70px;
     height: 70px;
@@ -336,10 +359,15 @@
     border: 3px solid transparent;
     border-radius: $border-radius-lg;
     cursor: pointer;
-    transition: $transition-all;
+    transition: all 0.2s ease;
     display: flex;
     align-items: center;
     justify-content: center;
+    position: relative;
+
+    :host-context(.dark-theme) & {
+      background: #F2F2F2;
+    }
 
     @include respond-to('sm') {
       width: 80px;
@@ -350,15 +378,40 @@
       object-fit: contain;
       max-width: 90%;
       max-height: 90%;
+      transition: transform 0.2s ease;
     }
 
-    &:hover {
-      border-color: rgba(255, 255, 255, 0.5);
+    &:hover:not(&--active) {
+      border-color: rgba(48, 167, 215, 0.5);
     }
 
+    // ===== ESTADO ACTIVO - MUY VISIBLE =====
     &--active {
-      border-color: $color-primary-500;
-      box-shadow: 0 0 0 2px rgba($color-primary-500, 0.3);
+      border-color: #30A7D7;
+      background: #F2F2F2;
+      box-shadow: 
+        0 0 0 3px rgba(48, 167, 215, 0.4),
+        0 4px 12px rgba(48, 167, 215, 0.3);
+      transform: translateY(-2px);
+
+      // Indicador de check en la esquina
+      &::after {
+        content: '✓';
+        position: absolute;
+        top: -8px;
+        right: -8px;
+        width: 24px;
+        height: 24px;
+        background: #30A7D7;
+        color: #ffffff;
+        font-size: 14px;
+        font-weight: bold;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      }
     }
   }
 
@@ -411,6 +464,12 @@
     border-radius: $border-radius-md;
     text-align: center;
     color-scheme: light;
+
+    :host-context(.dark-theme) & {
+      background: #1f2937;
+      color: #ffffff;
+      color-scheme: dark;
+    }
 
     &:focus {
       outline: none;
@@ -469,7 +528,7 @@
   }
 }
 
-// ========== FILTRO DE TIPO ==========
+// ========== FILTRO DE TIPO - MEJORADO ==========
 .type-filter {
   &__badge {
     padding: $spacing-2 $spacing-4;
@@ -479,18 +538,63 @@
     text-align: center;
     border-radius: $border-radius-lg;
     text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
-    border: 2px solid transparent;
+    border: 3px solid transparent;
     cursor: pointer;
-    transition: $transition-all;
+    transition: all 0.2s ease;
+    position: relative;
 
-    &:hover {
+    &:hover:not(&--active) {
       opacity: 0.85;
       transform: scale(1.03);
+      border-color: rgba(255, 255, 255, 0.3);
     }
 
+    // ===== ESTADO ACTIVO - MUY VISIBLE =====
     &--active {
       border-color: #ffffff;
-      box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.4);
+      box-shadow: 
+        0 0 0 2px rgba(255, 255, 255, 0.5),
+        0 4px 12px rgba(0, 0, 0, 0.3),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.3);
+      transform: scale(1.05);
+      font-weight: $font-weight-bold;
+
+      // Efecto de brillo interior
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: inherit;
+        background: linear-gradient(
+          135deg,
+          rgba(255, 255, 255, 0.3) 0%,
+          transparent 50%,
+          rgba(0, 0, 0, 0.1) 100%
+        );
+        pointer-events: none;
+      }
+
+      // Indicador de check
+      &::after {
+        content: '✓';
+        position: absolute;
+        top: -6px;
+        right: -6px;
+        width: 18px;
+        height: 18px;
+        background: #ffffff;
+        color: #333333;
+        font-size: 11px;
+        font-weight: bold;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      }
     }
   }
 }
@@ -545,6 +649,11 @@
     cursor: pointer;
     transition: $transition-all;
 
+    :host-context(.dark-theme) & {
+      background: #1e7ba8;
+      border-color: #186a94;
+    }
+
     svg {
       width: 20px;
       height: 20px;
@@ -554,6 +663,11 @@
       background: #2896c4;
       transform: translateY(-2px);
       box-shadow: 0 4px 15px rgba(#30A7D7, 0.4);
+
+      :host-context(.dark-theme) & {
+        background: #186a94;
+        box-shadow: 0 4px 15px rgba(#1e7ba8, 0.4);
+      }
     }
   }
 
@@ -597,19 +711,40 @@
     cursor: pointer;
     min-width: 180px;
 
+    :host-context(.dark-theme) & {
+      background: #2d3748;
+    }
+
     &:focus {
       outline: none;
       box-shadow: 0 0 0 2px rgba(#30A7D7, 0.3);
     }
   }
 
-  &__select-arrow {
+  &__select-arrow-wrapper {
     position: absolute;
-    right: $spacing-3;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #2a2a2a;
+    border-left: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 0 $border-radius-lg $border-radius-lg 0;
+    pointer-events: none;
+
+    :host-context(.dark-theme) & {
+      background: #374151;
+      border-left-color: rgba(255, 255, 255, 0.15);
+    }
+  }
+
+  &__select-arrow {
     width: 18px;
     height: 18px;
     color: #ffffff;
-    pointer-events: none;
   }
 }
 
@@ -633,6 +768,25 @@
     display: flex;
     justify-content: center;
     margin-top: $spacing-8;
+  }
+
+  &__no-results {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 300px;
+    padding: $spacing-8;
+
+    p {
+      font-size: $font-size-3xl;
+      font-weight: $font-weight-bold;
+      color: var(--text-secondary);
+      text-align: center;
+
+      @include respond-to('md') {
+        font-size: 2.5rem;
+      }
+    }
   }
 }
 
@@ -723,7 +877,7 @@
       width: 24px;
       height: 24px;
       color: #CBD5E1;
-      transition: color 0.2s ease;
+      transition: none;
 
       :host-context(.dark-theme) & {
         color: #64748B;
@@ -741,6 +895,7 @@
     &--active svg {
       color: #FE2C55;
       fill: #FE2C55;
+      transition: none;
     }
 
     // Animación de ondas al hacer click
@@ -892,15 +1047,25 @@
   font-weight: $font-weight-semibold;
   color: #ffffff;
   background: #30A7D7;
-  border: none;
+  border: 2px solid #2896c4;
   border-radius: $border-radius-lg;
   cursor: pointer;
   transition: $transition-all;
+
+  :host-context(.dark-theme) & {
+    background: #1e7ba8;
+    border-color: #186a94;
+  }
 
   &:hover {
     background: #2896c4;
     transform: translateY(-2px);
     box-shadow: 0 4px 15px rgba(#30A7D7, 0.4);
+
+    :host-context(.dark-theme) & {
+      background: #186a94;
+      box-shadow: 0 4px 15px rgba(#1e7ba8, 0.4);
+    }
   }
 }
 

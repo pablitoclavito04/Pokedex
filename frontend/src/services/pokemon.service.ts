@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, BehaviorSubject, catchError, map, tap, of } from 'rxjs';
+import { Observable, BehaviorSubject, catchError, map, tap, of, forkJoin } from 'rxjs';
 import { LoadingService } from './loading.service';
 import { ToastService } from './toast.service';
 
@@ -67,9 +67,14 @@ export class PokemonService {
   private toastService = inject(ToastService);
 
   private readonly API_URL = 'https://pokeapi.co/api/v2/pokemon';
+  private readonly SPECIES_URL = 'https://pokeapi.co/api/v2/pokemon-species';
 
   // Cache de Pokémon para evitar llamadas repetidas
   private pokemonCache = new Map<number, Pokemon>();
+
+  // Cache de nombres en español
+  private spanishNamesCache = new Map<number, string>();
+  private spanishNamesLoaded = false;
 
   // Estado del Pokémon actual
   private currentPokemonSubject = new BehaviorSubject<Pokemon | null>(null);
@@ -224,27 +229,60 @@ export class PokemonService {
   }
 
   /**
-   * Obtiene la lista completa de todos los Pokémon (solo nombres e IDs)
+   * Obtiene la lista completa de todos los Pokémon con nombres en español
    */
   getAllPokemonNames(): Observable<{id: number, name: string}[]> {
-    return this.http.get<{ results: { name: string; url: string }[] }>(
-      `${this.API_URL}?limit=1025`
-    ).pipe(
-      map(response => {
-        return response.results.map(p => {
-          const urlParts = p.url.split('/');
-          const id = parseInt(urlParts[urlParts.length - 2]);
-          return {
-            id,
-            name: this.capitalizeFirstLetter(this.cleanPokemonName(p.name))
-          };
+    // Si ya tenemos los nombres cargados, devolverlos del cache
+    if (this.spanishNamesLoaded && this.spanishNamesCache.size > 0) {
+      const names: {id: number, name: string}[] = [];
+      this.spanishNamesCache.forEach((name, id) => {
+        names.push({ id, name });
+      });
+      return of(names.sort((a, b) => a.id - b.id));
+    }
+
+    // Cargar nombres en español desde el archivo JSON local
+    return this.http.get<Record<string, string>>('assets/data/pokemon-names-es.json').pipe(
+      map(namesData => {
+        const names: {id: number, name: string}[] = [];
+        Object.entries(namesData).forEach(([id, name]) => {
+          const numId = parseInt(id);
+          this.spanishNamesCache.set(numId, name);
+          names.push({ id: numId, name });
         });
+        this.spanishNamesLoaded = true;
+        return names.sort((a, b) => a.id - b.id);
       }),
       catchError(error => {
-        console.error('Error fetching all Pokemon names:', error);
-        return of([]);
+        console.error('Error loading Spanish names, falling back to API:', error);
+        // Fallback: cargar desde la API (nombres en inglés)
+        return this.http.get<{ results: { name: string; url: string }[] }>(
+          `${this.API_URL}?limit=1025`
+        ).pipe(
+          map(response => {
+            return response.results.map(p => {
+              const urlParts = p.url.split('/');
+              const id = parseInt(urlParts[urlParts.length - 2]);
+              return {
+                id,
+                name: this.capitalizeFirstLetter(this.cleanPokemonName(p.name))
+              };
+            });
+          }),
+          catchError(err => {
+            console.error('Error fetching all Pokemon names:', err);
+            return of([]);
+          })
+        );
       })
     );
+  }
+
+  /**
+   * Obtiene el nombre en español de un Pokémon por su ID
+   */
+  getSpanishName(id: number): string {
+    return this.spanishNamesCache.get(id) || `Pokémon #${id}`;
   }
 
   /**
@@ -256,7 +294,14 @@ export class PokemonService {
     }
 
     return this.http.get<PokeApiResponse>(`${this.API_URL}/${id}`).pipe(
-      map(response => this.transformPokemonData(response)),
+      map(response => {
+        const pokemon = this.transformPokemonData(response);
+        // Usar nombre en español del cache si está disponible
+        if (this.spanishNamesCache.has(id)) {
+          pokemon.name = this.spanishNamesCache.get(id)!;
+        }
+        return pokemon;
+      }),
       tap(pokemon => this.pokemonCache.set(id, pokemon)),
       catchError(error => {
         console.error('Error fetching Pokemon details:', error);
@@ -282,9 +327,15 @@ export class PokemonService {
    * Transforma los datos de la API al formato de la aplicación
    */
   private transformPokemonData(response: PokeApiResponse): Pokemon {
+    const id = response.id;
+    // Usar nombre en español si está en cache, si no usar el inglés
+    const name = this.spanishNamesCache.has(id) 
+      ? this.spanishNamesCache.get(id)! 
+      : this.capitalizeFirstLetter(this.cleanPokemonName(response.name));
+
     return {
-      id: response.id,
-      name: this.capitalizeFirstLetter(this.cleanPokemonName(response.name)),
+      id,
+      name,
       image: response.sprites.other['official-artwork'].front_default,
       types: response.types.map(t => ({
         name: this.capitalizeFirstLetter(t.type.name),
