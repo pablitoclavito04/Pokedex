@@ -39,6 +39,9 @@ export class HeaderComponent {
   // Estado del modal de logout
   isLogoutModalOpen: boolean = false;
 
+  // ¿Estamos en modo quiz (jugando)?
+  isQuizMode: boolean = false;
+
   // Navegación para landing page
   landingNavItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [
     { label: 'Inicio', path: '/', icon: 'home' },
@@ -83,10 +86,13 @@ export class HeaderComponent {
     const wasLandingPage = this.isLandingPage;
     this.isLandingPage = landingRoutes.includes(url) || url === '';
 
-    // Mostrar icono de perfil solo si está logueado y en rutas específicas
+    // Comprobar si estamos en modo quiz (solo jugando)
+    this.isQuizMode = url.startsWith('/quiz/play');
+
+    // Mostrar icono de perfil solo si está logueado, en rutas específicas y no en modo quiz
     const profileIconRoutes = ['/pokedex', '/pokemon', '/profile', '/settings', '/quiz'];
     const isInProfileRoute = profileIconRoutes.some(route => url.startsWith(route));
-    this.showProfileIcon = isInProfileRoute && this.authService.isLoggedIn();
+    this.showProfileIcon = isInProfileRoute && this.authService.isLoggedIn() && !this.isQuizMode;
 
     // Mostrar botón de tema en rutas de la app (no en landing)
     this.showThemeButton = isInProfileRoute;

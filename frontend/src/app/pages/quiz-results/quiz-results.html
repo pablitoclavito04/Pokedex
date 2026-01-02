@@ -26,25 +26,23 @@
       <p class="quiz-results__message">{{ resultMessage }}</p>
     }
 
-    <!-- Estadísticas -->
-    <div class="quiz-results__stats">
-      <div class="quiz-results__stat quiz-results__stat--correct">
-        <span class="quiz-results__stat-value">{{ score }}</span>
-        <span class="quiz-results__stat-label">Correctas</span>
-      </div>
-      <div class="quiz-results__stat quiz-results__stat--incorrect">
-        <span class="quiz-results__stat-value">{{ incorrectAnswers }}</span>
-        <span class="quiz-results__stat-label">Incorrectas</span>
-      </div>
+    <!-- Botones -->
+    <div class="quiz-results__actions">
+      <button class="quiz-results__btn quiz-results__btn--back" (click)="goToPokedex()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M19 12H5M12 19l-7-7 7-7"/>
+        </svg>
+        <span>Volver a la Pokédex</span>
+      </button>
+      <button class="quiz-results__btn quiz-results__btn--review" (click)="reviewAnswers()">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2"/>
+          <path d="M9 5a2 2 0 012-2h2a2 2 0 012 2v0a2 2 0 01-2 2h-2a2 2 0 01-2-2v0z"/>
+          <path d="M9 12h6M9 16h6"/>
+        </svg>
+        <span>Examinar respuestas</span>
+      </button>
     </div>
-
-    <!-- Botón -->
-    <button class="quiz-results__btn" (click)="goToPokedex()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M19 12H5M12 19l-7-7 7-7"/>
-      </svg>
-      <span>Volver a la Pokédex</span>
-    </button>
 
   </section>
 

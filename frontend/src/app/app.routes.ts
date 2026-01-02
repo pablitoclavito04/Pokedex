@@ -97,6 +97,13 @@ export const routes: Routes = [
     title: 'Resultados Quiz - Pokédex'
   },
 
+  // Quiz Review - Revisión de respuestas
+  {
+    path: 'quiz/review',
+    loadComponent: () => import('./pages/quiz-review/quiz-review').then(m => m.QuizReviewComponent),
+    title: 'Revisión de respuestas - Pokédex'
+  },
+
   // Ruta comodín - Redirige al inicio si no encuentra la ruta
   {
     path: '**',

@@ -1,0 +1,146 @@
+<!-- ============================================================================
+     QUIZ REVIEW PAGE - Página de revisión de respuestas del Quiz
+     ============================================================================ -->
+
+<main class="quiz-review">
+
+  <!-- ========== HEADER ========== -->
+  <header class="quiz-review__header">
+    <h1 class="quiz-review__title">Revisión de respuestas</h1>
+
+    <div class="quiz-review__summary">
+      <span class="quiz-review__badge quiz-review__badge--difficulty">{{ difficultyLabel }}</span>
+      <span class="quiz-review__badge quiz-review__badge--score"
+        [class.quiz-review__badge--perfect]="results && results.score === results.totalQuestions"
+        [class.quiz-review__badge--zero]="results && results.score === 0"
+        [class.quiz-review__badge--partial]="results && results.score > 0 && results.score < results.totalQuestions">
+        {{ results?.score }}/{{ results?.totalQuestions }}</span>
+    </div>
+  </header>
+
+  <!-- ========== FILTROS ========== -->
+  <nav class="quiz-review__filters">
+    <button 
+      class="quiz-review__filter-btn"
+      [class.quiz-review__filter-btn--active]="filter === 'all'"
+      (click)="setFilter('all')">
+      Todas ({{ results?.answerHistory?.length || 0 }})
+    </button>
+    <button 
+      class="quiz-review__filter-btn quiz-review__filter-btn--correct"
+      [class.quiz-review__filter-btn--active]="filter === 'correct'"
+      (click)="setFilter('correct')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M20 6L9 17l-5-5"/>
+      </svg>
+      Correctas ({{ correctCount }})
+    </button>
+    <button 
+      class="quiz-review__filter-btn quiz-review__filter-btn--incorrect"
+      [class.quiz-review__filter-btn--active]="filter === 'incorrect'"
+      (click)="setFilter('incorrect')">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 6L6 18M6 6l12 12"/>
+      </svg>
+      Incorrectas ({{ incorrectCount }})
+    </button>
+  </nav>
+
+  <!-- ========== LISTA DE PREGUNTAS ========== -->
+  <section class="quiz-review__questions">
+    @for (answer of filteredAnswers; track $index) {
+      <article class="quiz-review__card" [class.quiz-review__card--correct]="answer.isCorrect" [class.quiz-review__card--incorrect]="!answer.isCorrect">
+        
+        <!-- Indicador de resultado -->
+        <div class="quiz-review__result-badge">
+          @if (answer.isCorrect) {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 6L9 17l-5-5"/>
+            </svg>
+            <span>Correcta</span>
+          } @else {
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 6L6 18M6 6l12 12"/>
+            </svg>
+            <span>Incorrecta</span>
+          }
+        </div>
+
+        <!-- Número de pregunta -->
+        <span class="quiz-review__question-number">Pregunta {{ $index + 1 }}</span>
+
+        <!-- Texto de la pregunta -->
+        <h2 class="quiz-review__question-text">{{ answer.question.question }}</h2>
+
+        <!-- Opciones -->
+        <ul class="quiz-review__options">
+          @for (option of answer.question.options; track $index) {
+            <li 
+              class="quiz-review__option"
+              [class.quiz-review__option--correct]="$index === answer.question.correctAnswer"
+              [class.quiz-review__option--user-wrong]="$index === answer.userAnswer && !answer.isCorrect">
+              <span class="quiz-review__option-letter">{{ getOptionLetter($index) }}</span>
+              <span class="quiz-review__option-text">{{ option }}</span>
+              @if ($index === answer.question.correctAnswer) {
+                <svg class="quiz-review__option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M20 6L9 17l-5-5"/>
+                </svg>
+              }
+              @if ($index === answer.userAnswer && !answer.isCorrect) {
+                <svg class="quiz-review__option-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 6L6 18M6 6l12 12"/>
+                </svg>
+              }
+            </li>
+          }
+        </ul>
+
+        <!-- Explicación si respondió mal -->
+        @if (!answer.isCorrect) {
+          <div class="quiz-review__explanation">
+            <strong>Tu respuesta:</strong> {{ getOptionLetter(answer.userAnswer) }}. {{ answer.question.options[answer.userAnswer] }}<br>
+            <strong>Respuesta correcta:</strong> {{ getOptionLetter(answer.question.correctAnswer) }}. {{ answer.question.options[answer.question.correctAnswer] }}
+          </div>
+        }
+
+      </article>
+    }
+
+    <!-- Mensaje si no hay resultados con el filtro -->
+    @if (filteredAnswers.length === 0) {
+      <div class="quiz-review__empty">
+        @if (filter === 'correct') {
+          <p>No hay respuestas correctas</p>
+        } @else if (filter === 'incorrect') {
+          <p>¡No hay respuestas incorrectas!</p>
+        } @else {
+          <p>No hay respuestas para mostrar</p>
+        }
+      </div>
+    }
+  </section>
+
+  <!-- ========== ACCIONES ========== -->
+  <footer class="quiz-review__actions">
+    <button class="quiz-review__btn quiz-review__btn--back" (click)="goToPokedex()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M19 12H5M12 19l-7-7 7-7"/>
+      </svg>
+      <span>Volver a la Pokédex</span>
+    </button>
+    <button class="quiz-review__btn quiz-review__btn--secondary" (click)="goToQuiz()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M3 12h18M3 6h18M3 18h18"/>
+      </svg>
+      <span>Nuevo Quiz</span>
+    </button>
+    <button class="quiz-review__btn quiz-review__btn--primary" (click)="playAgain()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M23 4v6h-6M1 20v-6h6"/>
+        <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/>
+      </svg>
+      <span>Repetir Quiz</span>
+    </button>
+  </footer>
+
+</main>

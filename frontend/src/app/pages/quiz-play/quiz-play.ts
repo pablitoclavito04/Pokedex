@@ -7,10 +7,16 @@ import { CommonModule } from '@angular/common';
 import { Router, ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 
-interface Question {
+export interface Question {
   question: string;
   options: string[];
   correctAnswer: number;
+}
+
+export interface AnswerRecord {
+  question: Question;
+  userAnswer: number;
+  isCorrect: boolean;
 }
 
 interface QuestionBank {
@@ -50,8 +56,12 @@ export class QuizPlayComponent implements OnInit, OnDestroy {
   // ========== PREGUNTAS ==========
   questions: Question[] = [];
 
-  // Clave para sessionStorage
+  // ========== HISTORIAL DE RESPUESTAS ==========
+  answerHistory: AnswerRecord[] = [];
+
+  // Claves para sessionStorage
   private readonly STORAGE_KEY = 'quiz_state';
+  private readonly RESULTS_KEY = 'quiz_results';
 
   ngOnInit(): void {
     // Obtener parámetros de la URL
@@ -67,6 +77,7 @@ export class QuizPlayComponent implements OnInit, OnDestroy {
         this.currentQuestionIndex = savedState.currentQuestionIndex;
         this.score = savedState.score;
         this.selectedAnswer = savedState.selectedAnswer;
+        this.answerHistory = savedState.answerHistory || [];
         this.isLoading = false;
         this.cdr.detectChanges();
       } else {
@@ -90,6 +101,7 @@ export class QuizPlayComponent implements OnInit, OnDestroy {
         // Mezclar y seleccionar preguntas
         const shuffled = [...bank].sort(() => Math.random() - 0.5);
         this.questions = shuffled.slice(0, Math.min(this.totalQuestions, shuffled.length));
+        this.answerHistory = [];
         this.isLoading = false;
         this.saveState();
         this.cdr.detectChanges();
@@ -111,7 +123,8 @@ export class QuizPlayComponent implements OnInit, OnDestroy {
       questions: this.questions,
       currentQuestionIndex: this.currentQuestionIndex,
       score: this.score,
-      selectedAnswer: this.selectedAnswer
+      selectedAnswer: this.selectedAnswer,
+      answerHistory: this.answerHistory
     };
     sessionStorage.setItem(this.STORAGE_KEY, JSON.stringify(state));
   }
@@ -125,6 +138,17 @@ export class QuizPlayComponent implements OnInit, OnDestroy {
   // Limpiar estado guardado
   private clearState(): void {
     sessionStorage.removeItem(this.STORAGE_KEY);
+  }
+
+  // Guardar resultados para la página de revisión
+  private saveResults(): void {
+    const results = {
+      answerHistory: this.answerHistory,
+      score: this.score,
+      totalQuestions: this.totalQuestions,
+      difficulty: this.difficulty
+    };
+    sessionStorage.setItem(this.RESULTS_KEY, JSON.stringify(results));
   }
 
   get currentQuestion(): Question | null {
@@ -141,10 +165,18 @@ export class QuizPlayComponent implements OnInit, OnDestroy {
   }
 
   nextQuestion(): void {
-    if (this.selectedAnswer === null) return;
+    if (this.selectedAnswer === null || !this.currentQuestion) return;
+
+    // Registrar la respuesta
+    const isCorrect = this.selectedAnswer === this.currentQuestion.correctAnswer;
+    this.answerHistory.push({
+      question: this.currentQuestion,
+      userAnswer: this.selectedAnswer,
+      isCorrect: isCorrect
+    });
 
     // Calcular puntuación
-    if (this.selectedAnswer === this.currentQuestion?.correctAnswer) {
+    if (isCorrect) {
       this.score++;
     }
 
@@ -154,7 +186,8 @@ export class QuizPlayComponent implements OnInit, OnDestroy {
       this.selectedAnswer = null;
       this.saveState();
     } else {
-      // Quiz terminado - limpiar estado y navegar a resultados
+      // Quiz terminado - guardar resultados y navegar
+      this.saveResults();
       this.clearState();
       this.router.navigate(['/quiz/results'], {
         queryParams: {

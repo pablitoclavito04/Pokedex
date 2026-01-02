@@ -76,6 +76,10 @@ export class QuizResultsComponent implements OnInit {
     this.router.navigate(['/pokedex']);
   }
 
+  reviewAnswers(): void {
+    this.router.navigate(['/quiz/review']);
+  }
+
   playAgain(): void {
     this.router.navigate(['/quiz/play'], {
       queryParams: {

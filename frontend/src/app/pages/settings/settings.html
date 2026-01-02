@@ -114,7 +114,7 @@
       </section>
 
       <!-- Nueva contraseña -->
-      <section class="settings-field">
+      <section class="settings-field settings-field--new-password">
         <label class="settings-field__label" for="newPassword">Nueva contraseña</label>
         <div class="settings-field__input-wrapper settings-field__input-wrapper--password">
           <input
@@ -137,6 +137,59 @@
               <line x1="1" y1="1" x2="23" y2="23"/>
             </svg>
           </button>
+        </div>
+        <!-- Requisitos de contraseña -->
+        <div class="settings-field__password-requirements">
+          <div class="settings-field__requirement" [class.settings-field__requirement--valid]="passwordValidation.length">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              @if (passwordValidation.length) {
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              } @else {
+                <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>
+              }
+            </svg>
+            <span>De 8 a 50 caracteres</span>
+          </div>
+          <div class="settings-field__requirement" [class.settings-field__requirement--valid]="passwordValidation.hasNumber">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              @if (passwordValidation.hasNumber) {
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              } @else {
+                <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>
+              }
+            </svg>
+            <span>Un número</span>
+          </div>
+          <div class="settings-field__requirement" [class.settings-field__requirement--valid]="passwordValidation.hasUppercase">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              @if (passwordValidation.hasUppercase) {
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              } @else {
+                <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>
+              }
+            </svg>
+            <span>Una letra mayúscula</span>
+          </div>
+          <div class="settings-field__requirement" [class.settings-field__requirement--valid]="passwordValidation.hasSpecial">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              @if (passwordValidation.hasSpecial) {
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              } @else {
+                <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>
+              }
+            </svg>
+            <span>Un carácter especial (!, &amp;, %, etc.)</span>
+          </div>
+          <div class="settings-field__requirement" [class.settings-field__requirement--valid]="passwordValidation.hasLowercase">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              @if (passwordValidation.hasLowercase) {
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+              } @else {
+                <path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/>
+              }
+            </svg>
+            <span>Una letra minúscula</span>
+          </div>
         </div>
       </section>
 

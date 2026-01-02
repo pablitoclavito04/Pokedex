@@ -1,0 +1,540 @@
+// ============================================================================
+//                    QUIZ REVIEW PAGE - Estilos BEM
+// ============================================================================
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+// ============================================================================
+//                      VARIABLES LOCALES
+// ============================================================================
+$review-bg: #E2E8F0;
+$review-bg-dark: #1a2744;
+$correct-color: #22c55e;
+$correct-bg: rgba(34, 197, 94, 0.1);
+$correct-border: rgba(34, 197, 94, 0.3);
+$incorrect-color: #ef4444;
+$incorrect-bg: rgba(239, 68, 68, 0.1);
+$incorrect-border: rgba(239, 68, 68, 0.3);
+
+// ============================================================================
+//                      BLOQUE PRINCIPAL: .quiz-review
+// ============================================================================
+.quiz-review {
+  min-height: 100vh;
+  background: $review-bg;
+  padding: $spacing-4;
+  padding-bottom: 120px;
+
+  :host-context(.dark-theme) & {
+    background: $review-bg-dark;
+  }
+
+  @include respond-to('md') {
+    padding: $spacing-8;
+    padding-bottom: 140px;
+  }
+
+  // ========== HEADER ==========
+  &__header {
+    max-width: 800px;
+    margin: 0 auto $spacing-6;
+    text-align: center;
+  }
+
+  &__back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: $border-radius-lg;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    margin-bottom: $spacing-4;
+
+    &:hover {
+      color: var(--text-primary);
+      background: var(--bg-secondary);
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-extrabold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-4;
+
+    @include respond-to('md') {
+      font-size: $font-size-3xl;
+    }
+  }
+
+  &__summary {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-3;
+  }
+
+  &__badge {
+    display: inline-flex;
+    align-items: center;
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    border-radius: $border-radius-full;
+
+    &--difficulty {
+      background: var(--bg-secondary);
+      color: var(--text-secondary);
+      border: 1px solid var(--border-primary);
+    }
+
+    &--score {
+      color: #ffffff;
+    }
+
+    &--perfect {
+      background: #22c55e;
+
+      :host-context(.dark-theme) & {
+        background: #16a34a;
+      }
+    }
+
+    &--zero {
+      background: #ef4444;
+
+      :host-context(.dark-theme) & {
+        background: #dc2626;
+      }
+    }
+
+    &--partial {
+      background: #eab308;
+
+      :host-context(.dark-theme) & {
+        background: #ca8a04;
+      }
+    }
+  }
+
+  // ========== FILTROS ==========
+  &__filters {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-2;
+    max-width: 800px;
+    margin: 0 auto $spacing-6;
+    flex-wrap: wrap;
+
+    @include respond-to('md') {
+      gap: $spacing-3;
+    }
+  }
+
+  &__filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-4;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    color: var(--text-secondary);
+    background: var(--bg-primary);
+    border: 2px solid var(--border-primary);
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: all 0.2s ease;
+
+    @include respond-to('md') {
+      padding: $spacing-3 $spacing-5;
+      font-size: $font-size-base;
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+    }
+
+    &:hover {
+      border-color: var(--border-secondary);
+    }
+
+    &--active {
+      background: var(--text-primary);
+      color: var(--bg-primary);
+      border-color: var(--text-primary);
+    }
+
+    &--correct.quiz-review__filter-btn--active {
+      background: $correct-color;
+      border-color: $correct-color;
+      color: #ffffff;
+    }
+
+    &--incorrect.quiz-review__filter-btn--active {
+      background: $incorrect-color;
+      border-color: $incorrect-color;
+      color: #ffffff;
+    }
+  }
+
+  // ========== LISTA DE PREGUNTAS ==========
+  &__questions {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-4;
+    max-width: 800px;
+    margin: 0 auto;
+
+    @include respond-to('md') {
+      gap: $spacing-5;
+    }
+  }
+
+  // ========== CARD DE PREGUNTA ==========
+  &__card {
+    background: var(--bg-primary);
+    border: 2px solid var(--border-primary);
+    border-radius: $border-radius-xl;
+    padding: $spacing-5;
+    position: relative;
+
+    @include respond-to('md') {
+      padding: $spacing-6;
+    }
+
+    &--correct {
+      border-color: $correct-border;
+      background: #D6E6E6;
+
+      :host-context(.dark-theme) & {
+        background: #1f3a2f;
+      }
+    }
+
+    &--incorrect {
+      border-color: $incorrect-border;
+      background: #E3DDE4;
+
+      :host-context(.dark-theme) & {
+        background: #3a2832;
+      }
+    }
+  }
+
+  &__result-badge {
+    position: absolute;
+    top: $spacing-4;
+    right: $spacing-4;
+    display: inline-flex;
+    align-items: center;
+    gap: $spacing-1;
+    padding: $spacing-1 $spacing-3;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    border-radius: $border-radius-full;
+    text-transform: uppercase;
+
+    svg {
+      width: 14px;
+      height: 14px;
+    }
+
+    .quiz-review__card--correct & {
+      background: $correct-color;
+      color: #ffffff;
+    }
+
+    .quiz-review__card--incorrect & {
+      background: $incorrect-color;
+      color: #ffffff;
+    }
+  }
+
+  &__question-number {
+    display: block;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: $spacing-2;
+  }
+
+  &__question-text {
+    font-family: $font-secondary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-4;
+    padding-right: 80px;
+
+    @include respond-to('md') {
+      font-size: $font-size-xl;
+    }
+  }
+
+  // ========== OPCIONES ==========
+  &__options {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-2;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-3 $spacing-4;
+    background: var(--bg-secondary);
+    border: 2px solid transparent;
+    border-radius: $border-radius-lg;
+    transition: all 0.2s ease;
+
+    &--correct {
+      background: $correct-bg;
+      border-color: $correct-color;
+
+      .quiz-review__option-letter {
+        background: $correct-color;
+        color: #ffffff;
+      }
+
+      .quiz-review__option-text {
+        color: darken($correct-color, 10%);
+        font-weight: $font-weight-bold;
+      }
+
+      .quiz-review__option-icon {
+        color: $correct-color;
+      }
+    }
+
+    &--user-wrong {
+      background: $incorrect-bg;
+      border-color: $incorrect-color;
+
+      .quiz-review__option-letter {
+        background: $incorrect-color;
+        color: #ffffff;
+      }
+
+      .quiz-review__option-text {
+        color: darken($incorrect-color, 10%);
+        text-decoration: line-through;
+      }
+
+      .quiz-review__option-icon {
+        color: $incorrect-color;
+      }
+    }
+  }
+
+  &__option-letter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    color: var(--text-secondary);
+    background: var(--bg-primary);
+    border-radius: $border-radius-md;
+    flex-shrink: 0;
+
+    :host-context(.dark-theme) & {
+      background: #2d3748;
+      color: #e2e8f0;
+    }
+
+    // Mantener colores cuando está en opción correcta o incorrecta (dark mode)
+    :host-context(.dark-theme) .quiz-review__option--correct & {
+      background: $correct-color;
+      color: #ffffff;
+    }
+
+    :host-context(.dark-theme) .quiz-review__option--user-wrong & {
+      background: $incorrect-color;
+      color: #ffffff;
+    }
+  }
+
+  &__option-text {
+    flex: 1;
+    font-size: $font-size-sm;
+    color: var(--text-primary);
+
+    @include respond-to('md') {
+      font-size: $font-size-base;
+    }
+  }
+
+  &__option-icon {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+  }
+
+  // ========== EXPLICACIÓN ==========
+  &__explanation {
+    margin-top: $spacing-4;
+    padding: $spacing-4;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: $border-radius-lg;
+    font-size: $font-size-sm;
+    color: var(--text-secondary);
+    line-height: 1.6;
+
+    :host-context(.dark-theme) & {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    strong {
+      color: var(--text-primary);
+    }
+  }
+
+  // ========== MENSAJE VACÍO ==========
+  &__empty {
+    text-align: center;
+    padding: $spacing-12 $spacing-6;
+    background: var(--bg-primary);
+    border: 2px dashed var(--border-primary);
+    border-radius: $border-radius-xl;
+
+    p {
+      font-size: $font-size-lg;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+  }
+
+  // ========== ACCIONES ==========
+  &__actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: $spacing-3;
+    padding: $spacing-4;
+    background: var(--bg-primary);
+    border-top: 1px solid var(--border-primary);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+
+    @include respond-to('md') {
+      padding: $spacing-5;
+      gap: $spacing-4;
+    }
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-5;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    border: none;
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    @include respond-to('md') {
+      padding: $spacing-4 $spacing-6;
+      font-size: $font-size-base;
+    }
+
+    svg {
+      width: 18px;
+      height: 18px;
+
+      @include respond-to('md') {
+        width: 20px;
+        height: 20px;
+      }
+    }
+
+    &--primary {
+      background: #3B82F6;
+      color: #ffffff;
+
+      :host-context(.dark-theme) & {
+        background: #1D4ED8;
+      }
+
+      &:hover {
+        background: darken(#3B82F6, 10%);
+        transform: translateY(-2px);
+
+        :host-context(.dark-theme) & {
+          background: darken(#1D4ED8, 10%);
+        }
+      }
+    }
+
+    &--secondary {
+      background: #ffffff;
+      color: #1a202c;
+      border: 2px solid #64748b;
+      transition: transform 0.3s ease;
+
+      svg {
+        transition: none;
+      }
+
+      &:hover {
+        background: #f1f5f9;
+        border-color: #1a202c;
+        transform: translateY(-2px);
+      }
+
+      :host-context(.dark-theme) & {
+        background: #2d3748;
+        color: #e2e8f0;
+        border-color: #4a5568;
+
+        &:hover {
+          background: #3d4a5c;
+          border-color: #718096;
+        }
+      }
+    }
+
+    &--back {
+      background: #E3350D;
+      color: #ffffff;
+
+      :host-context(.dark-theme) & {
+        background: #862009;
+      }
+
+      &:hover {
+        background: darken(#E3350D, 10%);
+        transform: translateY(-2px);
+
+        :host-context(.dark-theme) & {
+          background: darken(#862009, 10%);
+        }
+      }
+    }
+  }
+}

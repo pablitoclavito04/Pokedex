@@ -18,36 +18,38 @@
 </a>
     
     <!-- ========== NAVEGACIÓN PRINCIPAL ========== -->
-    <!-- Elemento semántico <nav> para la navegación -->
-    <nav #mobileNav
-         class="header__nav"
-         [class.header__nav--open]="isMenuOpen"
-         aria-label="Navegación principal"
-         id="mobile-menu">
-      <ul class="header__nav-list">
-        @for (item of currentNavItems; track item.path) {
-          <li class="header__nav-item">
-            <a [routerLink]="item.path"
-               [fragment]="item.fragment"
-               class="header__nav-link"
-               [ngClass]="item.colorClass"
-               (click)="handleNavClick($event, item)">
-              {{ item.label }}
-            </a>
-          </li>
-        }
-        <!-- Opción Salir en menú móvil (solo cuando está logueado) -->
-        @if (showProfileIcon) {
-          <li class="header__nav-item header__nav-item--mobile-only">
-            <button
-              class="header__nav-link header__nav-link--logout"
-              (click)="openLogoutModal(); closeMenu()">
-              Salir
-            </button>
-          </li>
-        }
-      </ul>
-    </nav>
+    <!-- Elemento semántico <nav> para la navegación (oculto en modo quiz) -->
+    @if (!isQuizMode) {
+      <nav #mobileNav
+           class="header__nav"
+           [class.header__nav--open]="isMenuOpen"
+           aria-label="Navegación principal"
+           id="mobile-menu">
+        <ul class="header__nav-list">
+          @for (item of currentNavItems; track item.path) {
+            <li class="header__nav-item">
+              <a [routerLink]="item.path"
+                 [fragment]="item.fragment"
+                 class="header__nav-link"
+                 [ngClass]="item.colorClass"
+                 (click)="handleNavClick($event, item)">
+                {{ item.label }}
+              </a>
+            </li>
+          }
+          <!-- Opción Salir en menú móvil (solo cuando está logueado) -->
+          @if (showProfileIcon) {
+            <li class="header__nav-item header__nav-item--mobile-only">
+              <button
+                class="header__nav-link header__nav-link--logout"
+                (click)="openLogoutModal(); closeMenu()">
+                Salir
+              </button>
+            </li>
+          }
+        </ul>
+      </nav>
+    }
     
     <!-- ========== ACCIONES DE UTILIDAD ========== -->
     <div class="header__actions">
@@ -130,20 +132,22 @@
         </button>
       }
 
-      <!-- Botón menú hamburguesa (solo móvil) -->
-      <button #menuButton
-              class="header__menu-btn"
-              (click)="toggleMenu()"
-              [attr.aria-expanded]="isMenuOpen"
-              aria-controls="mobile-menu"
-              aria-label="Abrir menú de navegación"
-              type="button">
-        <span class="header__menu-icon" [class.header__menu-icon--open]="isMenuOpen">
-          <span></span>
-          <span></span>
-          <span></span>
-        </span>
-      </button>
+      <!-- Botón menú hamburguesa (solo móvil, oculto en modo quiz) -->
+      @if (!isQuizMode) {
+        <button #menuButton
+                class="header__menu-btn"
+                (click)="toggleMenu()"
+                [attr.aria-expanded]="isMenuOpen"
+                aria-controls="mobile-menu"
+                aria-label="Abrir menú de navegación"
+                type="button">
+          <span class="header__menu-icon" [class.header__menu-icon--open]="isMenuOpen">
+            <span></span>
+            <span></span>
+            <span></span>
+          </span>
+        </button>
+      }
 
     </div>
 

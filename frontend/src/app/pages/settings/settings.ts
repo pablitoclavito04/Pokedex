@@ -64,10 +64,19 @@ export class SettingsComponent implements OnInit {
 
   // Datos y validación para la contraseña
   passwordData = { currentPassword: '', newPassword: '' };
-  passwordMaxLength = 32;
+  passwordMaxLength = 50;
   passwordError: string | null = null;
   showCurrentPassword = false;
   showNewPassword = false;
+
+  // Validación de requisitos de contraseña
+  passwordValidation = {
+    length: false,
+    hasUppercase: false,
+    hasLowercase: false,
+    hasNumber: false,
+    hasSpecial: false
+  };
 
   // Estado del formulario
   hasChanges = false;
@@ -239,8 +248,25 @@ export class SettingsComponent implements OnInit {
     this.hasChanges = true;
 
     const password = this.passwordData.newPassword;
-    if (password && password.length < 8) {
-      this.passwordError = 'La contraseña debe tener al menos 8 caracteres.';
+
+    // Validar requisitos de contraseña
+    this.passwordValidation = {
+      length: password.length >= 8 && password.length <= 50,
+      hasUppercase: /[A-Z]/.test(password),
+      hasLowercase: /[a-z]/.test(password),
+      hasNumber: /[0-9]/.test(password),
+      hasSpecial: /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?]/.test(password)
+    };
+
+    // Verificar si todos los requisitos se cumplen
+    const allValid = this.passwordValidation.length &&
+                     this.passwordValidation.hasUppercase &&
+                     this.passwordValidation.hasLowercase &&
+                     this.passwordValidation.hasNumber &&
+                     this.passwordValidation.hasSpecial;
+
+    if (password && !allValid) {
+      this.passwordError = 'La contraseña no cumple todos los requisitos.';
     } else {
       this.passwordError = null;
     }

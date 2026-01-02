@@ -18,7 +18,7 @@ export class App {
   // Rutas donde no se muestra header/footer
   private hiddenLayoutRoutes = ['/login', '/register'];
   // Rutas donde no se muestra el footer
-  private hiddenFooterRoutes = ['/login', '/register', '/profile', '/settings'];
+  private hiddenFooterRoutes = ['/login', '/register', '/profile', '/settings', '/quiz/review'];
 
   showLayout = true;
   showFooter = true;

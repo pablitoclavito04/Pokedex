@@ -273,6 +273,11 @@
 .settings-field {
   margin-bottom: 0;
 
+  // Modificador para nueva contraseña (más separación arriba)
+  &--new-password {
+    margin-top: $spacing-4;
+  }
+
   &__label {
     display: block;
     font-size: $font-size-sm;
@@ -595,6 +600,40 @@
 
     :host-context(.light-theme) & {
       color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    }
+  }
+
+  // Requisitos de contraseña
+  &__password-requirements {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $spacing-2 $spacing-4;
+    margin-top: $spacing-3;
+  }
+
+  &__requirement {
+    display: flex;
+    align-items: center;
+    gap: $spacing-2;
+    font-size: $font-size-sm;
+    color: var(--text-tertiary, #{map-get($dark-theme, text-tertiary)});
+
+    :host-context(.light-theme) & {
+      color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    }
+
+    svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    &--valid {
+      color: #22c55e;
+
+      :host-context(.light-theme) & {
+        color: #16a34a;
+      }
     }
   }
 }
