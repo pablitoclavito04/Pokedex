@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, ElementRef, HostListener, forwardRef, ViewEncapsulation, ViewChild, AfterViewChecked, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, Output, EventEmitter, ElementRef, HostListener, forwardRef, ViewEncapsulation, ViewChild, AfterViewChecked, ChangeDetectorRef, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -23,7 +23,7 @@ export interface CustomSelectOption {
     }
   ]
 })
-export class CustomSelectComponent implements ControlValueAccessor, AfterViewChecked {
+export class CustomSelectComponent implements ControlValueAccessor, AfterViewChecked, OnDestroy {
   @Input() selectId: string = '';
   @Input() name: string = '';
   @Input() placeholder: string = '---';
@@ -34,6 +34,7 @@ export class CustomSelectComponent implements ControlValueAccessor, AfterViewChe
   @Output() valueChange = new EventEmitter<string | number>();
 
   @ViewChild('optionsContainer') optionsContainer!: ElementRef<HTMLDivElement>;
+  @ViewChild('scrollbarTrack') scrollbarTrack!: ElementRef<HTMLDivElement>;
 
   isOpen: boolean = false;
   openUpward: boolean = false;
@@ -47,6 +48,17 @@ export class CustomSelectComponent implements ControlValueAccessor, AfterViewChe
   // Estados para scrollbar custom (móviles)
   scrollThumbHeight: number = 30;
   scrollThumbPosition: number = 0;
+  
+  // Estados para drag del scrollbar
+  private isDragging: boolean = false;
+  private dragStartY: number = 0;
+  private dragStartScrollTop: number = 0;
+  
+  // Bound functions para poder remover los listeners
+  private boundOnMouseMove: (e: MouseEvent) => void;
+  private boundOnMouseUp: () => void;
+  private boundOnTouchMove: (e: TouchEvent) => void;
+  private boundOnTouchEnd: () => void;
 
   private onChange: (value: string | number) => void = () => {};
   private onTouched: () => void = () => {};
@@ -55,7 +67,18 @@ export class CustomSelectComponent implements ControlValueAccessor, AfterViewChe
   constructor(
     private elementRef: ElementRef,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    // Bind de funciones para eventos de drag
+    this.boundOnMouseMove = this.onMouseMove.bind(this);
+    this.boundOnMouseUp = this.onMouseUp.bind(this);
+    this.boundOnTouchMove = this.onTouchMove.bind(this);
+    this.boundOnTouchEnd = this.onTouchEnd.bind(this);
+  }
+
+  ngOnDestroy(): void {
+    // Limpiar event listeners al destruir el componente
+    this.removeGlobalListeners();
+  }
 
   // Cerrar dropdown al hacer clic fuera
   @HostListener('document:click', ['$event'])
@@ -136,6 +159,124 @@ export class CustomSelectComponent implements ControlValueAccessor, AfterViewChe
   onOptionsScroll(event: Event): void {
     const target = event.target as HTMLDivElement;
     this.updateScrollState(target);
+  }
+
+  // ========== SCROLLBAR DRAG HANDLERS ==========
+  
+  // Iniciar drag con mouse
+  onScrollbarMouseDown(event: MouseEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    this.startDrag(event.clientY);
+    
+    // Añadir listeners globales
+    document.addEventListener('mousemove', this.boundOnMouseMove);
+    document.addEventListener('mouseup', this.boundOnMouseUp);
+  }
+  
+  // Iniciar drag con touch
+  onScrollbarTouchStart(event: TouchEvent): void {
+    event.preventDefault();
+    event.stopPropagation();
+    const touch = event.touches[0];
+    this.startDrag(touch.clientY);
+    
+    // Añadir listeners globales
+    document.addEventListener('touchmove', this.boundOnTouchMove, { passive: false });
+    document.addEventListener('touchend', this.boundOnTouchEnd);
+  }
+  
+  // Click en el track del scrollbar (no en el thumb)
+  onScrollbarTrackClick(event: MouseEvent): void {
+    // Ignorar si el click fue en el thumb
+    if ((event.target as HTMLElement).classList.contains('custom-select__scrollbar-thumb')) {
+      return;
+    }
+    
+    if (!this.optionsContainer?.nativeElement || !this.scrollbarTrack?.nativeElement) return;
+    
+    const track = this.scrollbarTrack.nativeElement;
+    const trackRect = track.getBoundingClientRect();
+    const clickY = event.clientY - trackRect.top;
+    const trackHeight = trackRect.height;
+    
+    // Calcular posición de scroll basada en donde se hizo click
+    const clickPercentage = clickY / trackHeight;
+    const container = this.optionsContainer.nativeElement;
+    const maxScroll = container.scrollHeight - container.clientHeight;
+    
+    container.scrollTop = clickPercentage * maxScroll;
+    this.updateScrollState(container);
+  }
+  
+  private startDrag(clientY: number): void {
+    this.isDragging = true;
+    this.dragStartY = clientY;
+    
+    if (this.optionsContainer?.nativeElement) {
+      this.dragStartScrollTop = this.optionsContainer.nativeElement.scrollTop;
+    }
+  }
+  
+  private onMouseMove(event: MouseEvent): void {
+    if (!this.isDragging) return;
+    event.preventDefault();
+    this.handleDrag(event.clientY);
+  }
+  
+  private onTouchMove(event: TouchEvent): void {
+    if (!this.isDragging) return;
+    event.preventDefault();
+    const touch = event.touches[0];
+    this.handleDrag(touch.clientY);
+  }
+  
+  private handleDrag(clientY: number): void {
+    if (!this.optionsContainer?.nativeElement || !this.scrollbarTrack?.nativeElement) return;
+    
+    const container = this.optionsContainer.nativeElement;
+    const track = this.scrollbarTrack.nativeElement;
+    const trackHeight = track.clientHeight;
+    
+    // Calcular el delta del drag
+    const deltaY = clientY - this.dragStartY;
+    
+    // Calcular el ratio entre el track y el contenido scrolleable
+    const scrollableHeight = container.scrollHeight - container.clientHeight;
+    const thumbHeight = (trackHeight * this.scrollThumbHeight) / 100;
+    const availableTrackHeight = trackHeight - thumbHeight;
+    
+    // Calcular cuánto scroll corresponde al delta
+    const scrollDelta = (deltaY / availableTrackHeight) * scrollableHeight;
+    
+    // Aplicar el scroll
+    container.scrollTop = this.dragStartScrollTop + scrollDelta;
+    
+    // Actualizar estados visuales
+    this.updateScrollState(container);
+  }
+  
+  private onMouseUp(): void {
+    this.endDrag();
+    document.removeEventListener('mousemove', this.boundOnMouseMove);
+    document.removeEventListener('mouseup', this.boundOnMouseUp);
+  }
+  
+  private onTouchEnd(): void {
+    this.endDrag();
+    document.removeEventListener('touchmove', this.boundOnTouchMove);
+    document.removeEventListener('touchend', this.boundOnTouchEnd);
+  }
+  
+  private endDrag(): void {
+    this.isDragging = false;
+  }
+  
+  private removeGlobalListeners(): void {
+    document.removeEventListener('mousemove', this.boundOnMouseMove);
+    document.removeEventListener('mouseup', this.boundOnMouseUp);
+    document.removeEventListener('touchmove', this.boundOnTouchMove);
+    document.removeEventListener('touchend', this.boundOnTouchEnd);
   }
 
   // Verificar el estado inicial del scroll

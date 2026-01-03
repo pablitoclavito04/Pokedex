@@ -208,6 +208,16 @@
         </h2>
 
         <form class="register-card__form" (ngSubmit)="onSubmit($event)" novalidate>
+          <!-- Error del servidor (username/email duplicado) -->
+          @if (registerError) {
+            <div class="register-card__server-error">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+              </svg>
+              <span>{{ registerError }}</span>
+            </div>
+          }
+
           <!-- Aviso sobre nombre de usuario -->
           <div class="register-card__hint-wrapper">
             <p class="register-card__hint" [class.register-card__hint--error]="hasUsernameError()">
@@ -226,9 +236,10 @@
               id="username"
               name="username"
               class="register-card__input"
-              [class.register-card__input--error]="hasUsernameError() || (hasAttemptedSubmit && errors['username'])"
+              [class.register-card__input--error]="hasUsernameError() || (hasAttemptedSubmit && errors['username']) || registerError"
               placeholder="Nombre de usuario"
               [(ngModel)]="formData.username"
+              (ngModelChange)="registerError = ''"
               maxlength="24"
               autocomplete="username">
             @if (hasAttemptedSubmit && errors['username']) {

@@ -267,6 +267,7 @@
             (ngModelChange)="onFieldChange()"
             (click)="onSelectClick('favoriteRegion')"
             (blur)="onSelectBlur('favoriteRegion')">
+            <option value="" disabled>Selecciona una región</option>
             @for (region of regionOptions; track region) {
               <option [value]="region">{{ region }}</option>
             }

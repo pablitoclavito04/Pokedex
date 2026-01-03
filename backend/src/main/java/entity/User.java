@@ -72,7 +72,7 @@ public class User {
         this.updatedAt = LocalDateTime.now();
         this.enabled = true;
         this.role = "USER";
-        this.favoriteRegion = "Kanto";
+        // favoriteRegion se deja null - el usuario lo seleccionará
         this.language = "Español";
     }
 

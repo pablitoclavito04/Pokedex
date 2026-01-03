@@ -2,7 +2,7 @@
 //          REGISTER PAGE - Página de registro de usuario
 // ============================================================================
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -23,7 +23,8 @@ export class RegisterComponent {
     private router: Router,
     private userService: UserService,
     private loadingService: LoadingService,
-    private authService: AuthService
+    private authService: AuthService,
+    private cdr: ChangeDetectorRef
   ) {
     // Generar años (desde 1920 hasta el año actual)
     const currentYear = new Date().getFullYear();
@@ -286,7 +287,9 @@ export class RegisterComponent {
       return;
     }
 
+    // Mostrar pantalla de carga
     this.isSubmitting = true;
+    this.loadingService.show();
 
     // Construir fecha de nacimiento
     const fechaNacimiento = `${this.formData.birthYear}-${this.formData.birthMonth}-${this.formData.birthDay.toString().padStart(2, '0')}`;
@@ -301,7 +304,6 @@ export class RegisterComponent {
     }).subscribe({
       next: (response) => {
         console.log('Registro exitoso:', response);
-        this.isSubmitting = false;
         
         // Guardar también en el UserService local
         this.userService.registerUser({
@@ -314,21 +316,31 @@ export class RegisterComponent {
           password: this.formData.password
         });
 
-        // Mostrar pantalla de carga y redirigir
-        this.loadingService.show();
+        // Mantener el loading y redirigir después
         setTimeout(() => {
+          this.isSubmitting = false;
           this.loadingService.hide();
           this.router.navigate(['/pokedex']);
         }, 2000);
       },
       error: (err) => {
+        // Ocultar pantalla de carga
+        this.loadingService.hide();
         this.isSubmitting = false;
+        
         console.error('Error de registro:', err);
+        
+        // Establecer mensaje de error
         if (err.error && typeof err.error === 'string') {
           this.registerError = err.error;
+        } else if (err.error?.message) {
+          this.registerError = err.error.message;
         } else {
           this.registerError = 'Error al crear la cuenta. El usuario o email ya existe.';
         }
+        
+        // Forzar detección de cambios para mostrar el error inmediatamente
+        this.cdr.detectChanges();
       }
     });
   }

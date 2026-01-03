@@ -1,5 +1,11 @@
 package service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import dto.AuthResponse;
 import dto.LoginRequest;
 import dto.ProfileUpdateRequest;
@@ -7,11 +13,6 @@ import dto.RegisterRequest;
 import entity.User;
 import repository.UserRepository;
 import util.JwtUtil;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.context.annotation.Lazy;
 
 /**
  * Servicio de autenticación
@@ -67,7 +68,7 @@ public class AuthService {
         user.setRole("USER");
         user.setEnabled(true);
         user.setDisplayName(request.getUsername()); // Por defecto, displayName = username
-        user.setFavoriteRegion("Kanto");
+        // favoriteRegion se deja null - el usuario lo seleccionará en su perfil
         user.setLanguage("Español");
 
         // Guardar usuario

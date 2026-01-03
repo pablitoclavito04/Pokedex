@@ -47,7 +47,7 @@ export class UserService {
     displayName: 'Entrenador Pokémon',
     bio: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
     gender: 'Hombre',
-    favoriteRegion: 'Kanto',
+    favoriteRegion: '',
     language: 'Español'
   };
 

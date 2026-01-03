@@ -79,7 +79,11 @@
       <div class="profile-card__section">
         <h2 class="profile-card__section-title">Mi región favorita</h2>
         <div class="profile-card__region-container">
-          <span class="profile-card__region">{{ user.favoriteRegion }}</span>
+          @if (user.favoriteRegion) {
+            <span class="profile-card__region">{{ user.favoriteRegion }}</span>
+          } @else {
+            <span class="profile-card__region profile-card__region--empty">Sin seleccionar</span>
+          }
         </div>
       </div>
 

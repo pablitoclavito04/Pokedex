@@ -485,6 +485,11 @@
     :host-context(.light-theme) & {
       color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
     }
+
+    &--empty {
+      font-style: italic;
+      opacity: 0.6;
+    }
   }
 
   // ========== POKÉMON FAVORITOS ==========

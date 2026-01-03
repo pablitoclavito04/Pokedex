@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -26,7 +26,8 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private authService: AuthService,
-    private loadingService: LoadingService
+    private loadingService: LoadingService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   // Datos del formulario
@@ -75,6 +76,13 @@ export class LoginComponent {
     return isUsernameValid && isPasswordValid;
   }
 
+  // Limpiar error al escribir
+  onInputChange(): void {
+    if (this.loginError) {
+      this.loginError = '';
+    }
+  }
+
   // Submit del formulario
   onSubmit(event: Event): void {
     event.preventDefault();
@@ -86,7 +94,7 @@ export class LoginComponent {
     }
 
     this.isSubmitting = true;
-    this.loadingService.show('Iniciando sesión...');
+    this.loadingService.show();
 
     this.authService.login({
       username: this.formData.username,
@@ -104,22 +112,26 @@ export class LoginComponent {
           this.isSubmitting = false;
           this.loadingService.hide();
           this.router.navigate(['/pokedex']);
-        }, 3000);
+        }, 2000);
       },
       error: (err) => {
         console.error('Error de login:', err);
-        // Mostrar pantalla de carga durante 3 segundos antes de mostrar el error
-        setTimeout(() => {
-          this.isSubmitting = false;
-          this.loadingService.hide();
-          if (err.name === 'TimeoutError') {
-            this.loginError = 'El servidor no responde. Inténtalo de nuevo.';
-          } else if (err.status === 0) {
-            this.loginError = 'No se puede conectar con el servidor.';
-          } else {
-            this.loginError = 'Usuario o contraseña incorrectos';
-          }
-        }, 3000);
+        
+        // Ocultar pantalla de carga inmediatamente
+        this.loadingService.hide();
+        this.isSubmitting = false;
+        
+        // Establecer mensaje de error
+        if (err.name === 'TimeoutError') {
+          this.loginError = 'El servidor no responde. Inténtalo de nuevo.';
+        } else if (err.status === 0) {
+          this.loginError = 'No se puede conectar con el servidor.';
+        } else {
+          this.loginError = 'Usuario o contraseña incorrectos';
+        }
+        
+        // Forzar detección de cambios para mostrar el error inmediatamente
+        this.cdr.detectChanges();
       }
     });
   }

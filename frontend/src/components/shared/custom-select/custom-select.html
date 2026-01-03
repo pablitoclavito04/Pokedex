@@ -48,10 +48,14 @@
         </div>
         <!-- Scrollbar custom para móviles -->
         @if (hasScroll) {
-          <div class="custom-select__scrollbar">
+          <div class="custom-select__scrollbar"
+               #scrollbarTrack
+               (click)="onScrollbarTrackClick($event)">
             <div class="custom-select__scrollbar-thumb"
                  [style.height.%]="scrollThumbHeight"
-                 [style.top.%]="scrollThumbPosition">
+                 [style.top.%]="scrollThumbPosition"
+                 (mousedown)="onScrollbarMouseDown($event)"
+                 (touchstart)="onScrollbarTouchStart($event)">
             </div>
           </div>
         }

@@ -48,6 +48,16 @@
     <!-- ========== FORMULARIO ========== -->
     <form class="login-card__form" #loginForm="ngForm" (ngSubmit)="onSubmit($event)" novalidate>
 
+      <!-- Error de login del servidor -->
+      @if (loginError) {
+        <div class="login-card__server-error">
+          <svg viewBox="0 0 24 24" fill="currentColor">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+          </svg>
+          <span>{{ loginError }}</span>
+        </div>
+      }
+
       <!-- Campo: Nombre de usuario -->
       <div class="login-card__field">
         <input
@@ -58,6 +68,7 @@
           [class.login-card__input--error]="(hasAttemptedSubmit && errors.username) || loginError"
           placeholder="Nombre de usuario"
           [(ngModel)]="formData.username"
+          (ngModelChange)="onInputChange()"
           autocomplete="off"
           data-form-type="other">
         @if (hasAttemptedSubmit && errors.username) {
@@ -77,6 +88,7 @@
             [class.login-card__input--error]="(hasAttemptedSubmit && errors.password) || loginError"
             placeholder="Contraseña"
             [(ngModel)]="formData.password"
+            (ngModelChange)="onInputChange()"
             autocomplete="off"
             data-form-type="other">
           <button
@@ -104,13 +116,6 @@
           <span class="login-card__error">{{ errors.password }}</span>
         }
       </div>
-
-      <!-- Error de login -->
-      @if (loginError) {
-        <div class="login-card__login-error">
-          {{ loginError }}
-        </div>
-      }
 
       <!-- Botón: Iniciar sesión -->
       <button
