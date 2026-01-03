@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
   providedIn: 'root'
 })
 export class FavoritoService {
-  private apiUrl = 'http://localhost:8080/api/favoritos';
+  private apiUrl = 'https://pokedex-production-488a.up.railway.app/api/favoritos';
 
   private favoritosSubject = new BehaviorSubject<number[]>([]);
   favoritos$ = this.favoritosSubject.asObservable();
