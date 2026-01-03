@@ -10,7 +10,7 @@
 
 <main class="profile-page">
 
-  <!-- ========== HEADER: VOLVER Y EDITAR ========== -->
+  <!-- ========== HEADER: VOLVER Y EDITAR (móvil) ========== -->
   <section class="profile-page__header">
     <button class="profile-page__back-btn" (click)="goBack()">
       <svg viewBox="0 0 24 24" fill="none" stroke-width="2">
@@ -18,7 +18,8 @@
       </svg>
       Volver
     </button>
-    <button class="profile-page__edit-btn" routerLink="/settings">
+    <!-- Botón editar solo visible en móvil -->
+    <button class="profile-page__edit-btn profile-page__edit-btn--mobile" routerLink="/settings">
       Editar perfil
     </button>
   </section>
@@ -48,6 +49,11 @@
             <p class="profile-card__display-name">{{ user.displayName }}</p>
           </div>
         </div>
+
+        <!-- Botón editar solo visible en desktop -->
+        <button class="profile-page__edit-btn profile-page__edit-btn--desktop" routerLink="/settings">
+          Editar perfil
+        </button>
 
       </div>
 

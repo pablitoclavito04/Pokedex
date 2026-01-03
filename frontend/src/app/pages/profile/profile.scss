@@ -100,6 +100,24 @@
         border-color: #64748b;
       }
     }
+
+    // Modificador: solo visible en móvil (header)
+    &--mobile {
+      display: inline-flex;
+
+      @include respond-to('md') {
+        display: none;
+      }
+    }
+
+    // Modificador: solo visible en desktop (dentro de la card)
+    &--desktop {
+      display: none;
+
+      @include respond-to('md') {
+        display: inline-flex;
+      }
+    }
   }
 }
 

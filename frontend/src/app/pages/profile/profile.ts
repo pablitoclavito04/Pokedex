@@ -37,7 +37,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     email: '',
     avatar: null as string | null,
     bio: 'Escribe algo sobre ti...',
-    favoriteRegion: 'Kanto',
+    favoriteRegion: '', // Vacío por defecto - el usuario lo seleccionará
     joinDate: '',
     stats: {
       favorites: 0,

@@ -101,7 +101,8 @@ export class SettingsComponent implements OnInit {
     this.profileData.email = email || '';
     this.profileData.bio = sessionStorage.getItem('userBio') || '';
     this.profileData.gender = sessionStorage.getItem('userGender') || '';
-    this.profileData.favoriteRegion = sessionStorage.getItem('userFavoriteRegion') || 'Kanto';
+    // Si no hay región guardada, dejar vacío (mostrará "Selecciona una región")
+    this.profileData.favoriteRegion = sessionStorage.getItem('userFavoriteRegion') || '';
     this.profileData.language = sessionStorage.getItem('userLanguage') || 'Español';
     this.profileData.avatar = sessionStorage.getItem('userAvatar') || null;
     this.profileData.country = sessionStorage.getItem('userCountry') || '';
@@ -177,7 +178,10 @@ export class SettingsComponent implements OnInit {
       displayName: this.profileData.displayName,
       bio: this.profileData.bio,
       gender: this.profileData.gender,
-      favoriteRegion: this.profileData.favoriteRegion,
+      // Solo enviar favoriteRegion si se ha seleccionado una región válida
+      favoriteRegion: this.profileData.favoriteRegion && this.profileData.favoriteRegion !== 'Selecciona una región' 
+        ? this.profileData.favoriteRegion 
+        : undefined,
       language: this.profileData.language,
       avatar: this.profileData.avatar || undefined
     };
