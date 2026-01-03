@@ -205,7 +205,7 @@ export class SettingsComponent implements OnInit {
         this.hasChanges = false;
         this.close();
       },
-      error: (err) => {
+      error: (err: Error) => {
         this.loadingService.hide();
         console.error('Error al guardar cambios:', err);
       }
@@ -233,7 +233,7 @@ export class SettingsComponent implements OnInit {
         this.loadingService.hide();
         this.router.navigate(['/']);
       },
-      error: (err) => {
+      error: (err: Error) => {
         this.loadingService.hide();
         console.error('Error al eliminar cuenta:', err);
       }
