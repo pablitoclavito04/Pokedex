@@ -41,7 +41,7 @@ $button-primary: #6366f1;
 
   // ========== ESTADO: 0 ACIERTOS ==========
   &--zero {
-    background: url('/Pikachu llorando.gif') no-repeat center center;
+    background: url('/Pokedex/Pikachu llorando.gif') no-repeat center center;
     background-size: cover;
 
     &::before {
@@ -118,14 +118,14 @@ $button-primary: #6366f1;
     }
 
     :host-context(.dark-theme) & {
-      background: url('/Pikachu llorando.gif') no-repeat center center;
+      background: url('/Pokedex/Pikachu llorando.gif') no-repeat center center;
       background-size: cover;
     }
   }
 
   // ========== ESTADO: PUNTUACIÓN PERFECTA ==========
   &--perfect {
-    background: url('/Ash ganador.gif') no-repeat center center;
+    background: url('/Pokedex/Ash ganador.gif') no-repeat center center;
     background-size: cover;
     align-items: flex-start;
     padding-top: $spacing-6;
@@ -204,14 +204,14 @@ $button-primary: #6366f1;
     }
 
     :host-context(.dark-theme) & {
-      background: url('/Ash ganador.gif') no-repeat center center;
+      background: url('/Pokedex/Ash ganador.gif') no-repeat center center;
       background-size: cover;
     }
   }
 
   // ========== ESTADO: PUNTUACIÓN NORMAL (entre 1 y 99%) ==========
   &--normal {
-    background: url('/Squirtle comiendo.gif') no-repeat center center;
+    background: url('/Pokedex/Squirtle comiendo.gif') no-repeat center center;
     background-size: cover;
     align-items: flex-start;
     padding-top: $spacing-6;
@@ -295,7 +295,7 @@ $button-primary: #6366f1;
     }
 
     :host-context(.dark-theme) & {
-      background: url('/Squirtle comiendo.gif') no-repeat center center;
+      background: url('/Pokedex/Squirtle comiendo.gif') no-repeat center center;
       background-size: cover;
     }
   }
