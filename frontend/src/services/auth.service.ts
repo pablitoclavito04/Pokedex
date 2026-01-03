@@ -43,7 +43,7 @@ export interface AuthResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'https://pokedex-production-488a.up.railway.app/api/auth';
+  private apiUrl = 'https://pokedex-backend-mwcz.onrender.com/api/auth';
   private tokenKey = 'token';
 
   private isLoggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
