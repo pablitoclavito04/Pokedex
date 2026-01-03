@@ -34,7 +34,7 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
   justify-content: center;
   min-height: calc(100vh - 80px); // Restamos altura del header
   padding: $spacing-8 $spacing-4;
-  background: url('/Pokemons reunidos.png') center center / cover no-repeat;
+  background: url('/Pokedex/Pokemons reunidos.png') center center / cover no-repeat;
   overflow: hidden; // Prevenir desbordamiento
 
   // Overlay oscuro para legibilidad del texto
@@ -434,7 +434,7 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
 .cta-section {
   position: relative;
   padding: $spacing-16 $spacing-4;
-  background: url('/pokemons durmiendo.webp') center center / cover no-repeat;
+  background: url('/Pokedex/pokemons durmiendo.webp') center center / cover no-repeat;
   text-align: center;
   overflow: hidden; // Prevenir desbordamiento
 
