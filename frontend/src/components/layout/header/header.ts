@@ -105,8 +105,8 @@ export class HeaderComponent {
     // Mostrar botón de tema en rutas de la app (no en landing)
     this.showThemeButton = this.isAppRoute;
 
-    // Mostrar menú hamburguesa en rutas de la app y no en modo quiz
-    this.showHamburgerMenu = this.isAppRoute && !this.isQuizMode;
+    // Mostrar menú hamburguesa solo si está logueado, en rutas de app y no en modo quiz
+    this.showHamburgerMenu = this.isAppRoute && !this.isQuizMode && this.authService.isLoggedIn();
 
     // Gestión del tema según la página
     if (this.isLandingPage) {

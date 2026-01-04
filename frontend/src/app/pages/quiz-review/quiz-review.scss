@@ -169,12 +169,14 @@ $incorrect-border: rgba(239, 68, 68, 0.3);
   &__filters {
     display: flex;
     justify-content: center;
-    gap: $spacing-2;
+    align-items: center;
+    gap: $spacing-1;
     max-width: 800px;
     margin: 0 auto $spacing-4;
-    flex-wrap: wrap;
+    // Sin flex-wrap para que queden en una fila
 
     @include respond-to('sm') {
+      gap: $spacing-2;
       margin-bottom: $spacing-6;
     }
 
@@ -186,16 +188,18 @@ $incorrect-border: rgba(239, 68, 68, 0.3);
   &__filter-btn {
     display: inline-flex;
     align-items: center;
-    gap: $spacing-1;
-    padding: $spacing-2 $spacing-3;
-    font-size: $font-size-xs;
+    justify-content: center;
+    gap: 2px;
+    padding: $spacing-2 $spacing-2;
+    font-size: 11px;
     font-weight: $font-weight-medium;
     color: var(--text-secondary);
     background: var(--bg-primary);
     border: 2px solid var(--border-primary);
-    border-radius: $border-radius-lg;
+    border-radius: $border-radius-md;
     cursor: pointer;
     transition: all 0.2s ease;
+    white-space: nowrap;
 
     @include respond-to('sm') {
       padding: $spacing-3 $spacing-4;
@@ -210,8 +214,8 @@ $incorrect-border: rgba(239, 68, 68, 0.3);
     }
 
     svg {
-      width: 14px;
-      height: 14px;
+      width: 12px;
+      height: 12px;
 
       @include respond-to('sm') {
         width: 16px;
@@ -578,30 +582,35 @@ $incorrect-border: rgba(239, 68, 68, 0.3);
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    gap: $spacing-1;
-    padding: $spacing-2 $spacing-3;
-    font-size: $font-size-xs;
+    gap: 4px;
+    padding: $spacing-3 $spacing-3;
+    font-size: 11px;
     font-weight: $font-weight-bold;
     border: none;
     border-radius: $border-radius-lg;
     cursor: pointer;
     transition: all 0.3s ease;
+    flex: 1;
+    max-width: 140px;
 
     @include respond-to('sm') {
       padding: $spacing-3 $spacing-5;
       font-size: $font-size-sm;
       gap: $spacing-2;
       border-radius: $border-radius-xl;
+      max-width: 180px;
     }
 
     @include respond-to('md') {
       padding: $spacing-4 $spacing-6;
       font-size: $font-size-base;
+      max-width: 200px;
     }
 
     svg {
-      width: 16px;
-      height: 16px;
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
 
       @include respond-to('sm') {
         width: 18px;
@@ -612,6 +621,11 @@ $incorrect-border: rgba(239, 68, 68, 0.3);
         width: 20px;
         height: 20px;
       }
+    }
+
+    span {
+      // En móvil muy pequeño, permitir que el texto se ajuste
+      line-height: 1.2;
     }
 
     &--primary {
