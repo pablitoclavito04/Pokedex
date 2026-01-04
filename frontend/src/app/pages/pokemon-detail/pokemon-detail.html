@@ -235,7 +235,7 @@
       @if (pokemon.hasBranchedEvolutions && pokemon.branchLevel === 1) {
         <div class="pokemon-evolutions__branched">
           <!-- Pokémon base a la izquierda -->
-          <div class="pokemon-evolutions__base" (click)="navigateToPokemon(pokemon.evolutions[0].id)">
+          <div class="pokemon-evolutions__item" (click)="navigateToPokemon(pokemon.evolutions[0].id)">
             <div class="pokemon-evolutions__image-wrapper pokemon-evolutions__image-wrapper--large">
               <img
                 [src]="pokemon.evolutions[0].image"
@@ -302,7 +302,7 @@
       @else if (pokemon.hasBranchedEvolutions && pokemon.branchLevel === 2 && pokemon.secondStageEvolution) {
         <div class="pokemon-evolutions__branched-level2">
           <!-- Pokémon base -->
-          <div class="pokemon-evolutions__base" (click)="navigateToPokemon(pokemon.evolutions[0].id)">
+          <div class="pokemon-evolutions__item" (click)="navigateToPokemon(pokemon.evolutions[0].id)">
             <div class="pokemon-evolutions__image-wrapper">
               <img
                 [src]="pokemon.evolutions[0].image"
@@ -335,7 +335,7 @@
           </div>
 
           <!-- Pokémon etapa intermedia (Gloom) -->
-          <div class="pokemon-evolutions__base" (click)="navigateToPokemon(pokemon.secondStageEvolution.id)">
+          <div class="pokemon-evolutions__item" (click)="navigateToPokemon(pokemon.secondStageEvolution.id)">
             <div class="pokemon-evolutions__image-wrapper">
               <img
                 [src]="pokemon.secondStageEvolution.image"

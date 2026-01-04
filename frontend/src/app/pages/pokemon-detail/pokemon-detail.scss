@@ -869,7 +869,7 @@
   &__chain {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
     gap: $spacing-2;
     background: #E2E8F0;
@@ -885,7 +885,6 @@
     }
 
     @include respond-to('sm') {
-      justify-content: center;
       gap: $spacing-4;
       padding: $spacing-5;
     }
@@ -899,14 +898,16 @@
   // ========== EVOLUCIONES RAMIFICADAS NIVEL 1 (Eevee, Tyrogue) ==========
   &__branched {
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-start;
     gap: $spacing-3;
     background: #E2E8F0;
     border-radius: $border-radius-xl;
     padding: $spacing-4;
     overflow-x: auto;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
 
     :host-context(.dark-theme) & {
       background: #20283A;
@@ -918,6 +919,7 @@
     }
 
     @include respond-to('md') {
+      justify-content: center;
       gap: $spacing-6;
       padding: $spacing-8;
     }
@@ -926,14 +928,16 @@
   // ========== EVOLUCIONES RAMIFICADAS NIVEL 2 (Oddish→Gloom→...) ==========
   &__branched-level2 {
     display: flex;
-    align-items: flex-start;
-    justify-content: center;
+    align-items: center;
+    justify-content: flex-start;
     gap: $spacing-2;
     background: #E2E8F0;
     border-radius: $border-radius-xl;
     padding: $spacing-4;
     overflow-x: auto;
+    overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
 
     :host-context(.dark-theme) & {
       background: #20283A;
@@ -945,28 +949,9 @@
     }
 
     @include respond-to('md') {
+      justify-content: center;
       gap: $spacing-4;
       padding: $spacing-8;
-    }
-  }
-
-  // ========== POKEMON BASE (para ramificaciones) ==========
-  &__base {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: $spacing-2;
-    cursor: pointer;
-    transition: transform 0.2s ease;
-    flex-shrink: 0;
-    align-self: center; // Centrar verticalmente respecto a las evoluciones
-
-    @include respond-to('md') {
-      gap: $spacing-3;
-    }
-
-    &:hover {
-      transform: scale(1.05);
     }
   }
 
@@ -976,7 +961,7 @@
     flex-direction: column;
     gap: $spacing-3;
     flex-shrink: 0;
-    align-items: flex-start; // Alinear todas las filas al inicio
+    align-items: flex-start;
 
     @include respond-to('sm') {
       gap: $spacing-4;
@@ -992,7 +977,7 @@
     display: flex;
     align-items: center;
     gap: $spacing-2;
-    width: 100%; // Asegurar que todas las filas tengan el mismo ancho
+    width: 100%;
 
     @include respond-to('sm') {
       gap: $spacing-3;
