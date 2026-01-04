@@ -304,7 +304,11 @@ export class RegisterComponent {
     }).subscribe({
       next: (response) => {
         console.log('Registro exitoso:', response);
-        
+
+        // Guardar credenciales en localStorage para pre-rellenar el login
+        localStorage.setItem('lastUsername', this.formData.username);
+        localStorage.setItem('lastPassword', this.formData.password);
+
         // Guardar también en el UserService local
         this.userService.registerUser({
           email: this.formData.email,

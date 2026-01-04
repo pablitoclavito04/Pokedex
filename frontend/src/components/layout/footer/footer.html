@@ -81,16 +81,15 @@
         <ul class="footer__social-list">
           @for (social of socialLinks; track social.label) {
             <li class="footer__social-item">
-              <a [href]="social.url"
+              <button
+                 type="button"
                  class="footer__social-link"
                  [ngClass]="{
                    'footer__social-link--github': social.icon === 'github',
                    'footer__social-link--x': social.icon === 'twitter',
                    'footer__social-link--linkedin': social.icon === 'linkedin'
                  }"
-                 target="_blank"
-                 rel="noopener noreferrer"
-                 [attr.aria-label]="'Síguenos en ' + social.label">
+                 [attr.aria-label]="social.label">
 
                 <!-- GitHub -->
                 @if (social.icon === 'github') {
@@ -113,7 +112,7 @@
                   </svg>
                 }
 
-              </a>
+              </button>
             </li>
           }
         </ul>

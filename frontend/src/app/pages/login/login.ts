@@ -28,13 +28,29 @@ export class LoginComponent {
     private authService: AuthService,
     private loadingService: LoadingService,
     private cdr: ChangeDetectorRef
-  ) {}
+  ) {
+    // Cargar credenciales guardadas del último registro/cambio
+    this.loadSavedCredentials();
+  }
 
   // Datos del formulario
   formData = {
     username: '',
     password: ''
   };
+
+  // Cargar credenciales guardadas en localStorage
+  private loadSavedCredentials(): void {
+    const savedUsername = localStorage.getItem('lastUsername');
+    const savedPassword = localStorage.getItem('lastPassword');
+
+    if (savedUsername) {
+      this.formData.username = savedUsername;
+    }
+    if (savedPassword) {
+      this.formData.password = savedPassword;
+    }
+  }
 
   // Estado
   isSubmitting = false;

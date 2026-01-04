@@ -240,8 +240,10 @@
     @include flex-center;
     @include size(40px);
     background: var(--bg-tertiary, #{map-get($dark-theme, bg-tertiary)});
+    border: none;
     border-radius: $border-radius-full;
     color: var(--text-secondary, #{map-get($dark-theme, text-secondary)});
+    cursor: pointer;
 
     :host-context(.light-theme) & {
       background: var(--bg-tertiary, #{map-get($light-theme, bg-primary)});

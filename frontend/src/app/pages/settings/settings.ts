@@ -194,11 +194,16 @@ export class SettingsComponent implements OnInit {
     // Guardar en la base de datos
     this.authService.updateProfile(updateData).subscribe({
       next: () => {
+        // Actualizar credenciales en localStorage para pre-rellenar el login
+        localStorage.setItem('lastUsername', this.profileData.username);
+
         // Si se cambió la contraseña, actualizar la contraseña actual mostrada
         if (this.passwordData.newPassword) {
           this.authService.setPassword(this.passwordData.newPassword);
           this.passwordData.currentPassword = this.passwordData.newPassword;
           this.passwordData.newPassword = '';
+          // Actualizar contraseña en localStorage
+          localStorage.setItem('lastPassword', this.passwordData.currentPassword);
         }
 
         this.loadingService.hide();
