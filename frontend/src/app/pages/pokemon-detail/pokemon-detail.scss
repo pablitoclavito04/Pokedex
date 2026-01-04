@@ -869,9 +869,9 @@
   &__chain {
     display: flex;
     flex-wrap: nowrap;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
-    gap: $spacing-2;
+    gap: $spacing-3;
     background: #E2E8F0;
     border-radius: $border-radius-xl;
     padding: $spacing-4;
@@ -879,6 +879,7 @@
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
+    min-width: 0; // Permitir que el contenedor se encoja
 
     :host-context(.dark-theme) & {
       background: #20283A;
@@ -887,6 +888,7 @@
     @include respond-to('sm') {
       gap: $spacing-4;
       padding: $spacing-5;
+      justify-content: center;
     }
 
     @include respond-to('md') {
@@ -908,6 +910,7 @@
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
+    min-width: 0;
 
     :host-context(.dark-theme) & {
       background: #20283A;
@@ -959,16 +962,15 @@
   &__branches {
     display: flex;
     flex-direction: column;
-    gap: $spacing-3;
+    gap: $spacing-2;
     flex-shrink: 0;
-    align-items: flex-start;
 
     @include respond-to('sm') {
-      gap: $spacing-4;
+      gap: $spacing-3;
     }
 
     @include respond-to('md') {
-      gap: $spacing-5;
+      gap: $spacing-4;
     }
   }
 
@@ -977,7 +979,6 @@
     display: flex;
     align-items: center;
     gap: $spacing-2;
-    width: 100%;
 
     @include respond-to('sm') {
       gap: $spacing-3;
@@ -985,6 +986,40 @@
 
     @include respond-to('md') {
       gap: $spacing-4;
+    }
+
+    // Los items dentro de branch-row deben alinearse horizontalmente
+    .pokemon-evolutions__item {
+      flex-direction: row;
+      gap: $spacing-2;
+
+      @include respond-to('sm') {
+        gap: $spacing-3;
+      }
+    }
+
+    .pokemon-evolutions__image-wrapper {
+      width: 50px;
+      height: 50px;
+
+      @include respond-to('sm') {
+        width: 70px;
+        height: 70px;
+      }
+
+      @include respond-to('md') {
+        width: 100px;
+        height: 100px;
+      }
+    }
+
+    .pokemon-evolutions__info {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .pokemon-evolutions__types {
+      justify-content: flex-start;
     }
   }
 
