@@ -875,44 +875,56 @@
     background: #E2E8F0;
     border-radius: $border-radius-xl;
     padding: $spacing-4;
-    padding-bottom: $spacing-5; // Espacio extra para el scrollbar
-    overflow-x: scroll; // Siempre mostrar scroll
+    padding-bottom: $spacing-6;
+    overflow-x: scroll !important;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     min-width: 0;
 
-    // Scrollbar siempre visible
+    // Scrollbar siempre visible - Firefox
+    scrollbar-width: auto;
+    scrollbar-color: #64748B #CBD5E1;
+
+    // Scrollbar siempre visible - Webkit (Chrome, Safari, Edge)
     &::-webkit-scrollbar {
-      height: 8px;
-      display: block;
+      height: 10px;
+      display: block !important;
+      -webkit-appearance: none;
     }
 
     &::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
+      background: #CBD5E1;
+      border-radius: 5px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
     }
 
     &::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 4px;
+      background: linear-gradient(180deg, #64748B 0%, #475569 100%);
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 0, 0, 0.1);
 
       &:hover {
-        background: rgba(0, 0, 0, 0.4);
+        background: linear-gradient(180deg, #475569 0%, #334155 100%);
       }
     }
 
     :host-context(.dark-theme) & {
       background: #20283A;
+      scrollbar-color: #94A3B8 #334155;
 
       &::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
+        background: #334155;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
       }
 
       &::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.3);
+        background: linear-gradient(180deg, #94A3B8 0%, #64748B 100%);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
 
         &:hover {
-          background: rgba(255, 255, 255, 0.4);
+          background: linear-gradient(180deg, #CBD5E1 0%, #94A3B8 100%);
         }
       }
     }
@@ -920,14 +932,14 @@
     @include respond-to('sm') {
       gap: $spacing-4;
       padding: $spacing-5;
-      padding-bottom: $spacing-6;
+      padding-bottom: $spacing-7;
       justify-content: center;
-      overflow-x: auto; // En tablet/desktop solo si necesario
     }
 
     @include respond-to('md') {
       gap: $spacing-6;
       padding: $spacing-8;
+      overflow-x: auto !important;
     }
   }
 
@@ -940,44 +952,56 @@
     background: #E2E8F0;
     border-radius: $border-radius-xl;
     padding: $spacing-4;
-    padding-bottom: $spacing-5;
-    overflow-x: scroll;
+    padding-bottom: $spacing-6;
+    overflow-x: scroll !important;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     min-width: 0;
 
-    // Scrollbar siempre visible
+    // Scrollbar siempre visible - Firefox
+    scrollbar-width: auto;
+    scrollbar-color: #64748B #CBD5E1;
+
+    // Scrollbar siempre visible - Webkit
     &::-webkit-scrollbar {
-      height: 8px;
-      display: block;
+      height: 10px;
+      display: block !important;
+      -webkit-appearance: none;
     }
 
     &::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
+      background: #CBD5E1;
+      border-radius: 5px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
     }
 
     &::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 4px;
+      background: linear-gradient(180deg, #64748B 0%, #475569 100%);
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 0, 0, 0.1);
 
       &:hover {
-        background: rgba(0, 0, 0, 0.4);
+        background: linear-gradient(180deg, #475569 0%, #334155 100%);
       }
     }
 
     :host-context(.dark-theme) & {
       background: #20283A;
+      scrollbar-color: #94A3B8 #334155;
 
       &::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
+        background: #334155;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
       }
 
       &::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.3);
+        background: linear-gradient(180deg, #94A3B8 0%, #64748B 100%);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
 
         &:hover {
-          background: rgba(255, 255, 255, 0.4);
+          background: linear-gradient(180deg, #CBD5E1 0%, #94A3B8 100%);
         }
       }
     }
@@ -985,14 +1009,14 @@
     @include respond-to('sm') {
       gap: $spacing-4;
       padding: $spacing-5;
-      padding-bottom: $spacing-6;
+      padding-bottom: $spacing-7;
     }
 
     @include respond-to('md') {
       justify-content: center;
       gap: $spacing-6;
       padding: $spacing-8;
-      overflow-x: auto;
+      overflow-x: auto !important;
     }
   }
 
@@ -1005,44 +1029,56 @@
     background: #E2E8F0;
     border-radius: $border-radius-xl;
     padding: $spacing-4;
-    padding-bottom: $spacing-5;
-    overflow-x: scroll;
+    padding-bottom: $spacing-6;
+    overflow-x: scroll !important;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
     min-width: 0;
 
-    // Scrollbar siempre visible
+    // Scrollbar siempre visible - Firefox
+    scrollbar-width: auto;
+    scrollbar-color: #64748B #CBD5E1;
+
+    // Scrollbar siempre visible - Webkit
     &::-webkit-scrollbar {
-      height: 8px;
-      display: block;
+      height: 10px;
+      display: block !important;
+      -webkit-appearance: none;
     }
 
     &::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.1);
-      border-radius: 4px;
+      background: #CBD5E1;
+      border-radius: 5px;
+      box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2);
     }
 
     &::-webkit-scrollbar-thumb {
-      background: rgba(0, 0, 0, 0.3);
-      border-radius: 4px;
+      background: linear-gradient(180deg, #64748B 0%, #475569 100%);
+      border-radius: 5px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(0, 0, 0, 0.1);
 
       &:hover {
-        background: rgba(0, 0, 0, 0.4);
+        background: linear-gradient(180deg, #475569 0%, #334155 100%);
       }
     }
 
     :host-context(.dark-theme) & {
       background: #20283A;
+      scrollbar-color: #94A3B8 #334155;
 
       &::-webkit-scrollbar-track {
-        background: rgba(255, 255, 255, 0.1);
+        background: #334155;
+        box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.4);
       }
 
       &::-webkit-scrollbar-thumb {
-        background: rgba(255, 255, 255, 0.3);
+        background: linear-gradient(180deg, #94A3B8 0%, #64748B 100%);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
 
         &:hover {
-          background: rgba(255, 255, 255, 0.4);
+          background: linear-gradient(180deg, #CBD5E1 0%, #94A3B8 100%);
         }
       }
     }
@@ -1050,14 +1086,14 @@
     @include respond-to('sm') {
       gap: $spacing-3;
       padding: $spacing-5;
-      padding-bottom: $spacing-6;
+      padding-bottom: $spacing-7;
     }
 
     @include respond-to('md') {
       justify-content: center;
       gap: $spacing-4;
       padding: $spacing-8;
-      overflow-x: auto;
+      overflow-x: auto !important;
     }
   }
 
