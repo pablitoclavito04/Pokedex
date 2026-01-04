@@ -875,20 +875,54 @@
     background: #E2E8F0;
     border-radius: $border-radius-xl;
     padding: $spacing-4;
-    overflow-x: auto;
+    padding-bottom: $spacing-5; // Espacio extra para el scrollbar
+    overflow-x: scroll; // Siempre mostrar scroll
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    min-width: 0; // Permitir que el contenedor se encoja
+    min-width: 0;
+
+    // Scrollbar siempre visible
+    &::-webkit-scrollbar {
+      height: 8px;
+      display: block;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.4);
+      }
+    }
 
     :host-context(.dark-theme) & {
       background: #20283A;
+
+      &::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.4);
+        }
+      }
     }
 
     @include respond-to('sm') {
       gap: $spacing-4;
       padding: $spacing-5;
+      padding-bottom: $spacing-6;
       justify-content: center;
+      overflow-x: auto; // En tablet/desktop solo si necesario
     }
 
     @include respond-to('md') {
@@ -906,25 +940,59 @@
     background: #E2E8F0;
     border-radius: $border-radius-xl;
     padding: $spacing-4;
-    overflow-x: auto;
+    padding-bottom: $spacing-5;
+    overflow-x: scroll;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
     min-width: 0;
+
+    // Scrollbar siempre visible
+    &::-webkit-scrollbar {
+      height: 8px;
+      display: block;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.4);
+      }
+    }
 
     :host-context(.dark-theme) & {
       background: #20283A;
+
+      &::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.4);
+        }
+      }
     }
 
     @include respond-to('sm') {
       gap: $spacing-4;
       padding: $spacing-5;
+      padding-bottom: $spacing-6;
     }
 
     @include respond-to('md') {
       justify-content: center;
       gap: $spacing-6;
       padding: $spacing-8;
+      overflow-x: auto;
     }
   }
 
@@ -937,24 +1005,59 @@
     background: #E2E8F0;
     border-radius: $border-radius-xl;
     padding: $spacing-4;
-    overflow-x: auto;
+    padding-bottom: $spacing-5;
+    overflow-x: scroll;
     overflow-y: hidden;
     -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
+    min-width: 0;
+
+    // Scrollbar siempre visible
+    &::-webkit-scrollbar {
+      height: 8px;
+      display: block;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1);
+      border-radius: 4px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 4px;
+
+      &:hover {
+        background: rgba(0, 0, 0, 0.4);
+      }
+    }
 
     :host-context(.dark-theme) & {
       background: #20283A;
+
+      &::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.3);
+
+        &:hover {
+          background: rgba(255, 255, 255, 0.4);
+        }
+      }
     }
 
     @include respond-to('sm') {
       gap: $spacing-3;
       padding: $spacing-5;
+      padding-bottom: $spacing-6;
     }
 
     @include respond-to('md') {
       justify-content: center;
       gap: $spacing-4;
       padding: $spacing-8;
+      overflow-x: auto;
     }
   }
 
