@@ -1327,16 +1327,14 @@
     justify-content: flex-end;
     gap: $spacing-1;
     flex-shrink: 0;
-    width: 120px; // Ancho fijo para alinear todas las evoluciones
+    width: auto;
 
     @include respond-to('sm') {
       gap: $spacing-2;
-      width: 160px;
     }
 
     @include respond-to('md') {
       gap: $spacing-3;
-      width: auto;
     }
 
     svg {
