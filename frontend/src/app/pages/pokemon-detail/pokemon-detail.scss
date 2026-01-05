@@ -538,11 +538,19 @@
     }
 
     &--male {
-      color: #000000;
+      color: #1E5A7A;
+
+      :host-context(.dark-theme) & {
+        color: #ffffff;
+      }
     }
 
     &--female {
-      color: #000000;
+      color: #1E5A7A;
+
+      :host-context(.dark-theme) & {
+        color: #ffffff;
+      }
     }
 
     &--none {
@@ -1081,8 +1089,16 @@
     @include respond-to('md') {
       justify-content: center;
       gap: $spacing-4;
-      padding: $spacing-8;
-      overflow-x: auto !important;
+      padding: $spacing-6;
+      overflow-x: visible;
+      overflow-y: visible;
+      flex-wrap: wrap;
+
+      // Ocultar scrollbar en desktop
+      scrollbar-width: none;
+      &::-webkit-scrollbar {
+        display: none;
+      }
     }
   }
 
@@ -1116,13 +1132,18 @@
       gap: $spacing-4;
     }
 
-    // Los items dentro de branch-row deben alinearse horizontalmente
+    // Los items dentro de branch-row
     .pokemon-evolutions__item {
       flex-direction: row;
       gap: $spacing-2;
 
       @include respond-to('sm') {
         gap: $spacing-3;
+      }
+
+      @include respond-to('md') {
+        flex-direction: column;
+        align-items: center;
       }
     }
 
@@ -1144,10 +1165,18 @@
     .pokemon-evolutions__info {
       flex-direction: column;
       align-items: flex-start;
+
+      @include respond-to('md') {
+        align-items: center;
+      }
     }
 
     .pokemon-evolutions__types {
       justify-content: flex-start;
+
+      @include respond-to('md') {
+        justify-content: center;
+      }
     }
   }
 
@@ -1229,7 +1258,6 @@
     gap: 0;
 
     @include respond-to('sm') {
-      flex-direction: row;
       gap: $spacing-1;
     }
 
