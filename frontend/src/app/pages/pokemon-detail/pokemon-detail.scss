@@ -546,14 +546,10 @@
     }
 
     &--none {
-      color: #1E5A7A;
+      color: #ffffff;
       font-size: $font-size-sm;
       font-weight: $font-weight-bold;
       -webkit-text-stroke: 0;
-
-      :host-context(.dark-theme) & {
-        color: #ffffff;
-      }
 
       @include respond-to('sm') {
         font-size: $font-size-base;
@@ -1126,16 +1122,16 @@
 
     // Los items dentro de branch-row
     .pokemon-evolutions__item {
-      flex-direction: row;
-      gap: $spacing-2;
+      flex-direction: column;
+      align-items: center;
+      gap: $spacing-1;
 
       @include respond-to('sm') {
-        gap: $spacing-3;
+        gap: $spacing-2;
       }
 
       @include respond-to('md') {
-        flex-direction: column;
-        align-items: center;
+        gap: $spacing-3;
       }
     }
 
@@ -1156,15 +1152,11 @@
 
     .pokemon-evolutions__info {
       flex-direction: column;
-      align-items: flex-start;
-
-      @include respond-to('md') {
-        align-items: center;
-      }
+      align-items: center;
     }
 
     .pokemon-evolutions__types {
-      justify-content: flex-start;
+      justify-content: center;
 
       @include respond-to('md') {
         justify-content: center;
