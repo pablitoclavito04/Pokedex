@@ -233,7 +233,7 @@
       
       <!-- ===== EVOLUCIONES RAMIFICADAS NIVEL 1 (Eevee, Tyrogue) ===== -->
       @if (pokemon.hasBranchedEvolutions && pokemon.branchLevel === 1) {
-        <div class="pokemon-evolutions__branched">
+        <div class="pokemon-evolutions__branched" [class.pokemon-evolutions__branched--eevee]="pokemon.evolutions[0]?.id === 133">
           <!-- Pokémon base a la izquierda -->
           <div class="pokemon-evolutions__item" (click)="navigateToPokemon(pokemon.evolutions[0].id)">
             <div class="pokemon-evolutions__image-wrapper pokemon-evolutions__image-wrapper--large">

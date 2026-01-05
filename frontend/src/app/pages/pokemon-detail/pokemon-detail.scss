@@ -1003,6 +1003,21 @@
       padding: $spacing-8;
       overflow-x: auto !important;
     }
+
+    // Modificador específico para Eevee - alinear imágenes verticalmente
+    &--eevee {
+      .pokemon-evolutions__arrow {
+        width: 130px;
+
+        @include respond-to('sm') {
+          width: 170px;
+        }
+
+        @include respond-to('md') {
+          width: 200px;
+        }
+      }
+    }
   }
 
   // ========== EVOLUCIONES RAMIFICADAS NIVEL 2 (Oddish→Gloom→...) ==========
