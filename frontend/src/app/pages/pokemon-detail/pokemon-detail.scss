@@ -538,19 +538,11 @@
     }
 
     &--male {
-      color: #1E5A7A;
-
-      :host-context(.dark-theme) & {
-        color: #ffffff;
-      }
+      color: #ffffff;
     }
 
     &--female {
-      color: #1E5A7A;
-
-      :host-context(.dark-theme) & {
-        color: #ffffff;
-      }
+      color: #ffffff;
     }
 
     &--none {
@@ -1352,7 +1344,7 @@
 
     @include respond-to('md') {
       gap: $spacing-3;
-      width: 200px;
+      width: auto;
     }
 
     svg {
