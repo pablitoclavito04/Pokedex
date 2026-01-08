@@ -1,0 +1,92 @@
+// ============================================================================
+//          BREADCRUMB COMPONENT - Estilos de migas de pan
+// ============================================================================
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+.breadcrumb {
+  padding: $spacing-3 0;
+
+  &__list {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: $spacing-1;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+
+    @include respond-to('sm') {
+      gap: $spacing-2;
+    }
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+
+    &--active {
+      font-weight: $font-weight-semibold;
+    }
+  }
+
+  &__link {
+    display: flex;
+    align-items: center;
+    gap: $spacing-1;
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: $font-size-sm;
+    transition: color 0.2s ease;
+
+    @include respond-to('md') {
+      font-size: $font-size-base;
+    }
+
+    &:hover {
+      color: var(--color-primary);
+    }
+  }
+
+  &__icon {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+
+    @include respond-to('md') {
+      width: 18px;
+      height: 18px;
+    }
+  }
+
+  &__text {
+    white-space: nowrap;
+  }
+
+  &__current {
+    color: var(--text-primary);
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+
+    @include respond-to('md') {
+      font-size: $font-size-base;
+    }
+  }
+
+  &__separator {
+    display: flex;
+    align-items: center;
+    color: var(--text-tertiary);
+
+    svg {
+      width: 14px;
+      height: 14px;
+
+      @include respond-to('md') {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+}

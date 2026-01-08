@@ -5,6 +5,7 @@
 - [Fase 1: Arquitectura de Eventos](#fase-1-arquitectura-de-eventos)
 - [Fase 2: Servicios y Comunicación](#fase-2-servicios-y-comunicación)
 - [Fase 3: Formularios Reactivos](#fase-3-formularios-reactivos)
+- [Fase 4: Sistema de Rutas y Navegación](#fase-4-sistema-de-rutas-y-navegación)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 
 ---
@@ -571,6 +572,16 @@ describe('ToastService', () => {
 - ✅ Directivas de máscara de entrada
 - ✅ Documentación de formularios reactivos
 
+### Fase 4
+- ✅ Sistema de rutas completo (14 rutas principales)
+- ✅ Lazy loading en todas las páginas con `loadComponent`
+- ✅ Precarga con `PreloadAllModules`
+- ✅ Route guards (`authGuard`, `guestGuard`, `pendingChangesGuard`)
+- ✅ Resolver en ruta `/pokemon/:id` (`pokemonResolver`)
+- ✅ Breadcrumbs dinámicos (`BreadcrumbService` + `BreadcrumbComponent`)
+- ✅ Página 404 personalizada
+- ✅ Documentación de rutas y navegación
+
 ---
 
 # Fase 3: Formularios Reactivos.
@@ -803,3 +814,531 @@ src/
 4. **Usar FormArrays** para datos dinámicos (teléfonos, direcciones, items)
 5. **Validadores de grupo** para validaciones que involucran múltiples campos
 6. **Feedback visual inmediato** con clases CSS para estados válido/inválido/pendiente
+
+---
+
+# Fase 4: Sistema de Rutas y Navegación
+
+Criterios: RA6.g, RA6.h
+
+## Diagrama de Arquitectura de Rutas
+
+```
+┌─────────────────────────────────────────────────────────────────────────────┐
+│                         SISTEMA DE NAVEGACIÓN SPA                            │
+├─────────────────────────────────────────────────────────────────────────────┤
+│                                                                              │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │                          app.routes.ts                               │    │
+│  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐      │    │
+│  │  │ Rutas Públicas  │  │Rutas Protegidas │  │  Rutas Quiz     │      │    │
+│  │  │ ─────────────── │  │ ─────────────── │  │ ─────────────── │      │    │
+│  │  │ • /             │  │ • /profile      │  │ • /quiz         │      │    │
+│  │  │ • /pokedex      │  │ • /settings     │  │ • /quiz/play    │      │    │
+│  │  │ • /pokemon/:id  │  │   (authGuard)   │  │ • /quiz/results │      │    │
+│  │  │ • /login        │  │                 │  │ • /quiz/review  │      │    │
+│  │  │ • /register     │  │                 │  │                 │      │    │
+│  │  └─────────────────┘  └─────────────────┘  └─────────────────┘      │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+│                                    │                                         │
+│                                    ▼                                         │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │                           GUARDS                                     │    │
+│  │                                                                      │    │
+│  │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐   │    │
+│  │  │    authGuard     │  │   guestGuard     │  │pendingChanges    │   │    │
+│  │  │  ─────────────   │  │  ─────────────   │  │     Guard        │   │    │
+│  │  │ Requiere login   │  │ Solo invitados   │  │  ─────────────   │   │    │
+│  │  │ Redirige /login  │  │ Redirige /       │  │ Confirma salida  │   │    │
+│  │  │ con returnUrl    │  │ si ya logueado   │  │ si form dirty    │   │    │
+│  │  └──────────────────┘  └──────────────────┘  └──────────────────┘   │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+│                                    │                                         │
+│                                    ▼                                         │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │                          RESOLVERS                                   │    │
+│  │                                                                      │    │
+│  │  ┌────────────────────────────────────────────────────────────┐     │    │
+│  │  │                    pokemonResolver                          │     │    │
+│  │  │  ────────────────────────────────────────────────────────   │     │    │
+│  │  │  • Precarga datos del Pokémon antes de activar la ruta     │     │    │
+│  │  │  • Obtiene nombre en español desde la API                   │     │    │
+│  │  │  • Redirige a /pokedex si hay error o ID inválido          │     │    │
+│  │  └────────────────────────────────────────────────────────────┘     │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+│                                    │                                         │
+│                                    ▼                                         │
+│  ┌─────────────────────────────────────────────────────────────────────┐    │
+│  │                        BREADCRUMBS                                   │    │
+│  │                                                                      │    │
+│  │  BreadcrumbService ──────> BreadcrumbComponent                      │    │
+│  │  • Escucha NavigationEnd   • Muestra migas dinámicas                │    │
+│  │  • Construye array desde   • Inicio > Pokédex > Pikachu             │    │
+│  │    data.breadcrumb         • Links navegables                       │    │
+│  └─────────────────────────────────────────────────────────────────────┘    │
+│                                                                              │
+└─────────────────────────────────────────────────────────────────────────────┘
+```
+
+## Tarea 1: Configuración de Rutas
+
+### Mapa Completo de Rutas
+
+| Ruta | Descripción | Lazy | Guards | Resolver | Breadcrumb |
+|------|-------------|------|--------|----------|------------|
+| `/` | Página de inicio | ✅ | - | - | Inicio |
+| `/pokedex` | Lista de Pokémon | ✅ | - | - | Pokédex |
+| `/pokemon/:id` | Detalle de Pokémon | ✅ | - | `pokemonResolver` | :id (dinámico) |
+| `/login` | Iniciar sesión | ✅ | `guestGuard` | - | Iniciar Sesión |
+| `/register` | Crear cuenta | ✅ | `guestGuard` | - | Registro |
+| `/profile` | Perfil de usuario | ✅ | `authGuard` | - | Mi Perfil |
+| `/settings` | Editar perfil | ✅ | `authGuard`, `pendingChangesGuard` | - | Ajustes |
+| `/quiz` | Menú Quiz | ✅ | - | - | Quiz |
+| `/quiz/play` | Jugar Quiz | ✅ | - | - | Jugando |
+| `/quiz/results` | Resultados Quiz | ✅ | - | - | Resultados |
+| `/quiz/review` | Revisión respuestas | ✅ | - | - | Revisión |
+| `/style-guide` | Guía de estilos | ✅ | - | - | Style Guide |
+| `/forms-demo` | Demo formularios | ✅ | - | - | Formularios Demo |
+| `**` | Página 404 | ✅ | - | - | - |
+
+### Configuración de Rutas
+
+```typescript
+// app.routes.ts
+import { Routes } from '@angular/router';
+import { authGuard, guestGuard, pendingChangesGuard } from './guards';
+import { pokemonResolver } from './resolvers';
+
+export const routes: Routes = [
+  // Rutas públicas
+  {
+    path: '',
+    loadComponent: () => import('./pages/home/home').then(m => m.HomeComponent),
+    title: 'Pokédex - Tu enciclopedia Pokémon',
+    data: { breadcrumb: 'Inicio' }
+  },
+
+  // Ruta con parámetros y resolver
+  {
+    path: 'pokemon/:id',
+    loadComponent: () => import('./pages/pokemon-detail/pokemon-detail').then(m => m.PokemonDetailComponent),
+    data: { breadcrumb: ':id' },
+    resolve: { pokemon: pokemonResolver }
+  },
+
+  // Ruta protegida
+  {
+    path: 'profile',
+    loadComponent: () => import('./pages/profile/profile').then(m => m.ProfileComponent),
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Mi Perfil' }
+  },
+
+  // Ruta con guard de formulario
+  {
+    path: 'settings',
+    loadComponent: () => import('./pages/settings/settings').then(m => m.SettingsComponent),
+    canActivate: [authGuard],
+    canDeactivate: [pendingChangesGuard],
+    data: { breadcrumb: 'Ajustes' }
+  },
+
+  // Wildcard 404 (siempre al final)
+  {
+    path: '**',
+    loadComponent: () => import('./pages/not-found/not-found').then(m => m.NotFoundComponent)
+  }
+];
+```
+
+## Tarea 2: Navegación Programática
+
+### Uso del Router desde código
+
+```typescript
+import { Component, inject } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+
+@Component({ ... })
+export class MyComponent {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
+  // Navegación básica
+  goHome() {
+    this.router.navigate(['/']);
+  }
+
+  // Navegación con parámetros
+  viewPokemon(id: number) {
+    this.router.navigate(['/pokemon', id]);
+  }
+
+  // Query params y fragments
+  filterPokedex() {
+    this.router.navigate(['/pokedex'], {
+      queryParams: { type: 'fire', gen: 1 },
+      fragment: 'results'
+    });
+  }
+
+  // Navegación con estado
+  goToResults(score: number) {
+    this.router.navigate(['/quiz/results'], {
+      state: { score, timestamp: Date.now() }
+    });
+  }
+}
+```
+
+### Leer parámetros en el componente destino
+
+```typescript
+// Leer parámetro de ruta
+ngOnInit() {
+  this.route.paramMap.subscribe(params => {
+    const id = params.get('id');
+    this.loadPokemon(Number(id));
+  });
+}
+
+// Leer query params
+ngOnInit() {
+  this.route.queryParamMap.subscribe(params => {
+    this.type = params.get('type');
+    this.page = Number(params.get('page')) || 1;
+  });
+}
+
+// Leer estado de navegación
+ngOnInit() {
+  const navigation = this.router.getCurrentNavigation();
+  const state = navigation?.extras.state as { score: number };
+  this.score = state?.score;
+}
+```
+
+## Tarea 3: Lazy Loading
+
+### Estrategia de Carga Perezosa
+
+Todas las páginas usan `loadComponent` para carga perezosa:
+
+```typescript
+{
+  path: 'pokedex',
+  loadComponent: () => import('./pages/pokedex/pokedex').then(m => m.PokedexComponent)
+}
+```
+
+### Precarga con PreloadAllModules
+
+```typescript
+// app.config.ts
+import { provideRouter, withPreloading, PreloadAllModules } from '@angular/router';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideRouter(
+      routes,
+      withPreloading(PreloadAllModules) // Precarga en segundo plano
+    )
+  ]
+};
+```
+
+### Verificación de Chunks en Build
+
+```bash
+ng build --configuration production
+```
+
+En `dist/frontend/browser/` verás:
+- `main-[hash].js` - Bundle inicial
+- `chunk-[hash].js` - Cada componente lazy genera un chunk separado
+
+## Tarea 4: Route Guards
+
+### authGuard - Protección de Rutas Autenticadas
+
+```typescript
+// guards/auth.guard.ts
+import { inject } from '@angular/core';
+import { Router, CanActivateFn } from '@angular/router';
+import { AuthService } from '../services/auth.service';
+
+export const authGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (authService.isLoggedIn()) {
+    return true;
+  }
+
+  // Redirigir a login con URL de retorno
+  return router.createUrlTree(['/login'], {
+    queryParams: { returnUrl: state.url }
+  });
+};
+```
+
+### guestGuard - Solo para Invitados
+
+```typescript
+export const guestGuard: CanActivateFn = (route, state) => {
+  const authService = inject(AuthService);
+  const router = inject(Router);
+
+  if (!authService.isLoggedIn()) {
+    return true;
+  }
+
+  // Si ya está logueado, redirigir al inicio
+  return router.createUrlTree(['/']);
+};
+```
+
+### pendingChangesGuard - Formularios sin Guardar
+
+```typescript
+// guards/pending-changes.guard.ts
+import { CanDeactivateFn } from '@angular/router';
+import { FormGroup } from '@angular/forms';
+
+export interface FormComponent {
+  form: FormGroup;
+}
+
+export const pendingChangesGuard: CanDeactivateFn<FormComponent> = (component) => {
+  if (component.form?.dirty) {
+    return confirm('Hay cambios sin guardar. ¿Seguro que quieres salir?');
+  }
+  return true;
+};
+```
+
+## Tarea 5: Resolvers
+
+### pokemonResolver - Precarga de Datos
+
+```typescript
+// resolvers/pokemon.resolver.ts
+import { inject } from '@angular/core';
+import { ResolveFn, Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { forkJoin, of } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+
+export interface ResolvedPokemon {
+  id: number;
+  name: string;
+  spanishName: string;
+  types: string[];
+  image: string;
+}
+
+export const pokemonResolver: ResolveFn<ResolvedPokemon | null> = (route) => {
+  const http = inject(HttpClient);
+  const router = inject(Router);
+  const id = route.paramMap.get('id');
+
+  // Validar ID
+  if (!id || isNaN(Number(id)) || Number(id) < 1 || Number(id) > 1025) {
+    router.navigate(['/pokedex']);
+    return of(null);
+  }
+
+  // Cargar datos en paralelo
+  return forkJoin({
+    pokemon: http.get<any>(`https://pokeapi.co/api/v2/pokemon/${id}`),
+    species: http.get<any>(`https://pokeapi.co/api/v2/pokemon-species/${id}`)
+  }).pipe(
+    map(({ pokemon, species }) => ({
+      id: pokemon.id,
+      name: pokemon.name,
+      spanishName: species.names?.find((n: any) => n.language.name === 'es')?.name || pokemon.name,
+      types: pokemon.types.map((t: any) => t.type.name),
+      image: pokemon.sprites.other['official-artwork'].front_default
+    })),
+    catchError(() => {
+      router.navigate(['/pokedex']);
+      return of(null);
+    })
+  );
+};
+```
+
+### Uso en el Componente
+
+```typescript
+// pokemon-detail.component.ts
+import { ActivatedRoute } from '@angular/router';
+
+export class PokemonDetailComponent implements OnInit {
+  route = inject(ActivatedRoute);
+  resolvedPokemon: ResolvedPokemon | null = null;
+
+  ngOnInit() {
+    this.route.data.subscribe(({ pokemon }) => {
+      this.resolvedPokemon = pokemon;
+    });
+  }
+}
+```
+
+## Tarea 6: Breadcrumbs Dinámicos
+
+### BreadcrumbService
+
+```typescript
+// services/breadcrumb.service.ts
+@Injectable({ providedIn: 'root' })
+export class BreadcrumbService {
+  private readonly _breadcrumbs$ = new BehaviorSubject<Breadcrumb[]>([]);
+  readonly breadcrumbs$ = this._breadcrumbs$.asObservable();
+
+  constructor(private router: Router, private route: ActivatedRoute) {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe(() => {
+        const breadcrumbs: Breadcrumb[] = [];
+        this.buildBreadcrumbs(this.route.root, '', breadcrumbs);
+        this._breadcrumbs$.next(breadcrumbs);
+      });
+  }
+
+  private buildBreadcrumbs(route: ActivatedRoute, url: string, breadcrumbs: Breadcrumb[]): void {
+    // Recorre el árbol de rutas y extrae data.breadcrumb
+    // Soporta parámetros dinámicos como :id
+  }
+}
+```
+
+### BreadcrumbComponent
+
+```html
+<!-- breadcrumb.component.html -->
+<nav class="breadcrumb" aria-label="Breadcrumb" *ngIf="breadcrumbs.length > 0">
+  <ol class="breadcrumb__list">
+    <li class="breadcrumb__item">
+      <a routerLink="/">Inicio</a>
+    </li>
+    <ng-container *ngFor="let crumb of breadcrumbs; let last = last">
+      <li class="breadcrumb__separator">></li>
+      <li class="breadcrumb__item" [class.active]="last">
+        <a *ngIf="!last" [routerLink]="crumb.url">{{ crumb.label }}</a>
+        <span *ngIf="last">{{ crumb.label }}</span>
+      </li>
+    </ng-container>
+  </ol>
+</nav>
+```
+
+## Tarea 7: Página 404
+
+### NotFoundComponent
+
+```typescript
+// pages/not-found/not-found.ts
+@Component({
+  selector: 'app-not-found',
+  standalone: true,
+  imports: [CommonModule, RouterLink],
+  templateUrl: './not-found.html',
+  styleUrl: './not-found.scss'
+})
+export class NotFoundComponent {}
+```
+
+```html
+<!-- not-found.html -->
+<main class="not-found">
+  <div class="not-found__container">
+    <div class="not-found__pokeball">
+      <span class="not-found__code">404</span>
+    </div>
+    <h1>Parece que te perdiste en la hierba alta</h1>
+    <p>La ruta que buscas no existe.</p>
+    <div class="not-found__actions">
+      <a routerLink="/" class="btn btn--primary">Volver al inicio</a>
+      <a routerLink="/pokedex" class="btn btn--secondary">Explorar Pokédex</a>
+    </div>
+  </div>
+</main>
+```
+
+## Estructura de Archivos - Fase 4
+
+```
+src/app/
+├── guards/
+│   ├── index.ts                    # Exportaciones públicas
+│   ├── auth.guard.ts               # authGuard, guestGuard
+│   └── pending-changes.guard.ts    # pendingChangesGuard
+├── resolvers/
+│   ├── index.ts                    # Exportaciones públicas
+│   └── pokemon.resolver.ts         # pokemonResolver
+├── services/
+│   └── breadcrumb.service.ts       # BreadcrumbService
+├── pages/
+│   └── not-found/
+│       ├── not-found.ts
+│       ├── not-found.html
+│       └── not-found.scss
+├── app.routes.ts                   # Configuración de rutas
+└── app.config.ts                   # Configuración con PreloadAllModules
+
+src/components/shared/
+└── breadcrumb/
+    ├── breadcrumb.ts
+    ├── breadcrumb.html
+    └── breadcrumb.scss
+```
+
+## Flujo de Navegación
+
+```
+Usuario hace click en link/botón
+          │
+          ▼
+Router procesa la URL
+          │
+          ├─── Guards (canActivate)
+          │         │
+          │         ├─ authGuard: ¿Está logueado?
+          │         │     NO → Redirige a /login?returnUrl=...
+          │         │     SÍ → Continúa
+          │         │
+          │         └─ guestGuard: ¿Es invitado?
+          │               NO → Redirige a /
+          │               SÍ → Continúa
+          │
+          ▼
+Resolvers (resolve)
+          │
+          └─ pokemonResolver: Carga datos del Pokémon
+                    │
+                    ├─ Error/ID inválido → Redirige a /pokedex
+                    │
+                    └─ OK → Datos disponibles en route.data
+          │
+          ▼
+Componente se activa
+          │
+          └─ Breadcrumbs se actualizan automáticamente
+          │
+          ▼
+Vista renderizada
+```
+
+## Entregables Fase 4
+
+- ✅ Sistema de rutas completo (14 rutas principales)
+- ✅ Lazy loading en todas las páginas con `loadComponent`
+- ✅ Precarga con `PreloadAllModules`
+- ✅ Route guards implementados (`authGuard`, `guestGuard`, `pendingChangesGuard`)
+- ✅ Resolver en ruta `/pokemon/:id` (`pokemonResolver`)
+- ✅ Navegación funcional en toda la aplicación
+- ✅ Breadcrumbs dinámicos (`BreadcrumbService` + `BreadcrumbComponent`)
+- ✅ Página 404 personalizada con diseño Pokémon
+- ✅ Documentación de rutas

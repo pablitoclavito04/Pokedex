@@ -1,0 +1,191 @@
+// ============================================================================
+//          NOT FOUND PAGE - Estilos de página 404
+// ============================================================================
+
+@use '../../../styles/00-settings/variables' as *;
+@use '../../../styles/01-tools/mixins' as *;
+
+.not-found {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-primary);
+  padding: $spacing-4;
+
+  &__container {
+    text-align: center;
+  }
+
+  // ========== POKEBALL ==========
+  &__pokeball {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto $spacing-8;
+    position: relative;
+    animation: bounce 2s ease-in-out infinite;
+    overflow: hidden;
+    border-radius: 50%;
+
+    @include respond-to('md') {
+      width: 200px;
+      height: 200px;
+    }
+
+    // Línea central horizontal
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 12px;
+      background: #333;
+      transform: translateY(-50%);
+      z-index: 5;
+    }
+  }
+
+  &__pokeball-top {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(135deg, #ff4444 0%, #cc0000 100%);
+    border-radius: 100px 100px 0 0;
+    border: 4px solid #333;
+    border-bottom: none;
+  }
+
+  &__pokeball-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50%;
+    background: linear-gradient(135deg, #ffffff 0%, #e0e0e0 100%);
+    border-radius: 0 0 100px 100px;
+    border: 4px solid #333;
+    border-top: none;
+  }
+
+  &__pokeball-center {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 60px;
+    height: 60px;
+    background: #fff;
+    border-radius: 50%;
+    border: 4px solid #333;
+    z-index: 10;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    @include respond-to('md') {
+      width: 80px;
+      height: 80px;
+    }
+  }
+
+  &__code {
+    font-size: $font-size-sm;
+    font-weight: $font-weight-bold;
+    color: #333;
+
+    @include respond-to('md') {
+      font-size: $font-size-lg;
+    }
+  }
+
+  // ========== TEXTO ==========
+  &__title {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary);
+    margin: 0 0 $spacing-4;
+    line-height: 1.3;
+    white-space: nowrap;
+
+    @include respond-to('md') {
+      font-size: $font-size-3xl;
+    }
+  }
+
+  &__message {
+    font-size: $font-size-base;
+    color: var(--text-secondary);
+    margin: 0 0 $spacing-8;
+    line-height: 1.6;
+
+    @include respond-to('md') {
+      font-size: $font-size-lg;
+    }
+  }
+
+  // ========== BOTONES ==========
+  &__actions {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-3;
+
+    @include respond-to('sm') {
+      flex-direction: row;
+      justify-content: center;
+      gap: $spacing-4;
+    }
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    padding: $spacing-3 $spacing-6;
+    border-radius: $border-radius-lg;
+    font-size: $font-size-base;
+    font-weight: $font-weight-semibold;
+    text-decoration: none;
+    transition: all 0.2s ease;
+
+    svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    &--primary {
+      background: #3174F1;
+      color: #ffffff;
+
+      &:hover {
+        background: #2563EB;
+        transform: translateY(-2px);
+      }
+    }
+
+    &--secondary {
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      border: 2px solid var(--border-primary);
+
+      &:hover {
+        background: var(--bg-primary);
+        border-color: var(--text-primary);
+        transform: translateY(-2px);
+      }
+    }
+  }
+}
+
+// ========== ANIMACIONES ==========
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}

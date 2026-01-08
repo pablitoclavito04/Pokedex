@@ -19,6 +19,11 @@ export class App {
   private hiddenLayoutRoutes = ['/login', '/register'];
   // Rutas donde no se muestra el footer
   private hiddenFooterRoutes = ['/login', '/register', '/profile', '/settings', '/quiz/review'];
+  // Rutas válidas de la aplicación (para detectar 404)
+  private validRoutes = [
+    '/', '/pokedex', '/pokemon', '/login', '/register', '/profile', '/settings',
+    '/quiz', '/style-guide', '/forms-demo'
+  ];
 
   showLayout = true;
   showFooter = true;
@@ -29,8 +34,22 @@ export class App {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((event: NavigationEnd) => {
         const url = event.urlAfterRedirects;
-        this.showLayout = !this.hiddenLayoutRoutes.includes(url);
-        this.showFooter = !this.hiddenFooterRoutes.some(route => url.startsWith(route));
+        const is404 = !this.isValidRoute(url);
+
+        this.showLayout = !this.hiddenLayoutRoutes.includes(url) && !is404;
+        this.showFooter = !this.hiddenFooterRoutes.some(route => url.startsWith(route)) && !is404;
       });
+  }
+
+  /**
+   * Verifica si la URL corresponde a una ruta válida
+   */
+  private isValidRoute(url: string): boolean {
+    return this.validRoutes.some(route => {
+      if (route === '/') {
+        return url === '/';
+      }
+      return url === route || url.startsWith(route + '/');
+    });
   }
 }
