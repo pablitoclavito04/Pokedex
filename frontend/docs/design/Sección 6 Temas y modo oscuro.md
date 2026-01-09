@@ -950,29 +950,6 @@ constructor() {
 
 ## 6.9 Capturas de pantalla.
 
-### Home page:
-
-#### Modo oscuro (por defecto):
-![Home - Modo Oscuro](./screenshots/home-dark.png)
-
-**Características visuales:**
-- Fondo principal: `#172133` (azul muy oscuro)
-- Texto principal: `#f8fafc` (blanco suave)
-- Cards: `#1a1f2e` (azul oscuro secundario)
-- Sombras pronunciadas para profundidad
-
-
-#### Modo claro:
-![Home - Modo Claro](./screenshots/home-light.png)
-
-**Características visuales:**
-- Fondo principal: `#f5f5f7` (gris muy claro)
-- Texto principal: `#1e293b` (azul oscuro)
-- Cards: `#ffffff` (blanco puro)
-- Sombras sutiles para elevación
-
----
-
 ### Pokédex List
 
 #### Modo Oscuro
@@ -1014,6 +991,32 @@ constructor() {
 - Stats bars con colores menos saturados
 - Bordes más definidos en tabs
 - Contraste alto para accesibilidad
+
+---
+
+### Página de Configuración del Quiz
+
+#### Modo Oscuro
+![Quiz Setup - Modo Oscuro](./screenshots/quiz-setup-dark.png)
+
+**Elementos destacados:**
+- Fondo de imagen con overlay oscuro semitransparente
+- Card de configuración con fondo `#1a1f2e` y elevación
+- Selectores de dificultad y número de preguntas con estados hover
+- Botones con colores vibrantes sobre fondo oscuro
+- Iconos y badges con alta visibilidad
+- Texto secundario legible (`#cbd5e1`)
+
+#### Modo Claro
+![Quiz Setup - Modo Claro](./screenshots/quiz-setup-light.png)
+
+**Elementos destacados:**
+- Fondo de imagen con overlay claro sutil
+- Card de configuración con fondo blanco y sombra suave
+- Selectores con bordes definidos y estados hover sutiles
+- Botones con contraste alto para accesibilidad
+- Iconos con colores menos saturados
+- Texto con contraste WCAG AAA
 
 ---
 
