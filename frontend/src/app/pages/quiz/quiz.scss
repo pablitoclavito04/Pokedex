@@ -26,12 +26,12 @@ $difficulty-expert: #ef4444;
 
   // Imagen responsive con WebP optimizado
   background-image: -webkit-image-set(
-    url('/Pokedex/optimized/Imagen%20quiz%20800.webp') 1x,
-    url('/Pokedex/optimized/Imagen%20quiz%201200.webp') 2x
+    url('/Pokedex/optimized/Imagen quiz 800.webp') 1x,
+    url('/Pokedex/optimized/Imagen quiz 1200.webp') 2x
   );
   background-image: image-set(
-    url('/Pokedex/optimized/Imagen%20quiz%20800.webp') 1x,
-    url('/Pokedex/optimized/Imagen%20quiz%201200.webp') 2x
+    url('/Pokedex/optimized/Imagen quiz 800.webp') 1x,
+    url('/Pokedex/optimized/Imagen quiz 1200.webp') 2x
   );
   padding: $spacing-3;
   padding-bottom: $spacing-12;

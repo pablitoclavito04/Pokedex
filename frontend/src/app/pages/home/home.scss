@@ -42,12 +42,12 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
 
   // Imagen responsive con WebP optimizado
   background-image: -webkit-image-set(
-    url('/Pokedex/optimized/Pokemons%20reunidos%20400.webp') 1x,
-    url('/Pokedex/optimized/Pokemons%20reunidos%20800.webp') 2x
+    url('/Pokedex/optimized/Pokemons reunidos 400.webp') 1x,
+    url('/Pokedex/optimized/Pokemons reunidos 800.webp') 2x
   );
   background-image: image-set(
-    url('/Pokedex/optimized/Pokemons%20reunidos%20400.webp') 1x,
-    url('/Pokedex/optimized/Pokemons%20reunidos%20800.webp') 2x
+    url('/Pokedex/optimized/Pokemons reunidos 400.webp') 1x,
+    url('/Pokedex/optimized/Pokemons reunidos 800.webp') 2x
   );
   overflow: hidden; // Prevenir desbordamiento
 
