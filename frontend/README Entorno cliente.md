@@ -2103,42 +2103,42 @@ La Fase 6 implementa un sistema moderno de gestión de estado usando **Signals d
 
 ```
 ┌───────────────────────────────────────────────────────────────────┐
-│                    FLUJO DE DATOS CON SIGNALS                      │
+│                    FLUJO DE DATOS CON SIGNALS                     │
 ├───────────────────────────────────────────────────────────────────┤
-│                                                                    │
-│  Componente                                                        │
-│  (Pokédex)                                                         │
-│       │                                                            │
-│       │ Lee signals                                                │
-│       ▼                                                            │
+│                                                                   │
+│  Componente                                                       │
+│  (Pokédex)                                                        │
+│       │                                                           │
+│       │ Lee signals                                               │
+│       ▼                                                           │
 │  ┌────────────────────────────────────────┐                       │
-│  │         POKEMON STORE                   │                       │
-│  │                                         │                       │
+│  │         POKEMON STORE                   │                      │
+│  │                                         │                      │
 │  │  Signals Privados (escritura):         │                       │
-│  │  • _pokemons: signal<Pokemon[]>         │                       │
-│  │  • _loading: signal(false)              │                       │
-│  │  • _pagination: signal({...})           │                       │
-│  │                                         │                       │
-│  │  Signals Públicos (lectura):            │                       │
-│  │  • pokemons = _pokemons.asReadonly()    │                       │
-│  │  • loading = _loading.asReadonly()      │                       │
-│  │                                         │                       │
-│  │  Computed Signals (auto-recalculo):     │                       │
-│  │  • totalLoaded = computed(...)          │                       │
-│  │  • filteredPokemons = computed(...)     │                       │
-│  │  • hasMore = computed(...)              │                       │
-│  │                                         │                       │
-│  │  Métodos (acciones):                    │                       │
-│  │  • loadNextPage()                       │                       │
-│  │  • setSearchQuery(query)                │                       │
-│  │  • selectPokemonById(id)                │                       │
-│  └─────────────────┬───────────────────────┘                       │
-│                    │                                               │
-│                    │ HTTP Requests                                 │
-│                    ▼                                               │
-│              HttpClient                                            │
-│        (PokeAPI / Backend)                                         │
-│                                                                    │
+│  │  • _pokemons: signal<Pokemon[]>         │                      │
+│  │  • _loading: signal(false)              │                      │
+│  │  • _pagination: signal({...})           │                      │
+│  │                                         │                      │
+│  │  Signals Públicos (lectura):            │                      │
+│  │  • pokemons = _pokemons.asReadonly()    │                      │
+│  │  • loading = _loading.asReadonly()      │                      │
+│  │                                         │                      │
+│  │  Computed Signals (auto-recalculo):     │                      │
+│  │  • totalLoaded = computed(...)          │                      │
+│  │  • filteredPokemons = computed(...)     │                      │
+│  │  • hasMore = computed(...)              │                      │
+│  │                                         │                      │
+│  │  Métodos (acciones):                    │                      │
+│  │  • loadNextPage()                       │                      │
+│  │  • setSearchQuery(query)                │                      │
+│  │  • selectPokemonById(id)                │                      │
+│  └─────────────────┬───────────────────────┘                      │
+│                    │                                              │
+│                    │ HTTP Requests                                │
+│                    ▼                                              │
+│              HttpClient                                           │
+│        (PokeAPI / Backend)                                        │
+│                                                                   │
 └───────────────────────────────────────────────────────────────────┘
 ```
 
