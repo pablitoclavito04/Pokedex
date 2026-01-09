@@ -18,16 +18,14 @@ $difficulty-expert: #ef4444;
 // ============================================================================
 .quiz-page {
   min-height: 100vh;
-  // Imagen optimizada WebP (móvil primero)
-  background-image: url('/Pokedex/optimized/Imagen quiz 800.webp');
-  background-position: center center;
+  // Imagen responsive con WebP optimizado
+  background: image-set(
+    url('/Pokedex/optimized/Imagen quiz 800.webp') 1x,
+    url('/Pokedex/optimized/Imagen quiz 1200.webp') 2x
+  ) no-repeat center center;
+  // Fallback para navegadores sin soporte image-set()
+  background: url('/Pokedex/Imagen quiz.png') no-repeat center center;
   background-size: cover;
-  background-repeat: no-repeat;
-
-  // Desktop - imagen más grande
-  @media (min-width: 1024px) {
-    background-image: url('/Pokedex/optimized/Imagen quiz 1200.webp');
-  }
   padding: $spacing-3;
   padding-bottom: $spacing-12;
   position: relative;

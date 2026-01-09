@@ -14,18 +14,13 @@
   align-items: center;
   justify-content: center;
   padding: $spacing-4;
-  // Imagen optimizada WebP (móvil primero)
-  background-color: #f5f5f5;
-  background-image: url('/Pokedex/optimized/Fondo pantalla Crear cuenta 800.webp');
-  background-position: center center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-attachment: fixed;
-
-  // Desktop - imagen más grande
-  @media (min-width: 1024px) {
-    background-image: url('/Pokedex/optimized/Fondo pantalla Crear cuenta 1200.webp');
-  }
+  // Imagen responsive con WebP optimizado
+  background: #f5f5f5 image-set(
+    url('/Pokedex/optimized/Fondo pantalla Crear cuenta 800.webp') 1x,
+    url('/Pokedex/optimized/Fondo pantalla Crear cuenta 1200.webp') 2x
+  ) center center / cover no-repeat fixed;
+  // Fallback para navegadores sin soporte image-set()
+  background: #f5f5f5 url('/Pokedex/Fondo pantalla Crear cuenta.png') center center / cover no-repeat fixed;
 
   // Overlay para mejorar legibilidad
   &::before {
