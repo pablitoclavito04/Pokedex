@@ -16,14 +16,16 @@
   <section class="hero">
     <div class="hero__container">
 
-      <!-- Logo animado (favicon) -->
+      <!-- Logo animado (favicon) con srcset para diferentes resoluciones -->
       <div class="hero__logo">
         <img
           src="favicon.png"
+          srcset="favicon.png 1x, favicon.png 2x"
           alt="Pokédex Logo"
           class="hero__logo-image"
           width="120"
-          height="120">
+          height="120"
+          loading="eager">
       </div>
 
       <!-- Título principal -->

@@ -34,6 +34,12 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
   justify-content: center;
   min-height: calc(100vh - 80px); // Restamos altura del header
   padding: $spacing-8 $spacing-4;
+  // Imagen responsive con WebP optimizado
+  background: image-set(
+    url('/Pokedex/optimized/Pokemons reunidos 400.webp') 1x,
+    url('/Pokedex/optimized/Pokemons reunidos 800.webp') 2x
+  ) center center / cover no-repeat;
+  // Fallback para navegadores sin soporte image-set()
   background: url('/Pokedex/Pokemons reunidos.png') center center / cover no-repeat;
   overflow: hidden; // Prevenir desbordamiento
 

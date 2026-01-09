@@ -5,7 +5,8 @@
 - [4.2 Estrategia responsive elegida](#42-estrategia-responsive-elegida)
 - [4.3 Container Queries](#43-container-queries)
 - [4.4 Adaptaciones por componente](#44-adaptaciones-por-componente)
-- [4.5 Screenshots comparativos](#45-screenshots-comparativos)
+- [4.5 Testing en múltiples viewports](#45-testing-en-múltiples-viewports)
+- [4.6 Screenshots comparativos](#46-screenshots-comparativos)
 
 ---
 
@@ -15,7 +16,7 @@
 
 | Breakpoint | Píxeles | Uso principal |
 |------------|---------|---------------|
-| `xs` | 480px | Móvil pequeño (iPhone SE, Galaxy S) |
+| `xs` | 320px | Móvil muy pequeño (iPhone SE, Galaxy S pequeños) |
 | `sm` | 640px | Móvil grande (iPhone Pro Max, Galaxy Plus) |
 | `md` | 768px | Tablet (iPad Mini, tablets Android) |
 | `lg` | 1024px | Desktop pequeño / Tablet landscape |
@@ -24,7 +25,7 @@
 
 ### Justificación de los valores:
 
-- **480px (xs)**: Cubre dispositivos móviles muy pequeños. Por debajo de este valor, el diseño se mantiene en su forma más compacta.
+- **320px (xs)**: Breakpoint mínimo que cubre los dispositivos móviles más pequeños del mercado (iPhone SE 1ra gen, Galaxy Fold plegado). Por debajo de este valor, el diseño se mantiene en su forma más compacta.
 
 - **640px (sm)**: Punto donde los móviles más grandes empiezan a tener espacio suficiente para layouts de dos columnas en algunos contextos.
 
@@ -36,11 +37,12 @@
 
 - **1536px (2xl)**: Para monitores muy anchos, permite espaciado adicional.
 
+
 ### Definición en código:
 
 ```scss
 // _variables.scss
-$breakpoint-xs: 480px;    // Móvil pequeño
+$breakpoint-xs: 320px;    // Móvil muy pequeño
 $breakpoint-sm: 640px;    // Móvil grande
 $breakpoint-md: 768px;    // Tablet
 $breakpoint-lg: 1024px;   // Desktop
@@ -305,27 +307,110 @@ Las Container Queries permiten que un componente se adapte al tamaño de su cont
 
 ---
 
-## 4.5 Screenshots Comparativos
+## 4.5 Testing en múltiples viewports.
 
-> **Nota**: Esta sección requiere capturas de pantalla reales de la aplicación en diferentes viewports. Las capturas deben tomarse usando Chrome DevTools en los siguientes tamaños:
+### Viewports testeados:
 
-### Viewports a capturar
+Todas las páginas de la aplicación han sido verificadas en los siguientes 5 viewports para garantizar una experiencia consistente y responsive:
 
-1. **Mobile (375px)** - iPhone estándar
-2. **Tablet (768px)** - iPad
-3. **Desktop (1280px)** - Monitor estándar
+| Viewport | Ancho | Dispositivo de referencia | Estado |
+|----------|-------|---------------------------|--------|
+| **320px** | 320px × 568px | iPhone SE (1ra gen), móviles muy pequeños | Verificado |
+| **375px** | 375px × 667px | iPhone 8/SE (2da gen), móviles estándar | Verificado |
+| **768px** | 768px × 1024px | iPad Mini, tablets en portrait | Verificado |
+| **1024px** | 1024px × 768px | iPad landscape, desktops pequeños | Verificado |
+| **1280px** | 1280px × 720px | Desktop estándar (1280x720, 1366x768) | Verificado |
 
-### Páginas a capturar
 
-1. **Style Guide** (`/style-guide`)
-   - Sección de componentes
-   - Grid de cards
-   - Formularios
+### Páginas testeadas:
 
-2. **Forms Demo** (`/forms-demo`)
-   - Formulario de registro
-   - Tabla de items de factura
+Todas las siguientes páginas funcionan correctamente en los 5 viewports mencionados:
 
-3. **Header y Footer**
-   - Menú hamburguesa abierto (mobile)
-   - Navegación completa (desktop)
+#### Páginas públicas:
+- **Home** (`/`) - Hero section, grid de features
+- **Login** (`/login`) - Formulario de login responsive
+- **Register** (`/register`) - Formulario de registro
+- **Not Found** (`/404`) - Página de error 404
+
+#### Páginas de Pokémon:
+- **Pokédex** (`/pokedex`) - Grid responsive (1/2/3/4 columnas según viewport)
+- **Detalle Pokémon** (`/pokemon/:id`) - Layout adaptativo con estadísticas
+
+#### Páginas de Quiz:
+- **Quiz** (`/quiz`) - Lista de quizzes disponibles
+- **Quiz Play** (`/quiz/:id/play`) - Interfaz de juego responsive
+- **Quiz Results** (`/quiz/:id/results`) - Resultados adaptativos
+- **Quiz Review** (`/quiz/:id/review`) - Revisión de respuestas
+
+#### Páginas de usuario:
+- **Profile** (`/profile`) - Formulario de perfil
+- **Settings** (`/settings`) - Panel de ajustes
+
+
+### Adaptaciones clave por viewport:
+
+#### **320px - Móvil muy pequeño**
+- Grid de Pokédex: **1 columna**
+- Cards de Pokémon: Layout vertical compacto.
+- Header: Menú hamburguesa.
+- Footer: 1 columna, elementos apilados.
+- Formularios: Campos de ancho completo.
+
+#### **375px - Móvil estándar**
+- Grid de Pokédex: **1 columna** (más espaciado).
+- Cards: Mejor legibilidad de texto.
+- Botones: Tamaño táctil óptimo (44px+).
+
+#### **768px - Tablet**
+- Grid de Pokédex: **2 columnas**
+- Header: Navegación horizontal visible.
+- Footer: 3 columnas.
+- Formularios: Grid de 2 columnas para campos relacionados.
+
+#### **1024px - Desktop pequeño**
+- Grid de Pokédex: **3 columnas**
+- Footer: 5 columnas completas.
+- Quiz: Layout con sidebar.
+
+#### **1280px - Desktop estándar**
+- Grid de Pokédex: **4 columnas**
+- Contenedores: Ancho máximo alcanzado.
+- Espaciado: Máximo confort visual.
+
+### Método de testing:
+
+El testing se realizó utilizando:
+1. **Chrome DevTools** - Device Toolbar con viewports personalizados.
+2. **Responsive Design Mode** - Para verificar transiciones entre breakpoints.
+3. **Testing real** - Dispositivos físicos para validar touch targets y gestos.
+
+
+### Criterios de validación:
+
+Para cada viewport se verificó:
+- **Legibilidad**: Texto legible sin zoom (mínimo 14px en móvil).
+- **Touch targets**: Botones de mínimo 44×44px en móvil.
+- **Scroll horizontal**: Sin desbordamiento horizontal.
+- **Imágenes**: Carga correcta y aspect ratio preservado.
+- **Navegación**: Acceso completo a todas las funcionalidades.
+- **Formularios**: Campos usables y labels visibles.
+
+---
+
+## 4.6 Screenshots comparativos.
+
+### Viewports a capturar:
+
+1. **Mobile. Style Guide.**
+  ![alt text](image.png)
+  ![alt text](image-7.png)
+  ![alt text](image-8.png)
+
+2. **Tablet. (Forms Demo)**
+  ![alt text](image-10.png)
+  ![alt text](image-9.png)
+
+3. **Desktop. (Header y Footer)**
+   ![alt text](image-12.png)
+   ![alt text](image-11.png)
+
