@@ -1,13 +1,8 @@
-# Sección 6: Temas y Modo Oscuro
-
-**Proyecto:** Pokédex Web Application
-**Módulo:** Diseño de Interfaces Web (DIW)
-**Fase:** 6 - Sistema de Temas
-**Fecha:** Enero 2026
+# Sección 6: Temas y modo oscuro.
 
 ---
 
-## Índice
+## Índice.
 
 - [6.1 Arquitectura del Sistema de Temas](#61-arquitectura-del-sistema-de-temas)
 - [6.2 CSS Custom Properties (Variables CSS)](#62-css-custom-properties-variables-css)
@@ -21,20 +16,20 @@
 
 ---
 
-## 6.1 Arquitectura del Sistema de Temas
+## 6.1 Arquitectura del sistema de temas.
 
-### Descripción general
+### Descripción general:
 
 El proyecto implementa un **sistema completo de temas** que permite alternar entre modo claro y modo oscuro, con:
 
-- **CSS Custom Properties** para valores dinámicos
-- **SCSS Variables** para design tokens estáticos
-- **Theme Service** (Angular) para lógica de negocio
-- **Persistencia** en localStorage
-- **Detección automática** de preferencia del sistema
-- **Transiciones suaves** entre temas
+- **CSS Custom Properties** para valores dinámicos.
+- **SCSS Variables** para design tokens estáticos.
+- **Theme Service** (Angular) para lógica de negocio.
+- **Persistencia** en localStorage.
+- **Detección automática** de preferencia del sistema.
+- **Transiciones suaves** entre temas.
 
-### Stack tecnológico
+### Stack tecnológico:
 
 | Tecnología | Uso |
 |------------|-----|
@@ -44,7 +39,7 @@ El proyecto implementa un **sistema completo de temas** que permite alternar ent
 | **localStorage** | Persistencia de preferencia del usuario |
 | **prefers-color-scheme** | Detección de preferencia del sistema operativo |
 
-### Estructura de archivos
+### Estructura de archivos:
 
 ```
 frontend/src/
@@ -63,20 +58,22 @@ frontend/src/
 
 ---
 
-## 6.2 CSS Custom Properties (Variables CSS)
+## 6.2 CSS Custom Properties (Variables CSS):
 
-### Ubicación
+### Ubicación:
 
 **Archivo:** `frontend/src/styles/00-settings/_css-variables.scss`
 
-### Temas definidos
+
+### Temas definidos:
 
 El sistema define **2 temas completos**:
 
 1. **Tema oscuro** (por defecto en `:root`)
 2. **Tema claro** (en clase `.light-theme`)
 
-### Estructura de variables
+
+### Estructura de variables:
 
 El sistema usa **60+ variables CSS** organizadas en categorías:
 
@@ -127,7 +124,7 @@ El sistema usa **60+ variables CSS** organizadas en categorías:
 }
 ```
 
-### Tema claro
+### Tema claro:
 
 ```scss
 .light-theme {
@@ -173,22 +170,22 @@ El sistema usa **60+ variables CSS** organizadas en categorías:
 }
 ```
 
-### Ventajas del sistema
+### Ventajas del sistema:
 
-✅ **Cambio instantáneo:** Al cambiar la clase del body, todas las variables se actualizan
-✅ **Mantenible:** Un solo lugar para definir colores por tema
-✅ **Performante:** CSS nativo, sin JavaScript para recalcular estilos
-✅ **Escalable:** Fácil añadir nuevos temas (ej: tema azul, tema verde)
+**Cambio instantáneo:** Al cambiar la clase del body, todas las variables se actualizan.
+**Mantenible:** Un solo lugar para definir colores por tema.
+**Performante:** CSS nativo, sin JavaScript para recalcular estilos.
+**Escalable:** Fácil añadir nuevos temas (ej: tema azul, tema verde).
 
 ---
 
-## 6.3 SCSS Variables (Design Tokens)
+## 6.3 SCSS variables (Design Tokens).
 
-### Ubicación
+### Ubicación:
 
 **Archivo:** `frontend/src/styles/00-settings/_variables.scss`
 
-### Diferencia con CSS Custom Properties
+### Diferencia con CSS Custom Properties:
 
 | CSS Custom Properties | SCSS Variables |
 |----------------------|----------------|
@@ -197,9 +194,10 @@ El sistema usa **60+ variables CSS** organizadas en categorías:
 | Se usan en componentes | Se usan en mixins/funciones SCSS |
 | Soportan cambio de tema | No cambian después de compilar |
 
-### Paleta de colores
 
-#### Colores primarios (morado)
+### Paleta de colores:
+
+#### Colores primarios (morado):
 
 ```scss
 $color-primary-50: #f5f3ff;
@@ -214,7 +212,7 @@ $color-primary-800: #5b21b6;
 $color-primary-900: #4c1d95;
 ```
 
-#### Colores secundarios (amarillo)
+#### Colores secundarios (amarillo):
 
 ```scss
 $color-secondary-50: #fffbeb;
@@ -229,7 +227,7 @@ $color-secondary-800: #92400e;
 $color-secondary-900: #78350f;
 ```
 
-#### Colores de acento (rosa/rojo)
+#### Colores de acento (rosa/rojo):
 
 ```scss
 $color-accent-500: #ff3366;    // Rosa principal
@@ -237,7 +235,7 @@ $color-accent-600: #e62958;
 $color-accent-700: #cc1f4a;
 ```
 
-#### Colores semánticos
+#### Colores semánticos:
 
 ```scss
 $color-success: #10b981;  // Verde - operaciones exitosas
@@ -246,7 +244,7 @@ $color-warning: #f59e0b;  // Naranja - advertencias
 $color-info: #3b82f6;     // Azul - información
 ```
 
-### Colores de tipos Pokémon
+### Colores de tipos Pokémon:
 
 ```scss
 // 18 tipos de Pokémon con colores oficiales
@@ -270,7 +268,7 @@ $type-steel: #b8b8d0;
 $type-fairy: #ee99ac;
 ```
 
-### Sistema de espaciado (4px base)
+### Sistema de espaciado (4px base):
 
 ```scss
 $spacing-0: 0;
@@ -289,7 +287,7 @@ $spacing-24: 6rem;    // 96px
 $spacing-32: 8rem;    // 128px
 ```
 
-### Tipografía
+### Tipografía:
 
 ```scss
 // Familias
@@ -320,7 +318,7 @@ $font-weight-bold: 700;
 $font-weight-extrabold: 800;
 ```
 
-### Breakpoints (Mobile-first)
+### Breakpoints (Mobile-first):
 
 ```scss
 $breakpoint-xs: 480px;   // Móviles pequeños
@@ -333,22 +331,24 @@ $breakpoint-2xl: 1536px; // Pantallas grandes
 
 ---
 
-## 6.4 Theme Service (Gestión de Temas)
+## 6.4 Theme Service (Gestión de temas).
 
-### Ubicación
+### Ubicación:
 
 **Archivo:** `frontend/src/services/theme.service.ts`
 
-### Descripción
+
+### Descripción:
 
 Servicio Angular injectable que gestiona todo el ciclo de vida del sistema de temas:
 
-- Detección de preferencia del sistema
-- Persistencia en localStorage
-- Cambio de tema con transiciones
-- API reactiva con Signals
+- Detección de preferencia del sistema.
+- Persistencia en localStorage.
+- Cambio de tema con transiciones.
+- API reactiva con Signals.
 
-### Código completo
+
+### Código completo:
 
 ```typescript
 import { Injectable, signal, effect, PLATFORM_ID, inject } from '@angular/core';
@@ -521,7 +521,7 @@ export class ThemeService {
 }
 ```
 
-### API pública
+### API pública:
 
 | Método | Descripción |
 |--------|-------------|
@@ -531,7 +531,8 @@ export class ThemeService {
 | `restoreSavedTheme()` | Restaura tema guardado |
 | `resetToSystemPreference()` | Vuelve a preferencia del sistema |
 
-### Signals (propiedades reactivas)
+
+### Signals (propiedades reactivas):
 
 | Signal | Tipo | Descripción |
 |--------|------|-------------|
@@ -540,16 +541,17 @@ export class ThemeService {
 
 ---
 
-## 6.5 Theme Switcher Component
+## 6.5 Theme Switcher Component.
 
-### Ubicación
+### Ubicación:
 
 **Componente:** `frontend/src/components/layout/header/header.ts`
 **Template:** `frontend/src/components/layout/header/header.html`
 
-### Implementación en Header
 
-#### TypeScript (header.ts)
+### Implementación en header:
+
+#### TypeScript (header.ts):
 
 ```typescript
 import { ThemeService } from '@services/theme.service';
@@ -568,7 +570,7 @@ export class HeaderComponent {
 }
 ```
 
-#### HTML (header.html)
+#### HTML (header.html):
 
 ```html
 <!-- Botón de Theme Switcher (líneas 70-96) -->
@@ -618,7 +620,7 @@ export class HeaderComponent {
 }
 ```
 
-#### SCSS (header.scss)
+#### SCSS (header.scss):
 
 ```scss
 .header__theme-btn {
@@ -641,19 +643,19 @@ export class HeaderComponent {
 }
 ```
 
-### Características del Theme Switcher
+### Características del Theme Switcher:
 
-✅ **Reactivo:** Usa Signals de Angular para actualización automática
-✅ **Accesible:** `aria-label` dinámico según estado del tema
-✅ **Visual:** Iconos SVG de sol/luna que cambian según tema actual
-✅ **Animado:** Rotación y escala en hover/active
-✅ **Contextual:** Solo visible en rutas de la app (no en landing/quiz)
+**Reactivo:** Usa Signals de Angular para actualización automática.
+**Accesible:** `aria-label` dinámico según estado del tema.
+**Visual:** Iconos SVG de sol/luna que cambian según tema actual.
+**Animado:** Rotación y escala en hover/active.
+**Contextual:** Solo visible en rutas de la app (no en landing/quiz).
 
 ---
 
-## 6.6 Detección de Preferencia del Sistema
+## 6.6 Detección de preferencia del sistema.
 
-### Implementación
+### Implementación:
 
 El sistema detecta automáticamente la preferencia del usuario mediante **`prefers-color-scheme`**:
 
@@ -666,20 +668,21 @@ if (!localStorage.getItem('theme')) {
 }
 ```
 
-### Prioridad de temas
+### Prioridad de temas:
 
 El sistema sigue esta jerarquía:
 
 1. **Tema guardado en localStorage** (máxima prioridad)
-   - Si el usuario cambió manualmente el tema, se respeta siempre
+   - Si el usuario cambió manualmente el tema, se respeta siempre.
 
 2. **Preferencia del sistema** (`prefers-color-scheme`)
-   - Si no hay tema guardado, se usa la preferencia del SO
+   - Si no hay tema guardado, se usa la preferencia del SO.
 
 3. **Tema por defecto** (oscuro)
-   - Si no hay ni guardado ni detección del sistema
+   - Si no hay ni guardado ni detección del sistema.
 
-### Escucha de cambios del sistema
+
+### Escucha de cambios del sistema:
 
 El servicio **escucha cambios en tiempo real** de la preferencia del sistema:
 
@@ -698,24 +701,12 @@ private listenToSystemThemeChanges(): void {
 
 **Ejemplo:** Si el usuario cambia su sistema operativo de modo claro a oscuro (sin haber elegido manualmente en la app), la app cambiará automáticamente.
 
-### Cómo probar
-
-1. **Chrome DevTools:**
-   - Abrir DevTools (F12)
-   - Cmd/Ctrl + Shift + P → "Rendering"
-   - Sección "Emulate CSS media feature prefers-color-scheme"
-   - Seleccionar "prefers-color-scheme: dark" o "light"
-
-2. **Sistema operativo:**
-   - **Windows:** Configuración → Personalización → Colores → Modo
-   - **macOS:** Preferencias → General → Apariencia
-   - **Linux (GNOME):** Configuración → Apariencia → Estilo
-
 ---
 
-## 6.7 Transiciones Suaves
 
-### Implementación global
+## 6.7 Transiciones suaves.
+
+### Implementación global:
 
 **Archivo:** `frontend/src/styles/styles.scss` (líneas 145-170)
 
@@ -743,7 +734,7 @@ body.no-transitions *::after {
 }
 ```
 
-### Propiedades que transicionan
+### Propiedades que transicionan:
 
 | Propiedad | Efecto |
 |-----------|--------|
@@ -754,20 +745,20 @@ body.no-transitions *::after {
 | `stroke` | Trazo de SVGs |
 | `box-shadow` | Sombras de elementos |
 
-### Timing
+### Timing:
 
-- **Duración:** 300ms (0.3s)
-- **Easing:** `ease` (aceleración al inicio, desaceleración al final)
-- **Aplicación:** Todos los elementos y pseudo-elementos
+- **Duración:** 300ms (0.3s).
+- **Easing:** `ease` (aceleración al inicio, desaceleración al final).
+- **Aplicación:** Todos los elementos y pseudo-elementos.
 
-### Clases de control
+### Clases de control:
 
 | Clase | Uso | Duración |
 |-------|-----|----------|
 | `.theme-transitioning` | Cambio manual de tema | 350ms |
 | `.no-transitions` | Carga inicial / navegación | 50ms (sin transición visible) |
 
-### Flujo de transición
+### Flujo de transición:
 
 ```
 Usuario hace click en theme switcher
@@ -781,18 +772,18 @@ Usuario hace click en theme switcher
 4. Después de 350ms, se remueve 'theme-transitioning'
 ```
 
-### Optimización de performance
+### Optimización de performance:
 
-✅ **Solo propiedades necesarias:** No transiciona `transform`, `opacity`, etc. (innecesarios para temas)
-✅ **Sin transiciones en carga:** Clase `.no-transitions` evita flash al cargar
-✅ **Timing ajustado:** 300ms es rápido pero perceptible (UX óptimo)
-✅ **Hardware acceleration:** Las propiedades usadas son GPU-friendly
+**Solo propiedades necesarias:** No transiciona `transform`, `opacity`, etc. (innecesarios para temas).
+**Sin transiciones en carga:** Clase `.no-transitions` evita flash al cargar.
+**Timing ajustado:** 300ms es rápido pero perceptible (UX óptimo).
+**Hardware acceleration:** Las propiedades usadas son GPU-friendly.
 
 ---
 
-## 6.8 Ejemplos de Uso
+## 6.8 Ejemplos de uso.
 
-### Uso en componentes (SCSS)
+### Uso en componentes (SCSS):
 
 #### Ejemplo 1: Card con variables CSS
 
@@ -810,7 +801,7 @@ Usuario hace click en theme switcher
 }
 ```
 
-#### Ejemplo 2: Botón con estados
+#### Ejemplo 2: Botón con estados:
 
 ```scss
 .button {
@@ -831,7 +822,7 @@ Usuario hace click en theme switcher
 }
 ```
 
-#### Ejemplo 3: Input con foco
+#### Ejemplo 3: Input con foco:
 
 ```scss
 .input {
@@ -856,9 +847,9 @@ Usuario hace click en theme switcher
 }
 ```
 
-### Uso en TypeScript (Angular)
+### Uso en TypeScript (Angular).
 
-#### Ejemplo 1: Detectar tema actual
+#### Ejemplo 1: Detectar tema actual:
 
 ```typescript
 import { ThemeService } from '@services/theme.service';
@@ -874,7 +865,7 @@ export class MyComponent {
 }
 ```
 
-#### Ejemplo 2: Cambiar tema programáticamente
+#### Ejemplo 2: Cambiar tema programáticamente:
 
 ```typescript
 export class SettingsComponent {
@@ -894,7 +885,7 @@ export class SettingsComponent {
 }
 ```
 
-#### Ejemplo 3: Condiciones basadas en tema
+#### Ejemplo 3: Condiciones basadas en tema:
 
 ```html
 <!-- En template -->
@@ -907,7 +898,7 @@ export class SettingsComponent {
 </p>
 ```
 
-#### Ejemplo 4: Effect reactivo
+#### Ejemplo 4: Effect reactivo:
 
 ```typescript
 export class ChartComponent {
@@ -927,9 +918,9 @@ export class ChartComponent {
 }
 ```
 
-### Gestión especial de temas por ruta
+### Gestión especial de temas por ruta.
 
-#### Landing Page (siempre claro)
+#### Landing Page (siempre claro):
 
 ```typescript
 // En landing.component.ts
@@ -944,7 +935,7 @@ ngOnDestroy() {
 }
 ```
 
-#### App Routes (restaurar tema guardado)
+#### App Routes (restaurar tema guardado):
 
 ```typescript
 // En app.component.ts o router guard
@@ -957,11 +948,11 @@ constructor() {
 
 ---
 
-## 6.9 Capturas de Pantalla
+## 6.9 Capturas de pantalla.
 
-### Home Page
+### Home page:
 
-#### Modo Oscuro (por defecto)
+#### Modo oscuro (por defecto):
 ![Home - Modo Oscuro](./screenshots/home-dark.png)
 
 **Características visuales:**
@@ -970,7 +961,8 @@ constructor() {
 - Cards: `#1a1f2e` (azul oscuro secundario)
 - Sombras pronunciadas para profundidad
 
-#### Modo Claro
+
+#### Modo claro:
 ![Home - Modo Claro](./screenshots/home-light.png)
 
 **Características visuales:**
@@ -1044,14 +1036,14 @@ constructor() {
 ![Transición](./screenshots/theme-transition.gif)
 
 **Demo animada:**
-- Duración: 300ms
-- Easing: ease
-- Propiedades: background-color, color, border-color, box-shadow
-- Efecto suave sin parpadeos
+- Duración: 300ms.
+- Easing: ease.
+- Propiedades: background-color, color, border-color, box-shadow.
+- Efecto suave sin parpadeos.
 
 ---
 
-## Comparativa Visual
+## Comparativa visual:
 
 | Elemento | Modo Oscuro | Modo Claro |
 |----------|-------------|------------|
@@ -1064,42 +1056,29 @@ constructor() {
 
 ---
 
-## Resumen de Implementación
+## Resumen de implementación.
 
-### ✅ Completado
+### Completado:
 
-| Elemento | Estado | Detalles |
-|----------|--------|----------|
-| **CSS Custom Properties** | ✅ Completo | 60+ variables, 2 temas completos |
-| **SCSS Variables** | ✅ Completo | 415 líneas, design tokens completos |
-| **Theme Service** | ✅ Completo | Signals reactivos, localStorage, detección SO |
-| **Theme Switcher** | ✅ Completo | Botón en header, iconos animados |
-| **Persistencia** | ✅ Completo | localStorage con clave 'theme' |
-| **Detección sistema** | ✅ Completo | prefers-color-scheme + listener |
-| **Transiciones** | ✅ Completo | 300ms suaves en 6 propiedades |
-| **Gestión especial** | ✅ Completo | Landing claro, app con tema guardado |
-| **Accesibilidad** | ✅ Completo | aria-label dinámicos, alto contraste |
+| Elemento | Detalles |
+|----------|----------|
+| **CSS Custom Properties** | 60+ variables, 2 temas completos |
+| **SCSS Variables** | 415 líneas, design tokens completos |
+| **Theme Service** | Signals reactivos, localStorage, detección SO |
+| **Theme Switcher** | Botón en header, iconos animados |
+| **Persistencia** | localStorage con clave 'theme' |
+| **Detección sistema** | prefers-color-scheme + listener |
+| **Transiciones** | 300ms suaves en 6 propiedades |
+| **Gestión especial** | Landing claro, app con tema guardado |
+| **Accesibilidad** | aria-label dinámicos, alto contraste |
 
-### 📊 Métricas
 
-- **Líneas de código CSS:** 231 (variables) + 415 (SCSS)
-- **Líneas de código TS:** 221 (ThemeService)
-- **Componentes actualizados:** 100% usan variables CSS
-- **Páginas con soporte:** Todas (14 rutas)
-- **Tiempo de transición:** 300ms
-- **Temas disponibles:** 2 (oscuro, claro)
-- **Navegadores soportados:** Chrome, Firefox, Safari, Edge (modernos)
+### Métricas:
 
----
-
-## Próximos Pasos (Opcional)
-
-1. **Tema de alto contraste** para accesibilidad
-2. **Más temas** (azul, verde, custom)
-3. **Editor de temas** para usuarios avanzados
-4. **Exportar tokens** a JSON para documentación automática
-5. **Modo automático** por hora del día (día = claro, noche = oscuro)
-
----
-
-**Fin de la Sección 6: Temas y Modo Oscuro**
+- **Líneas de código CSS:** 231 (variables) + 415 (SCSS).
+- **Líneas de código TS:** 221 (ThemeService).
+- **Componentes actualizados:** 100% usan variables CSS.
+- **Páginas con soporte:** Todas (14 rutas).
+- **Tiempo de transición:** 300ms.
+- **Temas disponibles:** 2 (oscuro, claro).
+- **Navegadores soportados:** Chrome, Firefox, Safari, Edge (modernos).
