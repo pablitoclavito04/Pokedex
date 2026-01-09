@@ -1360,66 +1360,66 @@ Criterios: RA6.b, RA6.f, RA6.h
 
 ```
 ┌───────────────────────────────────────────────────────────────────────────┐
-│                     FLUJO DE COMUNICACIÓN HTTP                             │
+│                     FLUJO DE COMUNICACIÓN HTTP                            │
 ├───────────────────────────────────────────────────────────────────────────┤
-│                                                                            │
-│  ┌──────────────┐                                                          │
-│  │ Componente   │                                                          │
-│  │  ─────────   │                                                          │
-│  │ Solicita     │                                                          │
-│  │ datos        │                                                          │
-│  └──────┬───────┘                                                          │
-│         │                                                                  │
-│         ▼                                                                  │
-│  ┌──────────────────────────────────────────────────────────┐             │
-│  │                    SERVICIO                               │             │
-│  │  ────────────────────────────────────────────────────     │             │
-│  │  • PokemonService                                         │             │
-│  │  • AuthService                                            │             │
-│  │  • FavoritoService                                        │             │
-│  │                                                           │             │
-│  │  getPokemonById(id: number): Observable<Pokemon> {        │             │
-│  │    return this.http.get(url).pipe(                        │             │
-│  │      map(response => transform(response)),                │             │
-│  │      tap(data => cache(data)),                            │             │
-│  │      catchError(err => handleError(err))                  │             │
-│  │    );                                                     │             │
-│  │  }                                                        │             │
-│  └─────────────────────┬─────────────────────────────────────┘             │
-│                        │                                                   │
-│                        ▼                                                   │
+│                                                                           │
+│  ┌──────────────┐                                                         │
+│  │ Componente   │                                                         │
+│  │  ─────────   │                                                         │
+│  │ Solicita     │                                                         │
+│  │ datos        │                                                         │
+│  └──────┬───────┘                                                         │
+│         │                                                                 │
+│         ▼                                                                 │
+│  ┌───────────────────────────────────────────────────────────┐             │
+│  │                    SERVICIO                               │            │
+│  │  ────────────────────────────────────────────────────     │            │
+│  │  • PokemonService                                         │            │
+│  │  • AuthService                                            │            │
+│  │  • FavoritoService                                        │            │
+│  │                                                           │            │
+│  │  getPokemonById(id: number): Observable<Pokemon> {        │            │
+│  │    return this.http.get(url).pipe(                        │            │
+│  │      map(response => transform(response)),                │            │
+│  │      tap(data => cache(data)),                            │            │
+│  │      catchError(err => handleError(err))                  │            │
+│  │    );                                                     │            │
+│  │  }                                                        │            │
+│  └─────────────────────┬─────────────────────────────────────┘            │
+│                        │                                                  │
+│                        ▼                                                  │
 │  ┌────────────────────────────────────────────────────────────────┐       │
-│  │                  HTTP INTERCEPTORS                              │       │
-│  │                                                                 │       │
-│  │  ┌───────────────┐  ┌───────────────┐  ┌──────────────────┐   │       │
-│  │  │ Auth          │  │ Error         │  │ Logging          │   │       │
-│  │  │ ─────────     │  │ ─────────     │  │ ─────────        │   │       │
-│  │  │ Añade token   │  │ Maneja 401    │  │ Console.log      │   │       │
-│  │  │ Bearer JWT    │  │ Maneja 403    │  │ todas las req    │   │       │
-│  │  │ automático    │  │ Maneja 500    │  │ (desarrollo)     │   │       │
-│  │  │               │  │ Toast error   │  │                  │   │       │
-│  │  └───────────────┘  └───────────────┘  └──────────────────┘   │       │
+│  │                  HTTP INTERCEPTORS                             │       │
+│  │                                                                │       │
+│  │  ┌───────────────┐  ┌───────────────┐  ┌──────────────────┐    │       │
+│  │  │ Auth          │  │ Error         │  │ Logging          │    │       │
+│  │  │ ─────────     │  │ ─────────     │  │ ─────────        │    │       │
+│  │  │ Añade token   │  │ Maneja 401    │  │ Console.log      │    │       │
+│  │  │ Bearer JWT    │  │ Maneja 403    │  │ todas las req    │    │       │
+│  │  │ automático    │  │ Maneja 500    │  │ (desarrollo)     │    │       │
+│  │  │               │  │ Toast error   │  │                  │    │       │
+│  │  └───────────────┘  └───────────────┘  └──────────────────┘    │       │
 │  └─────────────────────────┬──────────────────────────────────────┘       │
-│                            │                                               │
-│                            ▼                                               │
+│                            │                                              │
+│                            ▼                                              │
 │  ┌──────────────────────────────────────────────────────────┐             │
-│  │                    HttpClient                             │             │
-│  │  ────────────────────────────────────────────────────     │             │
-│  │  GET  • Obtener recursos                                  │             │
-│  │  POST • Crear recursos                                    │             │
-│  │  PUT  • Actualizar completo                               │             │
-│  │  PATCH• Actualizar parcial                                │             │
-│  │  DELETE• Eliminar recursos                                │             │
-│  └─────────────────────┬─────────────────────────────────────┘             │
-│                        │                                                   │
-│                        ▼                                                   │
+│  │                    HttpClient                             │            │
+│  │  ────────────────────────────────────────────────────     │            │
+│  │  GET  • Obtener recursos                                  │            │
+│  │  POST • Crear recursos                                    │            │
+│  │  PUT  • Actualizar completo                               │            │
+│  │  PATCH• Actualizar parcial                                │            │
+│  │  DELETE• Eliminar recursos                                │            │
+│  └─────────────────────┬─────────────────────────────────────┘            │
+│                        │                                                  │
+│                        ▼                                                  │
 │  ┌────────────────────────────────────────────────────────────────┐       │
-│  │                    APIs EXTERNAS                                │       │
-│  │  ────────────────────────────────────────────────────────       │       │
-│  │  • PokeAPI (https://pokeapi.co/api/v2/)                         │       │
+│  │                    APIs EXTERNAS                               │       │
+│  │  ────────────────────────────────────────────────────────      │       │
+│  │  • PokeAPI (https://pokeapi.co/api/v2/)                        │       │
 │  │  • Backend Pokédex (https://pokedex-backend-mwcz.onrender.com) │       │
 │  └────────────────────────────────────────────────────────────────┘       │
-│                                                                            │
+│                                                                           │
 └───────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -1697,7 +1697,7 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 **Beneficio**: Ya no se necesita añadir manualmente el header. `Authorization` en cada petición:
 
 ```typescript
-// ❌ ANTES (manual)
+// ANTES (manual)
 updateProfile(data: ProfileUpdateRequest) {
   const headers = new HttpHeaders({
     'Authorization': `Bearer ${this.getToken()}`
@@ -1832,7 +1832,7 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
       },
       error: (error) => {
         const elapsedTime = Date.now() - startTime;
-        console.error(`❌ Error (${elapsedTime}ms):`, error);
+        console.error(`Error (${elapsedTime}ms):`, error);
         console.groupEnd();
       }
     })
