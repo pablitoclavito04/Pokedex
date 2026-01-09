@@ -2259,12 +2259,12 @@ export class PokedexComponent {
 
 2. **Sintaxis más simple**
    ```typescript
-   // ❌ Con BehaviorSubject
+   // Con BehaviorSubject
    private dataSubject = new BehaviorSubject<T>([]);
    data$ = this.dataSubject.asObservable();
    // Template: <div *ngIf="data$ | async as data">
 
-   // ✅ Con Signals
+   // Con Signals
    private _data = signal<T>([]);
    data = this._data.asReadonly();
    // Template: <div *ngIf="data() as data">
