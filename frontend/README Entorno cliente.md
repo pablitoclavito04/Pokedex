@@ -2111,10 +2111,10 @@ La Fase 6 implementa un sistema moderno de gestión de estado usando **Signals d
 │       │                                                           │
 │       │ Lee signals                                               │
 │       ▼                                                           │
-│  ┌────────────────────────────────────────┐                       │
+│  ┌─────────────────────────────────────────┐                      │
 │  │         POKEMON STORE                   │                      │
 │  │                                         │                      │
-│  │  Signals Privados (escritura):         │                       │
+│  │  Signals Privados (escritura):          │                      │
 │  │  • _pokemons: signal<Pokemon[]>         │                      │
 │  │  • _loading: signal(false)              │                      │
 │  │  • _pagination: signal({...})           │                      │
