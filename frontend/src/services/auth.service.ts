@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable, tap } from 'rxjs';
 
 export interface LoginRequest {
@@ -76,11 +76,8 @@ export class AuthService {
   }
 
   updateProfile(data: ProfileUpdateRequest): Observable<AuthResponse> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.getToken()}`
-    });
-
-    return this.http.put<AuthResponse>(`${this.apiUrl}/profile`, data, { headers })
+    // El token se añade automáticamente por el authInterceptor
+    return this.http.put<AuthResponse>(`${this.apiUrl}/profile`, data)
       .pipe(
         tap(response => {
           this.saveUserData(response);
@@ -94,12 +91,8 @@ export class AuthService {
   }
 
   deleteAccount(): Observable<string> {
-    const headers = new HttpHeaders({
-      'Authorization': `Bearer ${this.getToken()}`
-    });
-
-    return this.http.delete(`${this.apiUrl}/delete-account`, { 
-      headers,
+    // El token se añade automáticamente por el authInterceptor
+    return this.http.delete(`${this.apiUrl}/delete-account`, {
       responseType: 'text'
     }).pipe(
       tap(() => {

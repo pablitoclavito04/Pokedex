@@ -1,20 +1,21 @@
-# Pokédex Angular - Documentación del Proyecto
+# Pokédex Angular - Documentación del proyecto.
 
-## Índice
+## Índice:
 
 - [Fase 1: Arquitectura de Eventos](#fase-1-arquitectura-de-eventos)
 - [Fase 2: Servicios y Comunicación](#fase-2-servicios-y-comunicación)
 - [Fase 3: Formularios Reactivos](#fase-3-formularios-reactivos)
 - [Fase 4: Sistema de Rutas y Navegación](#fase-4-sistema-de-rutas-y-navegación)
+- [Fase 5: Servicios y Comunicación HTTP](#fase-5-servicios-y-comunicación-http)
 - [Estructura del Proyecto](#estructura-del-proyecto)
 
 ---
 
-# Fase 1: Arquitectura de Eventos
+# Fase 1: Arquitectura de eventos:
 
 Criterios: RA6.a, RA6.c, RA6.d, RA6.e, RA6.h
 
-## Patrón de Manejo de Eventos
+## Patrón de manejo de eventos:
 
 La arquitectura de eventos sigue el patrón unidireccional de datos de Angular:
 
@@ -22,14 +23,14 @@ La arquitectura de eventos sigue el patrón unidireccional de datos de Angular:
 Usuario → Evento DOM → Template Binding → Component Handler → Service/State → View Re-render
 ```
 
-## Tipos de Event Binding
+## Tipos de Event Binding:
 
-### 1. Eventos de Click
+### 1. Eventos de click:
 ```html
 <button (click)="handleClick($event)">Click me</button>
 ```
 
-### 2. Eventos de Teclado
+### 2. Eventos de teclado:
 ```html
 <!-- Evento específico de tecla -->
 <input (keyup.enter)="onSubmit()">
@@ -38,17 +39,17 @@ Usuario → Evento DOM → Template Binding → Component Handler → Service/St
 <input (keydown)="onKeyDown($event)">
 ```
 
-### 3. Eventos de Focus/Blur
+### 3. Eventos de focus/blur:
 ```html
 <input (focus)="onFocus()" (blur)="onBlur()">
 ```
 
-### 4. Eventos de Mouse
+### 4. Eventos de mouse:
 ```html
 <div (mouseenter)="onMouseEnter()" (mouseleave)="onMouseLeave()">
 ```
 
-## HostListener para Eventos Globales
+## HostListener para eventos globales:
 
 Para escuchar eventos a nivel de documento:
 
@@ -64,9 +65,9 @@ onDocumentClick(event: MouseEvent): void {
 }
 ```
 
-## Manipulación del DOM
+## Manipulación del DOM.
 
-### ViewChild y ElementRef
+### ViewChild y ElementRef:
 
 ```typescript
 @ViewChild('myElement') myElement!: ElementRef;
@@ -76,7 +77,7 @@ ngAfterViewInit() {
 }
 ```
 
-### Renderer2 para Manipulación Segura
+### Renderer2 para manipulación segura:
 
 ```typescript
 constructor(private renderer: Renderer2) {}
@@ -93,7 +94,7 @@ const div = this.renderer.createElement('div');
 this.renderer.appendChild(parent, div);
 ```
 
-## Diagrama de Flujo de Eventos
+## Diagrama de flujo de eventos:
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -128,7 +129,7 @@ this.renderer.appendChild(parent, div);
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## Prevención de Comportamiento por Defecto
+## Prevención de comportamiento por defecto:
 
 ```typescript
 onSubmit(event: Event): void {
@@ -141,7 +142,7 @@ onClick(event: MouseEvent): void {
 }
 ```
 
-## Componentes Interactivos Implementados
+## Componentes interactivos implementados:
 
 | Componente | Eventos Implementados | Descripción |
 |------------|----------------------|-------------|
@@ -154,7 +155,8 @@ onClick(event: MouseEvent): void {
 | **Form Controls** | input, focus, blur, change | Validación y feedback |
 | **Alert** | click | Cierre dismissible |
 
-## Theme Switcher
+
+## Theme Switcher:
 
 El sistema de temas utiliza:
 
@@ -173,7 +175,7 @@ mediaQuery.addEventListener('change', (event) => {
 });
 ```
 
-## Compatibilidad de Navegadores
+## Compatibilidad de navegadores:
 
 | Evento | Chrome | Firefox | Safari | Edge |
 |--------|--------|---------|--------|------|
@@ -186,7 +188,8 @@ mediaQuery.addEventListener('change', (event) => {
 | prefers-color-scheme | ✓ 76+ | ✓ 67+ | ✓ 12.1+ | ✓ 79+ |
 | matchMedia | ✓ | ✓ | ✓ | ✓ |
 
-## Buenas Prácticas - Eventos
+
+## Buenas Prácticas - Eventos:
 
 1. **Usar Renderer2** en lugar de manipulación directa del DOM para compatibilidad SSR
 2. **Verificar plataforma** con `isPlatformBrowser()` antes de acceder a APIs del navegador
@@ -194,13 +197,23 @@ mediaQuery.addEventListener('change', (event) => {
 4. **Usar pseudo-eventos** como `(keyup.enter)` para código más limpio
 5. **Implementar accesibilidad** con roles ARIA y navegación por teclado
 
+
+## Entregables Fase 1:
+
+- Componentes interactivos con event binding.
+- Navegación por teclado (accesibilidad).
+- Theme switcher con persistencia.
+- Manipulación segura del DOM con Renderer2.
+- Documentación de arquitectura de eventos.
+
 ---
 
-# Fase 2: Servicios y Comunicación
+
+# Fase 2: Servicios y comunicación.
 
 Criterios: RA6.e, RA6.g, RA6.h
 
-## Diagrama de Arquitectura de Servicios
+## Diagrama de arquitectura de servicios:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -245,7 +258,7 @@ Criterios: RA6.e, RA6.g, RA6.h
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Servicios Implementados
+## Servicios implementados.
 
 ### 1. ThemeService (`services/theme.service.ts`)
 
@@ -381,9 +394,9 @@ this.http.get('/api/pokemon').pipe(
 
 ---
 
-## Patrones de Comunicación
+## Patrones de comunicación.
 
-### 1. Observable/Subject
+### 1. Observable/Subject:
 ```typescript
 // Servicio
 private subject = new BehaviorSubject<string>('');
@@ -397,13 +410,13 @@ emit(value: string) {
 this.service.data$.subscribe(value => this.handleValue(value));
 ```
 
-### 2. Servicio Singleton
+### 2. Servicio Singleton:
 ```typescript
 @Injectable({ providedIn: 'root' })
 export class MyService { ... }
 ```
 
-### 3. Signals + AsyncPipe
+### 3. Signals + AsyncPipe:
 ```typescript
 // Componente
 users$ = this.userService.getUsers();
@@ -414,9 +427,9 @@ users$ = this.userService.getUsers();
 
 ---
 
-## Separación de Responsabilidades
+## Separación de responsabilidades.
 
-### Componentes "Dumb" (Presentación)
+### Componentes "Dumb" (Presentación):
 - Solo templates, signals locales, handlers
 - Sin HTTP, validaciones o estado global
 - Delegan lógica a servicios
@@ -435,7 +448,7 @@ export class UserListComponent {
 }
 ```
 
-### Servicios "Smart" (Lógica)
+### Servicios "Smart" (Lógica):
 - Lógica de negocio
 - Caching
 - Orquestación de APIs
@@ -456,7 +469,7 @@ export class UserService {
 
 ---
 
-## Flujo de Datos
+## Flujo de datos:
 
 ```
 Usuario interactúa con Componente
@@ -476,7 +489,7 @@ Vista se actualiza automáticamente (OnPush + AsyncPipe)
 
 ---
 
-# Estructura del Proyecto
+# Estructura del proyecto:
 
 ```
 src/
@@ -521,7 +534,7 @@ src/
 
 ---
 
-## Testing
+## Testing:
 
 Los servicios están diseñados para ser fácilmente testeables:
 
@@ -545,50 +558,22 @@ describe('ToastService', () => {
 });
 ```
 
----
+## Entregables Fase 2:
 
-## Entregables
-
-### Fase 1
-- ✅ Componentes interactivos con event binding
-- ✅ Navegación por teclado (accesibilidad)
-- ✅ Theme switcher con persistencia
-- ✅ Manipulación segura del DOM con Renderer2
-- ✅ Documentación de arquitectura de eventos
-
-### Fase 2
-- ✅ CommunicationService para componentes hermanos
-- ✅ Sistema de notificaciones (ToastService + ToastComponent)
-- ✅ Loading states (LoadingService + SpinnerComponent)
-- ✅ Separación clara entre lógica y presentación
-- ✅ Documentación de arquitectura de servicios
-
-### Fase 3
-- ✅ Formularios reactivos con FormBuilder
-- ✅ Validadores síncronos y asíncronos
-- ✅ Validadores personalizados (NIF, teléfono, código postal)
-- ✅ Validadores de grupo (passwordMatch, atLeastOneRequired)
-- ✅ FormArrays dinámicos
-- ✅ Directivas de máscara de entrada
-- ✅ Documentación de formularios reactivos
-
-### Fase 4
-- ✅ Sistema de rutas completo (14 rutas principales)
-- ✅ Lazy loading en todas las páginas con `loadComponent`
-- ✅ Precarga con `PreloadAllModules`
-- ✅ Route guards (`authGuard`, `guestGuard`, `pendingChangesGuard`)
-- ✅ Resolver en ruta `/pokemon/:id` (`pokemonResolver`)
-- ✅ Breadcrumbs dinámicos (`BreadcrumbService` + `BreadcrumbComponent`)
-- ✅ Página 404 personalizada
-- ✅ Documentación de rutas y navegación
+- CommunicationService para componentes hermanos.
+- Sistema de notificaciones (ToastService + ToastComponent).
+- Loading states (LoadingService + SpinnerComponent).
+- Separación clara entre lógica y presentación.
+- Documentación de arquitectura de servicios.
 
 ---
 
-# Fase 3: Formularios Reactivos.
+
+# Fase 3: Formularios reactivos.
 
 Criterios: RA6.d, RA6.e, RA6.h
 
-## Diagrama de Arquitectura de Formularios
+## Diagrama de arquitectura de formularios:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -635,9 +620,9 @@ Criterios: RA6.d, RA6.e, RA6.h
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Validadores Implementados
+## Validadores implementados.
 
-### Validadores Síncronos Personalizados
+### Validadores síncronos personalizados:
 
 | Validador | Archivo | Descripción | Error Key |
 |-----------|---------|-------------|-----------|
@@ -647,23 +632,26 @@ Criterios: RA6.d, RA6.e, RA6.h
 | `passwordStrength()` | `password-strength.validator.ts` | Verifica fortaleza de contraseña | `weakPassword` |
 | `edadMinima()` | `edad-minima.validator.ts` | Verifica edad mínima desde fecha | `edadMinima` |
 
-### Validadores Asíncronos
+
+### Validadores asíncronos:
 
 | Validador | Servicio | Descripción |
 |-----------|----------|-------------|
 | `usernameAvailable()` | `AsyncValidatorsService` | Verifica disponibilidad de username (simulado) |
 | `emailUnique()` | `AsyncValidatorsService` | Verifica unicidad de email (simulado) |
 
-### Validadores de Grupo
+
+### Validadores de grupo:
 
 | Validador | Descripción |
 |-----------|-------------|
 | `passwordMatch(field1, field2)` | Verifica que dos campos coincidan |
 | `atLeastOneRequired(field1, field2)` | Al menos uno de los campos debe tener valor |
 
-## Uso de Validadores
 
-### Validador de NIF
+## Uso de validadores.
+
+### Validador de NIF:
 ```typescript
 // En el FormGroup
 nif: ['', [Validators.required, nif()]]
@@ -677,7 +665,7 @@ nif: ['', [Validators.required, nif()]]
 }
 ```
 
-### Validador Asíncrono
+### Validador asíncrono:
 ```typescript
 username: ['', {
   validators: [Validators.required, Validators.minLength(3)],
@@ -686,7 +674,7 @@ username: ['', {
 }]
 ```
 
-### Validador de Grupo
+### Validador de grupo:
 ```typescript
 this.fb.group({
   password: ['', [Validators.required]],
@@ -696,11 +684,12 @@ this.fb.group({
 });
 ```
 
-## Directivas de Máscara
+## Directivas de máscara:
 
 Las directivas de máscara restringen la entrada del usuario en tiempo real:
 
-### NifMaskDirective
+
+### NifMaskDirective:
 ```html
 <input appNifMask formControlName="nif">
 ```
@@ -708,13 +697,15 @@ Las directivas de máscara restringen la entrada del usuario en tiempo real:
 - Después permite 1 letra (auto-mayúscula)
 - Bloquea cualquier otro carácter
 
-### PhoneMaskDirective
+
+### PhoneMaskDirective:
 ```html
 <input appPhoneMask formControlName="telefono">
 ```
 - Solo permite dígitos numéricos
 - Máximo 9 dígitos
 - No permite letras ni caracteres especiales
+
 
 ### PostalCodeMaskDirective
 ```html
@@ -723,9 +714,10 @@ Las directivas de máscara restringen la entrada del usuario en tiempo real:
 - Solo permite dígitos numéricos
 - Máximo 5 dígitos
 
-## FormArrays Dinámicos
 
-### Estructura
+## FormArrays dinámicos.
+
+### Estructura:
 ```typescript
 // Definición
 telefonos: this.fb.array([])
@@ -751,7 +743,7 @@ removeTelefono(index: number): void {
 }
 ```
 
-### En el Template
+### En el template:
 ```html
 <div formArrayName="telefonos">
   @for (tel of telefonos.controls; track $index; let i = $index) {
@@ -764,22 +756,23 @@ removeTelefono(index: number): void {
 </div>
 ```
 
-## Formularios Implementados
+## Formularios implementados.
 
-### 1. Formulario de Registro
-- Datos de cuenta (username, email, password)
-- Datos personales (nombre, apellidos, NIF, fecha nacimiento)
-- Contacto (teléfono móvil/fijo con validación cruzada)
-- Dirección completa
-- Aceptación de términos
+### 1. Formulario de registro:
+- Datos de cuenta (username, email, password).
+- Datos personales (nombre, apellidos, NIF, fecha nacimiento).
+- Contacto (teléfono móvil/fijo con validación cruzada).
+- Dirección completa.
+- Aceptación de términos.
 
-### 2. Formulario de Factura
-- Datos del cliente (nombre, NIF)
-- Teléfonos de contacto (FormArray)
-- Direcciones (FormArray con tipo envío/facturación)
-- Items de factura (FormArray con cálculo de totales)
+### 2. Formulario de factura:
+- Datos del cliente (nombre, NIF).
+- Teléfonos de contacto (FormArray).
+- Direcciones (FormArray con tipo envío/facturación).
+- Items de factura (FormArray con cálculo de totales).
 
-## Estructura de Archivos
+
+## Estructura de archivos:
 
 ```
 src/
@@ -806,22 +799,34 @@ src/
             └── forms-demo.scss     # Estilos
 ```
 
-## Buenas Prácticas - Formularios
+## Buenas prácticas - Formularios:
 
-1. **Usar `updateOn: 'blur'`** para validadores asíncronos (evita llamadas excesivas)
-2. **Separar validadores** en archivos individuales para reutilización
-3. **Crear directivas de máscara** para restricciones de entrada en tiempo real
-4. **Usar FormArrays** para datos dinámicos (teléfonos, direcciones, items)
-5. **Validadores de grupo** para validaciones que involucran múltiples campos
-6. **Feedback visual inmediato** con clases CSS para estados válido/inválido/pendiente
+1. **Usar `updateOn: 'blur'`** para validadores asíncronos (evita llamadas excesivas).
+2. **Separar validadores** en archivos individuales para reutilización.
+3. **Crear directivas de máscara** para restricciones de entrada en tiempo real.
+4. **Usar FormArrays** para datos dinámicos (teléfonos, direcciones, items).
+5. **Validadores de grupo** para validaciones que involucran múltiples campos.
+6. **Feedback visual inmediato** con clases CSS para estados válido/inválido/pendiente.
+
+
+## Entregables Fase 3.
+
+- Formularios reactivos con FormBuilder.
+- Validadores síncronos y asíncronos.
+- Validadores personalizados (NIF, teléfono, código postal).
+- Validadores de grupo (passwordMatch, atLeastOneRequired).
+- FormArrays dinámicos.
+- Directivas de máscara de entrada.
+- Documentación de formularios reactivos.
 
 ---
 
-# Fase 4: Sistema de Rutas y Navegación
+
+# Fase 4: Sistema de rutas y navegación.
 
 Criterios: RA6.g, RA6.h
 
-## Diagrama de Arquitectura de Rutas
+## Diagrama de arquitectura de rutas:
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
@@ -880,9 +885,9 @@ Criterios: RA6.g, RA6.h
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
-## Tarea 1: Configuración de Rutas
+## Tarea 1: Configuración de rutas.
 
-### Mapa Completo de Rutas
+### Mapa Completo de rutas:
 
 | Ruta | Descripción | Lazy | Guards | Resolver | Breadcrumb |
 |------|-------------|------|--------|----------|------------|
@@ -901,7 +906,8 @@ Criterios: RA6.g, RA6.h
 | `/forms-demo` | Demo formularios | ✅ | - | - | Formularios Demo |
 | `**` | Página 404 | ✅ | - | - | - |
 
-### Configuración de Rutas
+
+### Configuración de rutas:
 
 ```typescript
 // app.routes.ts
@@ -951,9 +957,9 @@ export const routes: Routes = [
 ];
 ```
 
-## Tarea 2: Navegación Programática
+## Tarea 2: Navegación programática.
 
-### Uso del Router desde código
+### Uso del Router desde el código:
 
 ```typescript
 import { Component, inject } from '@angular/core';
@@ -991,7 +997,7 @@ export class MyComponent {
 }
 ```
 
-### Leer parámetros en el componente destino
+### Leer parámetros en el componente destino:
 
 ```typescript
 // Leer parámetro de ruta
@@ -1018,9 +1024,9 @@ ngOnInit() {
 }
 ```
 
-## Tarea 3: Lazy Loading
+## Tarea 3: Lazy Loading.
 
-### Estrategia de Carga Perezosa
+### Estrategia de carga perezosa:
 
 Todas las páginas usan `loadComponent` para carga perezosa:
 
@@ -1031,7 +1037,7 @@ Todas las páginas usan `loadComponent` para carga perezosa:
 }
 ```
 
-### Precarga con PreloadAllModules
+### Precarga con PreloadAllModules:
 
 ```typescript
 // app.config.ts
@@ -1047,7 +1053,7 @@ export const appConfig: ApplicationConfig = {
 };
 ```
 
-### Verificación de Chunks en Build
+### Verificación de Chunks en Build:
 
 ```bash
 ng build --configuration production
@@ -1057,9 +1063,10 @@ En `dist/frontend/browser/` verás:
 - `main-[hash].js` - Bundle inicial
 - `chunk-[hash].js` - Cada componente lazy genera un chunk separado
 
-## Tarea 4: Route Guards
 
-### authGuard - Protección de Rutas Autenticadas
+## Tarea 4: Route Guards.
+
+### authGuard - Protección de rutas autenticadas:
 
 ```typescript
 // guards/auth.guard.ts
@@ -1082,7 +1089,7 @@ export const authGuard: CanActivateFn = (route, state) => {
 };
 ```
 
-### guestGuard - Solo para Invitados
+### guestGuard - Solo para invitados:
 
 ```typescript
 export const guestGuard: CanActivateFn = (route, state) => {
@@ -1098,7 +1105,7 @@ export const guestGuard: CanActivateFn = (route, state) => {
 };
 ```
 
-### pendingChangesGuard - Formularios sin Guardar
+### pendingChangesGuard - Formularios sin guardar:
 
 ```typescript
 // guards/pending-changes.guard.ts
@@ -1117,9 +1124,9 @@ export const pendingChangesGuard: CanDeactivateFn<FormComponent> = (component) =
 };
 ```
 
-## Tarea 5: Resolvers
+## Tarea 5: Resolvers.
 
-### pokemonResolver - Precarga de Datos
+### pokemonResolver - Precarga de datos:
 
 ```typescript
 // resolvers/pokemon.resolver.ts
@@ -1168,7 +1175,7 @@ export const pokemonResolver: ResolveFn<ResolvedPokemon | null> = (route) => {
 };
 ```
 
-### Uso en el Componente
+### Uso en el componente:
 
 ```typescript
 // pokemon-detail.component.ts
@@ -1186,9 +1193,9 @@ export class PokemonDetailComponent implements OnInit {
 }
 ```
 
-## Tarea 6: Breadcrumbs Dinámicos
+## Tarea 6: Breadcrumbs dinámicos.
 
-### BreadcrumbService
+### BreadcrumbService:
 
 ```typescript
 // services/breadcrumb.service.ts
@@ -1214,7 +1221,7 @@ export class BreadcrumbService {
 }
 ```
 
-### BreadcrumbComponent
+### BreadcrumbComponent:
 
 ```html
 <!-- breadcrumb.component.html -->
@@ -1234,9 +1241,9 @@ export class BreadcrumbService {
 </nav>
 ```
 
-## Tarea 7: Página 404
+## Tarea 7: Página 404.
 
-### NotFoundComponent
+### NotFoundComponent:
 
 ```typescript
 // pages/not-found/not-found.ts
@@ -1267,7 +1274,7 @@ export class NotFoundComponent {}
 </main>
 ```
 
-## Estructura de Archivos - Fase 4
+## Estructura de archivos - Fase 4:
 
 ```
 src/app/
@@ -1295,7 +1302,7 @@ src/components/shared/
     └── breadcrumb.scss
 ```
 
-## Flujo de Navegación
+## Flujo de navegación:
 
 ```
 Usuario hace click en link/botón
@@ -1331,14 +1338,740 @@ Componente se activa
 Vista renderizada
 ```
 
-## Entregables Fase 4
+## Entregables Fase 4:
 
-- ✅ Sistema de rutas completo (14 rutas principales)
-- ✅ Lazy loading en todas las páginas con `loadComponent`
-- ✅ Precarga con `PreloadAllModules`
-- ✅ Route guards implementados (`authGuard`, `guestGuard`, `pendingChangesGuard`)
-- ✅ Resolver en ruta `/pokemon/:id` (`pokemonResolver`)
-- ✅ Navegación funcional en toda la aplicación
-- ✅ Breadcrumbs dinámicos (`BreadcrumbService` + `BreadcrumbComponent`)
-- ✅ Página 404 personalizada con diseño Pokémon
-- ✅ Documentación de rutas
+- Sistema de rutas completo (14 rutas principales).
+- Lazy loading en todas las páginas con `loadComponent`
+- Precarga con `PreloadAllModules`
+- Route guards implementados (`authGuard`, `guestGuard`, `pendingChangesGuard`).
+- Resolver en ruta `/pokemon/:id` (`pokemonResolver`)
+- Navegación funcional en toda la aplicación.
+- Breadcrumbs dinámicos (`BreadcrumbService` + `BreadcrumbComponent`).
+- Página 404 personalizada con diseño Pokémon.
+
+---
+
+
+# Fase 5: Servicios y Comunicación HTTP
+
+Criterios: RA6.b, RA6.f, RA6.h
+
+## Diagrama de Arquitectura HTTP
+
+```
+┌───────────────────────────────────────────────────────────────────────────┐
+│                     FLUJO DE COMUNICACIÓN HTTP                             │
+├───────────────────────────────────────────────────────────────────────────┤
+│                                                                            │
+│  ┌──────────────┐                                                          │
+│  │ Componente   │                                                          │
+│  │  ─────────   │                                                          │
+│  │ Solicita     │                                                          │
+│  │ datos        │                                                          │
+│  └──────┬───────┘                                                          │
+│         │                                                                  │
+│         ▼                                                                  │
+│  ┌──────────────────────────────────────────────────────────┐             │
+│  │                    SERVICIO                               │             │
+│  │  ────────────────────────────────────────────────────     │             │
+│  │  • PokemonService                                         │             │
+│  │  • AuthService                                            │             │
+│  │  • FavoritoService                                        │             │
+│  │                                                           │             │
+│  │  getPokemonById(id: number): Observable<Pokemon> {        │             │
+│  │    return this.http.get(url).pipe(                        │             │
+│  │      map(response => transform(response)),                │             │
+│  │      tap(data => cache(data)),                            │             │
+│  │      catchError(err => handleError(err))                  │             │
+│  │    );                                                     │             │
+│  │  }                                                        │             │
+│  └─────────────────────┬─────────────────────────────────────┘             │
+│                        │                                                   │
+│                        ▼                                                   │
+│  ┌────────────────────────────────────────────────────────────────┐       │
+│  │                  HTTP INTERCEPTORS                              │       │
+│  │                                                                 │       │
+│  │  ┌───────────────┐  ┌───────────────┐  ┌──────────────────┐   │       │
+│  │  │ Auth          │  │ Error         │  │ Logging          │   │       │
+│  │  │ ─────────     │  │ ─────────     │  │ ─────────        │   │       │
+│  │  │ Añade token   │  │ Maneja 401    │  │ Console.log      │   │       │
+│  │  │ Bearer JWT    │  │ Maneja 403    │  │ todas las req    │   │       │
+│  │  │ automático    │  │ Maneja 500    │  │ (desarrollo)     │   │       │
+│  │  │               │  │ Toast error   │  │                  │   │       │
+│  │  └───────────────┘  └───────────────┘  └──────────────────┘   │       │
+│  └─────────────────────────┬──────────────────────────────────────┘       │
+│                            │                                               │
+│                            ▼                                               │
+│  ┌──────────────────────────────────────────────────────────┐             │
+│  │                    HttpClient                             │             │
+│  │  ────────────────────────────────────────────────────     │             │
+│  │  GET  • Obtener recursos                                  │             │
+│  │  POST • Crear recursos                                    │             │
+│  │  PUT  • Actualizar completo                               │             │
+│  │  PATCH• Actualizar parcial                                │             │
+│  │  DELETE• Eliminar recursos                                │             │
+│  └─────────────────────┬─────────────────────────────────────┘             │
+│                        │                                                   │
+│                        ▼                                                   │
+│  ┌────────────────────────────────────────────────────────────────┐       │
+│  │                    APIs EXTERNAS                                │       │
+│  │  ────────────────────────────────────────────────────────       │       │
+│  │  • PokeAPI (https://pokeapi.co/api/v2/)                         │       │
+│  │  • Backend Pokédex (https://pokedex-backend-mwcz.onrender.com) │       │
+│  └────────────────────────────────────────────────────────────────┘       │
+│                                                                            │
+└───────────────────────────────────────────────────────────────────────────┘
+```
+
+## Tarea 1: Configuración de HttpClient.
+
+### Registro en app.config.ts:
+
+```typescript
+// app.config.ts
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
+import { authInterceptor, errorInterceptor, loggingInterceptor } from './interceptors';
+
+export const appConfig: ApplicationConfig = {
+  providers: [
+    provideHttpClient(
+      withFetch(),                 // Usa Fetch API en vez de XMLHttpRequest
+      withInterceptors([
+        authInterceptor,            // Añade token JWT automáticamente
+        errorInterceptor,           // Manejo global de errores HTTP
+        loggingInterceptor          // Debug de peticiones en consola
+      ])
+    )
+  ]
+};
+```
+
+## Tarea 2: Operaciones CRUD.
+
+### GET - Obtener recursos:
+
+#### Petición simple:
+```typescript
+// pokemon.service.ts
+getPokemonById(id: number): Observable<Pokemon> {
+  return this.http.get<PokeApiResponse>(`${this.API_URL}/${id}`).pipe(
+    map(response => this.transformPokemonData(response)),
+    tap(pokemon => this.pokemonCache.set(id, pokemon)),
+    catchError(error => {
+      this.toastService.error(`Error al cargar el Pokémon #${id}`);
+      throw error;
+    })
+  );
+}
+```
+
+#### Peticiones paralelas con forkJoin:
+```typescript
+// Cargar múltiples recursos simultáneamente
+return forkJoin({
+  pokemon: this.http.get<any>(`${API_URL}/pokemon/${id}`),
+  species: this.http.get<any>(`${API_URL}/pokemon-species/${id}`)
+}).pipe(
+  map(({ pokemon, species }) => ({
+    ...pokemon,
+    spanishName: species.names?.find(n => n.language.name === 'es')?.name
+  }))
+);
+```
+
+#### Query Parameters:
+```typescript
+// Paginación con parámetros
+getPokemonList(offset: number = 0, limit: number = 20): Observable<Pokemon[]> {
+  return this.http.get<{ results: any[] }>(
+    `${this.API_URL}?offset=${offset}&limit=${limit}`
+  ).pipe(
+    map(response => response.results.map(p => this.transform(p)))
+  );
+}
+```
+
+### POST - Crear recursos:
+
+```typescript
+// auth.service.ts
+login(credentials: LoginRequest): Observable<AuthResponse> {
+  return this.http.post<AuthResponse>(
+    `${this.apiUrl}/login`,
+    credentials  // Body automáticamente serializado a JSON
+  ).pipe(
+    tap(response => {
+      this.saveUserData(response);
+      this.isLoggedInSubject.next(true);
+    })
+  );
+}
+
+register(data: RegisterRequest): Observable<AuthResponse> {
+  return this.http.post<AuthResponse>(`${this.apiUrl}/register`, data)
+    .pipe(
+      tap(response => this.saveUserData(response))
+    );
+}
+```
+
+### PUT/PATCH - Actualizar recursos:
+
+```typescript
+// auth.service.ts
+// PUT - Reemplaza todo el recurso
+updateProfile(data: ProfileUpdateRequest): Observable<AuthResponse> {
+  // El token se añade automáticamente por authInterceptor
+  return this.http.put<AuthResponse>(`${this.apiUrl}/profile`, data)
+    .pipe(
+      tap(response => this.saveUserData(response))
+    );
+}
+
+// PATCH - Actualiza campos específicos (alternativa más eficiente)
+updateAvatar(avatar: string): Observable<AuthResponse> {
+  return this.http.patch<AuthResponse>(`${this.apiUrl}/avatar`, { avatar });
+}
+```
+
+### DELETE - Eliminar recursos:
+
+```typescript
+// auth.service.ts
+deleteAccount(): Observable<string> {
+  // El token se añade automáticamente por authInterceptor
+  return this.http.delete(`${this.apiUrl}/delete-account`, {
+    responseType: 'text'  // Especifica tipo de respuesta no-JSON
+  }).pipe(
+    tap(() => {
+      sessionStorage.clear();
+      this.isLoggedInSubject.next(false);
+    })
+  );
+}
+```
+
+## Tarea 3: RxJS Operators.
+
+### Transformación de Datos:
+
+#### map - Transformar respuesta:
+```typescript
+getPokemonList(offset: number, limit: number): Observable<Pokemon[]> {
+  return this.http.get<{ results: any[] }>(`${this.API_URL}?offset=${offset}&limit=${limit}`)
+    .pipe(
+      map(response => {
+        // Transformar array de URLs a objetos Pokemon
+        return response.results.map(p => {
+          const id = parseInt(p.url.split('/').slice(-2)[0]);
+          return {
+            id,
+            name: this.capitalizeFirstLetter(p.name),
+            image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${id}.png`,
+            types: [],
+            stats: [],
+            height: 0,
+            weight: 0
+          };
+        });
+      })
+    );
+}
+```
+
+### Efectos secundarios.
+
+#### tap - Ejecutar Side Effects:
+```typescript
+getPokemonById(id: number): Observable<Pokemon> {
+  return this.http.get<PokeApiResponse>(`${this.API_URL}/${id}`).pipe(
+    map(response => this.transformPokemonData(response)),
+    tap(pokemon => {
+      // Cache de datos
+      this.pokemonCache.set(id, pokemon);
+      // Actualizar estado global
+      this.currentPokemonSubject.next(pokemon);
+      // Ocultar spinner
+      this.loadingService.hide();
+    })
+  );
+}
+```
+
+### Manejo de errores.
+
+#### catchError - Gestión de errores:
+```typescript
+getPokemonByName(name: string): Observable<Pokemon> {
+  return this.http.get<PokeApiResponse>(`${this.API_URL}/${name.toLowerCase()}`)
+    .pipe(
+      map(response => this.transformPokemonData(response)),
+      tap(pokemon => this.pokemonCache.set(pokemon.id, pokemon)),
+      catchError(error => {
+        // Mostrar notificación de error
+        this.toastService.error(`Error al cargar el Pokémon "${name}"`);
+
+        // Log para debugging
+        console.error('Error fetching Pokemon:', error);
+
+        // Opción 1: Propagar el error
+        throw error;
+
+        // Opción 2: Retornar valor por defecto
+        // return of(null);
+
+        // Opción 3: Retornar observable vacío
+        // return EMPTY;
+      })
+    );
+}
+```
+
+#### retry - Reintentar peticiones fallidas:
+```typescript
+import { retry, retryWhen, delay, take } from 'rxjs/operators';
+
+// Reintentar automáticamente 3 veces
+getPokemon(id: number): Observable<Pokemon> {
+  return this.http.get<Pokemon>(`${this.API_URL}/${id}`).pipe(
+    retry(3),  // Reintenta 3 veces inmediatamente
+    catchError(error => {
+      this.toastService.error('No se pudo cargar el Pokémon después de 3 intentos');
+      throw error;
+    })
+  );
+}
+
+// Reintentar con delay exponencial
+getPokemonWithBackoff(id: number): Observable<Pokemon> {
+  return this.http.get<Pokemon>(`${this.API_URL}/${id}`).pipe(
+    retryWhen(errors =>
+      errors.pipe(
+        delay(1000),  // Espera 1 segundo entre reintentos
+        take(3)       // Máximo 3 reintentos
+      )
+    )
+  );
+}
+```
+
+## Tarea 4: HTTP Interceptors.
+
+### authInterceptor - Autenticación automática:
+
+```typescript
+// interceptors/auth.interceptor.ts
+import { HttpInterceptorFn } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
+
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  const authService = inject(AuthService);
+  const token = authService.getToken();
+
+  // Lista de URLs que requieren autenticación
+  const protectedUrls = [
+    'pokedex-backend',
+    '/api/auth/profile',
+    '/api/auth/delete-account',
+    '/api/favoritos'
+  ];
+
+  // Verificar si la petición es hacia una URL protegida
+  const isProtectedUrl = protectedUrls.some(url => req.url.includes(url));
+
+  // Si hay token y es una URL protegida, clonar y añadir header
+  if (token && isProtectedUrl) {
+    const clonedRequest = req.clone({
+      setHeaders: {
+        Authorization: `Bearer ${token}`
+      }
+    });
+    return next(clonedRequest);
+  }
+
+  return next(req);
+};
+```
+
+**Beneficio**: Ya no se necesita añadir manualmente el header. `Authorization` en cada petición:
+
+```typescript
+// ❌ ANTES (manual)
+updateProfile(data: ProfileUpdateRequest) {
+  const headers = new HttpHeaders({
+    'Authorization': `Bearer ${this.getToken()}`
+  });
+  return this.http.put(url, data, { headers });
+}
+
+// ✅ DESPUÉS (automático con interceptor)
+updateProfile(data: ProfileUpdateRequest) {
+  return this.http.put(url, data);  // Token añadido automáticamente
+}
+```
+
+### errorInterceptor - Manejo global de errores:
+
+```typescript
+// interceptors/error.interceptor.ts
+import { HttpInterceptorFn, HttpErrorResponse } from '@angular/common/http';
+import { inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { catchError, throwError } from 'rxjs';
+import { ToastService } from '../../services/toast.service';
+import { AuthService } from '../../services/auth.service';
+
+export const errorInterceptor: HttpInterceptorFn = (req, next) => {
+  const router = inject(Router);
+  const toastService = inject(ToastService);
+  const authService = inject(AuthService);
+
+  return next(req).pipe(
+    catchError((error: HttpErrorResponse) => {
+      let errorMessage = 'Ha ocurrido un error inesperado';
+
+      if (error.error instanceof ErrorEvent) {
+        // Error del lado del cliente (red, timeout)
+        errorMessage = `Error de conexión: ${error.error.message}`;
+      } else {
+        // Error del lado del servidor
+        switch (error.status) {
+          case 400:
+            errorMessage = error.error?.message || 'Solicitud incorrecta';
+            break;
+
+          case 401:
+            // Sesión expirada - cerrar sesión y redirigir
+            errorMessage = 'Tu sesión ha expirado. Inicia sesión nuevamente.';
+            authService.logout();
+            router.navigate(['/login'], {
+              queryParams: { returnUrl: router.url }
+            });
+            break;
+
+          case 403:
+            errorMessage = 'No tienes permisos para realizar esta acción';
+            break;
+
+          case 404:
+            if (!req.url.includes('pokeapi.co')) {
+              errorMessage = 'Recurso no encontrado';
+            } else {
+              // Para PokeAPI, dejar que el servicio maneje el error
+              return throwError(() => error);
+            }
+            break;
+
+          case 409:
+            errorMessage = error.error?.message || 'Ya existe un recurso con esos datos';
+            break;
+
+          case 500:
+          case 502:
+          case 503:
+            errorMessage = 'Error del servidor. Inténtalo más tarde.';
+            break;
+        }
+      }
+
+      // Mostrar toast con el error
+      if (!req.url.includes('pokeapi.co') || error.status === 401) {
+        toastService.error(errorMessage);
+      }
+
+      return throwError(() => error);
+    })
+  );
+};
+```
+
+**Beneficio**: Todos los errores HTTP se manejan automáticamente:
+- **401**: Cierra sesión y redirige a login.
+- **403**: Muestra mensaje de permisos.
+- **500**: Muestra error genérico del servidor.
+
+### loggingInterceptor - Debug de peticiones:
+
+```typescript
+// interceptors/logging.interceptor.ts
+import { HttpInterceptorFn, HttpResponse } from '@angular/common/http';
+import { tap } from 'rxjs';
+
+export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
+  const startTime = Date.now();
+
+  console.group(`🌐 HTTP ${req.method} → ${req.url}`);
+  console.log('📤 Request:', {
+    method: req.method,
+    url: req.url,
+    headers: req.headers.keys().reduce((acc, key) => {
+      // No mostrar tokens completos por seguridad
+      if (key === 'Authorization') {
+        acc[key] = req.headers.get(key)?.substring(0, 20) + '...';
+      } else {
+        acc[key] = req.headers.get(key);
+      }
+      return acc;
+    }, {} as Record<string, string | null>),
+    body: req.body
+  });
+
+  return next(req).pipe(
+    tap({
+      next: (event) => {
+        if (event instanceof HttpResponse) {
+          const elapsedTime = Date.now() - startTime;
+          console.log(`📥 Response (${elapsedTime}ms):`, {
+            status: event.status,
+            statusText: event.statusText,
+            body: event.body
+          });
+          console.groupEnd();
+        }
+      },
+      error: (error) => {
+        const elapsedTime = Date.now() - startTime;
+        console.error(`❌ Error (${elapsedTime}ms):`, error);
+        console.groupEnd();
+      }
+    })
+  );
+};
+```
+
+**Salida en consola**:
+```
+🌐 HTTP GET → https://pokeapi.co/api/v2/pokemon/25
+📤 Request: { method: "GET", url: "...", headers: {...}, body: null }
+📥 Response (342ms): { status: 200, statusText: "OK", body: {...} }
+```
+
+## Tarea 5: Estados de carga y error.
+
+### LoadingService - Spinner Global:
+
+```typescript
+// services/loading.service.ts
+@Injectable({ providedIn: 'root' })
+export class LoadingService {
+  private loadingSubject = new BehaviorSubject<boolean>(false);
+  loading$ = this.loadingSubject.asObservable();
+
+  show(): void {
+    this.loadingSubject.next(true);
+  }
+
+  hide(): void {
+    this.loadingSubject.next(false);
+  }
+}
+```
+
+### ToastService - Notificaciones:
+
+```typescript
+// services/toast.service.ts
+@Injectable({ providedIn: 'root' })
+export class ToastService {
+  private toastSubject = new BehaviorSubject<Toast | null>(null);
+  toast$ = this.toastSubject.asObservable();
+
+  success(message: string): void {
+    this.show({ message, type: 'success' });
+  }
+
+  error(message: string): void {
+    this.show({ message, type: 'error' });
+  }
+
+  private show(toast: Toast): void {
+    this.toastSubject.next(toast);
+    setTimeout(() => this.toastSubject.next(null), 3000);
+  }
+}
+```
+
+### Uso en servicios:
+
+```typescript
+// pokemon.service.ts
+export class PokemonService {
+  private loadingService = inject(LoadingService);
+  private toastService = inject(ToastService);
+
+  getPokemonById(id: number): Observable<Pokemon> {
+    // Mostrar spinner
+    this.loadingService.show();
+
+    return this.http.get<PokeApiResponse>(`${this.API_URL}/${id}`).pipe(
+      map(response => this.transformPokemonData(response)),
+      tap(() => {
+        // Ocultar spinner al completar
+        this.loadingService.hide();
+      }),
+      catchError(error => {
+        // Ocultar spinner y mostrar error
+        this.loadingService.hide();
+        this.toastService.error(`Error al cargar el Pokémon #${id}`);
+        throw error;
+      })
+    );
+  }
+}
+```
+
+## Tarea 6: Cache de datos.
+
+### Estrategia de cache en PokemonService:
+
+```typescript
+export class PokemonService {
+  // Cache para evitar peticiones repetidas
+  private pokemonCache = new Map<number, Pokemon>();
+  private spanishNamesCache = new Map<number, string>();
+
+  getPokemonById(id: number): Observable<Pokemon> {
+    // Verificar si está en cache
+    if (this.pokemonCache.has(id)) {
+      const cached = this.pokemonCache.get(id)!;
+      this.currentPokemonSubject.next(cached);
+      return of(cached);  // Retornar inmediatamente desde cache
+    }
+
+    // Si no está en cache, hacer petición HTTP
+    return this.http.get<PokeApiResponse>(`${this.API_URL}/${id}`).pipe(
+      map(response => this.transformPokemonData(response)),
+      tap(pokemon => {
+        // Guardar en cache para futuras peticiones
+        this.pokemonCache.set(id, pokemon);
+        this.currentPokemonSubject.next(pokemon);
+      }),
+      catchError(error => {
+        this.toastService.error(`Error al cargar el Pokémon #${id}`);
+        throw error;
+      })
+    );
+  }
+
+  clearCache(): void {
+    this.pokemonCache.clear();
+  }
+}
+```
+
+**Beneficio**:
+- Primera carga: Petición HTTP (~500ms)
+- Cargas posteriores: Lectura de cache (~1ms)
+
+## Tabla de endpoints utilizados.
+
+### PokeAPI (https://pokeapi.co/api/v2/)
+
+| Método | Endpoint | Descripción | Usado en |
+|--------|----------|-------------|----------|
+| GET | `/pokemon/{id}` | Datos completos de un Pokémon | PokemonService |
+| GET | `/pokemon?offset={n}&limit={n}` | Lista paginada de Pokémon | PokemonService |
+| GET | `/pokemon-species/{id}` | Especie (nombre español) | PokemonResolver |
+
+### Backend Pokédex (https://pokedex-backend-mwcz.onrender.com)
+
+| Método | Endpoint | Auth | Descripción | Usado en |
+|--------|----------|------|-------------|----------|
+| POST | `/api/auth/register` | ❌ | Crear cuenta | AuthService |
+| POST | `/api/auth/login` | ❌ | Iniciar sesión | AuthService |
+| PUT | `/api/auth/profile` | ✅ | Actualizar perfil | AuthService |
+| DELETE | `/api/auth/delete-account` | ✅ | Eliminar cuenta | AuthService |
+
+## Servicios HTTP implementados.
+
+### 1. PokemonService:
+```typescript
+// Operaciones CRUD con PokeAPI
+✅ getPokemonById(id: number): Observable<Pokemon>
+✅ getPokemonByName(name: string): Observable<Pokemon>
+✅ getPokemonList(offset: number, limit: number): Observable<Pokemon[]>
+✅ getAllPokemonNames(): Observable<{id: number, name: string}[]>
+✅ getPokemonDetails(id: number): Observable<Pokemon>
+✅ searchPokemon(query: string, pokemonList: any[]): any[]
+
+// Características
+✅ Cache de datos (Map)
+✅ Transformación de respuestas (map)
+✅ Manejo de errores (catchError)
+✅ Estados de carga (BehaviorSubject)
+✅ Peticiones paralelas (forkJoin)
+```
+
+### 2. AuthService:
+```typescript
+// Operaciones de autenticación
+✅ login(credentials: LoginRequest): Observable<AuthResponse>
+✅ register(data: RegisterRequest): Observable<AuthResponse>
+✅ updateProfile(data: ProfileUpdateRequest): Observable<AuthResponse>
+✅ deleteAccount(): Observable<string>
+✅ logout(): void
+
+// Características
+✅ Almacenamiento en sessionStorage
+✅ BehaviorSubject para estado de autenticación
+✅ Token JWT gestionado por authInterceptor
+```
+
+### 3. LoadingService:
+```typescript
+// Control de spinner global
+✅ show(): void
+✅ hide(): void
+✅ loading$: Observable<boolean>
+```
+
+### 4. ToastService:
+```typescript
+// Notificaciones al usuario
+✅ success(message: string): void
+✅ error(message: string): void
+✅ toast$: Observable<Toast | null>
+```
+
+## Estructura de Archivos HTTP:
+
+```
+frontend/src/
+├── app/
+│   ├── interceptors/
+│   │   ├── index.ts                    # Exportaciones
+│   │   ├── auth.interceptor.ts         # Añade token JWT
+│   │   ├── error.interceptor.ts        # Manejo de errores HTTP
+│   │   └── logging.interceptor.ts      # Debug de peticiones
+│   └── app.config.ts                   # Configuración HttpClient
+├── services/
+│   ├── pokemon.service.ts              # API PokeAPI
+│   ├── auth.service.ts                 # API autenticación
+│   ├── loading.service.ts              # Estados de carga
+│   └── toast.service.ts                # Notificaciones
+```
+
+## Buenas prácticas - HTTP:
+
+1. **Usar Interceptores** para lógica transversal (auth, errores, logging).
+2. **Tipar las respuestas** con interfaces TypeScript.
+3. **Usar RxJS operators** para transformar y gestionar datos.
+4. **Implementar cache** para reducir peticiones redundantes.
+5. **Manejar estados de carga** con servicios globales (LoadingService, ToastService).
+6. **Propagar errores** después de manejarlos para que componentes puedan reaccionar.
+7. **Usar `of()` para retornar valores síncronos** como Observables (cache).
+8. **Limpiar subscripciones** con `takeUntil()` o `async pipe`
+
+
+## Entregables Fase 5:
+
+- HttpClient configurado con `withFetch()` y `withInterceptors()`
+- 4 servicios HTTP implementados (PokemonService, AuthService, LoadingService, ToastService).
+- Operaciones CRUD completas (GET, POST, PUT, DELETE).
+- RxJS operators utilizados (map, tap, catchError, forkJoin, retry).
+- 3 HTTP Interceptors (auth, error, logging).
+- Manejo global de errores HTTP con redirección automática en 401.
+- Estados de carga con LoadingService y ToastService.
+- Sistema de cache para optimizar peticiones.
+- Documentación completa de endpoints y servicios.

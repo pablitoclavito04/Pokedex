@@ -4,9 +4,10 @@
 
 import { ApplicationConfig, provideBrowserGlobalErrorListeners } from '@angular/core';
 import { provideRouter, withInMemoryScrolling, withPreloading, PreloadAllModules } from '@angular/router';
-import { provideHttpClient, withFetch } from '@angular/common/http';
+import { provideHttpClient, withFetch, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
+import { authInterceptor, errorInterceptor, loggingInterceptor } from './interceptors';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -18,6 +19,13 @@ export const appConfig: ApplicationConfig = {
       // Precargar todos los módulos lazy en segundo plano
       withPreloading(PreloadAllModules)
     ),
-    provideHttpClient(withFetch())
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([
+        authInterceptor,    // Añade token JWT automáticamente
+        errorInterceptor,   // Manejo global de errores HTTP
+        loggingInterceptor  // Debug de peticiones en consola
+      ])
+    )
   ]
 };
