@@ -830,11 +830,11 @@ Criterios: RA6.g, RA6.h
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                         SISTEMA DE NAVEGACIÓN SPA                            │
+│                         SISTEMA DE NAVEGACIÓN SPA                           │
 ├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                              │
+│                                                                             │
 │  ┌─────────────────────────────────────────────────────────────────────┐    │
-│  │                          app.routes.ts                               │    │
+│  │                          app.routes.ts                              │    │
 │  │  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐      │    │
 │  │  │ Rutas Públicas  │  │Rutas Protegidas │  │  Rutas Quiz     │      │    │
 │  │  │ ─────────────── │  │ ─────────────── │  │ ─────────────── │      │    │
@@ -845,11 +845,11 @@ Criterios: RA6.g, RA6.h
 │  │  │ • /register     │  │                 │  │                 │      │    │
 │  │  └─────────────────┘  └─────────────────┘  └─────────────────┘      │    │
 │  └─────────────────────────────────────────────────────────────────────┘    │
-│                                    │                                         │
-│                                    ▼                                         │
+│                                    │                                        │
+│                                    ▼                                        │
 │  ┌─────────────────────────────────────────────────────────────────────┐    │
-│  │                           GUARDS                                     │    │
-│  │                                                                      │    │
+│  │                           GUARDS                                    │    │
+│  │                                                                     │    │
 │  │  ┌──────────────────┐  ┌──────────────────┐  ┌──────────────────┐   │    │
 │  │  │    authGuard     │  │   guestGuard     │  │pendingChanges    │   │    │
 │  │  │  ─────────────   │  │  ─────────────   │  │     Guard        │   │    │
@@ -858,30 +858,30 @@ Criterios: RA6.g, RA6.h
 │  │  │ con returnUrl    │  │ si ya logueado   │  │ si form dirty    │   │    │
 │  │  └──────────────────┘  └──────────────────┘  └──────────────────┘   │    │
 │  └─────────────────────────────────────────────────────────────────────┘    │
-│                                    │                                         │
-│                                    ▼                                         │
+│                                    │                                        │
+│                                    ▼                                        │
 │  ┌─────────────────────────────────────────────────────────────────────┐    │
-│  │                          RESOLVERS                                   │    │
-│  │                                                                      │    │
+│  │                          RESOLVERS                                  │    │
+│  │                                                                     │    │
 │  │  ┌────────────────────────────────────────────────────────────┐     │    │
-│  │  │                    pokemonResolver                          │     │    │
-│  │  │  ────────────────────────────────────────────────────────   │     │    │
+│  │  │                    pokemonResolver                          │    │    │
+│  │  │  ────────────────────────────────────────────────────────   │    │    │
 │  │  │  • Precarga datos del Pokémon antes de activar la ruta     │     │    │
-│  │  │  • Obtiene nombre en español desde la API                   │     │    │
+│  │  │  • Obtiene nombre en español desde la API                   │    │    │
 │  │  │  • Redirige a /pokedex si hay error o ID inválido          │     │    │
 │  │  └────────────────────────────────────────────────────────────┘     │    │
 │  └─────────────────────────────────────────────────────────────────────┘    │
-│                                    │                                         │
-│                                    ▼                                         │
+│                                    │                                        │
+│                                    ▼                                        │
 │  ┌─────────────────────────────────────────────────────────────────────┐    │
-│  │                        BREADCRUMBS                                   │    │
-│  │                                                                      │    │
+│  │                        BREADCRUMBS                                  │    │
+│  │                                                                     │    │
 │  │  BreadcrumbService ──────> BreadcrumbComponent                      │    │
 │  │  • Escucha NavigationEnd   • Muestra migas dinámicas                │    │
 │  │  • Construye array desde   • Inicio > Pokédex > Pikachu             │    │
 │  │    data.breadcrumb         • Links navegables                       │    │
 │  └─────────────────────────────────────────────────────────────────────┘    │
-│                                                                              │
+│                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -891,20 +891,20 @@ Criterios: RA6.g, RA6.h
 
 | Ruta | Descripción | Lazy | Guards | Resolver | Breadcrumb |
 |------|-------------|------|--------|----------|------------|
-| `/` | Página de inicio | ✅ | - | - | Inicio |
-| `/pokedex` | Lista de Pokémon | ✅ | - | - | Pokédex |
-| `/pokemon/:id` | Detalle de Pokémon | ✅ | - | `pokemonResolver` | :id (dinámico) |
-| `/login` | Iniciar sesión | ✅ | `guestGuard` | - | Iniciar Sesión |
-| `/register` | Crear cuenta | ✅ | `guestGuard` | - | Registro |
-| `/profile` | Perfil de usuario | ✅ | `authGuard` | - | Mi Perfil |
-| `/settings` | Editar perfil | ✅ | `authGuard`, `pendingChangesGuard` | - | Ajustes |
-| `/quiz` | Menú Quiz | ✅ | - | - | Quiz |
-| `/quiz/play` | Jugar Quiz | ✅ | - | - | Jugando |
-| `/quiz/results` | Resultados Quiz | ✅ | - | - | Resultados |
-| `/quiz/review` | Revisión respuestas | ✅ | - | - | Revisión |
-| `/style-guide` | Guía de estilos | ✅ | - | - | Style Guide |
-| `/forms-demo` | Demo formularios | ✅ | - | - | Formularios Demo |
-| `**` | Página 404 | ✅ | - | - | - |
+| `/` | Página de inicio | Si | - | - | Inicio |
+| `/pokedex` | Lista de Pokémon | Si | - | - | Pokédex |
+| `/pokemon/:id` | Detalle de Pokémon | Si | - | `pokemonResolver` | :id (dinámico) |
+| `/login` | Iniciar sesión | Si | `guestGuard` | - | Iniciar Sesión |
+| `/register` | Crear cuenta | Si | `guestGuard` | - | Registro |
+| `/profile` | Perfil de usuario | Si | `authGuard` | - | Mi Perfil |
+| `/settings` | Editar perfil | Si | `authGuard`, `pendingChangesGuard` | - | Ajustes |
+| `/quiz` | Menú Quiz | Si | - | - | Quiz |
+| `/quiz/play` | Jugar Quiz | Si | - | - | Jugando |
+| `/quiz/results` | Resultados Quiz | Si | - | - | Resultados |
+| `/quiz/review` | Revisión respuestas | Si | - | - | Revisión |
+| `/style-guide` | Guía de estilos | Si | - | - | Style Guide |
+| `/forms-demo` | Demo formularios | Si | - | - | Formularios Demo |
+| `**` | Página 404 | Si | - | - | - |
 
 
 ### Configuración de rutas:
@@ -1324,10 +1324,10 @@ Router procesa la URL
 Resolvers (resolve)
           │
           └─ pokemonResolver: Carga datos del Pokémon
-                    │
-                    ├─ Error/ID inválido → Redirige a /pokedex
-                    │
-                    └─ OK → Datos disponibles en route.data
+          |         │
+          |         ├─ Error/ID inválido → Redirige a /pokedex
+          |         │
+          |         └─ OK → Datos disponibles en route.data
           │
           ▼
 Componente se activa
