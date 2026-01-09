@@ -2291,7 +2291,7 @@ export class PokedexComponent {
 | **Curva aprendizaje** | Media | Baja | Alta |
 | **Integración Angular** | Nativa | Externa (RxJS) | Externa |
 | **DevTools** | Básicos | Angular DevTools | Redux DevTools |
-| **Time-travel** | ❌ | ❌ | ✅ |
+| **Time-travel** | No | No | Si |
 | **Ideal para** | Proyectos medianos | Proyectos pequeños | Enterprise |
 
 
