@@ -1371,7 +1371,7 @@ Criterios: RA6.b, RA6.f, RA6.h
 │  └──────┬───────┘                                                         │
 │         │                                                                 │
 │         ▼                                                                 │
-│  ┌───────────────────────────────────────────────────────────┐             │
+│  ┌───────────────────────────────────────────────────────────┐            │
 │  │                    SERVICIO                               │            │
 │  │  ────────────────────────────────────────────────────     │            │
 │  │  • PokemonService                                         │            │
@@ -1402,7 +1402,7 @@ Criterios: RA6.b, RA6.f, RA6.h
 │  └─────────────────────────┬──────────────────────────────────────┘       │
 │                            │                                              │
 │                            ▼                                              │
-│  ┌──────────────────────────────────────────────────────────┐             │
+│  ┌───────────────────────────────────────────────────────────┐            │
 │  │                    HttpClient                             │            │
 │  │  ────────────────────────────────────────────────────     │            │
 │  │  GET  • Obtener recursos                                  │            │
@@ -1801,8 +1801,8 @@ import { tap } from 'rxjs';
 export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
   const startTime = Date.now();
 
-  console.group(`🌐 HTTP ${req.method} → ${req.url}`);
-  console.log('📤 Request:', {
+  console.group(`HTTP ${req.method} → ${req.url}`);
+  console.log('Request:', {
     method: req.method,
     url: req.url,
     headers: req.headers.keys().reduce((acc, key) => {
@@ -1822,7 +1822,7 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
       next: (event) => {
         if (event instanceof HttpResponse) {
           const elapsedTime = Date.now() - startTime;
-          console.log(`📥 Response (${elapsedTime}ms):`, {
+          console.log(`Response (${elapsedTime}ms):`, {
             status: event.status,
             statusText: event.statusText,
             body: event.body
@@ -1842,9 +1842,9 @@ export const loggingInterceptor: HttpInterceptorFn = (req, next) => {
 
 **Salida en consola**:
 ```
-🌐 HTTP GET → https://pokeapi.co/api/v2/pokemon/25
-📤 Request: { method: "GET", url: "...", headers: {...}, body: null }
-📥 Response (342ms): { status: 200, statusText: "OK", body: {...} }
+HTTP GET → https://pokeapi.co/api/v2/pokemon/25
+Request: { method: "GET", url: "...", headers: {...}, body: null }
+Response (342ms): { status: 200, statusText: "OK", body: {...} }
 ```
 
 ## Tarea 5: Estados de carga y error.
@@ -1978,10 +1978,10 @@ export class PokemonService {
 
 | Método | Endpoint | Auth | Descripción | Usado en |
 |--------|----------|------|-------------|----------|
-| POST | `/api/auth/register` | ❌ | Crear cuenta | AuthService |
-| POST | `/api/auth/login` | ❌ | Iniciar sesión | AuthService |
-| PUT | `/api/auth/profile` | ✅ | Actualizar perfil | AuthService |
-| DELETE | `/api/auth/delete-account` | ✅ | Eliminar cuenta | AuthService |
+| POST | `/api/auth/register` | No | Crear cuenta | AuthService |
+| POST | `/api/auth/login` | No | Iniciar sesión | AuthService |
+| PUT | `/api/auth/profile` | Si | Actualizar perfil | AuthService |
+| DELETE | `/api/auth/delete-account` | Si | Eliminar cuenta | AuthService |
 
 ## Servicios HTTP implementados.
 
