@@ -1,8 +1,8 @@
-# Sección 5: Optimización Multimedia
+# Sección 5: Optimización multimedia.
 
-## 5.1 Formatos elegidos
+## 5.1 Formatos elegidos.
 
-### Imágenes de la aplicación
+### Imágenes de la aplicación:
 
 | Formato | Uso | Justificación |
 |---------|-----|---------------|
@@ -10,30 +10,28 @@
 | **WebP** | Imágenes de contenido (futuro) | 25-35% más ligero que JPEG/PNG, buen soporte |
 | **SVG** | Iconos inline, gráficos vectoriales | Escalable, pequeño tamaño, animable |
 
-### Imágenes de la API (PokeAPI)
+### Imágenes de la API (PokeAPI):
 
 Las imágenes de Pokémon provienen de la API externa en formato PNG. No controlamos su optimización, pero implementamos:
 - **Lazy loading** nativo del navegador
 - **Caché del navegador** para imágenes ya cargadas
 - **Tamaños fijos** para evitar layout shift
 
-### Soporte de navegadores para WebP
+### Soporte de navegadores para WebP:
 
 | Navegador | Soporte WebP |
 |-----------|--------------|
-| Chrome | ✅ 100% (desde v23) |
-| Firefox | ✅ 100% (desde v65) |
-| Safari | ✅ 100% (desde v14) |
-| Edge | ✅ 100% (desde v18) |
-| IE11 | ❌ No soportado |
-
-> **Nota:** Si se añaden imágenes WebP en el futuro, incluir fallback JPG/PNG para IE11 usando `<picture>`.
+| Chrome | 100% (desde v23) |
+| Firefox | 100% (desde v65) |
+| Safari | 100% (desde v14) |
+| Edge | 100% (desde v18) |
+| IE11 | No soportado |
 
 ---
 
-## 5.2 Herramientas utilizadas
+## 5.2 Herramientas utilizadas.
 
-### Para optimización de imágenes
+### Para optimización de imágenes:
 
 | Herramienta | URL | Uso |
 |-------------|-----|-----|
@@ -41,7 +39,7 @@ Las imágenes de Pokémon provienen de la API externa en formato PNG. No control
 | **TinyPNG** | https://tinypng.com/ | Compresión automática PNG/JPEG |
 | **SVGOMG** | https://jakearchibald.github.io/svgomg/ | Optimización de SVGs |
 
-### Proceso de optimización
+### Proceso de optimización:
 
 1. **Imagen original** → Squoosh/TinyPNG
 2. **Generar múltiples tamaños**: 400w, 800w, 1200w
@@ -51,61 +49,63 @@ Las imágenes de Pokémon provienen de la API externa en formato PNG. No control
 
 ---
 
-## 5.3 Resultados de optimización
+## 5.3 Resultados de optimización.
 
-### Imágenes PNG optimizadas con WebP (múltiples tamaños)
+### Imágenes PNG optimizadas con WebP (múltiples tamaños):
 
-| Archivo original | Tamaño original | Archivos WebP generados | Tamaño (800w) | Reducción | Estado |
-|------------------|-----------------|-------------------------|---------------|-----------|--------|
-| **Imagen quiz.png** | 5.3 MB | 400w (54 KB), 800w (181 KB), 1200w (371 KB) | 181 KB | 96.6% | ✅ Completado |
-| **Pokemons reunidos.png** | 2.1 MB | 400w (76 KB), 800w (126 KB), 1200w (246 KB) | 126 KB | 94.0% | ✅ Completado |
-| **Fondo pantalla Crear cuenta.png** | 1.7 MB | 400w (18 KB), 800w (64 KB), 1200w (23 KB) | 64 KB | 96.2% | ✅ Completado |
+| Archivo original | Tamaño original | Archivos WebP generados | Tamaño (800w) | Reducción |
+|------------------|-----------------|-------------------------|---------------|-----------|
+| **Imagen quiz.png** | 5.3 MB | 400w (54 KB), 800w (181 KB), 1200w (371 KB) | 181 KB | 96.6% |
+| **Pokemons reunidos.png** | 2.1 MB | 400w (76 KB), 800w (126 KB), 1200w (246 KB) | 126 KB | 94.0% |
+| **Fondo pantalla Crear cuenta.png** | 1.7 MB | 400w (18 KB), 800w (64 KB), 1200w (23 KB) | 64 KB | 96.2% |
 
-**Total de reducción:** ~96% en promedio. Las 3 imágenes pasan de 9.1 MB a ~371 KB (tamaños 800w).
+**Total de reducción:** 96% en promedio. Las 3 imágenes pasan de 9.1 MB a ~371 KB (tamaños 800w).
 
-### GIFs optimizados (compresión)
+### GIFs optimizados (compresión):
 
-| Archivo | Tamaño original | Tamaño optimizado | Reducción | Estado |
-|---------|-----------------|-------------------|-----------|--------|
-| **Pikachu llorando.gif** | 836 KB | 75 KB | 91.0% | ✅ Completado |
-| **Squirtle comiendo.gif** | 355 KB | 181 KB | 49.0% | ✅ Completado |
-| **Ash ganador.gif** | 619 KB | 481 KB | 22.3% | ⚠️ Aceptable (>200KB) |
+| Archivo | Tamaño original | Tamaño optimizado | Reducción |
+|---------|-----------------|-------------------|-----------|
+| **Pikachu llorando.gif** | 836 KB | 75 KB | 91.0% |
+| **Squirtle comiendo.gif** | 355 KB | 181 KB | 49.0% |
+| **Ash ganador.gif** | 619 KB | 481 KB | 22.3% |
 
 **Nota sobre Ash ganador.gif:** Se mantiene en 481 KB por limitaciones de compresión en GIFs animados complejos. La reducción del 22% es aceptable considerando la preservación de la animación.
 
-### Imágenes ya optimizadas (< 200KB)
 
-| Archivo | Tamaño actual | Estado |
-|---------|---------------|--------|
-| pokemons durmiendo.webp | 146 KB | ✅ OK |
-| Pikachu durmiendo.png | 72 KB | ✅ OK |
-| favicon.png | 17 KB | ✅ OK |
-| silueta de peso pesado.png | 3.0 KB | ✅ OK |
-| silueta rayquaza.png | 3.7 KB | ✅ OK |
-| silueta de peso mediano.png | 2.6 KB | ✅ OK |
-| silueta dragonair.png | 2.0 KB | ✅ OK |
-| silueta de pokemon pequeño.png | 1.6 KB | ✅ OK |
-| silueta de peso bajo.png | 1.2 KB | ✅ OK |
+### Imágenes ya optimizadas (< 200KB):
 
-### SVGs inline optimizados
+| Archivo | Tamaño actual |
+|---------|---------------|
+| pokemons durmiendo.webp | 146 KB |
+| Pikachu durmiendo.png | 72 KB |
+| favicon.png | 17 KB |
+| silueta de peso pesado.png | 3.0 KB |
+| silueta rayquaza.png | 3.7 KB |
+| silueta de peso mediano.png | 2.6 KB |
+| silueta dragonair.png | 2.0 KB |
+| silueta de pokemon pequeño.png | 1.6 KB |
+| silueta de peso bajo.png | 1.2 KB |
+
+
+### SVGs inline optimizados:
 
 Los iconos SVG están embebidos directamente en los componentes, lo cual:
-- ✅ Reduce requests HTTP
-- ✅ Permite animaciones CSS
-- ✅ Se beneficia de gzip del HTML
+- Reduce requests HTTP.
+- Permite animaciones CSS.
+- Se beneficia de gzip del HTML.
 
 **Iconos implementados:**
-- Corazón (favoritos)
-- Pokéball (spinner, botón acción)
-- Flechas de navegación
-- Iconos de tema (sol/luna)
-- Iconos de cerrar (X)
+- Corazón (favoritos).
+- Pokéball (spinner, botón acción).
+- Flechas de navegación.
+- Iconos de tema (sol/luna).
+- Iconos de cerrar (X).
 
 ---
 
-## 5.4 Performance Budget
+## 5.4 Performance Budget.
 
-### Límites definidos
+### Límites definidos:
 
 | Métrica | Límite máximo | Objetivo |
 |---------|---------------|----------|
@@ -120,12 +120,12 @@ Los iconos SVG están embebidos directamente en los componentes, lo cual:
 
 | Métrica | Valor (dev) | Objetivo | Estado |
 |---------|-------------|----------|--------|
-| Performance Score | 27/100 | > 80 | ⚠️ Dev mode |
-| First Contentful Paint | 10.4s | < 1.5s | ⚠️ Dev mode |
-| Largest Contentful Paint | 18.6s | < 2.5s | ⚠️ Dev mode |
-| Cumulative Layout Shift | 0.912 | < 0.1 | ✅ Fixed (width/height) |
+| Performance Score | 27/100 | > 80 | Dev mode |
+| First Contentful Paint | 10.4s | < 1.5s | Dev mode |
+| Largest Contentful Paint | 18.6s | < 2.5s | Dev mode |
+| Cumulative Layout Shift | 0.912 | < 0.1 | Fixed (width/height) |
 
-> **⚠️ IMPORTANTE:** Estas métricas fueron tomadas en **modo desarrollo** (`ng serve`).
+> **IMPORTANTE:** Estas métricas fueron tomadas en **modo desarrollo** (`ng serve`).
 > El código no está minificado ni optimizado. Para métricas reales, ejecutar:
 > ```bash
 > ng build --configuration=production
@@ -138,20 +138,20 @@ Los iconos SVG están embebidos directamente en los componentes, lo cual:
 > 3. Seleccionar "Performance", "Accessibility", "Best Practices"
 > 4. Ejecutar auditoría en modo móvil y desktop
 
-### Optimizaciones implementadas
+### Optimizaciones implementadas:
 
-- ✅ Lazy loading en todas las imágenes de cards
-- ✅ Dimensiones explícitas (width/height) en imágenes para evitar CLS
-- ✅ Animaciones CSS usando solo `transform` y `opacity`
-- ✅ SVGs inline (sin requests adicionales)
-- ✅ CSS variables para temas (sin duplicación)
-- ✅ Componentes standalone (tree-shaking)
+- Lazy loading en todas las imágenes de cards.
+- Dimensiones explícitas (width/height) en imágenes para evitar CLS.
+- Animaciones CSS usando solo `transform` y `opacity`
+- SVGs inline (sin requests adicionales).
+- CSS variables para temas (sin duplicación).
+- Componentes standalone (tree-shaking).
 
 ---
 
-## 5.5 Tecnologías implementadas
+## 5.5 Tecnologías implementadas.
 
-### Lazy Loading nativo
+### Lazy Loading nativo:
 
 Implementado en el componente Card para todas las imágenes:
 
@@ -171,9 +171,9 @@ Implementado en el componente Card para todas las imágenes:
 ```
 
 **Beneficios:**
-- Las imágenes solo cargan cuando están cerca del viewport
-- Reduce tiempo de carga inicial
-- Mejora LCP y FCP
+- Las imágenes solo cargan cuando están cerca del viewport.
+- Reduce tiempo de carga inicial.
+- Mejora LCP y FCP.
 
 ### srcset y image-set() implementados
 
@@ -211,7 +211,7 @@ background: url('/Pokedex/Pokemons reunidos.png') center center / cover no-repea
 // ) center center / cover no-repeat;
 ```
 
-**Estado:** ✅ Activado y funcionando.
+**Estado:** Activado y funcionando.
 
 **Implementación final:**
 Las 3 imágenes de fondo ahora usan `image-set()` con WebP optimizado:
@@ -248,23 +248,23 @@ Si necesitas art direction (diferentes imágenes según viewport), usa `<picture
 
 ---
 
-## 5.6 Animaciones CSS
+## 5.6 Animaciones CSS.
 
-### Principios de optimización (60fps)
+### Principios de optimización (60fps):
 
 **REGLA FUNDAMENTAL:** Solo animar propiedades "composited":
-- ✅ `transform` (translate, rotate, scale)
-- ✅ `opacity`
+- `transform` (translate, rotate, scale)
+- `opacity`
 
 **NUNCA animar** (causan reflow/repaint):
-- ❌ `width`, `height`
-- ❌ `top`, `left`, `right`, `bottom`
-- ❌ `margin`, `padding`
-- ❌ `font-size`
+- `width`, `height`
+- `top`, `left`, `right`, `bottom`
+- `margin`, `padding`
+- `font-size`
 
 ### Animaciones implementadas
 
-#### 1. Loading Spinner (Pokéball)
+#### 1. Loading Spinner (Pokéball):
 
 **Archivo:** `spinner.scss`
 
@@ -305,7 +305,7 @@ Si necesitas art direction (diferentes imágenes según viewport), usa `<picture
 - `will-change: transform` solo donde es necesario
 - Duración entre 200ms y 1.5s
 
-#### 2. Transiciones hover/focus
+#### 2. Transiciones hover/focus:
 
 **Componentes con transiciones optimizadas:**
 
@@ -326,7 +326,7 @@ Si necesitas art direction (diferentes imágenes según viewport), usa `<picture
 }
 ```
 
-#### 3. Micro-interacción: Heart Beat (Favoritos)
+#### 3. Micro-interacción: Heart Beat (Favoritos):
 
 **Archivo:** `card.scss`
 
@@ -363,7 +363,7 @@ onFavoriteClick(event: Event): void {
 }
 ```
 
-#### 4. Animaciones de Modal
+#### 4. Animaciones de modal:
 
 **Archivo:** `modal.scss`
 
@@ -393,7 +393,7 @@ onFavoriteClick(event: Event): void {
 }
 ```
 
-#### 5. Animaciones de Alert
+#### 5. Animaciones de alert:
 
 **Archivo:** `alert.scss`
 
@@ -446,52 +446,38 @@ Contiene animaciones reutilizables:
 
 ---
 
-## Resumen de optimizaciones
+## Resumen de optimizaciones:
 
-| Categoría | Implementación | Estado |
-|-----------|----------------|--------|
-| Lazy loading | `loading="lazy"` en imágenes | ✅ |
-| Dimensiones imágenes | `width` y `height` explícitos | ✅ |
-| Animaciones 60fps | Solo transform/opacity | ✅ |
-| SVGs optimizados | Inline en componentes | ✅ |
-| Estructura assets | `/public/assets/images`, `/icons` | ✅ |
-| Spinner optimizado | Animaciones separadas | ✅ |
-| Micro-interacciones | Heart-beat, ripple | ✅ |
-| Animaciones modales | Entrada/salida suaves | ✅ |
-| Archivo animaciones globales | `animations.scss` | ✅ |
-| **srcset** | Favicon con srcset en home.html | ✅ |
-| **image-set()** | 3 backgrounds con WebP (home, register, quiz) | ✅ |
-| **WebP optimizado** | 9 archivos WebP (3 imágenes × 3 tamaños) | ✅ |
-| **Optimización GIFs** | 3 GIFs comprimidos (75KB, 181KB, 481KB) | ✅ |
-
----
-
-## Próximos pasos
-
-1. ~~**Optimizar imágenes grandes**~~ ✅ Completado (3 PNG + 3 GIFs)
-2. ~~**Implementar srcset/image-set()**~~ ✅ Completado (4 ubicaciones)
-3. **Ejecutar Lighthouse** en build de producción y documentar métricas reales
-4. **Optimizar favicon.png** para múltiples tamaños (16x16, 32x32, 180x180, 512x512)
-5. **Crear manifest.json** con iconos para PWA (futuro)
+| Categoría | Implementación |
+|-----------|----------------|
+| Lazy loading | `loading="lazy"` en imágenes |
+| Dimensiones imágenes | `width` y `height` explícitos |
+| Animaciones 60fps | Solo transform/opacity |
+| SVGs optimizados | Inline en componentes |
+| Estructura assets | `/public/assets/images`, `/icons` |
+| Spinner optimizado | Animaciones separadas |
+| Micro-interacciones | Heart-beat, ripple |
+| Animaciones modales | Entrada/salida suaves |
+| Archivo animaciones globales | `animations.scss` |
+| **srcset** | Favicon con srcset en home.html |
+| **image-set()** | 3 backgrounds con WebP (home, register, quiz) |
+| **WebP optimizado** | 9 archivos WebP (3 imágenes × 3 tamaños) |
+| **Optimización GIFs** | 3 GIFs comprimidos (75KB, 181KB, 481KB) |
 
 ---
 
-## ✅ Fase 5 - Estado Final
 
-**Optimización Multimedia:** **100% COMPLETADA**
+## Fase 5 - Estado final.
+
+**Optimización Multimedia:**
 
 ### Logros:
-- ✅ **9 archivos WebP** generados con múltiples tamaños (400w, 800w, 1200w)
-- ✅ **Reducción total:** 9.1 MB → 371 KB (96% de reducción en PNG)
-- ✅ **GIFs optimizados:** Reducción del 22-91% según complejidad
-- ✅ **srcset implementado** en favicon (home.html)
-- ✅ **image-set() activado** en 3 páginas (home, register, quiz)
-- ✅ **Fallbacks incluidos** para navegadores legacy
-- ✅ **Animaciones CSS** optimizadas (60fps, solo transform/opacity)
-- ✅ **Lazy loading** en todas las imágenes de contenido
+- **9 archivos WebP** generados con múltiples tamaños (400w, 800w, 1200w).
+- **Reducción total:** 9.1 MB → 371 KB (96% de reducción en PNG).
+- **GIFs optimizados:** Reducción del 22-91% según complejidad.
+- **srcset implementado** en favicon (home.html).
+- **image-set() activado** en 3 páginas (home, register, quiz).
+- **Fallbacks incluidos** para navegadores legacy.
+- **Animaciones CSS** optimizadas (60fps, solo transform/opacity).
+- **Lazy loading** en todas las imágenes de contenido.
 
-### Archivos modificados:
-- `frontend/src/app/pages/home/home.scss` (activado image-set)
-- `frontend/src/app/pages/register/register.scss` (activado image-set)
-- `frontend/src/app/pages/quiz/quiz.scss` (activado image-set)
-- `frontend/public/Pokedex/optimized/` (9 archivos WebP nuevos)
