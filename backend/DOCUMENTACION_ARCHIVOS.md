@@ -1,13 +1,8 @@
-# Documentación de Archivos - Sistema de Imágenes
-
-**Proyecto:** Pokédex Backend  
-**Entrega 3 -** Upload de archivos (imágenes)  
-**Autor:** Pablo  
-**Fecha:** Diciembre 2024
+# Documentación de archivos - Sistema de imágenes.
 
 ---
 
-## ÍNDICE
+## ÍNDICE.
 
 1. [¿Qué es el Upload de Archivos?](#1-qué-es-el-upload-de-archivos)
 2. [¿Para qué sirve en el proyecto?](#2-para-qué-sirve-en-el-proyecto)
@@ -23,11 +18,11 @@
 
 ## 1. ¿QUÉ ES EL UPLOAD DE ARCHIVOS?
 
-### Definición
+### Definición:
 
 El **upload de archivos** es la capacidad de enviar archivos (imágenes, documentos, etc.) desde un cliente (navegador, app móvil) hacia el servidor para almacenarlos.
 
-### Analogía Simple
+### Analogía simple:
 
 Es como **adjuntar una foto en WhatsApp**:
 1. Seleccionas la foto de tu galería
@@ -45,7 +40,7 @@ En nuestra Pokédex:
 
 ## 2. ¿PARA QUÉ SIRVE EN EL PROYECTO?
 
-### Antes (Solo texto)
+### Antes (Solo texto):
 
 ```json
 {
@@ -59,7 +54,7 @@ En nuestra Pokédex:
 
 **Resultado:** Una Pokédex aburrida, solo con texto.
 
-### Después (Con imágenes)
+### Después (Con imágenes):
 
 ```json
 {
@@ -77,9 +72,9 @@ En nuestra Pokédex:
 
 ---
 
-## 3. ARQUITECTURA DEL SISTEMA
+## 3. ARQUITECTURA DEL SISTEMA.
 
-### Flujo de Upload
+### Flujo de upload:
 
 ```
 ┌──────────────┐      ┌────────────────┐      ┌─────────────────┐
@@ -106,7 +101,7 @@ En nuestra Pokédex:
        │                      │                        │
 ```
 
-### Flujo de Descarga
+### Flujo de descarga:
 
 ```
 ┌──────────────┐      ┌────────────────┐      ┌─────────────────┐
@@ -127,13 +122,13 @@ En nuestra Pokédex:
        │  [imagen binaria]    │                        │
        │<─────────────────────│                        │
        │                      │                        │
-       │  🖼️ Mostrar imagen   │                        │
+       │   Mostrar imagen     │                        │
        │                      │                        │
 ```
 
 ---
 
-## 4. ENDPOINTS DE ARCHIVOS
+## 4. ENDPOINTS DE ARCHIVOS.
 
 ### POST /api/pokemon/{id}/imagen
 
@@ -204,7 +199,7 @@ Imagen eliminada exitosamente
 
 ---
 
-## 5. VALIDACIONES IMPLEMENTADAS
+## 5. VALIDACIONES IMPLEMENTADAS.
 
 ### Validaciones de Seguridad
 
@@ -241,7 +236,7 @@ if (!extension.matches("\\.(jpg|jpeg|png|gif)$")) {
 ```
 ---
 
-## 6. CLASES IMPLEMENTADAS
+## 6. CLASES IMPLEMENTADAS.
 
 ### Descripción de Cada Clase
 
@@ -257,7 +252,7 @@ if (!extension.matches("\\.(jpg|jpeg|png|gif)$")) {
 ---
 
 
-## 7. CÓMO USAR EL SISTEMA
+## 7. CÓMO USAR EL SISTEMA.
 
 ### Subir una imagen
 
@@ -306,7 +301,7 @@ Headers:
 
 ---
 
-## 8. EJEMPLOS PRÁCTICOS
+## 8. EJEMPLOS PRÁCTICOS.
 
 ### Ejemplo 1: Subir imagen de Pikachu
 
@@ -362,7 +357,7 @@ file: squirtle.png
 
 ---
 
-## 9. INTEGRACIÓN CON FRONTEND
+## 9. INTEGRACIÓN CON FRONTEND.
 
 ### Uso en React
 
@@ -426,7 +421,7 @@ function UploadImageForm({ pokemonId, token }) {
 
 ---
 
-## 📚 RESUMEN
+## RESUMEN.
 
 | Concepto | Descripción |
 |----------|-------------|
@@ -435,7 +430,3 @@ function UploadImageForm({ pokemonId, token }) {
 | **imagenUrl** | Campo que guarda la ruta de la imagen |
 | **Carpeta uploads** | Donde se guardan físicamente las imágenes |
 | **Validaciones** | Tipo, tamaño, extensión de archivos |
-
----
-
-**Sistema de archivos completamente funcional.** 📁✅

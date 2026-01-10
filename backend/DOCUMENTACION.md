@@ -1,10 +1,5 @@
 # Pokédex Backend.
 
-**Proyecto:** Pokédex Backend API REST  
-**Tecnología:** Spring Boot 3.2.1 + MySQL 8.0  
-**Autor:** Pablo  
-**Fecha:** Diciembre 2024
-
 ---
 
 ## ÍNDICE
@@ -25,7 +20,7 @@
 
 ## 1. INTRODUCCIÓN.
 
-### 1.1 Descripción del Proyecto:
+### 1.1 Descripción del proyecto:
 
 Sistema backend para gestión de una Pokédex digital que permite:
 - Consultar información detallada de Pokémon
@@ -34,7 +29,7 @@ Sistema backend para gestión de una Pokédex digital que permite:
 - Visualizar y crear cadenas evolutivas
 - Validar datos según reglas de negocio
 
-### 1.2 Tecnologías Utilizadas
+### 1.2 Tecnologías utilizadas:
 
 | Componente | Tecnología | Versión |
 |-----------|------------|---------|
@@ -45,7 +40,7 @@ Sistema backend para gestión de una Pokédex digital que permite:
 | Build Tool | Maven | 3.x |
 | IDE | IntelliJ IDEA | 2024+ |
 
-### 1.3 Características Principales
+### 1.3 Características principales:
 
 - API REST completa con 10+ endpoints
 - CRUD completo para todas las entidades
@@ -58,9 +53,9 @@ Sistema backend para gestión de una Pokédex digital que permite:
 
 ## 2. ARQUITECTURA DEL SISTEMA.
 
-### 2.1 Patrón Arquitectónico:
+### 2.1 Patrón arquitectónico.
 
-**Arquitectura en Capas (Layered Architecture)**
+**Arquitectura en capas (Layered Architecture):**
 
 ```
                              ┌─────────────────────────────────────┐
@@ -92,7 +87,7 @@ Sistema backend para gestión de una Pokédex digital que permite:
 
 ## 3. BASE DE DATOS.
 
-### 3.1 Descripción de Tablas
+### 3.1 Descripción de tablas:
 
 #### **Pokemon**
 Tabla principal que almacena información básica de cada Pokémon.
@@ -422,7 +417,7 @@ public interface TipoRepository extends JpaRepository<Tipo, Integer> {
 }
 ```
 
-### 6.3 Otros Repositorios
+### 6.3 Otros repositorios:
 
 - **EstadisticasRepository:** `Optional<Estadisticas> findByIdPokemon(Integer idPokemon)`
 - **EvolucionRepository:** `List<Evolucion> findByPokemonOrigenId(Integer id)`
@@ -430,7 +425,7 @@ public interface TipoRepository extends JpaRepository<Tipo, Integer> {
 
 ---
 
-## 7. SERVICIOS
+## 7. SERVICIOS.
 
 Capa de lógica de negocio que implementa las reglas y validaciones.
 
@@ -487,7 +482,7 @@ public class TipoService {
 
 ---
 
-## 8. CONTROLADORES
+## 8. CONTROLADORES.
 
 ### 8.1 PokemonController.java
 
@@ -554,11 +549,11 @@ public class TipoController {
 
 ## 9. LÓGICA DE NEGOCIO.
 
-### 9.1 Reglas Implementadas:
+### 9.1 Reglas implementadas:
 
 #### **1. No Duplicados**
 ```
-❌ No permitir dos Pokémon con el mismo número de Pokédex
+No permitir dos Pokémon con el mismo número de Pokédex
 ```
 
 **Validación:**
@@ -568,10 +563,10 @@ if (pokemonRepository.findByNumero(dto.getNumero()).isPresent()) {
 }
 ```
 
-#### **2. Validación de Tipos**
+#### **2. Validación de tipos:**
 ```
-✅ Mínimo 1 tipo, máximo 2 tipos
-✅ Los tipos deben existir en la BD
+Mínimo 1 tipo, máximo 2 tipos
+Los tipos deben existir en la BD
 ```
 
 **Validación:**
@@ -589,9 +584,9 @@ for (String tipo : dto.getTipos()) {
 }
 ```
 
-#### **3. Validación de Estadísticas**
+#### **3. Validación de estadísticas**
 ```
-✅ Cada stat debe estar entre 1 y 255
+Cada stat debe estar entre 1 y 255
 ```
 
 **Validación:**
@@ -602,9 +597,9 @@ if (stats.getPs() < 1 || stats.getPs() > 255) {
 // Similar para ataque, defensa, velocidad, etc.
 ```
 
-#### **4. Validación de Generación**
+#### **4. Validación de generación**
 ```
-✅ Solo generaciones 1-9 permitidas
+Solo generaciones 1-9 permitidas
 ```
 
 **Validación:**
@@ -614,9 +609,9 @@ if (dto.getGeneracion() < 1 || dto.getGeneracion() > 9) {
 }
 ```
 
-#### **5. Validación de Evolución**
+#### **5. Validación de evolución**
 ```
-❌ Un Pokémon no puede evolucionar a sí mismo
+Un Pokémon no puede evolucionar a sí mismo
 ```
 
 **Validación:**
@@ -626,12 +621,12 @@ if (origenId.equals(destinoId)) {
 }
 ```
 
-#### **6. Eliminación en Cascada**
+#### **6. Eliminación en cascada:**
 ```
 Al eliminar un Pokémon, se eliminan automáticamente:
-  ✅ Estadísticas (1:1)
-  ✅ Relaciones de tipos (N:M)
-  ✅ Evoluciones (donde aparece)
+  Estadísticas (1:1)
+  Relaciones de tipos (N:M)
+  Evoluciones (donde aparece)
 ```
 
 **Implementación:**
@@ -657,7 +652,7 @@ public void eliminar(Integer id) {
 
 ---
 
-## 10. CONFIGURACIÓN
+## 10. CONFIGURACIÓN.
 
 ### 10.1 application.properties
 
@@ -714,9 +709,9 @@ logging.level.com.pokedex=DEBUG
 
 ---
 
-## 11. INSTALACIÓN Y EJECUCIÓN
+## 11. INSTALACIÓN Y EJECUCIÓN.
 
-### 11.1 Requisitos Previos
+### 11.1 Requisitos Previos:
 
 - Java 17 o superior
 - MySQL 8.0 o superior
@@ -797,12 +792,6 @@ server.port=8081
 
 ---
 
-## 📝 CONCLUSIÓN.
+## CONCLUSIÓN.
 
 Este documento describe la arquitectura completa del backend de la Pokédex, desde la base de datos hasta la API REST, incluyendo todas las validaciones de lógica de negocio implementadas.
-
----
-
-**Autor:** Pablo  
-**GitHub:** [https://github.com/pablitoclavito04/Pokedex](https://github.com/pablitoclavito04/Pokedex)  
-**Fecha:** Diciembre 2024

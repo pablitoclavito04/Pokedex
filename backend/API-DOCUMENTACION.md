@@ -18,9 +18,9 @@
 
 ---
 
-## 1. AUTENTICACIÓN
+## 1. AUTENTICACIÓN.
 
-### 1.0 Sistema de Seguridad JWT
+### 1.0 Sistema de seguridad JWT:
 
 La API utiliza **JWT (JSON Web Token)** para autenticación. Es como un "carnet digital" que identifica al usuario.
 
@@ -72,9 +72,9 @@ Content-Type: application/json
 ```
 
 **Validaciones:**
-- ✅ Username único (no repetido)
-- ✅ Email único y válido (contiene @)
-- ✅ Contraseña mínimo 6 caracteres
+- Username único (no repetido)
+- Email único y válido (contiene @)
+- Contraseña mínimo 6 caracteres
 
 **Errores:**
 - `400 Bad Request` - "El username ya está en uso"
@@ -420,11 +420,11 @@ Content-Type: application/json
 ```
 
 **Validaciones:**
-- ❌ Número no duplicado
-- ✅ Al menos 1 tipo, máximo 2
-- ✅ Tipos deben existir
-- ✅ Generación entre 1-9
-- ✅ Estadísticas entre 1-255
+- Número no duplicado
+- Al menos 1 tipo, máximo 2
+- Tipos deben existir
+- Generación entre 1-9
+- Estadísticas entre 1-255
 
 **Errores:**
 - `403 Forbidden` - Sin autenticación o token inválido
@@ -512,10 +512,10 @@ Pokémon eliminado exitosamente
 ```
 
 **Eliminación en cascada:**
-- ✅ Estadísticas
-- ✅ Relaciones de tipos
-- ✅ Evoluciones (origen y destino)
-- ✅ Imagen (si tiene)
+- Estadísticas
+- Relaciones de tipos
+- Evoluciones (origen y destino)
+- Imagen (si tiene)
 
 **Errores:**
 - `403 Forbidden` - Sin autenticación o no es ADMIN
@@ -556,8 +556,8 @@ Evolución creada exitosamente
 ```
 
 **Validaciones:**
-- ❌ No auto-evolución (origen ≠ destino)
-- ✅ Ambos Pokémon deben existir
+- No auto-evolución (origen ≠ destino)
+- Ambos Pokémon deben existir
 
 **Errores:**
 - `403 Forbidden` - Sin autenticación
@@ -699,9 +699,9 @@ Imagen subida exitosamente: pokemon_7.png
 ```
 
 **Validaciones:**
-- ✅ Solo imágenes (PNG, JPG, JPEG, GIF)
-- ✅ Tamaño máximo 5MB
-- ✅ El Pokémon debe existir
+- Solo imágenes (PNG, JPG, JPEG, GIF)
+- Tamaño máximo 5MB
+- El Pokémon debe existir
 
 **Errores:**
 - `403 Forbidden` - Sin autenticación
@@ -775,7 +775,7 @@ Imagen eliminada exitosamente
 
 ---
 
-## 5. CÓDIGOS DE ESTADO HTTP
+## 5. CÓDIGOS DE ESTADO HTTP.
 
 | Código | Significado | Cuándo se usa |
 |--------|-------------|---------------|
@@ -790,9 +790,9 @@ Imagen eliminada exitosamente
 
 ---
 
-## 6. EJEMPLOS DE USO
+## 6. EJEMPLOS DE USO.
 
-### 6.1 Ejemplo Completo: Flujo con Autenticación
+### 6.1 Ejemplo completo: flujo con autenticación:
 
 **1. Registrar usuario:**
 ```http
@@ -890,7 +890,7 @@ Authorization: Bearer TOKEN_ADMIN
 
 ---
 
-### 6.2 Ejemplo: Validaciones de Error
+### 6.2 Ejemplo: Validaciones de error
 
 **Error 1: POST sin autenticación**
 ```http
@@ -969,9 +969,9 @@ Authorization: Bearer TOKEN_USER
 
 ---
 
-## 7. MANEJO DE ERRORES
+## 7. MANEJO DE ERRORES.
 
-### 7.1 Formato de Respuestas de Error
+### 7.1 Formato de respuestas de error:
 
 **Errores de autenticación (401/403):**
 ```
@@ -993,7 +993,7 @@ Ya existe un Pokémon con el número 6
 Not Found (sin body)
 ```
 
-### 7.2 Mensajes de Error Comunes
+### 7.2 Mensajes de Error Comunes:
 
 | Error | Código | Mensaje |
 |-------|--------|---------|
@@ -1018,7 +1018,7 @@ Not Found (sin body)
 
 ---
 
-## 📝 NOTAS IMPORTANTES
+## NOTAS IMPORTANTES.
 
 1. **JWT Token expira en 24 horas** - Hacer login de nuevo para renovar
 2. **CORS está habilitado** para todos los orígenes (`*`) - cambiar en producción
@@ -1032,7 +1032,7 @@ Not Found (sin body)
 
 ---
 
-## 🧪 HERRAMIENTAS PARA PROBAR
+## HERRAMIENTAS PARA PROBAR.
 
 - **Navegador:** Para tests GET simples y ver imágenes
 - **Postman:** Cliente REST completo con soporte Multipart
@@ -1041,15 +1041,10 @@ Not Found (sin body)
 
 ---
 
-## 📚 RECURSOS ADICIONALES
+## RECURSOS ADICIONALES.
 
 - **Código fuente:** [GitHub](https://github.com/pablitoclavito04/Pokedex)
 - **Documentación técnica:** `DOCUMENTACION.md`
 - **Documentación de seguridad:** `DOCUMENTACION_SEGURIDAD.md`
 - **Documentación de archivos:** `DOCUMENTACION_ARCHIVOS.md`
 - **Resultados de pruebas:** `RESULTADOS_PRUEBAS_ENTREGA3.md`
-
----
-
-**Autor:** Pablo
-**Última actualización:** Diciembre 2024

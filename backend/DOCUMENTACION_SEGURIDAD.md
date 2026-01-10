@@ -1,10 +1,5 @@
 # Documentación de Seguridad - Sistema JWT
 
-**Proyecto:** Pokédex Backend  
-**Entrega 3 -** Seguridad completa con JWT  
-**Autor:** Pablo  
-**Fecha:** Diciembre 2024
-
 ---
 
 ## ÍNDICE
@@ -24,11 +19,11 @@
 
 ## 1. ¿QUÉ ES JWT?
 
-### Definición
+### Definición:
 
 **JWT (JSON Web Token)** es un estándar abierto (RFC 7519) que define una forma compacta y segura de transmitir información entre dos partes como un objeto JSON.
 
-### Analogía Simple
+### Analogía simple:
 
 Imagina que JWT es como un **carnet de identidad digital**:
 
@@ -48,7 +43,7 @@ Imagina que JWT es como un **carnet de identidad digital**:
 - El servidor verifica que el "carnet" es auténtico
 - Si es válido y tienes permisos, te permite la acción
 
-### Estructura de un Token JWT
+### Estructura de un token JWT:
 
 Un token JWT tiene 3 partes separadas por puntos:
 
@@ -66,41 +61,41 @@ eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInN1YiI6InBhYmxvIn0.abc123...
 
 ## 2. ¿POR QUÉ NECESITAMOS SEGURIDAD?
 
-### Sin Seguridad (Es peligroso)
+### Sin seguridad (Es peligroso):
 
 ```
 CUALQUIER PERSONA puede:
-❌ GET    /api/pokemon         → Ver todos los Pokémon
-❌ POST   /api/pokemon         → Crear Pokémon falsos
-❌ PUT    /api/pokemon/1       → Modificar cualquier dato
-❌ DELETE /api/pokemon/1       → Eliminar Pokémon
+GET    /api/pokemon         → Ver todos los Pokémon
+POST   /api/pokemon         → Crear Pokémon falsos
+PUT    /api/pokemon/1       → Modificar cualquier dato
+DELETE /api/pokemon/1       → Eliminar Pokémon
 
 Resultado: Base de datos destruida en minutos
 ```
 
-### Con Seguridad (Está protegido)
+### Con seguridad (Está protegido):
 
 ```
 VISITANTE (sin login):
-✅ GET    /api/pokemon         → Ver Pokémon
-❌ POST   /api/pokemon         → 403 Forbidden
-❌ DELETE /api/pokemon/1       → 403 Forbidden
+GET    /api/pokemon         → Ver Pokémon
+POST   /api/pokemon         → 403 Forbidden
+DELETE /api/pokemon/1       → 403 Forbidden
 
 USUARIO (con login):
-✅ GET    /api/pokemon         → Ver Pokémon
-✅ POST   /api/pokemon         → Crear Pokémon
-✅ PUT    /api/pokemon/1       → Editar Pokémon
-❌ DELETE /api/pokemon/1       → 403 Forbidden
+GET    /api/pokemon         → Ver Pokémon
+POST   /api/pokemon         → Crear Pokémon
+PUT    /api/pokemon/1       → Editar Pokémon
+DELETE /api/pokemon/1       → 403 Forbidden
 
 ADMIN (con login + rol admin):
-✅ TODO permitido
+TODO permitido
 ```
 
 ---
 
-## 3. ARQUITECTURA DE SEGURIDAD
+## 3. ARQUITECTURA DE SEGURIDAD.
 
-### Diagrama de Componentes
+### Diagrama de componentes:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -132,7 +127,7 @@ ADMIN (con login + rol admin):
               │                             │
               ▼                             ▼
     ┌─────────────────────┐         ┌─────────────────────┐
-    │    ✅ PERMITIDO     │         │   ❌ DENEGADO       │
+    │     PERMITIDO       │         │      DENEGADO       │
     │                     │         │                     │
     │  → Controller       │         │  → 403 Forbidden    │
     │  → Service          │         │                     │
@@ -143,9 +138,9 @@ ADMIN (con login + rol admin):
 
 ---
 
-## 4. SISTEMA DE ROLES
+## 4. SISTEMA DE ROLES.
 
-### Roles Implementados
+### Roles implementados:
 
 | Rol | Descripción | Permisos |
 |-----|-------------|----------|
@@ -153,7 +148,7 @@ ADMIN (con login + rol admin):
 | **USER** | Usuario registrado | Lectura + Crear + Editar |
 | **ADMIN** | Administrador | Todo (incluyendo eliminar) |
 
-### Tabla de Permisos por Endpoint
+### Tabla de permisos por endpoint:
 
 | Endpoint | Método | Sin login | USER | ADMIN |
 |----------|--------|-----------|------|-------|
@@ -170,9 +165,9 @@ ADMIN (con login + rol admin):
 
 ---
 
-## 5. FLUJO DE AUTENTICACIÓN
+## 5. FLUJO DE AUTENTICACIÓN.
 
-### Registro de Usuario
+### Registro de usuario:
 
 ```
 ┌──────────┐                              ┌──────────┐
@@ -196,7 +191,7 @@ ADMIN (con login + rol admin):
      │                                         │
 ```
 
-### Login
+### Login:
 
 ```
 ┌──────────┐                              ┌──────────┐
@@ -219,7 +214,7 @@ ADMIN (con login + rol admin):
      │                                         │
 ```
 
-### Petición Protegida
+### Petición protegida:
 
 ```
 ┌──────────┐                              ┌──────────┐
@@ -246,7 +241,7 @@ ADMIN (con login + rol admin):
 
 ---
 
-## 6. ENDPOINTS DE AUTENTICACIÓN
+## 6. ENDPOINTS DE AUTENTICACIÓN.
 
 ### POST /api/auth/register
 
@@ -318,9 +313,9 @@ Token válido. Usuario: pablo, Rol: USER
 
 ---
 
-## 7. PROTECCIÓN DE ENDPOINTS
+## 7. PROTECCIÓN DE ENDPOINTS.
 
-### Cómo usar el token
+### Cómo usar el token:
 
 Para acceder a endpoints protegidos, añadir el header:
 
@@ -350,9 +345,9 @@ Content-Type: application/json
 ---
 
 
-## 8. CLASES IMPLEMENTADAS
+## 8. CLASES IMPLEMENTADAS.
 
-### Estructura de Archivos
+### Estructura de archivos:
 
 ```
 
@@ -377,7 +372,7 @@ src/main/java/
 
 ```
 
-### Descripción de Cada Clase
+### Descripción de cada clase:
 
 | Clase | Responsabilidad |
 |-------|-----------------|
@@ -394,7 +389,7 @@ src/main/java/
 
 ---
 
-## 9. CÓMO USAR EL SISTEMA
+## 9. CÓMO USAR EL SISTEMA.
 
 ### Paso 1: Registrar usuario
 
@@ -435,7 +430,7 @@ POST /api/auth/login
 
 ---
 
-## 10. EJEMPLOS PRÁCTICOS
+## 10. EJEMPLOS PRÁCTICOS.
 
 ### Ejemplo 1: Flujo completo de usuario
 
