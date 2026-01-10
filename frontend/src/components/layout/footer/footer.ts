@@ -46,17 +46,17 @@ export class FooterComponent {
   socialLinks = [
     {
       label: 'GitHub',
-      url: 'https://github.com/tu-usuario',
+      url: 'https://github.com/pablitoclavito04',
       icon: 'github'
     },
     {
       label: 'Twitter',
-      url: 'https://twitter.com/tu-usuario',
+      url: 'https://x.com/PabloSanzA27140',
       icon: 'twitter'
     },
     {
       label: 'LinkedIn',
-      url: 'https://linkedin.com/in/tu-usuario',
+      url: 'https://www.linkedin.com/in/pablo-sanz-aznar-56a2bb399/',
       icon: 'linkedin'
     }
   ];

@@ -81,8 +81,10 @@
         <ul class="footer__social-list">
           @for (social of socialLinks; track social.label) {
             <li class="footer__social-item">
-              <button
-                 type="button"
+              <a
+                 [href]="social.url"
+                 target="_blank"
+                 rel="noopener noreferrer"
                  class="footer__social-link"
                  [ngClass]="{
                    'footer__social-link--github': social.icon === 'github',
@@ -112,7 +114,7 @@
                   </svg>
                 }
 
-              </button>
+              </a>
             </li>
           }
         </ul>
