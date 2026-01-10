@@ -47,6 +47,16 @@ public class SecurityConfig {
                         // Health check (para ping/uptime)
                         .requestMatchers("/api/health").permitAll()
 
+                        // Actuator - Monitoreo y salud
+                        .requestMatchers("/actuator/**").permitAll()
+
+                        // Swagger / OpenAPI - Documentación
+                        .requestMatchers("/swagger-ui/**").permitAll()
+                        .requestMatchers("/swagger-ui.html").permitAll()
+                        .requestMatchers("/v3/api-docs/**").permitAll()
+                        .requestMatchers("/swagger-resources/**").permitAll()
+                        .requestMatchers("/webjars/**").permitAll()
+
                         // Autenticación
                         .requestMatchers("/api/auth/**").permitAll()
 
