@@ -950,99 +950,91 @@ constructor() {
 
 ## 6.9 Capturas de pantalla.
 
-### Pokédex List
+### Página de pokédex:
 
-#### Modo Oscuro
-![Pokédex - Modo Oscuro](./screenshots/pokedex-dark.png)
+#### Modo oscuro:
+<img width="1738" height="1346" alt="image" src="https://github.com/user-attachments/assets/c4e07769-543b-49b4-b53d-2876f25b113a" />
+
 
 **Elementos destacados:**
 - Filtros con fondo `#20283a`
 - Cards de Pokémon con elevación (`--shadow-md`)
 - Badges de tipos con colores vibrantes sobre fondo oscuro
-- Hover state con `--bg-hover` (morado transparente)
 
-#### Modo Claro
-![Pokédex - Modo Claro](./screenshots/pokedex-light.png)
+#### Modo claro:
+<img width="1756" height="1326" alt="image" src="https://github.com/user-attachments/assets/2cc78530-b55c-40d1-81a4-251a0706884d" />
+
 
 **Elementos destacados:**
 - Filtros con fondo `#ffffff`
 - Bordes más marcados (`--border-primary`)
 - Badges de tipos con bordes sutiles
-- Hover state menos intenso
 
 ---
 
-### Pokémon Detail
+### Página de detalles del Pokémon:
 
-#### Modo Oscuro
-![Detail - Modo Oscuro](./screenshots/detail-dark.png)
+#### Modo oscuro:
+<img width="1662" height="1135" alt="image" src="https://github.com/user-attachments/assets/d731ad3a-63eb-4048-bc30-54d0314a010b" />
+
 
 **Elementos destacados:**
 - Hero section con gradiente oscuro
-- Stats bars con colores semánticos vibrantes
+- Sección de estadísticas con colores semánticos vibrantes
 - Tabs de navegación con estados hover claros
 - Texto secundario legible (`#cbd5e1`)
 
-#### Modo Claro
-![Detail - Modo Claro](./screenshots/detail-light.png)
+#### Modo claro:
+<img width="1723" height="1169" alt="image" src="https://github.com/user-attachments/assets/a04d8237-2714-4d3b-8892-3ecaabc2c874" />
+
 
 **Elementos destacados:**
 - Hero section con gradiente suave
-- Stats bars con colores menos saturados
+- Sección de estadísticas con colores menos saturados
 - Bordes más definidos en tabs
 - Contraste alto para accesibilidad
 
 ---
 
-### Página de Configuración del Quiz
+### Página de configuración del Quiz:
 
-#### Modo Oscuro
-![Quiz Setup - Modo Oscuro](./screenshots/quiz-setup-dark.png)
+#### Modo oscuro:
+<img width="2492" height="1285" alt="image" src="https://github.com/user-attachments/assets/430a2cb2-f75f-4ebd-98d2-8802ab207848" />
 
-**Elementos destacados:**
-- Fondo de imagen con overlay oscuro semitransparente
-- Card de configuración con fondo `#1a1f2e` y elevación
-- Selectores de dificultad y número de preguntas con estados hover
-- Botones con colores vibrantes sobre fondo oscuro
-- Iconos y badges con alta visibilidad
-- Texto secundario legible (`#cbd5e1`)
-
-#### Modo Claro
-![Quiz Setup - Modo Claro](./screenshots/quiz-setup-light.png)
 
 **Elementos destacados:**
-- Fondo de imagen con overlay claro sutil
-- Card de configuración con fondo blanco y sombra suave
-- Selectores con bordes definidos y estados hover sutiles
-- Botones con contraste alto para accesibilidad
-- Iconos con colores menos saturados
-- Texto con contraste WCAG AAA
+- Fondo de imagen con overlay oscuro semitransparente.
+- Card de configuración con fondo `#1a1f2e` y elevación.
+- Selectores de dificultad y número de preguntas con estados hover.
+- Botones con colores vibrantes sobre fondo oscuro.
+- Iconos y badges con alta visibilidad.
+
+#### Modo claro:
+<img width="2493" height="1252" alt="image" src="https://github.com/user-attachments/assets/2121d2a8-525e-4c9a-8f84-6fe38e8c0b9a" />
+
+
+**Elementos destacados:**
+- Fondo de imagen con overlay claro sutil.
+- Card de configuración con fondo blanco y sombra suave.
+- Selectores con bordes definidos y estados hover sutiles.
+- Botones con contraste alto para accesibilidad.
+- Iconos con colores menos saturados.
 
 ---
 
-### Theme Switcher en Header
+### Theme Switcher en header:
 
-#### Estado en Modo Oscuro
-![Theme Switcher Dark](./screenshots/theme-switcher-dark.png)
+#### Estado en modo oscuro:
+<img width="159" height="109" alt="image" src="https://github.com/user-attachments/assets/4834fb07-a802-4724-b6d3-1a23d2087cb6" />
 
-**Muestra:** Icono de Sol (☀️) - indica que al hacer click cambiará a modo claro
 
-#### Estado en Modo Claro
-![Theme Switcher Light](./screenshots/theme-switcher-light.png)
+**Muestra:** Icono de Sol - indica que al hacer click cambiará a modo claro.
 
-**Muestra:** Icono de Luna (🌙) - indica que al hacer click cambiará a modo oscuro
+#### Estado en modo claro:
+<img width="115" height="96" alt="image" src="https://github.com/user-attachments/assets/6d9d8fa7-5fbf-4ac6-af48-efeb2167df0e" />
 
----
 
-### Transición entre Temas
-
-![Transición](./screenshots/theme-transition.gif)
-
-**Demo animada:**
-- Duración: 300ms.
-- Easing: ease.
-- Propiedades: background-color, color, border-color, box-shadow.
-- Efecto suave sin parpadeos.
+**Muestra:** Icono de Luna - indica que al hacer click cambiará a modo oscuro.
 
 ---
 
