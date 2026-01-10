@@ -143,6 +143,10 @@ $difficulty-expert: #ef4444;
     border-radius: $border-radius-2xl;
   }
 
+  @include respond-to('md') {
+    margin-top: 100px; // Espacio para el botón "Volver" posicionado absolutamente
+  }
+
   // ========== HEADER ==========
   &__header {
     text-align: center;
