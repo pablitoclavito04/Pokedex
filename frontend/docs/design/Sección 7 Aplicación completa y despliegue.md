@@ -557,8 +557,10 @@ frontend/src/styles/
 
 #### Tablet 768px:
 
-![Quiz Tablet Dark](./screenshots/final/quiz-tablet-768-dark.png)
-![Quiz Tablet Light](./screenshots/final/quiz-tablet-768-light.png)
+<img width="1108" height="1166" alt="image" src="https://github.com/user-attachments/assets/68b0b95d-7331-4977-b4c7-228e31632075" />
+
+<img width="1106" height="1152" alt="image" src="https://github.com/user-attachments/assets/9c6a38e7-d04d-4200-a824-b36b47d59fe2" />
+
 
 #### Desktop 1280px:
 
