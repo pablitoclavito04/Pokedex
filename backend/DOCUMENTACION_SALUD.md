@@ -161,7 +161,7 @@ springdoc.swagger-ui.tagsSorter=alpha
 | **Swagger UI** | https://pokedex-backend-mwcz.onrender.com/swagger-ui.html |
 | **OpenAPI JSON** | https://pokedex-backend-mwcz.onrender.com/v3/api-docs |
 
-### Desarrollo local:
+### Desarrollo local (Los siguientes enlaces solo funcionan cuando se tiene el backend corriendo):
 
 | Recurso | URL |
 |---------|-----|
