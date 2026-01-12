@@ -3177,10 +3177,10 @@ ngOnDestroy(): void {
 
 | Componente | createElement() | appendChild() | removeChild() | cloneNode() | ngOnDestroy() |
 |-----------|----------------|---------------|---------------|-------------|---------------|
-| DomDemoComponent | ✅ | ✅ | ✅ | ✅ | ✅ |
-| DynamicListComponent | ✅ | ✅ | ✅ | ❌ | ✅ |
-| ToastContainerComponent | ✅ | ✅ | ✅ | ❌ | ✅ |
-| ParticleSystemComponent | ✅ | ✅ | ✅ | ❌ | ✅ |
+| DomDemoComponent | Si | Si | Si | Si | Si |
+| DynamicListComponent | Si | Si | Si | No | Si |
+| ToastContainerComponent | Si | Si | Si | No | Si |
+| ParticleSystemComponent | Si | Si | Si | No | Si |
 
 **Total:** 4 componentes con manipulación completa del DOM.
 
