@@ -8,6 +8,9 @@
 - [Fase 4: Sistema de Rutas y Navegación](#fase-4-sistema-de-rutas-y-navegación)
 - [Fase 5: Servicios y Comunicación HTTP](#fase-5-servicios-y-comunicación-http)
 - [Fase 6: Gestión de estado y actualización dinámica](#fase-6-gestión-de-estado-y-actualización-dinámica)
+- [Rúbricas de Evaluación](#rúbricas-de-evaluación)
+  - [Rúbrica 1.3: Creación y Eliminación de Elementos del DOM (10/10)](#rúbrica-13-creación-y-eliminación-de-elementos-del-dom-1010)
+  - [Rúbricas 2.3 y 2.4: Prevención de Eventos y @HostListener (20/20)](#rúbricas-23-y-24-prevención-de-eventos-y-hostlistener-2020)
 
 ---
 
@@ -3003,3 +3006,348 @@ frontend/src/
 - Documentación completa del patrón de estado elegido.
 - Comparativa de opciones evaluadas (Signals vs BehaviorSubject vs NgRx).
 - Estrategias de optimización aplicadas y medidas.
+
+---
+
+# Rúbricas de evaluación
+
+## Rúbrica 1.3: Creación y eliminación de elementos del DOM:
+
+### Requisitos cumplidos:
+- Crear elementos con `createElement()` y `appendChild()` usando Renderer2 en 3+ componentes.
+- Eliminar elementos con `removeChild()`
+- Implementar clonación de nodos.
+- Gestionar correctamente la limpieza en `ngOnDestroy()`
+
+### Página de demostración:
+**Ruta:** `/dom-demo`
+
+Esta página contiene todas las demostraciones interactivas de manipulación del DOM.
+
+### Componentes implementados:
+
+#### 1. DomDemoComponent (Página Principal)
+**Archivo:** `src/app/pages/dom-demo/dom-demo.ts`
+
+**Funcionalidades:**
+- **Creación de tarjetas dinámicas** (líneas 75-145)
+  - `createElement()` para crear divs, headers, títulos, contenido, footer.
+  - `appendChild()` para ensamblar la estructura
+  - `addClass()` para agregar clases CSS.
+  - `createText()` para crear nodos de texto.
+  - `setStyle()` para animaciones de entrada.
+  - `listen()` para event listeners seguros.
+
+- **Eliminación de elementos** (líneas 150-173)
+  - `removeChild()` para eliminar del DOM.
+  - Animaciones de salida antes de eliminar.
+  - Gestión de referencias para evitar memory leaks.
+
+- **Clonación de nodos** (líneas 183-210)
+  - `cloneNode(true)` para clonar con deep copy.
+  - Modificación del clon para diferenciarlo.
+  - Re-asignación de event listeners.
+
+- **Limpieza del ciclo de vida** (líneas 270-291)
+  - `ngOnDestroy()` implementado.
+  - Limpieza de todos los elementos creados.
+  - Limpieza de intervalos y timeouts.
+
+**Ejemplo de código:**
+```typescript
+createCard(): void {
+  // 1. Crear elementos
+  const card = this.renderer.createElement('div');
+  const header = this.renderer.createElement('div');
+  const title = this.renderer.createElement('h3');
+
+  // 2. Agregar clases
+  this.renderer.addClass(card, 'dynamic-card');
+
+  // 3. Crear texto
+  const titleText = this.renderer.createText(this.cardTitle);
+  this.renderer.appendChild(title, titleText);
+
+  // 4. Ensamblar
+  this.renderer.appendChild(header, title);
+  this.renderer.appendChild(card, header);
+
+  // 5. Agregar al DOM
+  this.renderer.appendChild(this.container.nativeElement, card);
+
+  // 6. Guardar referencia
+  this.createdElements.push(card);
+}
+
+removeCard(card: any): void {
+  this.renderer.removeChild(this.container.nativeElement, card);
+}
+
+cloneFirstCard(): void {
+  const firstCard = this.container.nativeElement.children[0];
+  const clonedCard = firstCard.cloneNode(true);
+  this.renderer.appendChild(this.cloneContainer.nativeElement, clonedCard);
+}
+
+ngOnDestroy(): void {
+  this.createdElements.forEach(element => {
+    if (element && element.parentNode) {
+      this.renderer.removeChild(element.parentNode, element);
+    }
+  });
+  this.createdElements = [];
+}
+```
+
+#### 2. DynamicListComponent
+**Archivo:** `src/components/demos/dynamic-list/dynamic-list.ts`
+
+**Funcionalidades:**
+- Creación de elementos `<li>` dinámicamente (líneas 37-82).
+- Eliminación individual con animación (líneas 87-110).
+- Eliminación masiva (líneas 115-119).
+- Limpieza en `ngOnDestroy()` (líneas 137-150).
+
+#### 3. ToastContainerComponent
+**Archivo:** `src/components/demos/toast-container/toast-container.ts`
+
+**Funcionalidades:**
+- Creación de notificaciones toast (líneas 33-88).
+- Eliminación automática después de 3 segundos.
+- Eliminación manual con botón.
+- Gestión de múltiples toasts simultáneos.
+- Limpieza de timeouts en `ngOnDestroy()` (líneas 164-180).
+
+#### 4. ParticleSystemComponent
+**Archivo:** `src/components/demos/particle-system/particle-system.ts`
+
+**Funcionalidades:**
+- Creación masiva de partículas (10-20 elementos simultáneos).
+- Aplicación de estilos dinámicos aleatorios (líneas 56-68).
+- Animaciones CSS controladas desde TypeScript.
+- Eliminación automática al finalizar animación.
+- Gestión de múltiples timers en `ngOnDestroy()` (líneas 161-176).
+
+### Técnicas de Renderer2 utilizadas:
+
+**Creación de elementos:**
+1. `createElement(tagName)` - Crear elementos HTML.
+2. `createText(text)` - Crear nodos de texto.
+3. `appendChild(parent, child)` - Agregar al DOM.
+4. `addClass(element, className)` - Agregar clases CSS.
+5. `removeClass(element, className)` - Remover clases CSS.
+
+**Modificación de elementos:**
+6. `setStyle(element, style, value)` - Aplicar estilos inline.
+7. `setAttribute(element, attr, value)` - Configurar atributos.
+8. `listen(element, event, callback)` - Event listeners seguros.
+
+**Eliminación de elementos:**
+9. `removeChild(parent, child)` - Eliminar del DOM.
+
+**Clonación:**
+10. `cloneNode(deep)` - Clonar nodos existentes.
+
+**Gestión del ciclo de vida:**
+11. `ngOnDestroy()` - Limpieza correcta de elementos y listeners.
+
+### Ventajas de usar Renderer2
+
+1. **Seguridad**
+   - Protección contra XSS (Cross-Site Scripting).
+   - Sanitización automática de contenido.
+
+2. **Compatibilidad con SSR (Server-Side Rendering)**
+   - El código funciona tanto en navegador como en servidor.
+   - No depende de `document` o `window` directamente.
+
+3. **Compatibilidad cross-platform**
+   - Funciona en Web Workers.
+   - Funciona en aplicaciones mobile (Ionic, NativeScript).
+
+4. **Mejores prácticas Angular**
+   - Recomendado oficialmente por el equipo de Angular.
+   - Mejor integración con el ciclo de vida de Angular.
+
+5. **Memory leak prevention**
+   - Gestión automática de event listeners.
+   - Limpieza correcta en `ngOnDestroy()`
+
+### Resumen de implementación:
+
+| Componente | createElement() | appendChild() | removeChild() | cloneNode() | ngOnDestroy() |
+|-----------|----------------|---------------|---------------|-------------|---------------|
+| DomDemoComponent | ✅ | ✅ | ✅ | ✅ | ✅ |
+| DynamicListComponent | ✅ | ✅ | ✅ | ❌ | ✅ |
+| ToastContainerComponent | ✅ | ✅ | ✅ | ❌ | ✅ |
+| ParticleSystemComponent | ✅ | ✅ | ✅ | ❌ | ✅ |
+
+**Total:** 4 componentes con manipulación completa del DOM.
+
+### Cumplimiento de requisitos
+
+**Requisito 1: createElement() y appendChild() en 3+ componentes**
+**Cumplido** - 4 componentes implementados.
+
+**Requisito 2: removeChild() para eliminación**
+**Cumplido** - Todos los componentes eliminan elementos correctamente.
+
+**Requisito 3: Clonación de nodos**
+**Cumplido** - DomDemoComponent implementa `cloneNode(true)`
+
+**Requisito 4: Gestión del ciclo de vida con ngOnDestroy()**
+**Cumplido** - Todos los componentes limpian correctamente.
+
+---
+
+## Rúbricas 2.3 y 2.4: Prevención de Eventos y @HostListener.
+
+### Rúbrica 2.3: Prevención y control de propagación de eventos:
+
+#### Implementación de `preventDefault()` en formularios
+
+**1. Login Page**
+- **Archivo**: `src/app/pages/login/login.ts` (líneas 107-109).
+- **Prueba**: Ir a `/login`, enviar formulario → la página NO se recarga.
+
+**2. Register Page**
+- **Archivo**: `src/app/pages/register/register.ts` (líneas 286-288).
+- **Prueba**: Ir a `/register`, completar 3 pasos → la página NO se recarga.
+
+**3. Forms Demo - Formulario de registro**
+- **Archivo**: `src/app/pages/forms-demo/forms-demo.ts` (líneas 171-175)
+- **Prueba**: Ir a `/forms-demo`, enviar registro → muestra toast sin recargar.
+
+**4. Forms Demo - Formulario de factura**
+- **Archivo**: `src/app/pages/forms-demo/forms-demo.ts` (líneas 317-321).
+- **Prueba**: Ir a `/forms-demo`, enviar factura → sin recarga.
+
+#### Implementación de `stopPropagation()` en Modal
+
+**5. Modal Component**
+- **Archivo**: `src/components/shared/modal/modal.ts` (líneas 72-75)
+- **HTML**: `src/components/shared/modal/modal.html` (línea 18)
+- **Prueba**: Abrir modal, click DENTRO → no cierra; click FUERA → cierra.
+
+#### Implementación de `preventDefault() + stopPropagation()` en Custom Select
+
+**6 y 7. Custom Select - Scrollbar (mouse y touch)**
+- **Archivo**: `src/components/shared/custom-select/custom-select.ts`
+- **Mouse**: líneas 171-176.
+- **Touch**: líneas 187-193.
+- **Prueba**: Arrastrar scrollbar del select → texto no se selecciona, dropdown no se cierra.
+
+#### Implementación de `preventDefault() + stopPropagation()` en Accordion
+
+**8-12. Accordion - 5 teclas de navegación**
+- **Archivo**: `src/components/shared/accordion/accordion.ts` (líneas 107-153)
+- **Teclas**: ArrowUp, ArrowDown, Home, End, Enter/Space.
+- **Prueba**: Navegar con teclado → página no hace scroll, eventos no se propagan.
+
+**Resumen 2.3:**
+- `preventDefault()` en 4 formularios.
+- `stopPropagation()` en 1 modal.
+- `preventDefault() + stopPropagation()` en 2 contextos de custom-select.
+- `preventDefault() + stopPropagation()` en 5 teclas de accordion.
+
+**Total: 12 contextos diferentes** 
+
+---
+
+### Rúbrica 2.4: Eventos Globales con @HostListener:
+
+#### `@HostListener('document:click', ['$event'])`
+
+**A) Header Component - Click fuera para cerrar menú**
+- **Archivo**: `src/components/layout/header/header.ts` (líneas 197-210).
+- **Prueba**: Modo móvil, abrir menú, click fuera → cierra automáticamente.
+
+**B) Custom Select Component - Click fuera para cerrar dropdown**
+- **Archivo**: `src/components/shared/custom-select/custom-select.ts` (líneas 84-89)
+- **Prueba**: Abrir select, click fuera → cierra automáticamente.
+
+#### `@HostListener('document:keydown.escape')`
+
+**Implementado en 4 componentes:**
+
+**A) Modal Component**
+- **Archivo**: `src/components/shared/modal/modal.ts` (líneas 85-90).
+- **Prueba**: Abrir modal, presionar ESC → cierra.
+
+**B) Header Component**
+- **Archivo**: `src/components/layout/header/header.ts` (líneas 187-192).
+- **Prueba**: Abrir menú móvil, presionar ESC → cierra.
+
+**C) Custom Select Component**
+- **Archivo**: `src/components/shared/custom-select/custom-select.ts` (líneas 92-95).
+- **Prueba**: Abrir dropdown, presionar ESC → cierra.
+
+**D) Tooltip Component**
+- **Archivo**: `src/components/shared/tooltip/tooltip.ts` (líneas 130-135).
+- **Prueba**: Mostrar tooltip, presionar ESC → oculta.
+
+#### `@HostListener('window:resize')`
+
+**A) Modal Component - Ajustar altura**
+- **Archivo**: `src/components/shared/modal/modal.ts` (líneas 153-168).
+- **Prueba**: Abrir modal, redimensionar ventana → se ajusta automáticamente.
+
+**B) Custom Select Component - Reposicionar dropdown**
+- **Archivo**: `src/components/shared/custom-select/custom-select.ts` (líneas 102-112).
+- **Prueba**: Abrir dropdown, redimensionar → se reposiciona.
+
+#### Eventos adicionales implementados:
+
+**Modal - Prevenir scroll del body**
+- `@HostListener('document:wheel', ['$event'])` (líneas 96-108).
+
+**Modal - Trap Focus**
+- `@HostListener('document:keydown', ['$event'])` para tecla Tab (líneas 114-146).
+
+**Tooltip - Eventos de interacción**
+- `@HostListener('mouseenter')` (línea 98).
+- `@HostListener('mouseleave')` (línea 106).
+- `@HostListener('focusin')` (línea 114).
+- `@HostListener('focusout')` (línea 122).
+
+### Resumen rúbrica 2.4:
+
+| Evento Requerido | Componentes | Total |
+|------------------|-------------|-------|
+| `document:click` | Header, Custom-select | 2 |
+| `document:keydown.escape` | Modal, Header, Custom-select, Tooltip | 4 |
+| `window:resize` | Modal, Custom-select | 2 |
+
+**Eventos adicionales**: `document:wheel`, `document:keydown` (Tab), `mouseenter`, `mouseleave`, `focusin`, `focusout`
+
+**Total: 14 @HostListener en 4+ componentes**
+
+### Rutas de prueba rápida:
+
+1. **Login/Register**: `/login` y `/register` - Probar preventDefault en formularios
+2. **Style Guide**: `/style-guide` - Probar modal y accordion
+3. **Forms Demo**: `/forms-demo` - Probar 2 formularios con preventDefault
+4. **Pokedex**: `/pokedex` - Probar menú responsive con eventos globales
+5. **DOM Demo**: `/dom-demo` - Probar manipulación de DOM con Renderer2
+
+
+### Cumplimiento Total de Rúbricas:
+
+**Rúbrica 1.3:**
+- createElement() y appendChild() en 4 componentes.
+- removeChild() en todos los componentes.
+- cloneNode() implementado.
+- ngOnDestroy() con limpieza correcta.
+
+**Rúbrica 2.3:**
+- preventDefault() en 4 formularios.
+- stopPropagation() en modal y componentes.
+- 12+ contextos diferentes documentados.
+
+**Rúbrica 2.4:**
+- @HostListener('document:click') en 2 componentes.
+- @HostListener('document:keydown.escape') en 4 componentes.
+- @HostListener('window:resize') en 2 componentes.
+- 14 @HostListener en total.
+
+

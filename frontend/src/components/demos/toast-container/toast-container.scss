@@ -1,0 +1,162 @@
+.toast-demo {
+  h4 {
+    margin-bottom: 1rem;
+    color: #495057;
+  }
+}
+
+.toast-controls {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+
+  .btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: white;
+
+    &--success {
+      background: #28a745;
+
+      &:hover {
+        background: #218838;
+      }
+    }
+
+    &--info {
+      background: #17a2b8;
+
+      &:hover {
+        background: #138496;
+      }
+    }
+
+    &--warning {
+      background: #ffc107;
+      color: #212529;
+
+      &:hover {
+        background: #e0a800;
+      }
+    }
+
+    &--error {
+      background: #dc3545;
+
+      &:hover {
+        background: #c82333;
+      }
+    }
+  }
+}
+
+.toast-stats {
+  margin-bottom: 1rem;
+
+  .badge {
+    background: #6c757d;
+    color: white;
+    padding: 0.25rem 0.75rem;
+    border-radius: 4px;
+    font-size: 0.85rem;
+  }
+}
+
+.toast-note {
+  font-size: 0.9rem;
+  color: #6c757d;
+  font-style: italic;
+  margin-bottom: 1rem;
+}
+
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-width: 350px;
+}
+
+// Dynamic toast (created with Renderer2)
+.toast {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  border-left: 4px solid;
+  transition: all 0.3s ease;
+
+  &__icon {
+    font-size: 1.5rem;
+    font-weight: bold;
+    flex-shrink: 0;
+  }
+
+  &__message {
+    flex: 1;
+    color: #333;
+    font-size: 0.95rem;
+  }
+
+  &__close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: #999;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: #333;
+    }
+  }
+
+  &--success {
+    border-left-color: #28a745;
+
+    .toast__icon {
+      color: #28a745;
+    }
+  }
+
+  &--info {
+    border-left-color: #17a2b8;
+
+    .toast__icon {
+      color: #17a2b8;
+    }
+  }
+
+  &--warning {
+    border-left-color: #ffc107;
+
+    .toast__icon {
+      color: #ffc107;
+    }
+  }
+
+  &--error {
+    border-left-color: #dc3545;
+
+    .toast__icon {
+      color: #dc3545;
+    }
+  }
+}

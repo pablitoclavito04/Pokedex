@@ -1,0 +1,29 @@
+<div class="particle-demo">
+  <h4>Sistema de Partículas Animadas</h4>
+
+  <div class="particle-controls">
+    <button (click)="createParticles(10)" class="btn btn--primary" [disabled]="isAnimating">
+      Crear 10 Partículas
+    </button>
+    <button (click)="explode()" class="btn btn--explosion" [disabled]="isAnimating">
+      💥 Explosión (20)
+    </button>
+    <button (click)="clearAll()" class="btn btn--clear">
+      Limpiar Todo
+    </button>
+  </div>
+
+  <div class="particle-stats">
+    <span class="badge">Partículas activas: {{ particleCount }}</span>
+    @if (isAnimating) {
+      <span class="badge badge--animating">Animando...</span>
+    }
+  </div>
+
+  <p class="particle-note">
+    Las partículas se crean con posiciones, colores y tamaños aleatorios, y se eliminan automáticamente al terminar la animación
+  </p>
+
+  <!-- Contenedor donde se crearán las partículas dinámicamente -->
+  <div #particleContainer class="particle-container"></div>
+</div>

@@ -1,0 +1,21 @@
+<div class="toast-demo">
+  <h4>Sistema de Notificaciones Toast</h4>
+
+  <div class="toast-controls">
+    <button (click)="showSuccess()" class="btn btn--success">Success</button>
+    <button (click)="showInfo()" class="btn btn--info">Info</button>
+    <button (click)="showWarning()" class="btn btn--warning">Warning</button>
+    <button (click)="showError()" class="btn btn--error">Error</button>
+  </div>
+
+  <div class="toast-stats">
+    <span class="badge">Toasts activos: {{ toastCount }}</span>
+  </div>
+
+  <p class="toast-note">
+    Las notificaciones se eliminan automáticamente después de 3 segundos
+  </p>
+
+  <!-- Contenedor donde se crearán los toasts dinámicamente -->
+  <div #toastContainer class="toast-container"></div>
+</div>

@@ -1,4 +1,4 @@
-.eventos-demo {
+.dom-demo {
   max-width: 1200px;
   margin: 0 auto;
   padding: 2rem;
@@ -18,7 +18,7 @@
 
   &__subtitle {
     font-size: 1.2rem;
-    opacity: 0.9;
+    color: #666;
   }
 
   &__section {
@@ -57,9 +57,7 @@
     padding: 2rem;
     margin-bottom: 2rem;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  }
 
-  &__form {
     h3 {
       margin-bottom: 1.5rem;
       color: #333;
@@ -107,30 +105,10 @@
       }
     }
   }
-
-  &__instructions {
-    margin: 1.5rem 0;
-    padding: 1rem;
-    background: #f8f9fa;
-    border-radius: 8px;
-
-    h4 {
-      margin-bottom: 0.75rem;
-      color: #495057;
-    }
-
-    ol {
-      margin-left: 1.5rem;
-
-      li {
-        margin-bottom: 0.5rem;
-        color: #6c757d;
-      }
-    }
-  }
 }
 
-.form-field {
+// Form elements
+.form-group {
   margin-bottom: 1.5rem;
 
   label {
@@ -154,6 +132,14 @@
     border-color: #667eea;
     box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
   }
+}
+
+// Buttons
+.button-group {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
 }
 
 .btn {
@@ -186,31 +172,7 @@
   }
 }
 
-.alert {
-  padding: 1rem;
-  border-radius: 8px;
-  margin-top: 1rem;
-
-  &--success {
-    background: #d4edda;
-    color: #155724;
-    border: 1px solid #c3e6cb;
-  }
-
-  &--info {
-    background: #d1ecf1;
-    color: #0c5460;
-    border: 1px solid #bee5eb;
-  }
-
-  code {
-    background: rgba(0, 0, 0, 0.1);
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    font-family: 'Courier New', monospace;
-  }
-}
-
+// Badges
 .badge {
   display: inline-block;
   padding: 0.35rem 0.75rem;
@@ -227,28 +189,138 @@
     background: #ffc107;
     color: #212529;
   }
+
+  &--info {
+    background: #17a2b8;
+    color: white;
+  }
 }
 
-kbd {
-  background: #f5f5f5;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  padding: 0.2rem 0.4rem;
-  font-family: monospace;
-  font-size: 0.9em;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+// Stats
+.stats {
+  margin-bottom: 1rem;
 }
 
-.modal-demo-content {
+// Dynamic container
+.dynamic-container {
+  margin-top: 2rem;
+  min-height: 100px;
   padding: 1rem;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  background: #f8f9fa;
+  border-radius: 8px;
+  border: 2px dashed #dee2e6;
+}
+
+.clone-container {
+  background: #fff3cd;
+  border-color: #ffc107;
+}
+
+// Dynamic card (created programmatically)
+.dynamic-card {
+  background: white;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  position: relative;
+
+  &__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e0e0e0;
+
+    h3 {
+      margin: 0;
+      color: #667eea;
+      font-size: 1.2rem;
+    }
+  }
+
+  &__content {
+    color: #666;
+    line-height: 1.6;
+    margin-bottom: 1rem;
+  }
+
+  &__footer {
+    font-size: 0.85rem;
+    color: #999;
+    font-style: italic;
+  }
 
   &:hover {
-    background: #f8f9fa;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  }
+}
+
+.welcome-card {
+  border-color: #28a745;
+
+  .dynamic-card__header h3 {
+    color: #28a745;
+  }
+}
+
+.cloned-card {
+  border-color: #ffc107;
+  background: #fffbf0;
+
+  .dynamic-card__header h3 {
+    color: #ffc107;
+  }
+}
+
+// Delete button
+.btn-delete {
+  background: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:hover {
+    background: #c82333;
+    transform: scale(1.1);
+  }
+}
+
+// Alert
+.alert {
+  padding: 1rem;
+  border-radius: 8px;
+  margin-top: 1rem;
+
+  &--success {
+    background: #d4edda;
+    color: #155724;
+    border: 1px solid #c3e6cb;
   }
 
-  strong {
-    color: #667eea;
+  small {
+    display: block;
+    margin-top: 0.5rem;
   }
+}
+
+// Info text
+.info-text {
+  background: #e7f3ff;
+  padding: 1rem;
+  border-radius: 8px;
+  border-left: 4px solid #2196f3;
+  margin-bottom: 1.5rem;
+  color: #0d47a1;
 }

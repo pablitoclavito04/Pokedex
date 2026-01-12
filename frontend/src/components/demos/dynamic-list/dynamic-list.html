@@ -1,0 +1,20 @@
+<div class="dynamic-list">
+  <h4>Lista Dinámica Interactiva</h4>
+
+  <div class="input-group">
+    <input
+      type="text"
+      [(ngModel)]="itemText"
+      placeholder="Escribe algo..."
+      class="list-input"
+      (keyup.enter)="addItem()">
+    <button (click)="addItem()" class="btn-add">Agregar</button>
+    <button (click)="clearAll()" class="btn-clear">Limpiar Todo</button>
+  </div>
+
+  <div class="list-stats">
+    <span class="badge">Items: {{ itemCount }}</span>
+  </div>
+
+  <ul #listContainer class="list-container"></ul>
+</div>
