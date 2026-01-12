@@ -411,38 +411,261 @@ onWindowResize(): void &#123;
   </section>
 
   <!-- ============================================================================ -->
+  <!--  SECCIÓN 7: MÁS CONTEXTOS DE preventDefault() (RÚBRICA 2.3)                 -->
+  <!-- ============================================================================ -->
+  <section class="eventos-demo__section">
+    <div class="eventos-demo__section-header">
+      <h2 class="eventos-demo__section-title">
+        <span class="badge badge--success">2.3</span>
+        7. Más Contextos de preventDefault()
+      </h2>
+      <p class="eventos-demo__description">
+        Implementaciones adicionales en Custom Select (drag del scrollbar)
+      </p>
+    </div>
+
+    <div class="eventos-demo__card">
+      <h3>Custom Select - Scrollbar Personalizado</h3>
+
+      <div class="eventos-demo__instructions">
+        <h4>Contexto 1: Mouse Drag (preventDefault + stopPropagation)</h4>
+        <p>Cuando arrastras la barra de scroll con el mouse en un custom select:</p>
+        <ol>
+          <li><code>preventDefault()</code> evita que se seleccione texto mientras arrastras</li>
+          <li><code>stopPropagation()</code> evita que el click cierre el dropdown</li>
+        </ol>
+
+        <h4 style="margin-top: 1.5rem;">Contexto 2: Touch Drag (preventDefault + stopPropagation)</h4>
+        <p>Lo mismo pero para dispositivos táctiles:</p>
+        <ol>
+          <li><code>preventDefault()</code> evita el comportamiento por defecto del touch</li>
+          <li><code>stopPropagation()</code> evita que el touch cierre el dropdown</li>
+        </ol>
+      </div>
+
+      <div class="eventos-demo__code">
+        <h4>Código TypeScript (Mouse):</h4>
+        <pre><code>onScrollbarMouseDown(event: MouseEvent): void &#123;
+  // PREVENCIÓN: Evitar selección de texto durante el drag
+  event.preventDefault();
+  // CONTROL DE PROPAGACIÓN: Evitar que el click cierre el dropdown
+  event.stopPropagation();
+  this.startDrag(event.clientY);
+&#125;</code></pre>
+
+        <h4>Código TypeScript (Touch):</h4>
+        <pre><code>onScrollbarTouchStart(event: TouchEvent): void &#123;
+  // PREVENCIÓN: Evitar comportamiento por defecto del touch
+  event.preventDefault();
+  // CONTROL DE PROPAGACIÓN: Evitar que el touch cierre el dropdown
+  event.stopPropagation();
+  const touch = event.touches[0];
+  this.startDrag(touch.clientY);
+&#125;</code></pre>
+
+        <h4>Ubicación real:</h4>
+        <ul>
+          <li><code>src/components/shared/custom-select/custom-select.ts</code> líneas 171-176 (mouse)</li>
+          <li><code>src/components/shared/custom-select/custom-select.ts</code> líneas 187-193 (touch)</li>
+        </ul>
+
+        <h4>Cómo probarlo:</h4>
+        <p>Ve a <code>/register</code>, paso 2, abre cualquier select y arrastra la barra de scroll personalizada</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================================ -->
+  <!--  SECCIÓN 8: MÁS @HostListener (RÚBRICA 2.4)                                 -->
+  <!-- ============================================================================ -->
+  <section class="eventos-demo__section">
+    <div class="eventos-demo__section-header">
+      <h2 class="eventos-demo__section-title">
+        <span class="badge badge--warning">2.4</span>
+        8. Eventos Adicionales con @HostListener
+      </h2>
+      <p class="eventos-demo__description">
+        Implementaciones extra: document:wheel, document:keydown (Tab), eventos de mouse y focus
+      </p>
+    </div>
+
+    <div class="eventos-demo__card">
+      <h3>Modal - Prevenir Scroll del Body</h3>
+
+      <div class="eventos-demo__instructions">
+        <h4>@HostListener('document:wheel')</h4>
+        <p>Cuando el modal está abierto, previene que el scroll de la rueda del mouse afecte al contenido de fondo:</p>
+      </div>
+
+      <div class="eventos-demo__code">
+        <pre><code>@HostListener('document:wheel', ['$event'])
+onDocumentWheel(event: WheelEvent): void &#123;
+  if (this.isOpen && this.blockScroll) &#123;
+    const target = event.target as HTMLElement;
+    const modalElement = target.closest('.modal');
+
+    if (!modalElement) &#123;
+      event.preventDefault();
+    &#125;
+  &#125;
+&#125;</code></pre>
+
+        <h4>Ubicación real:</h4>
+        <ul>
+          <li><code>src/components/shared/modal/modal.ts</code> líneas 96-108</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="eventos-demo__card">
+      <h3>Modal - Trap Focus (mantener foco dentro)</h3>
+
+      <div class="eventos-demo__instructions">
+        <h4>@HostListener('document:keydown', ['$event']) - Tab Key</h4>
+        <p>Cuando el modal está abierto, la tecla Tab mantiene el foco dentro del modal (no escapa):</p>
+      </div>
+
+      <div class="eventos-demo__code">
+        <pre><code>@HostListener('document:keydown', ['$event'])
+onTabKey(event: KeyboardEvent): void &#123;
+  if (!this.isOpen || event.key !== 'Tab') return;
+
+  // Obtener elementos enfocables dentro del modal
+  const focusableElements = this.getFocusableElements();
+  const firstElement = focusableElements[0];
+  const lastElement = focusableElements[focusableElements.length - 1];
+
+  // Lógica de trap focus...
+&#125;</code></pre>
+
+        <h4>Ubicación real:</h4>
+        <ul>
+          <li><code>src/components/shared/modal/modal.ts</code> líneas 114-146</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="eventos-demo__card">
+      <h3>Tooltip - Eventos de Interacción</h3>
+
+      <div class="eventos-demo__instructions">
+        <h4>4 eventos de mouse y focus:</h4>
+        <ol>
+          <li><code>@HostListener('mouseenter')</code> - Mostrar tooltip al pasar el mouse</li>
+          <li><code>@HostListener('mouseleave')</code> - Ocultar tooltip al salir</li>
+          <li><code>@HostListener('focusin')</code> - Mostrar tooltip al enfocar con teclado</li>
+          <li><code>@HostListener('focusout')</code> - Ocultar tooltip al desenfocar</li>
+        </ol>
+      </div>
+
+      <div class="eventos-demo__code">
+        <pre><code>@HostListener('mouseenter')
+onMouseEnter(): void &#123; this.scheduleShow(); &#125;
+
+@HostListener('mouseleave')
+onMouseLeave(): void &#123; this.scheduleHide(); &#125;
+
+@HostListener('focusin')
+onFocusIn(): void &#123; this.scheduleShow(); &#125;
+
+@HostListener('focusout')
+onFocusOut(): void &#123; this.scheduleHide(); &#125;</code></pre>
+
+        <h4>Ubicación real:</h4>
+        <ul>
+          <li><code>src/components/shared/tooltip/tooltip.ts</code> líneas 98-125</li>
+        </ul>
+
+        <h4>Cómo probarlo:</h4>
+        <p>Ve a <code>/style-guide</code>, sección Tooltip, pasa el mouse sobre los elementos con tooltips</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================================ -->
   <!--                    RESUMEN FINAL                                             -->
   <!-- ============================================================================ -->
   <section class="eventos-demo__section">
     <div class="eventos-demo__section-header">
       <h2 class="eventos-demo__section-title">
-        📊 Resumen de Implementaciones
+        Resumen de Implementaciones
       </h2>
     </div>
 
     <div class="eventos-demo__card">
       <h3>Rúbrica 2.3: Prevención y Control de Propagación (10/10)</h3>
-      <ul>
-        <li>✓ <code>preventDefault()</code> en 4 formularios</li>
-        <li>✓ <code>stopPropagation()</code> en modal</li>
-        <li>✓ Ambos en custom-select (2 contextos)</li>
-        <li>✓ Ambos en accordion (5 teclas)</li>
-        <li><strong>Total: 12 contextos diferentes</strong></li>
-      </ul>
+      <p><strong>preventDefault() en 4 formularios:</strong></p>
+      <ol>
+        <li>Login page - <code>login.ts:109</code></li>
+        <li>Register page - <code>register.ts:288</code></li>
+        <li>Forms-demo (formulario registro) - <code>forms-demo.ts:173</code></li>
+        <li>Forms-demo (formulario factura) - <code>forms-demo.ts:319</code></li>
+      </ol>
+
+      <p><strong>stopPropagation() en modal:</strong></p>
+      <ol start="5">
+        <li>Modal component - <code>modal.ts:74</code></li>
+      </ol>
+
+      <p><strong>preventDefault() + stopPropagation() en custom-select:</strong></p>
+      <ol start="6">
+        <li>Scrollbar mousedown - <code>custom-select.ts:171-176</code></li>
+        <li>Scrollbar touchstart - <code>custom-select.ts:187-193</code></li>
+      </ol>
+
+      <p><strong>preventDefault() + stopPropagation() en accordion (5 teclas):</strong></p>
+      <ol start="8">
+        <li>ArrowUp - <code>accordion.ts:116-121</code></li>
+        <li>ArrowDown - <code>accordion.ts:124-128</code></li>
+        <li>Home - <code>accordion.ts:131-135</code></li>
+        <li>End - <code>accordion.ts:138-142</code></li>
+        <li>Enter/Space - <code>accordion.ts:145-152</code></li>
+      </ol>
+
+      <p><strong>TOTAL RÚBRICA 2.3: 12 contextos diferentes ✓</strong></p>
+
+      <hr style="margin: 2rem 0; border: none; border-top: 2px solid #e0e0e0;">
 
       <h3>Rúbrica 2.4: Eventos Globales con @HostListener (10/10)</h3>
-      <ul>
-        <li>✓ <code>@HostListener('document:click')</code> en 2 componentes</li>
-        <li>✓ <code>@HostListener('document:keydown.escape')</code> en 4 componentes</li>
-        <li>✓ <code>@HostListener('window:resize')</code> en 2 componentes</li>
-        <li>✓ Eventos adicionales: wheel, keydown (Tab), mouse, focus</li>
-        <li><strong>Total: 14 @HostListener en 4 componentes</strong></li>
-      </ul>
 
-      <div class="alert alert--success">
+      <p><strong>document:click (2 componentes):</strong></p>
+      <ol>
+        <li>Header - <code>header.ts:197</code></li>
+        <li>Custom-select - <code>custom-select.ts:84</code></li>
+      </ol>
+
+      <p><strong>document:keydown.escape (4 componentes):</strong></p>
+      <ol start="3">
+        <li>Modal - <code>modal.ts:85</code></li>
+        <li>Header - <code>header.ts:187</code></li>
+        <li>Custom-select - <code>custom-select.ts:92</code></li>
+        <li>Tooltip - <code>tooltip.ts:130</code></li>
+      </ol>
+
+      <p><strong>window:resize (2 componentes):</strong></p>
+      <ol start="7">
+        <li>Modal - <code>modal.ts:153</code></li>
+        <li>Custom-select - <code>custom-select.ts:102</code></li>
+      </ol>
+
+      <p><strong>Eventos adicionales:</strong></p>
+      <ol start="9">
+        <li>Modal - <code>document:wheel</code> - <code>modal.ts:96</code></li>
+        <li>Modal - <code>document:keydown</code> (Tab trap) - <code>modal.ts:114</code></li>
+        <li>Tooltip - <code>mouseenter</code> - <code>tooltip.ts:98</code></li>
+        <li>Tooltip - <code>mouseleave</code> - <code>tooltip.ts:106</code></li>
+        <li>Tooltip - <code>focusin</code> - <code>tooltip.ts:114</code></li>
+        <li>Tooltip - <code>focusout</code> - <code>tooltip.ts:122</code></li>
+      </ol>
+
+      <p><strong>TOTAL RÚBRICA 2.4: 14 @HostListener en 4+ componentes ✓</strong></p>
+
+      <div class="alert alert--success" style="margin-top: 2rem;">
         <strong>✓ Todas las implementaciones están funcionando correctamente</strong>
         <br>
         <small>Documentado en: <code>frontend/RUBRICA_2.3_2.4_IMPLEMENTACION.md</code></small>
+        <br>
+        <small>Documentado en: <code>frontend/README Entorno cliente.md</code></small>
       </div>
     </div>
   </section>
