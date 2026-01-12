@@ -94,6 +94,23 @@ export class CustomSelectComponent implements ControlValueAccessor, AfterViewChe
     this.isOpen = false;
   }
 
+  /**
+   * Recalcular posición del dropdown al cambiar el tamaño de ventana
+   * EVENTO GLOBAL: Escucha el evento resize en la ventana
+   * Útil para reposicionar el dropdown en cambios de orientación o tamaño
+   */
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    if (!this.isOpen) return;
+
+    // Recalcular si debe abrirse hacia arriba o hacia abajo
+    const rect = this.elementRef.nativeElement.getBoundingClientRect();
+    const spaceBelow = window.innerHeight - rect.bottom;
+    const dropdownHeight = 220; // altura aproximada del dropdown
+
+    this.openUpward = spaceBelow < dropdownHeight;
+  }
+
   ngAfterViewChecked(): void {
     // Verificar scroll después de que el dropdown se renderice
     if (this.needsScrollCheck && this.optionsContainer) {
@@ -162,25 +179,36 @@ export class CustomSelectComponent implements ControlValueAccessor, AfterViewChe
   }
 
   // ========== SCROLLBAR DRAG HANDLERS ==========
-  
-  // Iniciar drag con mouse
+
+  /**
+   * Iniciar drag del scrollbar con mouse
+   * PREVENCIÓN Y CONTROL DE PROPAGACIÓN: Previene comportamiento por defecto
+   * y detiene propagación para controlar el drag del scrollbar custom
+   */
   onScrollbarMouseDown(event: MouseEvent): void {
+    // PREVENCIÓN: Evitar selección de texto durante el drag
     event.preventDefault();
+    // CONTROL DE PROPAGACIÓN: Evitar que el click cierre el dropdown
     event.stopPropagation();
     this.startDrag(event.clientY);
-    
+
     // Añadir listeners globales
     document.addEventListener('mousemove', this.boundOnMouseMove);
     document.addEventListener('mouseup', this.boundOnMouseUp);
   }
-  
-  // Iniciar drag con touch
+
+  /**
+   * Iniciar drag del scrollbar con touch
+   * PREVENCIÓN Y CONTROL DE PROPAGACIÓN: Similar al mouse pero para dispositivos táctiles
+   */
   onScrollbarTouchStart(event: TouchEvent): void {
+    // PREVENCIÓN: Evitar comportamiento por defecto del touch
     event.preventDefault();
+    // CONTROL DE PROPAGACIÓN: Evitar que el touch cierre el dropdown
     event.stopPropagation();
     const touch = event.touches[0];
     this.startDrag(touch.clientY);
-    
+
     // Añadir listeners globales
     document.addEventListener('touchmove', this.boundOnTouchMove, { passive: false });
     document.addEventListener('touchend', this.boundOnTouchEnd);

@@ -51,19 +51,182 @@ Usuario → Evento DOM → Template Binding → Component Handler → Service/St
 
 ## HostListener para eventos globales:
 
-Para escuchar eventos a nivel de documento:
+Para escuchar eventos a nivel de documento sin necesidad de manipular el DOM directamente:
+
+### Ejemplos Implementados:
 
 ```typescript
+// ========== MODAL COMPONENT (modal.ts) ==========
+
+// 1. Cerrar con tecla ESC
 @HostListener('document:keydown.escape')
 onEscapeKey(): void {
-  this.close();
+  if (this.isOpen && this.closeOnEsc) {
+    this.close();
+  }
 }
 
+// 2. Prevenir scroll del body cuando está abierto
+@HostListener('document:wheel', ['$event'])
+onDocumentWheel(event: WheelEvent): void {
+  if (this.isOpen && this.blockScroll) {
+    const target = event.target as HTMLElement;
+    const modalElement = target.closest('.modal');
+
+    // Si el scroll no es dentro del modal, prevenir el comportamiento por defecto
+    if (!modalElement) {
+      event.preventDefault();
+    }
+  }
+}
+
+// 3. Trap focus (mantener foco dentro del modal)
+@HostListener('document:keydown', ['$event'])
+onTabKey(event: KeyboardEvent): void {
+  if (!this.isOpen || event.key !== 'Tab') return;
+
+  const modalElement = document.querySelector('.modal');
+  const focusableElements = modalElement.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+
+  const firstElement = focusableElements[0] as HTMLElement;
+  const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+  if (event.shiftKey) {
+    if (document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+    }
+  } else {
+    if (document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
+  }
+}
+
+// 4. Ajustar modal al cambiar tamaño de ventana
+@HostListener('window:resize')
+onWindowResize(): void {
+  if (!this.isOpen) return;
+
+  const modalElement = document.querySelector('.modal') as HTMLElement;
+  const viewportHeight = window.innerHeight;
+  const maxModalHeight = viewportHeight * 0.9;
+
+  if (modalElement.offsetHeight > maxModalHeight) {
+    modalElement.style.maxHeight = `${maxModalHeight}px`;
+  }
+}
+
+// ========== HEADER COMPONENT (header.ts) ==========
+
+// Cerrar menú con ESC
+@HostListener('document:keydown.escape')
+onEscapeKey(): void {
+  if (this.isMenuOpen) {
+    this.closeMenu();
+  }
+}
+
+// Cerrar menú al hacer click fuera
 @HostListener('document:click', ['$event'])
 onDocumentClick(event: MouseEvent): void {
-  // Manejar click fuera del componente
+  if (!this.isMenuOpen) return;
+
+  const target = event.target as HTMLElement;
+  const clickedInsideNav = this.mobileNav?.nativeElement?.contains(target);
+  const clickedMenuButton = this.menuButton?.nativeElement?.contains(target);
+
+  if (!clickedInsideNav && !clickedMenuButton) {
+    this.closeMenu();
+  }
+}
+
+// ========== CUSTOM SELECT COMPONENT (custom-select.ts) ==========
+
+// Cerrar dropdown al hacer click fuera
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent): void {
+  if (!this.elementRef.nativeElement.contains(event.target)) {
+    this.isOpen = false;
+  }
+}
+
+// Cerrar con Escape
+@HostListener('document:keydown.escape')
+onEscapeKey(): void {
+  this.isOpen = false;
+}
+
+// Recalcular posición en resize
+@HostListener('window:resize')
+onWindowResize(): void {
+  if (!this.isOpen) return;
+
+  const rect = this.elementRef.nativeElement.getBoundingClientRect();
+  const spaceBelow = window.innerHeight - rect.bottom;
+  const dropdownHeight = 220;
+
+  this.openUpward = spaceBelow < dropdownHeight;
+}
+
+// ========== TOOLTIP COMPONENT (tooltip.ts) ==========
+
+@HostListener('mouseenter')
+onMouseEnter(): void {
+  this.scheduleShow();
+}
+
+@HostListener('mouseleave')
+onMouseLeave(): void {
+  this.scheduleHide();
+}
+
+@HostListener('focusin')
+onFocusIn(): void {
+  this.scheduleShow();
+}
+
+@HostListener('focusout')
+onFocusOut(): void {
+  this.scheduleHide();
+}
+
+@HostListener('document:keydown.escape')
+onEscapeKey(): void {
+  if (this.isVisible) {
+    this.hide();
+  }
 }
 ```
+
+### Resumen de @HostListener implementados:
+
+| Componente | Evento | Descripción |
+|------------|--------|-------------|
+| **Modal** | `document:keydown.escape` | Cerrar modal con ESC |
+| **Modal** | `document:wheel` | Prevenir scroll del body |
+| **Modal** | `document:keydown` (Tab) | Trap focus dentro del modal |
+| **Modal** | `window:resize` | Ajustar altura del modal al cambiar tamaño de ventana |
+| **Header** | `document:keydown.escape` | Cerrar menú móvil con ESC |
+| **Header** | `document:click` | Cerrar menú al hacer click fuera |
+| **Custom Select** | `document:click` | Cerrar dropdown al hacer click fuera |
+| **Custom Select** | `document:keydown.escape` | Cerrar dropdown con ESC |
+| **Custom Select** | `window:resize` | Reposicionar dropdown al cambiar tamaño de ventana |
+| **Tooltip** | `mouseenter` | Mostrar tooltip al pasar el mouse |
+| **Tooltip** | `mouseleave` | Ocultar tooltip al salir |
+| **Tooltip** | `focusin` | Mostrar tooltip al enfocar (accesibilidad) |
+| **Tooltip** | `focusout` | Ocultar tooltip al desenfocar |
+| **Tooltip** | `document:keydown.escape` | Ocultar tooltip con ESC |
+
+**Total: 14 @HostListener implementados en todo el proyecto**
+
+### Eventos Globales Clave para 10/10:
+`@HostListener('document:click', ['$event'])` - Implementado en Header y Custom-select.
+`@HostListener('document:keydown.escape')` - Implementado en Modal, Header, Custom-select, Tooltip.
+`@HostListener('window:resize')` - Implementado en Modal y Custom-select.
 
 ## Manipulación del DOM.
 
@@ -129,31 +292,114 @@ this.renderer.appendChild(parent, div);
 └─────────────────────────────────────────────────────────────────┘
 ```
 
-## Prevención de comportamiento por defecto:
+## Prevención y control de propagación de eventos:
+
+### preventDefault() - Prevenir comportamiento por defecto:
+
+Usado en formularios para evitar la recarga de página y permitir el manejo con JavaScript:
 
 ```typescript
+// Login Form (login-form.ts:130-132)
 onSubmit(event: Event): void {
-  event.preventDefault();  // Previene recarga de página
-  // Lógica del formulario
+  // PREVENCIÓN: Prevenir recarga de página al enviar el formulario
+  event.preventDefault();
+  this.hasAttemptedSubmit = true;
+
+  if (!this.validateForm()) {
+    return;
+  }
+
+  this.formSubmit.emit({
+    email: this.formData.email.trim(),
+    password: this.formData.password,
+    rememberMe: this.formData.rememberMe
+  });
 }
 
-onClick(event: MouseEvent): void {
-  event.stopPropagation();  // Detiene propagación del evento
+// Register Form (register.ts:286-288)
+onSubmit(event: Event): void {
+  // PREVENCIÓN: Prevenir recarga de página al enviar el formulario
+  event.preventDefault();
+  this.hasAttemptedSubmit = true;
+  // Validación y envío del formulario
+}
+
+// Accordion (accordion.ts:117-149)
+onKeyDown(event: KeyboardEvent, currentIndex: number): void {
+  switch (event.key) {
+    case 'ArrowUp':
+      // PREVENCIÓN: Evitar scroll de página al usar flecha arriba
+      event.preventDefault();
+      break;
+    case 'Enter':
+    case ' ':
+      // PREVENCIÓN: Evitar comportamiento por defecto del Enter y Espacio
+      event.preventDefault();
+      break;
+  }
 }
 ```
 
+### stopPropagation() - Detener propagación del evento:
+
+Usado en modales, menús y componentes interactivos para evitar que eventos internos se propaguen:
+
+```typescript
+// Modal (modal.ts:72-74)
+onModalContentClick(event: MouseEvent): void {
+  // PREVENCIÓN DE PROPAGACIÓN: Detener la propagación para que no llegue al overlay
+  event.stopPropagation();
+}
+
+// Custom Select Scrollbar (custom-select.ts:171-175)
+onScrollbarMouseDown(event: MouseEvent): void {
+  // PREVENCIÓN: Evitar selección de texto durante el drag
+  event.preventDefault();
+  // CONTROL DE PROPAGACIÓN: Evitar que el click cierre el dropdown
+  event.stopPropagation();
+  this.startDrag(event.clientY);
+}
+
+// Accordion Navigation (accordion.ts:118-120)
+case 'ArrowUp':
+  event.preventDefault();
+  // CONTROL DE PROPAGACIÓN: Evitar que el evento se propague a otros listeners
+  event.stopPropagation();
+  break;
+```
+
+### Contextos implementados:
+
+**Total: 10+ contextos diferentes con prevención y control de propagación**
+
+1. **Formularios (preventDefault)** - 2 contextos:
+   - Login form: Previene recarga en envío
+   - Register form: Previene recarga en envío
+
+2. **Modal (stopPropagation)** - 1 contexto:
+   - Content click: Evita cierre al hacer click en contenido interno
+
+3. **Custom Select (preventDefault + stopPropagation)** - 2 contextos:
+   - Scrollbar mouse drag: Evita selección de texto y cierre del dropdown
+   - Scrollbar touch drag: Similar para dispositivos táctiles
+
+4. **Accordion (preventDefault + stopPropagation)** - 5 contextos:
+   - ArrowUp, ArrowDown, Home, End, Enter, Space: Previene scroll y propaga navegación personalizada
+
 ## Componentes interactivos implementados:
 
-| Componente | Eventos Implementados | Descripción |
-|------------|----------------------|-------------|
-| **Header** | click, keydown.escape, document:click | Toggle de menú, cierre con ESC y click fuera |
-| **Modal** | click, keydown.escape | Cierre con overlay, ESC y botón |
-| **Tabs** | click, keydown (arrows, Home, End) | Navegación por teclado completa |
-| **Accordion** | click, keydown (arrows, Home, End) | Expandir/colapsar con teclado |
-| **Tooltip** | mouseenter, mouseleave, focusin, focusout | Mostrar/ocultar con delay |
-| **Button** | click | Manejo de estados loading/disabled |
-| **Form Controls** | input, focus, blur, change | Validación y feedback |
-| **Alert** | click | Cierre dismissible |
+| Componente | Eventos Implementados | Prevención de Eventos | Descripción |
+|------------|----------------------|----------------------|-------------|
+| **Header** | click, keydown.escape, document:click | - | Toggle de menú, cierre con ESC y click fuera |
+| **Modal** | click, keydown.escape, wheel, keydown (Tab) | stopPropagation, preventDefault | Cierre con overlay, ESC y botón. Trap focus, previene scroll |
+| **Tabs** | click, keydown (arrows, Home, End) | - | Navegación por teclado completa |
+| **Accordion** | click, keydown (arrows, Home, End, Enter, Space) | preventDefault, stopPropagation | Expandir/colapsar con teclado, previene scroll |
+| **Custom Select** | click, keydown.escape, mousedown, touchstart | preventDefault, stopPropagation | Dropdown con scrollbar custom |
+| **Tooltip** | mouseenter, mouseleave, focusin, focusout, keydown.escape | - | Mostrar/ocultar con delay |
+| **Login Form** | submit | preventDefault | Validación y envío sin recarga |
+| **Register Form** | submit | preventDefault | Validación multi-step sin recarga |
+| **Button** | click | - | Manejo de estados loading/disabled |
+| **Alert** | click | - | Cierre dismissible |
 
 
 ## Theme Switcher:

@@ -165,8 +165,15 @@ export class FormsDemoComponent implements OnInit {
 
   /**
    * Envía el formulario de registro
+   * PREVENCIÓN DE PROPAGACIÓN: Previene el comportamiento por defecto del formulario
+   * para evitar la recarga de la página y manejar el envío con JavaScript
    */
-  onRegistroSubmit(): void {
+  onRegistroSubmit(event?: Event): void {
+    // PREVENCIÓN: Prevenir recarga de página al enviar el formulario
+    if (event) {
+      event.preventDefault();
+    }
+
     this.registroSubmitted = true;
 
     if (this.registroForm.invalid) {
@@ -304,8 +311,15 @@ export class FormsDemoComponent implements OnInit {
 
   /**
    * Envía el formulario de factura
+   * PREVENCIÓN DE PROPAGACIÓN: Previene el comportamiento por defecto del formulario
+   * para evitar la recarga de la página y manejar el envío con JavaScript
    */
-  onFacturaSubmit(): void {
+  onFacturaSubmit(event?: Event): void {
+    // PREVENCIÓN: Prevenir recarga de página al enviar el formulario
+    if (event) {
+      event.preventDefault();
+    }
+
     this.facturaSubmitted = true;
 
     if (this.facturaForm.invalid) {

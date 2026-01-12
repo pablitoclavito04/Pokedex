@@ -278,7 +278,13 @@ export class RegisterComponent {
   }
 
   // ========== ENVÍO DEL FORMULARIO ==========
+  /**
+   * Maneja el envío del formulario de registro
+   * PREVENCIÓN DE PROPAGACIÓN: Previene el comportamiento por defecto del formulario
+   * para evitar la recarga de la página y manejar el envío con JavaScript
+   */
   onSubmit(event: Event): void {
+    // PREVENCIÓN: Prevenir recarga de página al enviar el formulario
     event.preventDefault();
     this.hasAttemptedSubmit = true;
     this.registerError = '';

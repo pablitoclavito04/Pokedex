@@ -19,7 +19,7 @@
       </p>
     </div>
 
-    <form [formGroup]="registroForm" (ngSubmit)="onRegistroSubmit()" class="forms-demo__form">
+    <form [formGroup]="registroForm" (ngSubmit)="onRegistroSubmit($event)" class="forms-demo__form">
       <!-- Datos de cuenta -->
       <div class="forms-demo__form-section">
         <h3 class="forms-demo__form-section-title">Datos de cuenta</h3>
@@ -411,7 +411,7 @@
       </p>
     </div>
 
-    <form [formGroup]="facturaForm" (ngSubmit)="onFacturaSubmit()" class="forms-demo__form">
+    <form [formGroup]="facturaForm" (ngSubmit)="onFacturaSubmit($event)" class="forms-demo__form">
       <!-- Datos del cliente -->
       <div class="forms-demo__form-section">
         <h3 class="forms-demo__form-section-title">Datos del cliente</h3>

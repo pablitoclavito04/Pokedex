@@ -15,8 +15,8 @@
   aria-modal="true"
   [attr.aria-labelledby]="title ? 'modal-title' : null">
   
-  <div [class]="modalClasses" role="document">
-    
+  <div [class]="modalClasses" role="document" (click)="onModalContentClick($event)">
+
     <!-- ========== HEADER ========== -->
     <header class="modal__header">
       <h2 *ngIf="title" id="modal-title" class="modal__title">{{ title }}</h2>

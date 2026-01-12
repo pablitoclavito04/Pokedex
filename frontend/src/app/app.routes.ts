@@ -138,6 +138,14 @@ export const routes: Routes = [
     data: { breadcrumb: 'Formularios Demo' }
   },
 
+  // Eventos Demo - Demostración de Rúbricas 2.3 y 2.4
+  {
+    path: 'eventos-demo',
+    loadComponent: () => import('./pages/eventos-demo/eventos-demo').then(m => m.EventosDemoComponent),
+    title: 'Demostración Eventos - Pokédex',
+    data: { breadcrumb: 'Eventos Demo' }
+  },
+
   // ========== RUTA WILDCARD 404 (siempre al final) ==========
 
   {

@@ -122,10 +122,16 @@ export class LoginFormComponent {
     this.formData.rememberMe = target.checked;
   }
   
+  /**
+   * Maneja el envío del formulario
+   * PREVENCIÓN DE PROPAGACIÓN: Previene el comportamiento por defecto del formulario
+   * para evitar la recarga de la página y manejar el envío con JavaScript
+   */
   onSubmit(event: Event): void {
+    // PREVENCIÓN: Prevenir recarga de página al enviar el formulario
     event.preventDefault();
     this.hasAttemptedSubmit = true;
-    
+
     if (!this.validateForm()) {
       const firstErrorField = document.querySelector('.form-input--error input');
       if (firstErrorField) {
@@ -133,15 +139,15 @@ export class LoginFormComponent {
       }
       return;
     }
-    
+
     this.isSubmitting = true;
-    
+
     this.formSubmit.emit({
       email: this.formData.email.trim(),
       password: this.formData.password,
       rememberMe: this.formData.rememberMe
     });
-    
+
     setTimeout(() => {
       this.isSubmitting = false;
     }, 2000);

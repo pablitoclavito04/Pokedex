@@ -101,6 +101,8 @@ export class AccordionComponent {
 
   /**
    * Maneja eventos de teclado para navegación accesible
+   * PREVENCIÓN DE PROPAGACIÓN: Previene el comportamiento por defecto de las teclas
+   * para implementar navegación personalizada con flechas, Home, End, Enter y Espacio
    */
   onKeyDown(event: KeyboardEvent, currentIndex: number): void {
     const enabledIndices = this.items
@@ -112,28 +114,39 @@ export class AccordionComponent {
 
     switch (event.key) {
       case 'ArrowUp':
+        // PREVENCIÓN: Evitar scroll de página al usar flecha arriba
         event.preventDefault();
+        // CONTROL DE PROPAGACIÓN: Evitar que el evento se propague a otros listeners
+        event.stopPropagation();
         targetIndex = this.findPreviousEnabled(currentIndex, enabledIndices);
         break;
 
       case 'ArrowDown':
+        // PREVENCIÓN: Evitar scroll de página al usar flecha abajo
         event.preventDefault();
+        event.stopPropagation();
         targetIndex = this.findNextEnabled(currentIndex, enabledIndices);
         break;
 
       case 'Home':
+        // PREVENCIÓN: Evitar scroll al inicio de la página
         event.preventDefault();
+        event.stopPropagation();
         targetIndex = enabledIndices[0];
         break;
 
       case 'End':
+        // PREVENCIÓN: Evitar scroll al final de la página
         event.preventDefault();
+        event.stopPropagation();
         targetIndex = enabledIndices[enabledIndices.length - 1];
         break;
 
       case 'Enter':
       case ' ':
+        // PREVENCIÓN: Evitar comportamiento por defecto del Enter y Espacio
         event.preventDefault();
+        event.stopPropagation();
         if (!this.items[currentIndex].disabled) {
           this.toggleItem(this.items[currentIndex]);
         }
