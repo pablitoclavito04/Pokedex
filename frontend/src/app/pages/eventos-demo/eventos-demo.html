@@ -35,7 +35,7 @@
       <div class="eventos-demo__stats-grid">
         <!-- Eventos de Teclado -->
         <div class="eventos-demo__stats-category">
-          <h4>⌨️ Eventos de Teclado</h4>
+          <h4>Eventos de Teclado</h4>
           <ul class="eventos-demo__stats-list">
             <li>
               <code>(keydown.enter)</code>
@@ -62,7 +62,7 @@
 
         <!-- Eventos de Mouse -->
         <div class="eventos-demo__stats-category">
-          <h4>🖱️ Eventos de Mouse</h4>
+          <h4>Eventos de Mouse</h4>
           <ul class="eventos-demo__stats-list">
             <li>
               <code>(click)</code>
@@ -81,7 +81,7 @@
 
         <!-- Eventos de Focus -->
         <div class="eventos-demo__stats-category">
-          <h4>🎯 Eventos de Focus</h4>
+          <h4>Eventos de Focus</h4>
           <ul class="eventos-demo__stats-list">
             <li>
               <code>(focus)</code>
@@ -908,6 +908,35 @@ onFocusOut(): void &#123; this.scheduleHide(); &#125;</code></pre>
     </div>
 
     <div class="eventos-demo__card">
+      <h3>Rúbrica 2.2: Manejo de Eventos Específicos</h3>
+      <p><strong>Eventos de teclado (5):</strong></p>
+      <ol>
+        <li><code>(keydown.enter)</code> - card.html, accordion.ts</li>
+        <li><code>(keydown.escape)</code> - modal.ts, header.ts, custom-select.ts</li>
+        <li><code>(keydown.arrowup)</code> - accordion.ts</li>
+        <li><code>(keydown.arrowdown)</code> - accordion.ts</li>
+        <li><code>(keyup)</code> - eventos-demo.ts</li>
+      </ol>
+
+      <p><strong>Eventos de mouse (3):</strong></p>
+      <ol start="6">
+        <li><code>(click)</code> - 30+ componentes</li>
+        <li><code>(mouseenter)</code> - tooltip.ts</li>
+        <li><code>(mouseleave)</code> - tooltip.ts</li>
+      </ol>
+
+      <p><strong>Eventos de focus (4):</strong></p>
+      <ol start="9">
+        <li><code>(focus)</code> - form-input.html, form-select.html</li>
+        <li><code>(blur)</code> - form-input.html, form-select.html</li>
+        <li><code>(focusin)</code> - tooltip.ts, eventos-demo.ts</li>
+        <li><code>(focusout)</code> - tooltip.ts, eventos-demo.ts</li>
+      </ol>
+
+      <p><strong>TOTAL RÚBRICA 2.2: 12 eventos diferentes ✓</strong></p>
+
+      <hr style="margin: 2rem 0; border: none; border-top: 2px solid #e0e0e0;">
+
       <h3>Rúbrica 2.3: Prevención y Control de Propagación</h3>
       <p><strong>preventDefault() en 4 formularios:</strong></p>
       <ol>
@@ -977,8 +1006,6 @@ onFocusOut(): void &#123; this.scheduleHide(); &#125;</code></pre>
 
       <div class="alert alert--success" style="margin-top: 2rem;">
         <strong>✓ Todas las implementaciones están funcionando correctamente</strong>
-        <br>
-        <small>Documentado en: <code>frontend/RUBRICA_2.3_2.4_IMPLEMENTACION.md</code></small>
         <br>
         <small>Documentado en: <code>frontend/README Entorno cliente.md</code></small>
       </div>
