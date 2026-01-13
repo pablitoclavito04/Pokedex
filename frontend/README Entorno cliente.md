@@ -3012,7 +3012,7 @@ frontend/src/
 
 # Rúbricas de evaluación
 
-## Rúbrica 1.2: Modificación Dinámica de Propiedades y Estilos:
+## Rúbrica 1.2: Modificación dinámica de propiedades y estilos:
 
 ### Requisitos cumplidos:
 - Usar Renderer2 para manipulación segura en 5+ ocasiones.
@@ -3324,10 +3324,10 @@ ngOnDestroy(): void {
 
 | Componente | createElement() | appendChild() | removeChild() | cloneNode() | ngOnDestroy() |
 |-----------|----------------|---------------|---------------|-------------|---------------|
-| DomDemoComponent | Si | Si | Si | Si | Si |
-| DynamicListComponent | Si | Si | Si | No | Si |
-| ToastContainerComponent | Si | Si | Si | No | Si |
-| ParticleSystemComponent | Si | Si | Si | No | Si |
+| DomDemoComponent | ✅ | ✅ | ✅ | ✅ | ✅ |
+| DynamicListComponent | ✅ | ✅ | ✅ | ❌ | ✅ |
+| ToastContainerComponent | ✅ | ✅ | ✅ | ❌ | ✅ |
+| ParticleSystemComponent | ✅ | ✅ | ✅ | ❌ | ✅ |
 
 **Total:** 4 componentes con manipulación completa del DOM.
 
@@ -3496,5 +3496,4 @@ ngOnDestroy(): void {
 - @HostListener('document:keydown.escape') en 4 componentes.
 - @HostListener('window:resize') en 2 componentes.
 - 14 @HostListener en total.
-
 
