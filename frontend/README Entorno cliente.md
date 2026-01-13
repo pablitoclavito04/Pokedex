@@ -11,6 +11,7 @@
 - [Rúbricas de Evaluación](#rúbricas-de-evaluación)
   - [Rúbrica 1.2: Modificación Dinámica de Propiedades y Estilos (10/10)](#rúbrica-12-modificación-dinámica-de-propiedades-y-estilos-1010)
   - [Rúbrica 1.3: Creación y Eliminación de Elementos del DOM (10/10)](#rúbrica-13-creación-y-eliminación-de-elementos-del-dom-1010)
+  - [Rúbrica 2.2: Manejo de Eventos Específicos (10/10)](#rúbrica-22-manejo-de-eventos-específicos-1010)
   - [Rúbricas 2.3 y 2.4: Prevención de Eventos y @HostListener (20/20)](#rúbricas-23-y-24-prevención-de-eventos-y-hostlistener-2020)
 
 ---
@@ -3344,6 +3345,126 @@ ngOnDestroy(): void {
 
 **Requisito 4: Gestión del ciclo de vida con ngOnDestroy()**
 **Cumplido** - Todos los componentes limpian correctamente.
+
+---
+
+## Rúbrica 2.2: Manejo de eventos específicos:
+
+### Requisitos cumplidos:
+- Implementar eventos de teclado: `(keydown.enter)`, `(keydown.escape)`, `(keydown.arrowup)`, `(keydown.arrowdown)`, `(keyup)`.
+- Implementar eventos de mouse: `(mouseenter)`, `(mouseleave)`, `(click)`.
+- Implementar eventos de focus: `(focus)`, `(blur)`, `(focusin)`, `(focusout)`.
+- Mínimo 10 eventos diferentes bien implementados en contextos apropiados.
+
+### Página de demostración:
+**Ruta:** `/eventos-demo`
+
+Esta página contiene una demostración interactiva de todos los eventos con contadores en tiempo real.
+
+### Eventos implementados:
+
+#### 1. Eventos de teclado (5 eventos):
+
+| Evento | Ubicación | Descripción |
+|--------|-----------|-------------|
+| `(keydown.enter)` | `card.html:18`, `accordion.ts:145` | Activar tarjeta/ítem con Enter |
+| `(keydown.escape)` | `modal.ts:85`, `header.ts:187`, `custom-select.ts:92` | Cerrar modal/menú/dropdown |
+| `(keydown.arrowup)` | `accordion.ts:116` | Navegar hacia arriba en accordion |
+| `(keydown.arrowdown)` | `accordion.ts:124` | Navegar hacia abajo en accordion |
+| `(keyup)` | `eventos-demo.ts:195` | Detectar cuando se suelta cualquier tecla |
+
+**Ejemplo de código:**
+```typescript
+// Accordion - Navegación con flechas
+onKeyDown(event: KeyboardEvent): void {
+  switch (event.key) {
+    case 'ArrowUp':
+      event.preventDefault();  // Evita scroll de página
+      event.stopPropagation();
+      this.moveFocusUp();
+      break;
+    case 'ArrowDown':
+      event.preventDefault();
+      event.stopPropagation();
+      this.moveFocusDown();
+      break;
+  }
+}
+```
+
+#### 2. Eventos de mouse (3 eventos):
+
+| Evento | Ubicación | Descripción |
+|--------|-----------|-------------|
+| `(click)` | 30+ componentes | Click en botones, tarjetas, links |
+| `(mouseenter)` | `tooltip.ts:98` | Mostrar tooltip al pasar el mouse |
+| `(mouseleave)` | `tooltip.ts:106` | Ocultar tooltip al salir el mouse |
+
+**Ejemplo de código:**
+```typescript
+// Tooltip - Eventos de mouse
+@HostListener('mouseenter')
+onMouseEnter(): void {
+  this.scheduleShow();
+}
+
+@HostListener('mouseleave')
+onMouseLeave(): void {
+  this.scheduleHide();
+}
+```
+
+#### 3. Eventos de focus (4 eventos):
+
+| Evento | Ubicación | Descripción |
+|--------|-----------|-------------|
+| `(focus)` | `form-input.html:105`, `form-select.html:36` | Campo recibe foco |
+| `(blur)` | `form-input.html:106`, `form-select.html:37` | Campo pierde foco |
+| `(focusin)` | `tooltip.ts:114`, `eventos-demo.ts` | Foco en elemento hijo (burbujea) |
+| `(focusout)` | `tooltip.ts:122`, `eventos-demo.ts` | Foco sale de elemento hijo (burbujea) |
+
+**Ejemplo de código:**
+```html
+<!-- Form Input - Eventos de focus -->
+<input
+  [id]="inputId"
+  [type]="type"
+  (input)="onInput($event)"
+  (focus)="onFocus()"
+  (blur)="onBlur()"
+/>
+```
+
+```typescript
+// Tooltip - Eventos de focus para accesibilidad
+@HostListener('focusin')
+onFocusIn(): void {
+  this.scheduleShow();  // Mostrar tooltip al enfocar con teclado
+}
+
+@HostListener('focusout')
+onFocusOut(): void {
+  this.scheduleHide();  // Ocultar tooltip al perder foco
+}
+```
+
+### Resumen de eventos:
+
+| Categoría | Cantidad | Eventos |
+|-----------|----------|---------|
+| **Teclado** | 5 | enter, escape, arrowup, arrowdown, keyup |
+| **Mouse** | 3 | click, mouseenter, mouseleave |
+| **Focus** | 4 | focus, blur, focusin, focusout |
+
+
+### Cómo probar:
+
+1. **Ir a `/eventos-demo`**
+2. **Sección "Manejo de Eventos Específicos"**:
+   - Panel con contadores en tiempo real para cada evento.
+   - Input para probar eventos de teclado.
+   - Caja interactiva para eventos de mouse.
+   - Inputs para eventos de focus.
 
 ---
 

@@ -3,11 +3,326 @@
   <!--                    HEADER                                                    -->
   <!-- ============================================================================ -->
   <header class="eventos-demo__header">
-    <h1 class="eventos-demo__title">Demostración de Rúbricas 2.3 y 2.4</h1>
+    <h1 class="eventos-demo__title">Demostración de Rúbricas 2.2, 2.3 y 2.4</h1>
     <p class="eventos-demo__subtitle">
-      Prevención de Eventos y @HostListener
+      Eventos de Teclado/Mouse/Focus, Prevención de Eventos y @HostListener
     </p>
   </header>
+
+  <!-- ============================================================================ -->
+  <!--           RÚBRICA 2.2: EVENTOS DE TECLADO, MOUSE Y FOCUS                    -->
+  <!-- ============================================================================ -->
+  <section class="eventos-demo__section">
+    <div class="eventos-demo__section-header">
+      <h2 class="eventos-demo__section-title">
+        <span class="badge badge--primary">2.2</span>
+        Manejo de Eventos Específicos (Teclado, Mouse, Focus)
+      </h2>
+      <p class="eventos-demo__description">
+        Demostración interactiva de los 12 eventos requeridos: 5 de teclado, 3 de mouse y 4 de focus.
+      </p>
+    </div>
+
+    <!-- Panel de estadísticas -->
+    <div class="eventos-demo__card">
+      <div class="eventos-demo__stats-header">
+        <h3>Panel de Eventos en Tiempo Real</h3>
+        <button class="btn btn--secondary btn--sm" (click)="resetEventCounts()">
+          Resetear Contadores
+        </button>
+      </div>
+
+      <div class="eventos-demo__stats-grid">
+        <!-- Eventos de Teclado -->
+        <div class="eventos-demo__stats-category">
+          <h4>⌨️ Eventos de Teclado</h4>
+          <ul class="eventos-demo__stats-list">
+            <li>
+              <code>(keydown.enter)</code>
+              <span class="badge badge--info">{{ eventCounts.keydownEnter }}</span>
+            </li>
+            <li>
+              <code>(keydown.escape)</code>
+              <span class="badge badge--info">{{ eventCounts.keydownEscape }}</span>
+            </li>
+            <li>
+              <code>(keydown.arrowup)</code>
+              <span class="badge badge--info">{{ eventCounts.keydownArrowUp }}</span>
+            </li>
+            <li>
+              <code>(keydown.arrowdown)</code>
+              <span class="badge badge--info">{{ eventCounts.keydownArrowDown }}</span>
+            </li>
+            <li>
+              <code>(keyup)</code>
+              <span class="badge badge--info">{{ eventCounts.keyup }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Eventos de Mouse -->
+        <div class="eventos-demo__stats-category">
+          <h4>🖱️ Eventos de Mouse</h4>
+          <ul class="eventos-demo__stats-list">
+            <li>
+              <code>(click)</code>
+              <span class="badge badge--info">{{ eventCounts.click }}</span>
+            </li>
+            <li>
+              <code>(mouseenter)</code>
+              <span class="badge badge--info">{{ eventCounts.mouseenter }}</span>
+            </li>
+            <li>
+              <code>(mouseleave)</code>
+              <span class="badge badge--info">{{ eventCounts.mouseleave }}</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- Eventos de Focus -->
+        <div class="eventos-demo__stats-category">
+          <h4>🎯 Eventos de Focus</h4>
+          <ul class="eventos-demo__stats-list">
+            <li>
+              <code>(focus)</code>
+              <span class="badge badge--info">{{ eventCounts.focus }}</span>
+            </li>
+            <li>
+              <code>(blur)</code>
+              <span class="badge badge--info">{{ eventCounts.blur }}</span>
+            </li>
+            <li>
+              <code>(focusin)</code>
+              <span class="badge badge--info">{{ eventCounts.focusin }}</span>
+            </li>
+            <li>
+              <code>(focusout)</code>
+              <span class="badge badge--info">{{ eventCounts.focusout }}</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="eventos-demo__stats-total">
+        <strong>Total de eventos registrados:</strong>
+        <span class="badge badge--success badge--lg">{{ getTotalEvents() }}</span>
+        @if (lastKeyPressed) {
+          <span class="eventos-demo__last-key">
+            Última tecla (keydown): <kbd>{{ lastKeyPressed }}</kbd>
+          </span>
+        }
+        @if (lastKeyUpPressed) {
+          <span class="eventos-demo__last-key">
+            Última tecla (keyup): <kbd>{{ lastKeyUpPressed }}</kbd>
+          </span>
+        }
+      </div>
+    </div>
+
+    <!-- Área de demostración interactiva -->
+    <div class="eventos-demo__card">
+      <h3>Área de Demostración Interactiva</h3>
+
+      <!-- Demo de eventos de teclado -->
+      <div class="eventos-demo__demo-section">
+        <h4>1. Eventos de Teclado</h4>
+        <p>Enfoca el input y presiona las teclas indicadas:</p>
+
+        <input
+          type="text"
+          class="form-input eventos-demo__keyboard-input"
+          placeholder="Enfócame y presiona Enter, Escape, ↑, ↓ o cualquier tecla"
+          (keydown.enter)="onKeydownEnter($event)"
+          (keydown.escape)="onKeydownEscape($event)"
+          (keydown.arrowup)="onKeydownArrowUp($event)"
+          (keydown.arrowdown)="onKeydownArrowDown($event)"
+          (keyup)="onKeyup($event)"
+        />
+
+        <div class="eventos-demo__instructions">
+          <ul>
+            <li><kbd>Enter</kbd> → dispara <code>(keydown.enter)</code></li>
+            <li><kbd>Escape</kbd> → dispara <code>(keydown.escape)</code></li>
+            <li><kbd>↑</kbd> → dispara <code>(keydown.arrowup)</code></li>
+            <li><kbd>↓</kbd> → dispara <code>(keydown.arrowdown)</code></li>
+            <li><kbd>Cualquier tecla</kbd> al soltar → dispara <code>(keyup)</code></li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Demo de eventos de mouse -->
+      <div class="eventos-demo__demo-section">
+        <h4>2. Eventos de Mouse</h4>
+        <p>Interactúa con la caja de abajo:</p>
+
+        <div
+          class="eventos-demo__mouse-box"
+          [class.eventos-demo__mouse-box--hovered]="demoBoxHovered"
+          (click)="onDemoClick($event)"
+          (mouseenter)="onMouseEnter($event)"
+          (mouseleave)="onMouseLeave($event)"
+        >
+          <span>{{ demoBoxHovered ? '¡Mouse dentro!' : 'Pasa el mouse aquí' }}</span>
+          <br>
+          <small>(click) (mouseenter) (mouseleave)</small>
+        </div>
+      </div>
+
+      <!-- Demo de eventos de focus -->
+      <div class="eventos-demo__demo-section">
+        <h4>3. Eventos de Focus</h4>
+        <p>Haz click en los inputs para ver los eventos de focus:</p>
+
+        <div
+          class="eventos-demo__focus-container"
+          [class.eventos-demo__focus-container--focused]="demoContainerFocused"
+          (focusin)="onFocusIn($event)"
+          (focusout)="onFocusOut($event)"
+        >
+          <label>
+            Input con (focus) y (blur):
+            <input
+              type="text"
+              class="form-input"
+              [class.eventos-demo__input--focused]="demoInputFocused"
+              placeholder="Haz click aquí y luego fuera"
+              (focus)="onFocus($event)"
+              (blur)="onBlur($event)"
+            />
+          </label>
+
+          <label>
+            Segundo input (para probar focusin/focusout):
+            <input
+              type="text"
+              class="form-input"
+              placeholder="Click aquí para ver focusin/focusout"
+            />
+          </label>
+
+          <div class="eventos-demo__focus-info">
+            <p><strong>Diferencia:</strong></p>
+            <ul>
+              <li><code>(focus)/(blur)</code> - NO burbujean, solo el elemento específico</li>
+              <li><code>(focusin)/(focusout)</code> - SÍ burbujean, detectan hijos</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Código de ejemplo -->
+    <div class="eventos-demo__card">
+      <h3>Código de Implementación</h3>
+
+      <div class="eventos-demo__code">
+        <h4>Template HTML:</h4>
+        <pre><code>&lt;!-- Eventos de teclado --&gt;
+&lt;input
+  (keydown.enter)="onKeydownEnter($event)"
+  (keydown.escape)="onKeydownEscape($event)"
+  (keydown.arrowup)="onKeydownArrowUp($event)"
+  (keydown.arrowdown)="onKeydownArrowDown($event)"
+  (keyup)="onKeyup($event)"
+/&gt;
+
+&lt;!-- Eventos de mouse --&gt;
+&lt;div
+  (click)="onClick($event)"
+  (mouseenter)="onMouseEnter($event)"
+  (mouseleave)="onMouseLeave($event)"
+&gt;
+
+&lt;!-- Eventos de focus --&gt;
+&lt;input (focus)="onFocus($event)" (blur)="onBlur($event)" /&gt;
+&lt;div (focusin)="onFocusIn($event)" (focusout)="onFocusOut($event)"&gt;</code></pre>
+
+        <h4>Ubicaciones reales en el proyecto:</h4>
+        <ul>
+          <li><code>(keydown.enter)</code> → <code>card.html:18</code>, <code>accordion.ts:145</code></li>
+          <li><code>(keydown.escape)</code> → <code>modal.ts:85</code>, <code>header.ts:187</code></li>
+          <li><code>(keydown.arrowup/down)</code> → <code>accordion.ts:116-128</code></li>
+          <li><code>(keyup)</code> → <code>eventos-demo.ts</code> (esta demo)</li>
+          <li><code>(click)</code> → Múltiples componentes (30+ usos)</li>
+          <li><code>(mouseenter)/(mouseleave)</code> → <code>tooltip.ts:98-106</code></li>
+          <li><code>(focus)/(blur)</code> → <code>form-input.html:105-106</code></li>
+          <li><code>(focusin)/(focusout)</code> → <code>tooltip.ts:114-122</code></li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Resumen de rúbrica 2.2 -->
+    <div class="eventos-demo__card">
+      <h3>✓ Resumen Rúbrica 2.2 (10/10)</h3>
+
+      <div class="alert alert--success">
+        <strong>12 eventos diferentes implementados:</strong>
+      </div>
+
+      <table class="eventos-demo__summary-table">
+        <thead>
+          <tr>
+            <th>Categoría</th>
+            <th>Evento</th>
+            <th>Ubicación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td rowspan="5">⌨️ Teclado</td>
+            <td><code>(keydown.enter)</code></td>
+            <td>card.html, accordion.ts</td>
+          </tr>
+          <tr>
+            <td><code>(keydown.escape)</code></td>
+            <td>modal.ts, header.ts, custom-select.ts</td>
+          </tr>
+          <tr>
+            <td><code>(keydown.arrowup)</code></td>
+            <td>accordion.ts</td>
+          </tr>
+          <tr>
+            <td><code>(keydown.arrowdown)</code></td>
+            <td>accordion.ts</td>
+          </tr>
+          <tr>
+            <td><code>(keyup)</code></td>
+            <td>eventos-demo.ts</td>
+          </tr>
+          <tr>
+            <td rowspan="3">🖱️ Mouse</td>
+            <td><code>(click)</code></td>
+            <td>30+ componentes</td>
+          </tr>
+          <tr>
+            <td><code>(mouseenter)</code></td>
+            <td>tooltip.ts</td>
+          </tr>
+          <tr>
+            <td><code>(mouseleave)</code></td>
+            <td>tooltip.ts</td>
+          </tr>
+          <tr>
+            <td rowspan="4">🎯 Focus</td>
+            <td><code>(focus)</code></td>
+            <td>form-input.html, form-select.html</td>
+          </tr>
+          <tr>
+            <td><code>(blur)</code></td>
+            <td>form-input.html, form-select.html</td>
+          </tr>
+          <tr>
+            <td><code>(focusin)</code></td>
+            <td>tooltip.ts, eventos-demo.ts</td>
+          </tr>
+          <tr>
+            <td><code>(focusout)</code></td>
+            <td>tooltip.ts, eventos-demo.ts</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
 
   <!-- ============================================================================ -->
   <!--           SECCIÓN 1: preventDefault() EN FORMULARIO (RÚBRICA 2.3)           -->

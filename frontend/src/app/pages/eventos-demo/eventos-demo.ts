@@ -6,12 +6,12 @@ import { AccordionComponent, AccordionItem } from '../../../components/shared/ac
 import { CustomSelectComponent, CustomSelectOption } from '../../../components/shared/custom-select/custom-select';
 
 /**
- * DEMOSTRACIÓN DE RÚBRICAS 2.3 Y 2.4
+ * DEMOSTRACIÓN DE RÚBRICAS 2.2, 2.3 Y 2.4
  *
  * Esta página demuestra todas las implementaciones de:
- * - preventDefault() en formularios
- * - stopPropagation() en componentes interactivos
- * - @HostListener para eventos globales
+ * - RÚBRICA 2.2: Eventos de teclado, mouse y focus (10+ eventos)
+ * - RÚBRICA 2.3: preventDefault() y stopPropagation()
+ * - RÚBRICA 2.4: @HostListener para eventos globales
  */
 @Component({
   selector: 'app-eventos-demo',
@@ -132,5 +132,178 @@ export class EventosDemoComponent {
   outsideClickCount = 0;
   resizeCount = 0;
 
-  // Estos se actualizarán automáticamente por los @HostListener de los componentes
+  // ============================================================================
+  // SECCIÓN RÚBRICA 2.2: EVENTOS DE TECLADO, MOUSE Y FOCUS
+  // ============================================================================
+
+  // Contadores para demostración de eventos
+  eventCounts = {
+    // Eventos de teclado
+    keydownEnter: 0,
+    keydownEscape: 0,
+    keydownArrowUp: 0,
+    keydownArrowDown: 0,
+    keyup: 0,
+    // Eventos de mouse
+    click: 0,
+    mouseenter: 0,
+    mouseleave: 0,
+    // Eventos de focus
+    focus: 0,
+    blur: 0,
+    focusin: 0,
+    focusout: 0
+  };
+
+  // Estado para demostración visual
+  demoBoxHovered = false;
+  demoInputFocused = false;
+  demoContainerFocused = false;
+  lastKeyPressed = '';
+  lastKeyUpPressed = '';
+
+  // ==================== EVENTOS DE TECLADO ====================
+
+  /**
+   * (keydown.enter) - Detecta cuando se presiona Enter
+   */
+  onKeydownEnter(event: Event): void {
+    this.eventCounts.keydownEnter++;
+    this.lastKeyPressed = 'Enter';
+    console.log('Evento: keydown.enter', event);
+  }
+
+  /**
+   * (keydown.escape) - Detecta cuando se presiona Escape
+   */
+  onKeydownEscape(event: Event): void {
+    this.eventCounts.keydownEscape++;
+    this.lastKeyPressed = 'Escape';
+    console.log('Evento: keydown.escape', event);
+  }
+
+  /**
+   * (keydown.arrowup) - Detecta cuando se presiona flecha arriba
+   */
+  onKeydownArrowUp(event: Event): void {
+    event.preventDefault(); // Evitar scroll de página
+    this.eventCounts.keydownArrowUp++;
+    this.lastKeyPressed = 'ArrowUp ↑';
+    console.log('Evento: keydown.arrowup', event);
+  }
+
+  /**
+   * (keydown.arrowdown) - Detecta cuando se presiona flecha abajo
+   */
+  onKeydownArrowDown(event: Event): void {
+    event.preventDefault(); // Evitar scroll de página
+    this.eventCounts.keydownArrowDown++;
+    this.lastKeyPressed = 'ArrowDown ↓';
+    console.log('Evento: keydown.arrowdown', event);
+  }
+
+  /**
+   * (keyup) - Detecta cuando se suelta cualquier tecla
+   */
+  onKeyup(event: Event): void {
+    const keyEvent = event as KeyboardEvent;
+    this.eventCounts.keyup++;
+    this.lastKeyUpPressed = keyEvent.key;
+    console.log('Evento: keyup', keyEvent.key);
+  }
+
+  // ==================== EVENTOS DE MOUSE ====================
+
+  /**
+   * (click) - Detecta click en elemento
+   */
+  onDemoClick(event: MouseEvent): void {
+    this.eventCounts.click++;
+    console.log('Evento: click', event);
+  }
+
+  /**
+   * (mouseenter) - Detecta cuando el mouse entra en el elemento
+   */
+  onMouseEnter(event: MouseEvent): void {
+    this.eventCounts.mouseenter++;
+    this.demoBoxHovered = true;
+    console.log('Evento: mouseenter', event);
+  }
+
+  /**
+   * (mouseleave) - Detecta cuando el mouse sale del elemento
+   */
+  onMouseLeave(event: MouseEvent): void {
+    this.eventCounts.mouseleave++;
+    this.demoBoxHovered = false;
+    console.log('Evento: mouseleave', event);
+  }
+
+  // ==================== EVENTOS DE FOCUS ====================
+
+  /**
+   * (focus) - Detecta cuando un input recibe el foco
+   */
+  onFocus(event: FocusEvent): void {
+    this.eventCounts.focus++;
+    this.demoInputFocused = true;
+    console.log('Evento: focus', event);
+  }
+
+  /**
+   * (blur) - Detecta cuando un input pierde el foco
+   */
+  onBlur(event: FocusEvent): void {
+    this.eventCounts.blur++;
+    this.demoInputFocused = false;
+    console.log('Evento: blur', event);
+  }
+
+  /**
+   * (focusin) - Detecta cuando cualquier elemento hijo recibe foco (burbujea)
+   */
+  onFocusIn(event: FocusEvent): void {
+    this.eventCounts.focusin++;
+    this.demoContainerFocused = true;
+    console.log('Evento: focusin (bubbles)', event);
+  }
+
+  /**
+   * (focusout) - Detecta cuando cualquier elemento hijo pierde foco (burbujea)
+   */
+  onFocusOut(event: FocusEvent): void {
+    this.eventCounts.focusout++;
+    this.demoContainerFocused = false;
+    console.log('Evento: focusout (bubbles)', event);
+  }
+
+  /**
+   * Resetear todos los contadores
+   */
+  resetEventCounts(): void {
+    this.eventCounts = {
+      keydownEnter: 0,
+      keydownEscape: 0,
+      keydownArrowUp: 0,
+      keydownArrowDown: 0,
+      keyup: 0,
+      click: 0,
+      mouseenter: 0,
+      mouseleave: 0,
+      focus: 0,
+      blur: 0,
+      focusin: 0,
+      focusout: 0
+    };
+    this.lastKeyPressed = '';
+    this.lastKeyUpPressed = '';
+  }
+
+  /**
+   * Obtener total de eventos registrados
+   */
+  getTotalEvents(): number {
+    return Object.values(this.eventCounts).reduce((a, b) => a + b, 0);
+  }
 }
