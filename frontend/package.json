@@ -7,6 +7,8 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
+    "test:coverage": "ng test --coverage --coverage-reporters text-summary",
+    "test:coverage:html": "ng test --coverage --coverage-reporters html",
     "serve:ssr:frontend": "node dist/frontend/server/server.mjs"
   },
   "prettier": {
@@ -42,6 +44,7 @@
     "@angular/compiler-cli": "^21.0.0",
     "@types/express": "^5.0.1",
     "@types/node": "^20.17.19",
+    "@vitest/coverage-v8": "^4.0.17",
     "angular-cli-ghpages": "^2.0.3",
     "jsdom": "^27.1.0",
     "typescript": "~5.9.2",

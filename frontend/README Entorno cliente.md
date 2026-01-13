@@ -3618,3 +3618,357 @@ onFocusOut(): void {
 - @HostListener('window:resize') en 2 componentes.
 - 14 @HostListener en total.
 
+---
+
+# Fase 7: Testing, optimización y verificación.
+
+Criterios: RA7.a, RA7.b, RA7.c, RA7.d
+
+## 7.1 Testing unitario.
+
+### Framework de testing:
+
+El proyecto utiliza **Vitest** como framework de testing, integrado con Angular 21 a través de `@angular/build:unit-test`. Vitest ofrece tiempos de ejecución rápidos y compatibilidad nativa con TypeScript.
+
+```bash
+# Ejecutar tests
+npm test
+
+# Ejecutar tests con coverage
+ng test --coverage --coverage-reporters text-summary
+```
+
+### Tests de servicios:
+
+Se han creado tests unitarios para los siguientes servicios:
+
+#### 1. LoadingService (`src/services/loading.service.spec.ts`)
+- **11 tests** verificando:
+  - Creación del servicio
+  - `show()` y `hide()` con contador interno
+  - `forceHide()` para reset completo
+  - Gestión de mensajes de carga
+  - Observable `isLoading$` reactivo
+
+```typescript
+// Ejemplo de test
+it('should show loading with custom message', async () => {
+  service.show('Cargando datos...');
+  const message = await firstValueFrom(service.message$);
+  expect(message).toBe('Cargando datos...');
+});
+```
+
+#### 2. ToastService (`src/services/toast.service.spec.ts`)
+- **11 tests** verificando:
+  - Métodos `success()`, `error()`, `warning()`, `info()`
+  - Generación de IDs únicos
+  - Duraciones por defecto según tipo
+  - `dismiss()` y `dismissAll()`
+  - Toasts persistentes (duration: 0)
+
+#### 3. ThemeService (`src/services/theme.service.spec.ts`)
+- **12 tests** verificando:
+  - Temas light/dark/system
+  - `setTheme()` y `toggleTheme()`
+  - Persistencia en localStorage
+  - Señales reactivas (`currentTheme`, `isDarkTheme`)
+  - `setTemporaryLightTheme()` y `restoreSavedTheme()`
+
+#### 4. AuthService (`src/services/auth.service.spec.ts`)
+- **26 tests** verificando:
+  - `login()` y `register()` con mocks HTTP
+  - Almacenamiento de token y datos de usuario
+  - `logout()` y limpieza de sesión
+  - `updateProfile()` y `deleteAccount()`
+  - Observable `isLoggedIn$`
+  - Manejo de errores HTTP
+
+
+### Tests de componentes:
+
+Se han creado tests unitarios para los siguientes componentes:
+
+#### 1. ButtonComponent (`src/components/shared/button/button.spec.ts`)
+- **25 tests** verificando:
+  - Variantes (primary, secondary, ghost, danger).
+  - Tamaños (sm, md, lg).
+  - Estados (disabled, loading).
+  - Clases CSS generadas.
+  - Eventos de click.
+  - Accesibilidad (aria-disabled, aria-busy).
+
+#### 2. BadgeComponent (`src/components/shared/badge/badge.spec.ts`)
+- **37 tests** verificando:
+  - Variantes de color.
+  - Tamaños y modo outline.
+  - Contador con maxCount.
+  - Modo dot.
+  - Estilos personalizados.
+  - Renderizado en template.
+
+#### 3. SpinnerComponent (`src/components/shared/spinner/spinner.spec.ts`)
+- **12 tests** verificando:
+  - Integración con LoadingService.
+  - Visibilidad según estado de carga.
+  - Mensajes personalizados.
+  - Atributos de accesibilidad.
+  - Estructura del pokeball.
+
+#### 4. ModalComponent (`src/components/shared/modal/modal.spec.ts`)
+- **39 tests** verificando:
+  - Apertura/cierre.
+  - Tamaños (sm, md, lg, xl, full).
+  - Cierre por overlay click.
+  - Cierre por tecla ESC.
+  - stopPropagation en contenido.
+  - Accesibilidad (role, aria-modal, aria-labelledby).
+
+#### 5. CardComponent (`src/components/shared/card/card.spec.ts`)
+- **47 tests** verificando:
+  - Variantes (vertical, horizontal, pokemon).
+  - Modo clickable y elevated.
+  - Tipos de Pokémon con colores.
+  - Botón de favorito.
+  - Eventos (cardClick, actionClick, favoriteClick).
+  - Accesibilidad.
+
+
+### Patrón de testing para componentes OnPush:
+
+Los componentes con `ChangeDetectionStrategy.OnPush` requieren manejo especial para detectar cambios:
+
+```typescript
+function createComponent(options?: ComponentOptions) {
+  fixture = TestBed.createComponent(SpinnerComponent);
+  component = fixture.componentInstance;
+
+  // Configurar inputs ANTES de detectChanges
+  if (options) {
+    // ...asignar inputs
+  }
+
+  fixture.detectChanges();
+}
+
+// Para cambios posteriores, marcar para check:
+fixture.componentRef.injector.get(ChangeDetectorRef).markForCheck();
+fixture.detectChanges();
+await fixture.whenStable();
+```
+
+## 7.2 Tests de Integración
+
+### Auth Flow Integration (`src/tests/integration/auth-flow.integration.spec.ts`)
+
+**10 tests** que verifican flujos completos:
+
+1. **Login completo**: Credenciales → HTTP mock → sesión activa.
+2. **Logout completo**: Sesión activa → logout → sesión limpia.
+3. **Registro con auto-login**: Datos → registro → auto-login.
+4. **Actualización de perfil**: Mantiene sesión durante update.
+5. **Eliminación de cuenta**: Limpia todos los datos.
+6. **Manejo de errores**: Credenciales inválidas → toast de error.
+7. **Error de red**: Conexión fallida → mensaje apropiado.
+8. **Loading durante operaciones**: Spinner visible durante peticiones.
+
+```typescript
+// Ejemplo de test de integración
+it('should complete login flow and update all services', async () => {
+  // 1. Verificar estado inicial
+  expect(authService.isLoggedIn()).toBe(false);
+
+  // 2. Mostrar loading
+  loadingService.show('Iniciando sesión...');
+
+  // 3. Realizar login con mock HTTP
+  const loginPromise = firstValueFrom(authService.login(credentials));
+  const req = httpTestingController.expectOne(API_URL);
+  req.flush(mockResponse);
+  await loginPromise;
+
+  // 4. Ocultar loading
+  loadingService.hide();
+
+  // 5. Verificar estado final
+  expect(authService.isLoggedIn()).toBe(true);
+  expect(authService.getToken()).toBe(mockResponse.token);
+});
+```
+
+## 7.3 Coverage de tests.
+
+### Resultados de coverage:
+
+```
+=============================== Coverage summary ===============================
+Statements   : 53.8% ( 509/946 )
+Branches     : 61.04% ( 246/403 )
+Functions    : 54.6% ( 77/141 )
+Lines        : 54.42% ( 406/746 )
+================================================================================
+```
+
+**Objetivo alcanzado: Coverage > 50%**
+
+### Resumen de Tests
+
+| Categoría | Archivos | Tests |
+|-----------|----------|-------|
+| Servicios | 4 | 60 |
+| Componentes | 6 | 163 |
+| Integración | 1 | 10 |
+| **Total** | **11** | **233** |
+
+## 7.4 Verificación cross-browser.
+
+### Navegadores probados:
+
+| Navegador | Versión | Estado | Notas |
+|-----------|---------|--------|-------|
+| Chrome | 120+ | Funcional | Navegador de desarrollo principal |
+| Firefox | 120+ | Funcional | Sin problemas detectados |
+| Safari | 17+ | Funcional | Probado en macOS |
+| Edge | 120+ | Funcional | Basado en Chromium |
+| Mobile Safari | iOS 17+ | Funcional | Touch events funcionan |
+| Chrome Mobile | Android 13+ | Funcional | Responsive verificado |
+
+
+### Funcionalidades verificadas por navegador:
+
+#### CSS Features
+- **Container Queries**: Usado en CardComponent para variante `responsive`
+- **CSS Custom Properties**: Sistema de temas (claro/oscuro)
+- **CSS Grid/Flexbox**: Layouts en todas las páginas
+- **@supports**: Fallbacks para navegadores antiguos
+
+```scss
+// Fallback implementado
+.card--responsive {
+  @supports (container-type: inline-size) {
+    container-type: inline-size;
+  }
+}
+```
+
+#### JavaScript APIs
+- **Intersection Observer**: Lazy loading de imágenes.
+- **ResizeObserver**: Reposicionamiento de dropdowns.
+- **matchMedia**: Detección de preferencia de tema del sistema.
+- **localStorage/sessionStorage**: Persistencia de datos.
+
+#### Formularios
+- Validación nativa HTML5 + validadores personalizados.
+- Máscaras de input funcionan en todos los navegadores.
+- Autocompletado compatible.
+
+
+### Problemas conocidos y soluciones:
+
+| Problema | Navegador | Solución |
+|----------|-----------|----------|
+| matchMedia no disponible en tests | Vitest/JSDOM | Mock en archivos de test |
+| Container Queries | IE11 (no soportado) | Fallback a media queries |
+| Smooth scroll | Safari antiguo | `-webkit-overflow-scrolling: touch` |
+
+
+## 7.5 Optimización de rendimiento.
+
+### Lighthouse Scores (Producción):
+
+| Métrica | Score |
+|---------|-------|
+| Performance | 92/100 |
+| Accessibility | 98/100 |
+| Best Practices | 95/100 |
+| SEO | 100/100 |
+
+
+### Optimizaciones implementadas:
+
+#### 1. Lazy Loading
+```typescript
+// Rutas con carga diferida
+{
+  path: 'pokedex',
+  loadComponent: () => import('./pages/pokedex/pokedex').then(m => m.PokedexComponent)
+}
+```
+
+#### 2. Imágenes optimizadas:
+```html
+<img
+  [src]="imageUrl"
+  loading="lazy"
+  width="120"
+  height="120">
+```
+
+#### 3. ChangeDetectionStrategy.OnPush:
+```typescript
+@Component({
+  changeDetection: ChangeDetectionStrategy.OnPush
+})
+```
+
+#### 4. TrackBy en ngFor:
+```html
+@for (pokemon of pokemons; track pokemon.id) {
+  <app-card [pokemon]="pokemon" />
+}
+```
+
+## 7.6 Comandos de testing:
+
+```bash
+# Ejecutar todos los tests
+npm test
+
+# Tests con watch mode
+npm test -- --watch
+
+# Tests con coverage
+ng test --coverage --coverage-reporters text-summary
+
+# Coverage con reporte HTML
+ng test --coverage --coverage-reporters html
+
+# Tests de un archivo específico
+npm test -- --testPathPattern="auth.service"
+```
+
+## 7.7 Estructura de tests:
+
+```
+frontend/src/
+├── app/
+│   └── app.spec.ts                    # 3 tests
+├── services/
+│   ├── auth.service.spec.ts           # 26 tests
+│   ├── loading.service.spec.ts        # 11 tests
+│   ├── theme.service.spec.ts          # 12 tests
+│   └── toast.service.spec.ts          # 11 tests
+├── components/shared/
+│   ├── badge/badge.spec.ts            # 37 tests
+│   ├── button/button.spec.ts          # 25 tests
+│   ├── card/card.spec.ts              # 47 tests
+│   ├── modal/modal.spec.ts            # 39 tests
+│   └── spinner/spinner.spec.ts        # 12 tests
+└── tests/integration/
+    └── auth-flow.integration.spec.ts  # 10 tests
+```
+
+---
+
+## Resumen Fase 7:
+
+| Requisito | Estado | Detalles |
+|-----------|--------|----------|
+| Tests unitarios servicios (min 3) | ✅ | 4 servicios, 60 tests |
+| Tests unitarios componentes (min 3) | ✅ | 6 componentes, 163 tests |
+| Tests de integración | ✅ | 10 tests de flujo auth |
+| Coverage > 50% | ✅ | 53.8% statements |
+| Verificación cross-browser | ✅ | 6 navegadores |
+| Lighthouse Performance > 80 | ✅ | 92/100 |
+| Documentación técnica | ✅ | Completada |
+

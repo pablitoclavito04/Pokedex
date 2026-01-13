@@ -24,6 +24,15 @@ Aplicación web fullstack para gestionar y visualizar información de Pokémon. 
 | Best Practices | 95/100 | Lighthouse |
 | SEO | 100/100 | Lighthouse |
 
+## Testing:
+
+| Métrica | Valor |
+|---------|-------|
+| Tests unitarios | 233 |
+| Test coverage | 53.8% |
+| Tests de integración | 10 |
+| Archivos de test | 11 |
+
 ## Tecnologías.
 
 ### Frontend:
