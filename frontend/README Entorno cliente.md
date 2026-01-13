@@ -13,7 +13,8 @@
   - [Rúbrica 1.3: Creación y Eliminación de Elementos del DOM (10/10)](#rúbrica-13-creación-y-eliminación-de-elementos-del-dom-1010)
   - [Rúbrica 2.2: Manejo de Eventos Específicos (10/10)](#rúbrica-22-manejo-de-eventos-específicos-1010)
   - [Rúbricas 2.3 y 2.4: Prevención de Eventos y @HostListener (20/20)](#rúbricas-23-y-24-prevención-de-eventos-y-hostlistener-2020)
--[Fase 7: Testing, optimización y verificación](#fase-7-testing-optimización-y-verificación)
+
+- [Fase 7: Testing, optimización y verificación](#fase-7-testing-optimización-y-verificación)
 
 ---
 
