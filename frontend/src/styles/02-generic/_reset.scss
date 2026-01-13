@@ -296,9 +296,22 @@ template {
 //                            7. ACCESIBILIDAD
 // ============================================================================
 
-// Mejora foco de teclado
+// Mejora foco de teclado con soporte para navegadores antiguos
 :focus-visible {
-  outline: 2px solid currentColor;
+  outline: 2px solid #3B82F6;
+  outline-offset: 2px;
+}
+
+// Fallback para navegadores sin soporte de :focus-visible
+// Solo para enlaces y elementos interactivos importantes
+a:focus:not(:focus-visible),
+button:focus:not(:focus-visible) {
+  outline: none;
+}
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid #3B82F6;
   outline-offset: 2px;
 }
 
