@@ -9,6 +9,7 @@
 - [Fase 5: Servicios y Comunicación HTTP](#fase-5-servicios-y-comunicación-http)
 - [Fase 6: Gestión de estado y actualización dinámica](#fase-6-gestión-de-estado-y-actualización-dinámica)
 - [Rúbricas de Evaluación](#rúbricas-de-evaluación)
+  - [Rúbrica 1.2: Modificación Dinámica de Propiedades y Estilos (10/10)](#rúbrica-12-modificación-dinámica-de-propiedades-y-estilos-1010)
   - [Rúbrica 1.3: Creación y Eliminación de Elementos del DOM (10/10)](#rúbrica-13-creación-y-eliminación-de-elementos-del-dom-1010)
   - [Rúbricas 2.3 y 2.4: Prevención de Eventos y @HostListener (20/20)](#rúbricas-23-y-24-prevención-de-eventos-y-hostlistener-2020)
 
@@ -3010,6 +3011,152 @@ frontend/src/
 ---
 
 # Rúbricas de evaluación
+
+## Rúbrica 1.2: Modificación Dinámica de Propiedades y Estilos:
+
+### Requisitos cumplidos:
+- Usar Renderer2 para manipulación segura en 5+ ocasiones.
+- Métodos implementados: `setStyle()`, `removeStyle()`, `addClass()`, `removeClass()`.
+- Modificar propiedades y estilos dinámicamente según eventos o estado.
+- Código SSR-safe verificado (uso de `@Inject(DOCUMENT)`).
+- No usar manipulación directa del DOM.
+
+### Componentes implementados:
+
+#### 1. ModalComponent
+**Archivo:** `src/components/shared/modal/modal.ts`
+
+**Inyección de dependencias:**
+```typescript
+constructor(
+  @Inject(PLATFORM_ID) platformId: Object,
+  @Inject(DOCUMENT) private document: Document,  // SSR-safe
+  private renderer: Renderer2
+) {
+  this.isBrowser = isPlatformBrowser(platformId);
+}
+```
+
+**Uso de Renderer2:**
+```typescript
+// Bloquear scroll del body cuando el modal está abierto
+ngOnChanges(): void {
+  if (this.isBrowser && this.blockScroll) {
+    if (this.isOpen) {
+      // Renderer2.setStyle() - Establece estilos de forma segura
+      this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
+    } else {
+      // Renderer2.removeStyle() - Elimina estilos de forma segura
+      this.renderer.removeStyle(this.document.body, 'overflow');
+    }
+  }
+}
+
+ngOnDestroy(): void {
+  if (this.isBrowser) {
+    // Limpieza: restaurar el scroll del body usando Renderer2
+    this.renderer.removeStyle(this.document.body, 'overflow');
+  }
+}
+```
+
+**Métodos Renderer2 utilizados:** `setStyle()`, `removeStyle()` (3 usos)
+
+---
+
+#### 2. CardComponent
+**Archivo:** `src/components/shared/card/card.ts`
+
+**Inyección de dependencias:**
+```typescript
+constructor(private renderer: Renderer2) {}
+```
+
+**Uso de Renderer2:**
+```typescript
+onFavoriteClick(event: Event): void {
+  event.stopPropagation();
+  const button = event.currentTarget as HTMLElement;
+
+  // Renderer2.addClass() - Añadir clase para animación de onda (ripple effect)
+  this.renderer.addClass(button, 'animate-wave');
+
+  // Renderer2.addClass() - Añadir animación heart-beat al corazón
+  this.renderer.addClass(button, 'animate-heart-beat');
+
+  // Remover las clases después de las animaciones usando Renderer2
+  setTimeout(() => {
+    // Renderer2.removeClass() - Elimina clase de forma segura
+    this.renderer.removeClass(button, 'animate-wave');
+  }, 600);
+
+  setTimeout(() => {
+    // Renderer2.removeClass() - Elimina clase de forma segura
+    this.renderer.removeClass(button, 'animate-heart-beat');
+  }, 400);
+
+  this.favoriteClick.emit();
+}
+```
+
+**Métodos Renderer2 utilizados:** `addClass()`, `removeClass()` (4 usos)
+
+---
+
+#### 3. HeaderComponent
+**Archivo:** `src/components/layout/header/header.ts`
+
+**Inyección de dependencias:**
+```typescript
+constructor(
+  public themeService: ThemeService,
+  private authService: AuthService,
+  private renderer: Renderer2,
+  @Inject(DOCUMENT) private document: Document  // SSR-safe
+) { ... }
+```
+
+**Uso de Renderer2:**
+```typescript
+// Alterna el menú móvil con manipulación segura del DOM
+toggleMenu(): void {
+  this.isMenuOpen = !this.isMenuOpen;
+
+  if (this.isMenuOpen) {
+    // Renderer2.setStyle() - Establece estilos de forma segura
+    this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
+  } else {
+    // Renderer2.removeStyle() - Elimina estilos de forma segura
+    this.renderer.removeStyle(this.document.body, 'overflow');
+  }
+}
+
+closeMenu(): void {
+  this.isMenuOpen = false;
+  // Renderer2.removeStyle() - Restaura el scroll del body de forma segura
+  this.renderer.removeStyle(this.document.body, 'overflow');
+}
+```
+
+**Métodos Renderer2 utilizados:** `setStyle()`, `removeStyle()` (3 usos)
+
+---
+
+### Resumen de uso de Renderer2:
+
+| Componente | Métodos | Cantidad |
+|------------|---------|----------|
+| ModalComponent | `setStyle()`, `removeStyle()` | 3 |
+| CardComponent | `addClass()`, `removeClass()` | 4 |
+| HeaderComponent | `setStyle()`, `removeStyle()` | 3 |
+| **Total** | | **10 usos** |
+
+### Características SSR-safe:
+- Uso de `@Inject(DOCUMENT)` en lugar de acceso directo a `document`.
+- Verificación de plataforma con `isPlatformBrowser()`.
+- No hay manipulación directa del DOM (`element.style.x`, `classList.add/remove`).
+
+---
 
 ## Rúbrica 1.3: Creación y eliminación de elementos del DOM:
 

@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter, HostListener, PLATFORM_ID, Inject, ViewEncapsulation } from '@angular/core';
-import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { Component, Input, Output, EventEmitter, HostListener, PLATFORM_ID, Inject, ViewEncapsulation, Renderer2 } from '@angular/core';
+import { CommonModule, isPlatformBrowser, DOCUMENT } from '@angular/common';
 
 @Component({
   selector: 'app-modal',
@@ -12,7 +12,11 @@ import { CommonModule, isPlatformBrowser } from '@angular/common';
 export class ModalComponent {
   private isBrowser: boolean;
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
+    @Inject(DOCUMENT) private document: Document,
+    private renderer: Renderer2
+  ) {
     this.isBrowser = isPlatformBrowser(platformId);
   }
   // ============================================================================
@@ -168,19 +172,23 @@ export class ModalComponent {
   }
 
   // Prevenir scroll del body cuando el modal está abierto
+  // Usa Renderer2 para manipulación segura del DOM (SSR-safe)
   ngOnChanges(): void {
     if (this.isBrowser && this.blockScroll) {
       if (this.isOpen) {
-        document.body.style.overflow = 'hidden';
+        // Renderer2.setStyle() - Establece estilos de forma segura
+        this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
       } else {
-        document.body.style.overflow = '';
+        // Renderer2.removeStyle() - Elimina estilos de forma segura
+        this.renderer.removeStyle(this.document.body, 'overflow');
       }
     }
   }
 
   ngOnDestroy(): void {
     if (this.isBrowser) {
-      document.body.style.overflow = '';
+      // Limpieza: restaurar el scroll del body usando Renderer2
+      this.renderer.removeStyle(this.document.body, 'overflow');
     }
   }
   

@@ -1,6 +1,6 @@
-import { Component, HostListener, ElementRef, ViewChild, inject } from '@angular/core';
+import { Component, HostListener, ElementRef, ViewChild, inject, Renderer2, Inject } from '@angular/core';
 import { RouterModule, Router, NavigationEnd } from '@angular/router';
-import { CommonModule } from '@angular/common';
+import { CommonModule, DOCUMENT } from '@angular/common';
 import { ThemeService } from '../../../services/theme.service';
 import { AuthService } from '../../../services/auth.service';
 import { ModalComponent } from '../../shared/modal/modal';
@@ -70,7 +70,9 @@ export class HeaderComponent {
 
   constructor(
     public themeService: ThemeService,
-    private authService: AuthService
+    private authService: AuthService,
+    private renderer: Renderer2,
+    @Inject(DOCUMENT) private document: Document
   ) {
     // Detectar cambios de ruta para saber si estamos en landing
     this.router.events.pipe(
@@ -145,15 +147,18 @@ export class HeaderComponent {
 
   /**
    * Alterna el menú móvil
+   * Usa Renderer2 para manipulación segura del DOM (SSR-safe)
    */
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
 
     // Prevenir scroll del body cuando el menú está abierto
     if (this.isMenuOpen) {
-      document.body.style.overflow = 'hidden';
+      // Renderer2.setStyle() - Establece estilos de forma segura
+      this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
     } else {
-      document.body.style.overflow = '';
+      // Renderer2.removeStyle() - Elimina estilos de forma segura
+      this.renderer.removeStyle(this.document.body, 'overflow');
     }
   }
 
@@ -162,7 +167,8 @@ export class HeaderComponent {
    */
   closeMenu(): void {
     this.isMenuOpen = false;
-    document.body.style.overflow = '';
+    // Renderer2.removeStyle() - Restaura el scroll del body de forma segura
+    this.renderer.removeStyle(this.document.body, 'overflow');
   }
 
   /**

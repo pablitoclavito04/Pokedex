@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Renderer2 } from '@angular/core';
 
 /**
  * Interfaz para tipos de Pokémon
@@ -16,6 +16,7 @@ export interface PokemonType {
   styleUrls: ['./card.scss']
 })
 export class CardComponent {
+  constructor(private renderer: Renderer2) {}
   // ============================================================================
   //                                INPUTS
   // ============================================================================
@@ -87,19 +88,21 @@ export class CardComponent {
     event.stopPropagation();
     const button = event.currentTarget as HTMLElement;
 
-    // Añadir clase para animación de onda (ripple effect)
-    button.classList.add('animate-wave');
+    // Renderer2.addClass() - Añadir clase para animación de onda (ripple effect)
+    this.renderer.addClass(button, 'animate-wave');
 
-    // Añadir animación heart-beat al corazón
-    button.classList.add('animate-heart-beat');
+    // Renderer2.addClass() - Añadir animación heart-beat al corazón
+    this.renderer.addClass(button, 'animate-heart-beat');
 
-    // Remover las clases después de las animaciones
+    // Remover las clases después de las animaciones usando Renderer2
     setTimeout(() => {
-      button.classList.remove('animate-wave');
+      // Renderer2.removeClass() - Elimina clase de forma segura
+      this.renderer.removeClass(button, 'animate-wave');
     }, 600);
 
     setTimeout(() => {
-      button.classList.remove('animate-heart-beat');
+      // Renderer2.removeClass() - Elimina clase de forma segura
+      this.renderer.removeClass(button, 'animate-heart-beat');
     }, 400);
 
     this.favoriteClick.emit();
