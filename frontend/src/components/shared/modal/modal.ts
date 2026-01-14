@@ -176,11 +176,16 @@ export class ModalComponent {
   ngOnChanges(): void {
     if (this.isBrowser && this.blockScroll) {
       if (this.isOpen) {
+        // Calcular ancho del scrollbar para compensar el desplazamiento
+        const scrollbarWidth = window.innerWidth - this.document.documentElement.clientWidth;
         // Renderer2.setStyle() - Establece estilos de forma segura
         this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
+        // Compensar el ancho del scrollbar con padding-right
+        this.renderer.setStyle(this.document.body, 'padding-right', `${scrollbarWidth}px`);
       } else {
         // Renderer2.removeStyle() - Elimina estilos de forma segura
         this.renderer.removeStyle(this.document.body, 'overflow');
+        this.renderer.removeStyle(this.document.body, 'padding-right');
       }
     }
   }
@@ -189,6 +194,7 @@ export class ModalComponent {
     if (this.isBrowser) {
       // Limpieza: restaurar el scroll del body usando Renderer2
       this.renderer.removeStyle(this.document.body, 'overflow');
+      this.renderer.removeStyle(this.document.body, 'padding-right');
     }
   }
   

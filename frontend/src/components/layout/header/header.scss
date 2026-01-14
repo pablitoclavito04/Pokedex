@@ -594,9 +594,10 @@
 // ============================================================================
 // Estos estilos deben estar fuera del bloque .header para funcionar con ::ng-deep
 
-// Ocultar el header del modal (elimina la línea divisora superior)
+// Mostrar header del modal sin borde (para que se vea la X)
 ::ng-deep app-header .modal__header {
-  display: none;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 // Texto blanco en modo oscuro
