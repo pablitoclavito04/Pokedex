@@ -9,6 +9,7 @@ import { Router, RouterLink } from '@angular/router';
 import { FavoritoService } from '../../../services/favorito.service';
 import { AuthService } from '../../../services/auth.service';
 import { PokemonService } from '../../../services/pokemon.service';
+import { ToastService } from '../../../services/toast.service';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -26,6 +27,7 @@ export class PokedexComponent implements OnInit {
     private favoritoService: FavoritoService,
     private authService: AuthService,
     private pokemonService: PokemonService,
+    private toastService: ToastService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -529,11 +531,17 @@ export class PokedexComponent implements OnInit {
       this.favoritoService.toggleFavorito(pokemonId).subscribe({
         next: (response) => {
           pokemon.isFavorite = response.esFavorito;
-          console.log(`${pokemon.name} favorito: ${pokemon.isFavorite}`);
+          // Mostrar toast de notificación usando ToastService (createElement/appendChild)
+          if (pokemon.isFavorite) {
+            this.toastService.success(`¡${pokemon.name} añadido a favoritos!`);
+          } else {
+            this.toastService.info(`${pokemon.name} eliminado de favoritos`);
+          }
           this.cdr.detectChanges();
         },
         error: (err) => {
           console.error('Error al cambiar favorito:', err);
+          this.toastService.error('Error al actualizar favorito');
         }
       });
     }

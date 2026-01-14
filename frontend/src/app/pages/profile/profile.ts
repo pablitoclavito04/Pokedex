@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService, AuthResponse } from '../../services/auth.service';
 import { FavoritoService } from '../../../services/favorito.service';
 import { PokemonService } from '../../../services/pokemon.service';
+import { ToastService } from '../../../services/toast.service';
 import { forkJoin, take } from 'rxjs';
 
 @Component({
@@ -26,6 +27,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     private authService: AuthService,
     private favoritoService: FavoritoService,
     private pokemonService: PokemonService,
+    private toastService: ToastService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -227,6 +229,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     this.user.bio = this.editedBio;
     sessionStorage.setItem('userBio', this.editedBio);
     this.isEditing = false;
+    // Mostrar toast de confirmación usando ToastService (createElement/appendChild)
+    this.toastService.success('Biografía actualizada');
   }
 
   cancelEdit(): void {

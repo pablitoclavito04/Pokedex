@@ -1,51 +1,25 @@
-import { Component, ChangeDetectionStrategy, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ToastService, ToastMessage } from '../../../services/toast.service';
+import { Component } from '@angular/core';
 
 /**
- * ToastComponent - Componente de notificaciones toast
+ * ToastComponent - Componente de notificaciones toast (LEGACY)
  *
- * Se suscribe al ToastService y muestra los mensajes automáticamente.
- * Soporta múltiples toasts simultáneos con animaciones.
+ * NOTA: Este componente ya no es necesario para mostrar toasts.
+ * El ToastService ahora crea los elementos directamente en el DOM
+ * usando Renderer2 (createElement, appendChild, removeChild).
+ *
+ * Este componente se mantiene por compatibilidad pero puede eliminarse.
+ * Los toasts se muestran automáticamente gracias al ToastService.
  */
 @Component({
   selector: 'app-toast',
   standalone: true,
-  imports: [CommonModule],
-  templateUrl: './toast.html',
-  styleUrls: ['./toast.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  imports: [],
+  template: `<!-- ToastService maneja la creación de toasts directamente en el DOM -->`,
+  styles: []
 })
 export class ToastComponent {
-  private toastService = inject(ToastService);
-  toasts$ = this.toastService.toasts$;
-
-  /**
-   * Cierra un toast específico
-   * @param id ID del toast a cerrar
-   */
-  dismiss(id: number): void {
-    this.toastService.dismiss(id);
-  }
-
-  /**
-   * Obtiene el icono según el tipo de toast
-   * @param type Tipo de toast
-   */
-  getIcon(type: ToastMessage['type']): string {
-    const icons: Record<ToastMessage['type'], string> = {
-      success: 'check-circle',
-      error: 'x-circle',
-      warning: 'alert-triangle',
-      info: 'info'
-    };
-    return icons[type];
-  }
-
-  /**
-   * TrackBy para optimizar el rendering de la lista
-   */
-  trackByToastId(_index: number, toast: ToastMessage): number {
-    return toast.id;
-  }
+  // El ToastService ahora maneja todo mediante Renderer2:
+  // - createElement() para crear los elementos toast
+  // - appendChild() para añadirlos al DOM
+  // - removeChild() para eliminarlos
 }

@@ -6,6 +6,7 @@ import { FormInputComponent } from '../../../components/shared/form-input/form-i
 import { ButtonComponent } from '../../../components/shared/button/button';
 import { AuthService } from '../../../services/auth.service';
 import { LoadingService } from '../../../services/loading.service';
+import { ToastService } from '../../../services/toast.service';
 import { timeout, catchError } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 
@@ -27,6 +28,7 @@ export class LoginComponent {
     private router: Router,
     private authService: AuthService,
     private loadingService: LoadingService,
+    private toastService: ToastService,
     private cdr: ChangeDetectorRef
   ) {
     // Cargar credenciales guardadas del último registro/cambio
@@ -128,6 +130,8 @@ export class LoginComponent {
     ).subscribe({
       next: (response) => {
         console.log('Login exitoso:', response);
+        // Mostrar toast de éxito usando ToastService (createElement/appendChild)
+        this.toastService.success('¡Bienvenido! Iniciando sesión...');
         // Mantener pantalla de carga y redirigir a Pokédex
         setTimeout(() => {
           this.isSubmitting = false;
@@ -137,20 +141,23 @@ export class LoginComponent {
       },
       error: (err) => {
         console.error('Error de login:', err);
-        
+
         // Ocultar pantalla de carga inmediatamente
         this.loadingService.hide();
         this.isSubmitting = false;
-        
-        // Establecer mensaje de error
+
+        // Establecer mensaje de error y mostrar toast
         if (err.name === 'TimeoutError') {
           this.loginError = 'El servidor no responde. Inténtalo de nuevo.';
+          this.toastService.error('El servidor no responde');
         } else if (err.status === 0) {
           this.loginError = 'No se puede conectar con el servidor.';
+          this.toastService.error('Sin conexión al servidor');
         } else {
           this.loginError = 'Usuario o contraseña incorrectos';
+          this.toastService.error('Credenciales incorrectas');
         }
-        
+
         // Forzar detección de cambios para mostrar el error inmediatamente
         this.cdr.detectChanges();
       }

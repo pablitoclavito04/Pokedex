@@ -3770,19 +3770,124 @@ closeMenu(): void {
 
 ---
 
+#### 4. PokedexComponent
+**Archivo:** `src/app/pages/pokedex/pokedex.ts`
+
+**Inyección de dependencias:**
+```typescript
+constructor(
+  private renderer: Renderer2,
+  private router: Router,
+  private favoritoService: FavoritoService,
+  private authService: AuthService,
+  private pokemonService: PokemonService,
+  private cdr: ChangeDetectorRef
+) {}
+```
+
+**Uso de Renderer2:**
+```typescript
+toggleFavorite(event: Event, pokemonId: number): void {
+  event.stopPropagation();
+  const button = event.currentTarget as HTMLElement;
+  const pokemon = this.pokemons.find(p => p.id === pokemonId);
+
+  if (pokemon) {
+    // Renderer2.addClass() - Añadir animación de onda
+    this.renderer.addClass(button, 'animate-wave');
+    // Renderer2.addClass() - Añadir animación de latido
+    this.renderer.addClass(button, 'animate-heart-beat');
+
+    // Remover las clases después de las animaciones usando Renderer2
+    setTimeout(() => this.renderer.removeClass(button, 'animate-wave'), 600);
+    setTimeout(() => this.renderer.removeClass(button, 'animate-heart-beat'), 400);
+
+    // ... resto de la lógica
+  }
+}
+```
+
+**Métodos Renderer2 utilizados:** `addClass()`, `removeClass()` (4 usos)
+
+---
+
+#### 5. ThemeService
+**Archivo:** `src/services/theme.service.ts`
+
+**Inyección de dependencias (usando RendererFactory2 en servicio):**
+```typescript
+constructor(
+  @Inject(PLATFORM_ID) platformId: Object,
+  rendererFactory: RendererFactory2
+) {
+  this.isBrowser = isPlatformBrowser(platformId);
+  // En servicios se usa RendererFactory2 para crear Renderer2
+  this.renderer = rendererFactory.createRenderer(null, null);
+}
+```
+
+**Uso de Renderer2:**
+```typescript
+// Aplicar tema con transición suave
+private applyThemeToDocument(theme: Theme): void {
+  if (!this.isBrowser) return;
+
+  const body = document.body;
+  const html = document.documentElement;
+
+  // Renderer2.addClass() - Clase de transición para suavizar cambio
+  this.renderer.addClass(body, 'theme-transitioning');
+
+  // Renderer2.removeClass() - Remover clases de tema existentes
+  this.renderer.removeClass(body, 'light-theme');
+  this.renderer.removeClass(body, 'dark-theme');
+  this.renderer.removeClass(html, 'light-theme');
+  this.renderer.removeClass(html, 'dark-theme');
+
+  // Renderer2.addClass() - Aplicar nueva clase de tema
+  if (theme === 'dark') {
+    this.renderer.addClass(body, 'dark-theme');
+    this.renderer.addClass(html, 'dark-theme');
+  } else {
+    this.renderer.addClass(body, 'light-theme');
+    this.renderer.addClass(html, 'light-theme');
+  }
+
+  // Renderer2.removeClass() - Remover clase de transición
+  setTimeout(() => {
+    this.renderer.removeClass(body, 'theme-transitioning');
+  }, 350);
+}
+
+// Aplicar tema instantáneamente (sin transición)
+private applyThemeInstant(theme: Theme): void {
+  // Similar estructura usando Renderer2.addClass() y removeClass()
+  // para cambios instantáneos sin animación
+}
+```
+
+**Métodos Renderer2 utilizados:** `addClass()`, `removeClass()` (20+ usos en total)
+
+**Nota:** Este es un ejemplo de cómo usar Renderer2 en un **servicio** (no componente) mediante `RendererFactory2`.
+
+---
+
 ### Resumen de uso de Renderer2:
 
-| Componente | Métodos | Cantidad |
-|------------|---------|----------|
+| Componente/Servicio | Métodos | Cantidad |
+|---------------------|---------|----------|
 | ModalComponent | `setStyle()`, `removeStyle()` | 3 |
 | CardComponent | `addClass()`, `removeClass()` | 4 |
 | HeaderComponent | `setStyle()`, `removeStyle()` | 3 |
-| **Total** | | **10 usos** |
+| PokedexComponent | `addClass()`, `removeClass()` | 4 |
+| ThemeService | `addClass()`, `removeClass()` | 20+ |
+| **Total** | | **34+ usos** |
 
 ### Características SSR-safe:
 - Uso de `@Inject(DOCUMENT)` en lugar de acceso directo a `document`.
 - Verificación de plataforma con `isPlatformBrowser()`.
 - No hay manipulación directa del DOM (`element.style.x`, `classList.add/remove`).
+- Uso de `RendererFactory2` para crear Renderer2 en servicios.
 
 ---
 
@@ -3793,6 +3898,126 @@ closeMenu(): void {
 - Eliminar elementos con `removeChild()`
 - Implementar clonación de nodos.
 - Gestionar correctamente la limpieza en `ngOnDestroy()`
+- **Implementado en componente funcional real** (ToastService usado en toda la aplicación).
+
+### Componente funcional principal: ToastService
+
+**Archivo:** `src/services/toast.service.ts`
+
+El ToastService es un **servicio funcional real** que se usa en toda la aplicación para mostrar notificaciones. Implementa `createElement()`, `appendChild()` y `removeChild()` usando Renderer2.
+
+**Uso en la aplicación:**
+- **PokedexComponent** - Notificaciones al añadir/quitar favoritos
+- **LoginComponent** - Feedback de login exitoso/fallido
+- **ProfileComponent** - Confirmación al guardar cambios
+
+**Inyección de dependencias (usando RendererFactory2 en servicio):**
+```typescript
+constructor(
+  rendererFactory: RendererFactory2,
+  @Inject(PLATFORM_ID) platformId: Object,
+  @Inject(DOCUMENT) private document: Document
+) {
+  this.renderer = rendererFactory.createRenderer(null, null);
+  this.isBrowser = isPlatformBrowser(platformId);
+  if (this.isBrowser) {
+    this.createContainer();
+  }
+}
+```
+
+**Creación del contenedor (createElement + appendChild):**
+```typescript
+private createContainer(): void {
+  // Renderer2.createElement() - Crear contenedor de toasts
+  this.container = this.renderer.createElement('div');
+
+  // Renderer2.addClass() - Añadir clases CSS
+  this.renderer.addClass(this.container, 'toast-container');
+
+  // Renderer2.setStyle() - Establecer estilos
+  this.renderer.setStyle(this.container, 'position', 'fixed');
+  this.renderer.setStyle(this.container, 'top', '80px');
+  this.renderer.setStyle(this.container, 'right', '20px');
+
+  // Renderer2.appendChild() - Añadir al body
+  this.renderer.appendChild(this.document.body, this.container);
+}
+```
+
+**Creación de toast (createElement + createText + appendChild):**
+```typescript
+show(message: string, type: ToastMessage['type'] = 'info'): void {
+  // Renderer2.createElement() - Crear elemento principal
+  const toastElement = this.renderer.createElement('div');
+  this.renderer.addClass(toastElement, 'toast');
+
+  // Renderer2.createElement() - Crear icono
+  const iconElement = this.renderer.createElement('span');
+  const iconText = this.renderer.createText('✓');
+  this.renderer.appendChild(iconElement, iconText);
+
+  // Renderer2.createElement() - Crear mensaje
+  const messageElement = this.renderer.createElement('span');
+  const messageText = this.renderer.createText(message);
+  this.renderer.appendChild(messageElement, messageText);
+
+  // Renderer2.createElement() - Crear botón cerrar
+  const closeButton = this.renderer.createElement('button');
+  this.renderer.listen(closeButton, 'click', () => this.dismiss(id));
+
+  // Renderer2.appendChild() - Ensamblar toast
+  this.renderer.appendChild(toastElement, iconElement);
+  this.renderer.appendChild(toastElement, messageElement);
+  this.renderer.appendChild(toastElement, closeButton);
+
+  // Renderer2.appendChild() - Añadir al contenedor
+  this.renderer.appendChild(this.container, toastElement);
+}
+```
+
+**Eliminación de toast (removeChild):**
+```typescript
+dismiss(id: number): void {
+  const toast = this.toasts.find(t => t.id === id);
+
+  // Renderer2.removeChild() - Eliminar del DOM
+  if (toast.element && this.container) {
+    this.renderer.removeChild(this.container, toast.element);
+  }
+}
+```
+
+**Limpieza completa (destroy):**
+```typescript
+destroy(): void {
+  // Limpiar todos los toasts
+  this.toasts.forEach(toast => {
+    if (toast.element && this.container) {
+      this.renderer.removeChild(this.container, toast.element);
+    }
+  });
+
+  // Renderer2.removeChild() - Eliminar contenedor del body
+  if (this.container && this.isBrowser) {
+    this.renderer.removeChild(this.document.body, this.container);
+  }
+}
+```
+
+**Métodos Renderer2 utilizados en ToastService:**
+| Método | Cantidad | Uso |
+|--------|----------|-----|
+| `createElement()` | 5 | Crear container, toast, icon, message, button |
+| `appendChild()` | 8 | Ensamblar estructura y añadir al DOM |
+| `removeChild()` | 3 | Eliminar toasts y contenedor |
+| `createText()` | 3 | Crear nodos de texto |
+| `addClass()` | 5 | Añadir clases CSS |
+| `setStyle()` | 15+ | Establecer estilos inline |
+| `listen()` | 1 | Event listener para cerrar |
+| **Total** | **40+** | |
+
+---
 
 ### Página de demostración:
 **Ruta:** `/dom-demo`
@@ -3950,19 +4175,21 @@ ngOnDestroy(): void {
 
 ### Resumen de implementación:
 
-| Componente | createElement() | appendChild() | removeChild() | cloneNode() | ngOnDestroy() |
-|-----------|----------------|---------------|---------------|-------------|---------------|
-| DomDemoComponent | ✅ | ✅ | ✅ | ✅ | ✅ |
-| DynamicListComponent | ✅ | ✅ | ✅ | ❌ | ✅ |
-| ToastContainerComponent | ✅ | ✅ | ✅ | ❌ | ✅ |
-| ParticleSystemComponent | ✅ | ✅ | ✅ | ❌ | ✅ |
+| Componente/Servicio | createElement() | appendChild() | removeChild() | cloneNode() | Limpieza | Funcional |
+|---------------------|----------------|---------------|---------------|-------------|----------|-----------|
+| **ToastService** | ✅ (5) | ✅ (8) | ✅ (3) | ❌ | ✅ destroy() | **✅ SÍ** |
+| DomDemoComponent | ✅ | ✅ | ✅ | ✅ | ✅ ngOnDestroy() | ❌ Demo |
+| DynamicListComponent | ✅ | ✅ | ✅ | ❌ | ✅ ngOnDestroy() | ❌ Demo |
+| ToastContainerComponent | ✅ | ✅ | ✅ | ❌ | ✅ ngOnDestroy() | ❌ Demo |
+| ParticleSystemComponent | ✅ | ✅ | ✅ | ❌ | ✅ ngOnDestroy() | ❌ Demo |
 
-**Total:** 4 componentes con manipulación completa del DOM.
+**Total:** 5 componentes/servicios con manipulación completa del DOM.
+**Componentes funcionales reales:** 1 (ToastService - usado en Pokedex, Login, Profile)
 
 ### Cumplimiento de requisitos
 
 **Requisito 1: createElement() y appendChild() en 3+ componentes**
-**Cumplido** - 4 componentes implementados.
+**Cumplido** - 5 componentes/servicios implementados, incluyendo ToastService funcional.
 
 **Requisito 2: removeChild() para eliminación**
 **Cumplido** - Todos los componentes eliminan elementos correctamente.
@@ -3970,8 +4197,14 @@ ngOnDestroy(): void {
 **Requisito 3: Clonación de nodos**
 **Cumplido** - DomDemoComponent implementa `cloneNode(true)`
 
-**Requisito 4: Gestión del ciclo de vida con ngOnDestroy()**
+**Requisito 4: Gestión del ciclo de vida con ngOnDestroy()/destroy()**
 **Cumplido** - Todos los componentes limpian correctamente.
+
+**Requisito 5: Componente funcional real (no demo)**
+**Cumplido** - ToastService se usa en:
+- `PokedexComponent` - Notificaciones de favoritos
+- `LoginComponent` - Feedback de autenticación
+- `ProfileComponent` - Confirmación de cambios guardados
 
 ---
 
