@@ -14,6 +14,8 @@
   - [Rúbrica 2.1: Event Binding en Templates (10/10)](#rúbrica-21-event-binding-en-templates-1010)
   - [Rúbrica 2.2: Manejo de Eventos Específicos (10/10)](#rúbrica-22-manejo-de-eventos-específicos-1010)
   - [Rúbricas 2.3 y 2.4: Prevención de Eventos y @HostListener (20/20)](#rúbricas-23-y-24-prevención-de-eventos-y-hostlistener-2020)
+  - [Rúbrica 3.1: Menú Hamburguesa Mobile (10/10)](#rúbrica-31-menú-hamburguesa-mobile-1010)
+  - [Rúbrica 3.2: Modal / Cuadro de Diálogo (10/10)](#rúbrica-32-modal--cuadro-de-diálogo-1010)
 
 - [Fase 7: Testing, optimización y verificación](#fase-7-testing-optimización-y-verificación)
 
@@ -4721,6 +4723,438 @@ onWindowResize(): void {
 - @HostListener('window:resize') en 3 componentes (Modal, Custom-select, Pokédex).
 - @HostListener('window:resize') en 2 componentes.
 - 14 @HostListener en total.
+
+---
+
+## Rúbrica 3.1: Menú Hamburguesa Mobile.
+
+### Descripción:
+Implementación completa de menú hamburguesa responsive con todas las funcionalidades requeridas para dispositivos móviles.
+
+### Componente principal:
+**HeaderComponent** (`src/components/layout/header/header.ts`)
+
+### Funcionalidades implementadas:
+
+#### 1. Toggle abrir/cerrar con botón hamburguesa:
+```typescript
+// header.ts - Líneas 154-165
+toggleMenu(): void {
+  this.isMenuOpen = !this.isMenuOpen;
+
+  // Prevenir scroll del body cuando el menú está abierto
+  if (this.isMenuOpen) {
+    this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
+  } else {
+    this.renderer.removeStyle(this.document.body, 'overflow');
+  }
+}
+```
+
+#### 2. Animación CSS suave (transform/transition):
+```scss
+// header.scss
+.header__mobile-nav {
+  transform: translateX(100%);
+  transition: transform 0.3s ease-in-out;
+
+  &--open {
+    transform: translateX(0);
+  }
+}
+```
+
+#### 3. Cierre con click fuera (@HostListener):
+```typescript
+// header.ts - Líneas 205-218
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent): void {
+  if (!this.isMenuOpen) return;
+
+  const target = event.target as HTMLElement;
+  const clickedInsideNav = this.mobileNav?.nativeElement?.contains(target);
+  const clickedMenuButton = this.menuButton?.nativeElement?.contains(target);
+
+  if (!clickedInsideNav && !clickedMenuButton) {
+    this.closeMenu();
+  }
+}
+```
+
+#### 4. Cierre con ESC (keydown.escape):
+```typescript
+// header.ts - Líneas 195-200
+@HostListener('document:keydown.escape')
+onEscapeKey(): void {
+  if (this.isMenuOpen) {
+    this.closeMenu();
+  }
+}
+```
+
+#### 5. Icono animado (hamburguesa ↔ X):
+```html
+<!-- header.html -->
+<button #menuButton
+        class="header__menu-btn"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="isMenuOpen">
+  <span class="header__menu-icon" [class.header__menu-icon--open]="isMenuOpen">
+    <span></span>
+    <span></span>
+    <span></span>
+  </span>
+</button>
+```
+
+```scss
+// header.scss - Animación del icono
+.header__menu-icon {
+  span {
+    transition: transform 0.3s ease, opacity 0.3s ease;
+  }
+
+  &--open {
+    span:nth-child(1) { transform: rotate(45deg) translate(5px, 5px); }
+    span:nth-child(2) { opacity: 0; }
+    span:nth-child(3) { transform: rotate(-45deg) translate(7px, -6px); }
+  }
+}
+```
+
+#### 6. Accesibilidad (aria-expanded, aria-label, aria-controls):
+```html
+<!-- header.html -->
+<button #menuButton
+        class="header__menu-btn"
+        (click)="toggleMenu()"
+        [attr.aria-expanded]="isMenuOpen"
+        aria-controls="mobile-menu"
+        aria-label="Abrir menú de navegación"
+        type="button">
+```
+
+```html
+<nav #mobileNav
+     id="mobile-menu"
+     class="header__mobile-nav"
+     [class.header__mobile-nav--open]="isMenuOpen"
+     role="navigation"
+     aria-label="Menú principal móvil">
+```
+
+#### 7. Responsive (< 768px):
+```scss
+// header.scss - Mostrar solo en móvil
+.header__menu-btn {
+  display: flex; // Visible en móvil por defecto
+
+  @include respond-to('md') { // 768px+
+    display: none; // Oculto en desktop
+  }
+}
+
+.header__mobile-nav {
+  @include respond-to('md') {
+    display: none; // Oculto en desktop
+  }
+}
+```
+
+Variable de breakpoint utilizada:
+```scss
+// _variables.scss - Línea 263
+$breakpoint-md: 768px;    // Tablet
+```
+
+### Checklist de Requisitos:
+
+| Requisito | Implementado | Archivo | Líneas |
+|-----------|--------------|---------|--------|
+| Toggle abrir/cerrar | Sí | header.ts | 154-165 |
+| Animación CSS suave | Sí | header.scss | transform/transition |
+| Cierre click fuera | Sí | header.ts | 205-218 |
+| Cierre con ESC | Sí | header.ts | 195-200 |
+| Icono animado | Sí | header.scss | hamburguesa ↔ X |
+| aria-expanded | Sí | header.html | botón menú |
+| aria-label | Sí | header.html | botón y nav |
+| aria-controls | Sí | header.html | mobile-menu |
+| Responsive < 768px | Sí | header.scss | @include respond-to('md') |
+
+### Cómo probar:
+
+1. Abrir la aplicación en cualquier ruta de la app (`/pokedex`, `/quiz`, `/profile`)
+2. Reducir el ancho del navegador a menos de 768px (o usar DevTools móvil)
+3. Verificar que aparece el botón hamburguesa
+4. Click en el botón → El menú se abre con animación
+5. Click fuera del menú → Se cierra
+6. Abrir menú y presionar ESC → Se cierra
+7. Verificar que el icono cambia de hamburguesa a X
+
+---
+
+## Rúbrica 3.2: Modal / Cuadro de diálogo.
+
+### Descripción:
+Componente Modal completamente funcional con todas las características de accesibilidad, animaciones y control de interacción requeridas.
+
+### Componente Principal:
+**ModalComponent** (`src/components/shared/modal/modal.ts`)
+
+### Funcionalidades Implementadas:
+
+#### 1. Abrir con botón/evento:
+```typescript
+// modal.ts - Input para controlar apertura
+@Input() isOpen: boolean = false;
+```
+
+```html
+<!-- Uso en cualquier componente -->
+<app-modal [isOpen]="isModalOpen" (closed)="onModalClose()">
+  Contenido del modal
+</app-modal>
+```
+
+#### 2. Cerrar con botón X:
+```html
+<!-- modal.html - Líneas 28-38 -->
+<button
+  *ngIf="showCloseButton"
+  type="button"
+  class="modal__close"
+  (click)="close()"
+  aria-label="Cerrar modal">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+    <line x1="18" y1="6" x2="6" y2="18"/>
+    <line x1="6" y1="6" x2="18" y2="18"/>
+  </svg>
+</button>
+```
+
+#### 3. Cerrar con ESC (@HostListener):
+```typescript
+// modal.ts - Líneas 89-94
+@HostListener('document:keydown.escape')
+onEscapeKey(): void {
+  if (this.isOpen && this.closeOnEsc) {
+    this.close();
+  }
+}
+```
+
+#### 4. Cerrar con click en overlay (stopPropagation en contenido):
+```typescript
+// modal.ts - Líneas 66-79
+// Cierre por overlay
+onOverlayClick(event: Event): void {
+  if (this.closeOnOverlay && event.target === event.currentTarget) {
+    this.close();
+  }
+}
+
+// PREVENCIÓN DE PROPAGACIÓN: Evita que clicks en contenido cierren el modal
+onModalContentClick(event: MouseEvent): void {
+  event.stopPropagation();
+}
+```
+
+```html
+<!-- modal.html -->
+<div class="modal-overlay" (click)="onOverlayClick($event)">
+  <div [class]="modalClasses" (click)="onModalContentClick($event)">
+    <!-- Contenido -->
+  </div>
+</div>
+```
+
+#### 5. Animación de entrada/salida (fade-in, slide-up):
+```scss
+// modal.scss - Líneas 231-281
+
+// Animación de entrada del overlay
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+// Animación de salida del overlay
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+// Animación de entrada del modal (slide + scale)
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+// Animación de salida del modal
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(20px) scale(0.95);
+  }
+}
+
+// Aplicación de animaciones
+.modal-overlay {
+  animation: fadeIn 0.2s ease-out;
+}
+
+.modal {
+  animation: slideUp 0.3s ease-out;
+}
+```
+
+#### 6. Overlay oscuro (backdrop):
+```scss
+// modal.scss - Líneas 14-28
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: $z-index-modal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--overlay-bg, rgba(0, 0, 0, 0.7)); // Fondo oscuro semitransparente
+}
+```
+
+#### 7. Bloqueo scroll del body (Renderer2):
+```typescript
+// modal.ts - Líneas 176-193
+ngOnChanges(): void {
+  if (this.isBrowser && this.blockScroll) {
+    if (this.isOpen) {
+      // Renderer2.setStyle() - Bloquea scroll de forma segura (SSR-safe)
+      this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
+    } else {
+      // Renderer2.removeStyle() - Restaura scroll
+      this.renderer.removeStyle(this.document.body, 'overflow');
+    }
+  }
+}
+
+ngOnDestroy(): void {
+  if (this.isBrowser) {
+    // Limpieza: restaurar el scroll del body
+    this.renderer.removeStyle(this.document.body, 'overflow');
+  }
+}
+```
+
+#### 8. Accesibilidad completa:
+```html
+<!-- modal.html - Líneas 10-18 -->
+<div
+  *ngIf="isOpen"
+  class="modal-overlay"
+  (click)="onOverlayClick($event)"
+  role="dialog"
+  aria-modal="true"
+  [attr.aria-labelledby]="title ? 'modal-title' : null">
+
+  <div [class]="modalClasses" role="document" (click)="onModalContentClick($event)">
+```
+
+- `role="dialog"` - Identifica el elemento como diálogo
+- `aria-modal="true"` - Indica que es un modal (bloquea interacción con contenido detrás)
+- `aria-labelledby` - Referencia al título del modal
+- `role="document"` - Contenedor del documento del modal
+
+#### 9. Focus Trap (mantener foco dentro del modal):
+```typescript
+// modal.ts - Líneas 118-150
+@HostListener('document:keydown', ['$event'])
+onTabKey(event: KeyboardEvent): void {
+  if (!this.isOpen || event.key !== 'Tab') return;
+
+  const modalElement = document.querySelector('.modal');
+  if (!modalElement) return;
+
+  const focusableElements = modalElement.querySelectorAll(
+    'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+  );
+
+  if (focusableElements.length === 0) return;
+
+  const firstElement = focusableElements[0] as HTMLElement;
+  const lastElement = focusableElements[focusableElements.length - 1] as HTMLElement;
+
+  if (event.shiftKey) {
+    // Tab + Shift: ir hacia atrás
+    if (document.activeElement === firstElement) {
+      event.preventDefault();
+      lastElement.focus();
+    }
+  } else {
+    // Tab: ir hacia adelante
+    if (document.activeElement === lastElement) {
+      event.preventDefault();
+      firstElement.focus();
+    }
+  }
+}
+```
+
+### Checklist de requisitos:
+
+| Requisito | Implementado | Archivo | Líneas |
+|-----------|--------------|---------|--------|
+| Abrir con botón/evento | Sí | modal.ts | @Input() isOpen |
+| Cerrar con botón X | Sí | modal.html | 28-38 |
+| Cerrar con ESC | Sí | modal.ts | 89-94 |
+| Cerrar click overlay | Sí | modal.ts | 66-70 |
+| stopPropagation contenido | Sí | modal.ts | 76-79 |
+| Animación entrada (fadeIn, slideUp) | Sí | modal.scss | 231-260 |
+| Animación salida (fadeOut, slideDown) | Sí | modal.scss | 241-281 |
+| Overlay oscuro | Sí | modal.scss | 14-28 |
+| Bloqueo scroll body | Sí | modal.ts | 176-186 |
+| role="dialog" | Sí | modal.html | 14 |
+| aria-modal="true" | Sí | modal.html | 15 |
+| Focus trap | Sí | modal.ts | 118-150 |
+
+### Inputs configurables:
+
+| Input | Tipo | Default | Descripción |
+|-------|------|---------|-------------|
+| `isOpen` | boolean | false | Controla si el modal está abierto |
+| `title` | string | '' | Título del modal |
+| `size` | 'sm'\|'md'\|'lg'\|'xl'\|'full' | 'md' | Tamaño del modal |
+| `closeOnOverlay` | boolean | true | Cerrar al hacer click en overlay |
+| `closeOnEsc` | boolean | true | Cerrar con tecla ESC |
+| `showCloseButton` | boolean | true | Mostrar botón X |
+| `blockScroll` | boolean | true | Bloquear scroll del body |
+
+### Uso del modal en la aplicación:
+
+El modal se utiliza en varios componentes:
+- **HeaderComponent**: Modal de confirmación de logout
+- **FooterComponent**: Modal informativo
+- **ProfileComponent**: Confirmación de eliminación
+
+### Cómo probar:
+
+1. Ir a cualquier página con modal (ej: `/profile`)
+2. Abrir el modal con el botón correspondiente
+3. Verificar animación de entrada (fade + slide)
+4. Click en overlay → Modal se cierra
+5. Abrir de nuevo y presionar ESC → Modal se cierra
+6. Abrir y verificar que no se puede hacer scroll en el body
+7. Usar Tab para navegar → El foco se mantiene dentro del modal
+8. Inspeccionar con DevTools → Verificar `role="dialog"` y `aria-modal="true"`
 
 ---
 

@@ -158,9 +158,9 @@
 @if (isLogoutModalOpen) {
   <app-modal
     [isOpen]="isLogoutModalOpen"
-    [showCloseButton]="false"
+    [showCloseButton]="true"
     [closeOnOverlay]="true"
-    [blockScroll]="false"
+    [blockScroll]="true"
     size="sm"
     (closed)="closeLogoutModal()">
     <div class="header__logout-modal-content">
