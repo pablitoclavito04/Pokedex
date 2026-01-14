@@ -9,7 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { AuthService, AuthResponse } from '../../services/auth.service';
 import { FavoritoService } from '../../../services/favorito.service';
 import { PokemonService } from '../../../services/pokemon.service';
-import { forkJoin, skip, take } from 'rxjs';
+import { forkJoin, take } from 'rxjs';
 
 @Component({
   selector: 'app-profile',
@@ -126,10 +126,12 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   loadFavorites(): void {
     this.isLoadingFavorites = true;
 
-    // SIEMPRE suscribirse al observable de favoritos
+    // Forzar la carga del backend
+    this.favoritoService.cargarFavoritos();
+
+    // Suscribirse al observable de favoritos (sin skip, para capturar el valor inmediatamente)
     this.favoritoService.favoritos$.pipe(
-      skip(1), // Ignorar el valor actual
-      take(1)  // Tomar solo el siguiente valor (respuesta del backend)
+      take(1)  // Tomar el valor actual del BehaviorSubject
     ).subscribe(favoritos => {
       if (favoritos.length > 0) {
         this.loadPokemonData(favoritos);
@@ -139,9 +141,6 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.isLoadingFavorites = false;
       }
     });
-
-    // SIEMPRE forzar la carga del backend
-    this.favoritoService.cargarFavoritos();
   }
 
   private loadPokemonData(favoritos: number[]): void {
