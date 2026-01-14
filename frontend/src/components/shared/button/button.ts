@@ -48,6 +48,9 @@ export class ButtonComponent {
   // Enlace interno (usa Angular Router)
   @Input() href: string = '';
 
+  // Texto del botón (opcional, también se puede usar ng-content)
+  @Input() text: string = '';
+
   // ============================================================================
   // OUTPUTS
   // ============================================================================
