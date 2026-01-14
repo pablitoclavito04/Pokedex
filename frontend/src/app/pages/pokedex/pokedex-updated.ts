@@ -404,14 +404,15 @@ export class PokedexComponent implements OnInit {
   }
 
   /**
-   * @HostListener('window:resize') - Ajusta la UI al cambiar tamaño de ventana
+   * @HostListener('window:resize') - Cierra búsqueda avanzada en pantallas pequeñas
    * EVENTO GLOBAL: Escucha cambios de tamaño de la ventana del navegador
    */
   @HostListener('window:resize')
   onWindowResize(): void {
-    // Cerrar búsqueda avanzada en móvil si la ventana se hace muy pequeña
-    if (this.showAdvancedSearch && window.innerWidth < 768) {
-      console.log('Ventana redimensionada a móvil - ajustando búsqueda avanzada');
+    // Cerrar búsqueda avanzada si la ventana se reduce a tamaño móvil
+    if (this.showAdvancedSearch && window.innerWidth < 640) {
+      console.log('Ventana redimensionada a móvil - cerrando búsqueda avanzada');
+      this.toggleAdvancedSearch();
     }
   }
 

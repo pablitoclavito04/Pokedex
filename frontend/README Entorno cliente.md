@@ -4654,17 +4654,18 @@ onDocumentClick(event: MouseEvent): void {
 - **Código**:
 ```typescript
 /**
- * @HostListener('window:resize') - Ajusta la UI al cambiar tamaño de ventana
+ * @HostListener('window:resize') - Cierra búsqueda avanzada en pantallas pequeñas
  * EVENTO GLOBAL: Escucha cambios de tamaño de la ventana del navegador
  */
 @HostListener('window:resize')
 onWindowResize(): void {
-  if (this.showAdvancedSearch && window.innerWidth < 768) {
-    console.log('Ventana redimensionada a móvil - ajustando búsqueda avanzada');
+  if (this.showAdvancedSearch && window.innerWidth < 640) {
+    console.log('Ventana redimensionada a móvil - cerrando búsqueda avanzada');
+    this.toggleAdvancedSearch();
   }
 }
 ```
-- **Prueba**: Redimensionar ventana con búsqueda avanzada abierta → ajusta comportamiento.
+- **Prueba**: Abrir búsqueda avanzada, reducir ventana a menos de 640px → se cierra automáticamente.
 
 #### Eventos adicionales implementados:
 
