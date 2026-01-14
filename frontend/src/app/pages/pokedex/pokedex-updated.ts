@@ -134,6 +134,9 @@ export class PokedexComponent implements OnInit {
   isGenerationSelectOpen: boolean = false;
   sortOrder: string = 'number-asc';
 
+  // ========== ESTADO DE HOVER (para eventos mouseenter/mouseleave) ==========
+  hoveredPokemonId: number | null = null;
+
   // Clave para persistir el orden en sessionStorage
   private readonly SORT_ORDER_KEY = 'pokedex_sort_order';
   private readonly FILTER_STATE_KEY = 'pokedex_filter_state';
@@ -340,6 +343,33 @@ export class PokedexComponent implements OnInit {
     if (isCurrentlyNumeric && isKeyNumeric && currentValue.length >= 4) {
       event.preventDefault();
     }
+  }
+
+  /**
+   * Evento (keyup) - Se dispara al soltar una tecla
+   * Útil para detectar cuando el usuario termina de escribir un carácter
+   */
+  onSearchKeyup(event: KeyboardEvent): void {
+    // Log para demostrar el uso de $event con KeyboardEvent
+    console.log('Tecla soltada:', event.key, 'Código:', event.code);
+  }
+
+  /**
+   * Evento (mouseenter) - Se dispara cuando el mouse entra en la tarjeta
+   * Permite efectos de hover programáticos
+   */
+  onCardMouseEnter(event: MouseEvent, pokemonId: number): void {
+    this.hoveredPokemonId = pokemonId;
+    // El $event contiene información del MouseEvent
+    console.log('Mouse enter en Pokémon:', pokemonId, 'Posición:', event.clientX, event.clientY);
+  }
+
+  /**
+   * Evento (mouseleave) - Se dispara cuando el mouse sale de la tarjeta
+   */
+  onCardMouseLeave(event: MouseEvent, pokemonId: number): void {
+    this.hoveredPokemonId = null;
+    console.log('Mouse leave de Pokémon:', pokemonId);
   }
 
   onSearchInput(event: Event): void {

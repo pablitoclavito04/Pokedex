@@ -11,6 +11,7 @@
 - [Rúbricas de Evaluación](#rúbricas-de-evaluación)
   - [Rúbrica 1.2: Modificación Dinámica de Propiedades y Estilos (10/10)](#rúbrica-12-modificación-dinámica-de-propiedades-y-estilos-1010)
   - [Rúbrica 1.3: Creación y Eliminación de Elementos del DOM (10/10)](#rúbrica-13-creación-y-eliminación-de-elementos-del-dom-1010)
+  - [Rúbrica 2.1: Event Binding en Templates (10/10)](#rúbrica-21-event-binding-en-templates-1010)
   - [Rúbrica 2.2: Manejo de Eventos Específicos (10/10)](#rúbrica-22-manejo-de-eventos-específicos-1010)
   - [Rúbricas 2.3 y 2.4: Prevención de Eventos y @HostListener (20/20)](#rúbricas-23-y-24-prevención-de-eventos-y-hostlistener-2020)
 
@@ -3906,10 +3907,11 @@ private applyThemeInstant(theme: Theme): void {
 
 El ToastService es un **servicio funcional real** que se usa en toda la aplicación para mostrar notificaciones. Implementa `createElement()`, `appendChild()` y `removeChild()` usando Renderer2.
 
-**Uso en la aplicación:**
-- **PokedexComponent** - Notificaciones al añadir/quitar favoritos
-- **LoginComponent** - Feedback de login exitoso/fallido
-- **ProfileComponent** - Confirmación al guardar cambios
+**Uso en la aplicación (4 componentes funcionales):**
+- **PokedexComponent** - Notificaciones al añadir/quitar favoritos + bienvenida tras login
+- **LoginComponent** - Feedback de errores de autenticación
+- **ProfileComponent** - Confirmación al guardar biografía
+- **HeaderComponent** - Notificación al cerrar sesión
 
 **Inyección de dependencias (usando RendererFactory2 en servicio):**
 ```typescript
@@ -4201,10 +4203,142 @@ ngOnDestroy(): void {
 **Cumplido** - Todos los componentes limpian correctamente.
 
 **Requisito 5: Componente funcional real (no demo)**
-**Cumplido** - ToastService se usa en:
-- `PokedexComponent` - Notificaciones de favoritos
-- `LoginComponent` - Feedback de autenticación
-- `ProfileComponent` - Confirmación de cambios guardados
+**Cumplido** - ToastService se usa en 4 componentes funcionales:
+- `PokedexComponent` - Toast de bienvenida tras login + notificaciones de favoritos
+- `LoginComponent` - Toast de errores de autenticación
+- `ProfileComponent` - Toast de confirmación al guardar biografía
+- `HeaderComponent` - Toast al cerrar sesión
+
+---
+
+## Rúbrica 2.1: Event binding en templates (10/10):
+
+### Requisitos cumplidos:
+- Utilizar 8+ tipos diferentes de eventos DOM en templates HTML.
+- Usar `$event` correctamente para acceder a la información del evento.
+- Implementar eventos en componentes funcionales (no solo demos).
+
+### Tipos de eventos implementados:
+
+| Evento | Descripción | Archivos | Uso de $event |
+|--------|-------------|----------|---------------|
+| `(click)` | Click de ratón | pokedex.html, pokemon-detail.html, header.html, login.html, register.html, settings.html, profile.html | ✅ `$event.stopPropagation()` |
+| `(input)` | Entrada de texto | pokedex.html, form-input.html, form-textarea.html | ✅ `$event.target` |
+| `(change)` | Cambio en select/checkbox | pokedex.html, settings.html, form-select.html | ✅ `$event.target.value` |
+| `(keydown)` | Tecla presionada | pokedex.html, tabs.html, accordion.html | ✅ `$event.key`, `$event.preventDefault()` |
+| `(keyup)` | Tecla soltada | pokedex.html | ✅ `$event.key`, `$event.code` |
+| `(blur)` | Pérdida de foco | pokedex.html, settings.html, form-input.html, form-select.html | ✅ |
+| `(focus)` | Obtención de foco | form-input.html, form-select.html, form-textarea.html | ✅ |
+| `(ngSubmit)` | Envío de formulario | login.html, register.html | ✅ `$event.preventDefault()` |
+| `(mouseenter)` | Mouse entra en elemento | pokedex.html | ✅ `$event.clientX`, `$event.clientY` |
+| `(mouseleave)` | Mouse sale de elemento | pokedex.html | ✅ |
+| `(scroll)` | Scroll en elemento | custom-select.html | ✅ `$event.target.scrollTop` |
+| `(touchstart)` | Toque en pantalla táctil | custom-select.html | ✅ `$event.touches` |
+
+**Total: 12 tipos de eventos diferentes implementados.**
+
+### Ejemplos de implementación:
+
+#### 1. Click con stopPropagation (pokedex.html:299)
+```html
+<button class="pokemon-card__btn" (click)="goToPokemonDetail(pokemon.id); $event.stopPropagation()">
+  Más información
+</button>
+```
+
+#### 2. Input con $event.target (pokedex.html:31)
+```html
+<input
+  type="text"
+  [(ngModel)]="searchQuery"
+  (input)="onSearchInput($event)"
+  (keydown)="onSearchKeydown($event)"
+  (keyup)="onSearchKeyup($event)">
+```
+
+```typescript
+// pokedex.ts
+onSearchInput(event: Event): void {
+  const input = event.target as HTMLInputElement;
+  let value = input.value;
+  // Validación y procesamiento...
+}
+
+onSearchKeydown(event: KeyboardEvent): void {
+  const key = event.key;
+  if (event.ctrlKey || event.metaKey) return;
+  // Lógica de control...
+}
+
+onSearchKeyup(event: KeyboardEvent): void {
+  console.log('Tecla soltada:', event.key, 'Código:', event.code);
+}
+```
+
+#### 3. MouseEnter/MouseLeave para hover programático (pokedex.html:260-265)
+```html
+<article
+  class="pokemon-card"
+  [class.pokemon-card--hovered]="hoveredPokemonId === pokemon.id"
+  (click)="goToPokemonDetail(pokemon.id)"
+  (mouseenter)="onCardMouseEnter($event, pokemon.id)"
+  (mouseleave)="onCardMouseLeave($event, pokemon.id)">
+```
+
+```typescript
+// pokedex.ts
+hoveredPokemonId: number | null = null;
+
+onCardMouseEnter(event: MouseEvent, pokemonId: number): void {
+  this.hoveredPokemonId = pokemonId;
+  console.log('Mouse enter en Pokémon:', pokemonId, 'Posición:', event.clientX, event.clientY);
+}
+
+onCardMouseLeave(event: MouseEvent, pokemonId: number): void {
+  this.hoveredPokemonId = null;
+}
+```
+
+#### 4. Submit de formulario (login.html:49)
+```html
+<form class="login-card__form" #loginForm="ngForm" (ngSubmit)="onSubmit($event)" novalidate>
+```
+
+```typescript
+// login.ts
+onSubmit(event: Event): void {
+  event.preventDefault();
+  this.hasAttemptedSubmit = true;
+  // Validación y envío...
+}
+```
+
+#### 5. Focus/Blur en inputs (form-input.html:105-106)
+```html
+<input
+  [type]="actualType"
+  (input)="onInput($event)"
+  (focus)="onFocus()"
+  (blur)="onBlur()">
+```
+
+#### 6. Scroll en selector personalizado (custom-select.html:34)
+```html
+<div class="custom-select__options"
+     (scroll)="onOptionsScroll($event)">
+```
+
+### Resumen de cumplimiento:
+
+| Requisito | Estado |
+|-----------|--------|
+| 8+ tipos de eventos | ✅ **12 tipos** implementados |
+| Uso correcto de `$event` | ✅ Con tipos correctos (Event, KeyboardEvent, MouseEvent) |
+| Implementación en componentes funcionales | ✅ pokedex, login, register, settings, profile, form-input, etc. |
+| Eventos de teclado | ✅ keydown, keyup |
+| Eventos de ratón | ✅ click, mouseenter, mouseleave |
+| Eventos de formulario | ✅ input, change, submit, focus, blur |
+| Eventos táctiles | ✅ touchstart, scroll |
 
 ---
 

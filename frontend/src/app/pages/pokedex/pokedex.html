@@ -29,7 +29,8 @@
           placeholder="Nombre o número"
           [(ngModel)]="searchQuery"
           (input)="onSearchInput($event)"
-          (keydown)="onSearchKeydown($event)">
+          (keydown)="onSearchKeydown($event)"
+          (keyup)="onSearchKeyup($event)">
       </div>
 
       <p class="search-section__hint">
@@ -256,7 +257,12 @@
 
       <div class="pokemon-grid">
         @for (pokemon of pokemons; track pokemon.id) {
-          <article class="pokemon-card" (click)="goToPokemonDetail(pokemon.id)">
+          <article
+            class="pokemon-card"
+            [class.pokemon-card--hovered]="hoveredPokemonId === pokemon.id"
+            (click)="goToPokemonDetail(pokemon.id)"
+            (mouseenter)="onCardMouseEnter($event, pokemon.id)"
+            (mouseleave)="onCardMouseLeave($event, pokemon.id)">
 
             <!-- Botón de favorito -->
             <button
