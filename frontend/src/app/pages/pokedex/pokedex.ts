@@ -393,10 +393,11 @@ export class PokedexComponent implements OnInit {
   }
 
   /**
-   * Evento (keydown.enter) - Confirma la selección de generación
+   * Evento (change) - Se dispara cuando el usuario cambia la selección de generación
+   * Reemplaza keydown.enter para evitar conflictos con el comportamiento nativo del select
    */
-  onGenerationEnter(event: Event): void {
-    console.log('Enter en generación - selección confirmada:', this.selectedGeneration);
+  onGenerationChange(event: Event): void {
+    console.log('Generación cambiada - selección confirmada:', this.selectedGeneration);
     this.closeGenerationSelect();
   }
 

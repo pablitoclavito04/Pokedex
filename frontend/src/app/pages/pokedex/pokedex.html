@@ -30,6 +30,7 @@
           [(ngModel)]="searchQuery"
           (input)="onSearchInput($event)"
           (keydown)="onSearchKeydown($event)"
+          (keydown.escape)="onEscapeCloseAdvancedSearch($event)"
           (keyup)="onSearchKeyup($event)">
       </div>
 
@@ -43,8 +44,7 @@
   @if (showAdvancedSearch) {
     <section
       class="advanced-search"
-      [class.advanced-search--closing]="isAdvancedSearchClosing"
-      (keydown.escape)="onEscapeCloseAdvancedSearch($event)">
+      [class.advanced-search--closing]="isAdvancedSearchClosing">
       <div class="advanced-search__container">
 
         <!-- Columna izquierda: Por tipo y Generación -->
@@ -76,7 +76,7 @@
                 (blur)="closeGenerationSelect()"
                 (keydown.arrowdown)="onGenerationArrowDown($event)"
                 (keydown.arrowup)="onGenerationArrowUp($event)"
-                (keydown.enter)="onGenerationEnter($event)">
+                (change)="onGenerationChange($event)">
                 <option value="all">Todas</option>
                 @for (gen of generations; track gen.value) {
                   @if (gen.value !== 'all') {
