@@ -4361,8 +4361,8 @@ Esta página contiene una demostración interactiva de todos los eventos con con
 
 | Evento | Ubicación funcional | Descripción |
 |--------|---------------------|-------------|
-| `(keydown.enter)` | `card.html:18`, `pokedex.html:79` | Activar tarjeta/confirmar selección de generación |
-| `(keydown.escape)` | `pokedex.html:47` | Cerrar búsqueda avanzada con Escape |
+| `(keydown.enter)` | `card.html:18` | Activar tarjeta con Enter |
+| `@HostListener('document:keydown.escape')` | `pokedex.ts:374` | Cerrar búsqueda avanzada con Escape (desde cualquier lugar) |
 | `(keydown.arrowup)` | `pokedex.html:78` | Navegar hacia arriba en select de generación |
 | `(keydown.arrowdown)` | `pokedex.html:77` | Navegar hacia abajo en select de generación |
 | `(keyup)` | `pokedex.html:33` | Detectar cuando se suelta tecla en buscador |
@@ -4413,7 +4413,7 @@ onMouseLeave(): void {
 | Evento | Ubicación funcional | Descripción |
 |--------|---------------------|-------------|
 | `(focus)` | `form-input.html:105`, `form-select.html:36` | Campo recibe foco |
-| `(blur)` | `form-input.html:106`, `pokedex.html:73` | Campo pierde foco |
+| `(blur)` | `form-input.html:106`, `pokedex.html:76` | Campo pierde foco |
 | `(focusin)` | `login.html:53` | Detectar foco en cualquier campo del formulario (burbujea) |
 | `(focusout)` | `login.html:54` | Detectar pérdida de foco en formulario (burbujea) |
 
@@ -4442,6 +4442,21 @@ onFocusOut(): void {
 }
 ```
 
+#### 4. Eventos de formulario (1 evento adicional):
+
+| Evento | Ubicación funcional | Descripción |
+|--------|---------------------|-------------|
+| `(change)` | `pokedex.html:79` | Detectar cambio de valor en select de generación |
+
+**Ejemplo de código:**
+```typescript
+// Pokédex - Cambio de generación
+onGenerationChange(event: Event): void {
+  console.log('Generación cambiada - selección confirmada:', this.selectedGeneration);
+  this.closeGenerationSelect();
+}
+```
+
 ### Resumen de eventos:
 
 | Categoría | Cantidad | Eventos |
@@ -4449,6 +4464,7 @@ onFocusOut(): void {
 | **Teclado** | 5 | enter, escape, arrowup, arrowdown, keyup |
 | **Mouse** | 3 | click, mouseenter, mouseleave |
 | **Focus** | 4 | focus, blur, focusin, focusout |
+| **Formulario** | 1 | change |
 
 
 ### Cómo probar en componentes funcionales:
@@ -4456,9 +4472,9 @@ onFocusOut(): void {
 1. **Pokédex (`/pokedex`)**:
    - Escribir en el buscador → ver consola para `(keyup)`
    - Pasar mouse sobre tarjetas → ver consola para `(mouseenter)`/`(mouseleave)`
-   - Abrir búsqueda avanzada → presionar `Escape` → se cierra (keydown.escape)
+   - Abrir búsqueda avanzada → presionar `Escape` desde cualquier lugar → se cierra (@HostListener)
+   - Cambiar generación en búsqueda avanzada → ver consola para `(change)`
    - Usar flechas ↑↓ en select de generación → ver consola para `(keydown.arrowup/down)`
-   - Presionar Enter en select → ver consola para `(keydown.enter)`
 
 2. **Login (`/login`)**:
    - Hacer clic en campos del formulario → ver consola para `(focusin)`

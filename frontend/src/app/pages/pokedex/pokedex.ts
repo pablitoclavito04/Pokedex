@@ -2,7 +2,7 @@
 //          POKEDEX PAGE - Página principal de la Pokédex
 // ============================================================================
 
-import { Component, OnInit, ChangeDetectorRef, Renderer2 } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Renderer2, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -368,12 +368,15 @@ export class PokedexComponent implements OnInit {
   }
 
   /**
-   * Evento (keydown.escape) - Cierra la búsqueda avanzada con la tecla Escape
+   * @HostListener para documento - Cierra la búsqueda avanzada con Escape desde cualquier lugar
+   * Esto es más intuitivo que requerir foco en un elemento específico
    */
-  onEscapeCloseAdvancedSearch(event: Event): void {
-    console.log('Escape presionado - cerrando búsqueda avanzada');
-    event.preventDefault();
-    this.toggleAdvancedSearch();
+  @HostListener('document:keydown.escape')
+  onEscapeCloseAdvancedSearch(): void {
+    if (this.showAdvancedSearch) {
+      console.log('Escape presionado - cerrando búsqueda avanzada');
+      this.toggleAdvancedSearch();
+    }
   }
 
   /**
