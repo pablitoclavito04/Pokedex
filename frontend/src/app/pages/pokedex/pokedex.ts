@@ -142,6 +142,16 @@ export class PokedexComponent implements OnInit {
   };
 
   ngOnInit(): void {
+    // Mostrar toast de bienvenida si viene del login
+    const showWelcomeToast = sessionStorage.getItem('showWelcomeToast');
+    if (showWelcomeToast) {
+      sessionStorage.removeItem('showWelcomeToast');
+      // Pequeño delay para asegurar que la página está cargada
+      setTimeout(() => {
+        this.toastService.success('¡Bienvenido a la Pokédex!');
+      }, 300);
+    }
+
     // Recuperar el orden guardado en sessionStorage
     const savedSortOrder = sessionStorage.getItem(this.SORT_ORDER_KEY);
     if (savedSortOrder) {

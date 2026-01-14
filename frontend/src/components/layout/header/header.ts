@@ -3,6 +3,7 @@ import { RouterModule, Router, NavigationEnd } from '@angular/router';
 import { CommonModule, DOCUMENT } from '@angular/common';
 import { ThemeService } from '../../../services/theme.service';
 import { AuthService } from '../../../services/auth.service';
+import { ToastService } from '../../../services/toast.service';
 import { ModalComponent } from '../../shared/modal/modal';
 import { ButtonComponent } from '../../shared/button/button';
 import { filter } from 'rxjs/operators';
@@ -71,6 +72,7 @@ export class HeaderComponent {
   constructor(
     public themeService: ThemeService,
     private authService: AuthService,
+    private toastService: ToastService,
     private renderer: Renderer2,
     @Inject(DOCUMENT) private document: Document
   ) {
@@ -235,6 +237,8 @@ export class HeaderComponent {
   confirmLogout(): void {
     this.isLogoutModalOpen = false;
     this.authService.logout();
+    // Mostrar toast de despedida usando ToastService (createElement/appendChild)
+    this.toastService.info('Has cerrado sesión correctamente');
     this.router.navigate(['/']);
   }
 }

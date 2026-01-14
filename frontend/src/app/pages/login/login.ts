@@ -130,8 +130,8 @@ export class LoginComponent {
     ).subscribe({
       next: (response) => {
         console.log('Login exitoso:', response);
-        // Mostrar toast de éxito usando ToastService (createElement/appendChild)
-        this.toastService.success('¡Bienvenido! Iniciando sesión...');
+        // Guardar flag para mostrar toast después de la redirección
+        sessionStorage.setItem('showWelcomeToast', 'true');
         // Mantener pantalla de carga y redirigir a Pokédex
         setTimeout(() => {
           this.isSubmitting = false;

@@ -84,7 +84,14 @@ export class ToastService {
    * Usa: renderer.createElement(), renderer.addClass(), renderer.appendChild(), renderer.createText()
    */
   show(message: string, type: ToastMessage['type'] = 'info', duration = 5000): void {
-    if (!this.isBrowser || !this.container) return;
+    if (!this.isBrowser) return;
+
+    // Crear contenedor si no existe (lazy initialization)
+    if (!this.container) {
+      this.createContainer();
+    }
+
+    if (!this.container) return;
 
     const id = ++this.idCounter;
 
