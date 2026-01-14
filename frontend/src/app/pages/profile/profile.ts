@@ -126,29 +126,22 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   loadFavorites(): void {
     this.isLoadingFavorites = true;
 
-    // Verificar si ya hay favoritos cargados en memoria
-    const currentFavoritos = this.favoritoService.getFavoritos();
-    if (currentFavoritos.length > 0) {
-      this.loadPokemonData(currentFavoritos);
-    } else {
-      // Si no hay datos en memoria, cargar del backend
-      // Primero suscribirse para capturar el próximo valor (skip ignora el valor actual vacío)
-      this.favoritoService.favoritos$.pipe(
-        skip(1), // Ignorar el valor actual (vacío)
-        take(1)  // Tomar solo el siguiente valor (respuesta del backend)
-      ).subscribe(favoritos => {
-        if (favoritos.length > 0) {
-          this.loadPokemonData(favoritos);
-        } else {
-          // No hay favoritos
-          this.favoritePokemon = [];
-          this.isLoadingFavorites = false;
-        }
-      });
+    // SIEMPRE suscribirse al observable de favoritos
+    this.favoritoService.favoritos$.pipe(
+      skip(1), // Ignorar el valor actual
+      take(1)  // Tomar solo el siguiente valor (respuesta del backend)
+    ).subscribe(favoritos => {
+      if (favoritos.length > 0) {
+        this.loadPokemonData(favoritos);
+      } else {
+        // No hay favoritos
+        this.favoritePokemon = [];
+        this.isLoadingFavorites = false;
+      }
+    });
 
-      // Luego disparar la carga del backend
-      this.favoritoService.cargarFavoritos();
-    }
+    // SIEMPRE forzar la carga del backend
+    this.favoritoService.cargarFavoritos();
   }
 
   private loadPokemonData(favoritos: number[]): void {
