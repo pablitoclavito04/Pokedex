@@ -2,7 +2,7 @@
 //          PROFILE PAGE - Página de perfil del usuario
 // ============================================================================
 
-import { Component, OnInit, AfterViewInit } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +25,8 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     private route: ActivatedRoute,
     private authService: AuthService,
     private favoritoService: FavoritoService,
-    private pokemonService: PokemonService
+    private pokemonService: PokemonService,
+    private cdr: ChangeDetectorRef
   ) {}
 
   private fragment: string | null = null;
@@ -139,6 +140,7 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         // No hay favoritos
         this.favoritePokemon = [];
         this.isLoadingFavorites = false;
+        this.cdr.detectChanges(); // Forzar detección de cambios
       }
     });
   }
@@ -160,9 +162,11 @@ export class ProfileComponent implements OnInit, AfterViewInit {
           .filter(p => p !== undefined);
 
         this.isLoadingFavorites = false;
+        this.cdr.detectChanges(); // Forzar detección de cambios
       },
       error: () => {
         this.isLoadingFavorites = false;
+        this.cdr.detectChanges(); // Forzar detección de cambios
       }
     });
   }
