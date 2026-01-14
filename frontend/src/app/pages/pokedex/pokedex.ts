@@ -2,7 +2,7 @@
 //          POKEDEX PAGE - Página principal de la Pokédex
 // ============================================================================
 
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Renderer2 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -21,6 +21,7 @@ import { forkJoin } from 'rxjs';
 export class PokedexComponent implements OnInit {
 
   constructor(
+    private renderer: Renderer2,
     private router: Router,
     private favoritoService: FavoritoService,
     private authService: AuthService,
@@ -519,11 +520,11 @@ export class PokedexComponent implements OnInit {
     const pokemon = this.pokemons.find(p => p.id === pokemonId);
 
     if (pokemon) {
-      button.classList.add('animate-wave');
-      button.classList.add('animate-heart-beat');
+      this.renderer.addClass(button, 'animate-wave');
+      this.renderer.addClass(button, 'animate-heart-beat');
 
-      setTimeout(() => button.classList.remove('animate-wave'), 600);
-      setTimeout(() => button.classList.remove('animate-heart-beat'), 400);
+      setTimeout(() => this.renderer.removeClass(button, 'animate-wave'), 600);
+      setTimeout(() => this.renderer.removeClass(button, 'animate-heart-beat'), 400);
 
       this.favoritoService.toggleFavorito(pokemonId).subscribe({
         next: (response) => {

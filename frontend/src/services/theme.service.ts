@@ -1,4 +1,4 @@
-import { Injectable, PLATFORM_ID, Inject, signal, effect } from '@angular/core';
+import { Injectable, PLATFORM_ID, Inject, signal, effect, Renderer2, RendererFactory2 } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 
 export type Theme = 'light' | 'dark';
@@ -18,6 +18,7 @@ export type Theme = 'light' | 'dark';
 export class ThemeService {
   private readonly STORAGE_KEY = 'theme';
   private readonly isBrowser: boolean;
+  private renderer: Renderer2;
 
   // Signal reactivo para el tema actual (por defecto: light)
   readonly currentTheme = signal<Theme>('light');
@@ -25,8 +26,12 @@ export class ThemeService {
   // Signal computado para saber si es tema oscuro
   readonly isDarkTheme = signal<boolean>(false);
 
-  constructor(@Inject(PLATFORM_ID) platformId: Object) {
+  constructor(
+    @Inject(PLATFORM_ID) platformId: Object,
+    rendererFactory: RendererFactory2
+  ) {
     this.isBrowser = isPlatformBrowser(platformId);
+    this.renderer = rendererFactory.createRenderer(null, null);
 
     // Inicializar tema al cargar
     if (this.isBrowser) {
@@ -138,24 +143,27 @@ export class ThemeService {
     const html = document.documentElement;
 
     // Deshabilitar todas las transiciones temporalmente
-    body.classList.add('no-transitions');
+    this.renderer.addClass(body, 'no-transitions');
 
     // Remover clases de tema existentes
-    body.classList.remove('light-theme', 'dark-theme', 'theme-transitioning');
-    html.classList.remove('light-theme', 'dark-theme');
+    this.renderer.removeClass(body, 'light-theme');
+    this.renderer.removeClass(body, 'dark-theme');
+    this.renderer.removeClass(body, 'theme-transitioning');
+    this.renderer.removeClass(html, 'light-theme');
+    this.renderer.removeClass(html, 'dark-theme');
 
     // Aplicar nueva clase de tema
     if (theme === 'dark') {
-      body.classList.add('dark-theme');
-      html.classList.add('dark-theme');
+      this.renderer.addClass(body, 'dark-theme');
+      this.renderer.addClass(html, 'dark-theme');
     } else {
-      body.classList.add('light-theme');
-      html.classList.add('light-theme');
+      this.renderer.addClass(body, 'light-theme');
+      this.renderer.addClass(html, 'light-theme');
     }
 
     // Forzar reflow y reactivar transiciones
     void body.offsetHeight;
-    body.classList.remove('no-transitions');
+    this.renderer.removeClass(body, 'no-transitions');
   }
 
   /**
@@ -176,27 +184,29 @@ export class ThemeService {
     const html = document.documentElement;
 
     // Añadir clase de transición para suavizar el cambio
-    body.classList.add('theme-transitioning');
+    this.renderer.addClass(body, 'theme-transitioning');
 
     // Forzar reflow para que la clase de transición se aplique antes del cambio
     void body.offsetHeight;
 
     // Remover clases de tema existentes
-    body.classList.remove('light-theme', 'dark-theme');
-    html.classList.remove('light-theme', 'dark-theme');
+    this.renderer.removeClass(body, 'light-theme');
+    this.renderer.removeClass(body, 'dark-theme');
+    this.renderer.removeClass(html, 'light-theme');
+    this.renderer.removeClass(html, 'dark-theme');
 
     // Aplicar nueva clase de tema
     if (theme === 'dark') {
-      body.classList.add('dark-theme');
-      html.classList.add('dark-theme');
+      this.renderer.addClass(body, 'dark-theme');
+      this.renderer.addClass(html, 'dark-theme');
     } else {
-      body.classList.add('light-theme');
-      html.classList.add('light-theme');
+      this.renderer.addClass(body, 'light-theme');
+      this.renderer.addClass(html, 'light-theme');
     }
 
     // Remover clase de transición después de que termine la animación
     setTimeout(() => {
-      body.classList.remove('theme-transitioning');
+      this.renderer.removeClass(body, 'theme-transitioning');
     }, 350);
   }
 

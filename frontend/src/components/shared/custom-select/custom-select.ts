@@ -216,8 +216,9 @@ export class CustomSelectComponent implements ControlValueAccessor, AfterViewChe
   
   // Click en el track del scrollbar (no en el thumb)
   onScrollbarTrackClick(event: MouseEvent): void {
-    // Ignorar si el click fue en el thumb
-    if ((event.target as HTMLElement).classList.contains('custom-select__scrollbar-thumb')) {
+    // Ignorar si el click fue en el thumb (verificación por className)
+    const target = event.target as HTMLElement;
+    if (target.className && target.className.includes('custom-select__scrollbar-thumb')) {
       return;
     }
     
