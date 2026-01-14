@@ -368,14 +368,45 @@ export class PokedexComponent implements OnInit {
   }
 
   /**
-   * @HostListener para documento - Cierra la búsqueda avanzada con Escape desde cualquier lugar
-   * Esto es más intuitivo que requerir foco en un elemento específico
+   * @HostListener('document:keydown.escape') - Cierra la búsqueda avanzada con Escape
+   * EVENTO GLOBAL: Escucha en todo el documento, no requiere foco en elemento específico
    */
   @HostListener('document:keydown.escape')
   onEscapeCloseAdvancedSearch(): void {
     if (this.showAdvancedSearch) {
       console.log('Escape presionado - cerrando búsqueda avanzada');
       this.toggleAdvancedSearch();
+    }
+  }
+
+  /**
+   * @HostListener('document:click') - Cierra búsqueda avanzada al hacer click fuera
+   * EVENTO GLOBAL: Detecta clicks en cualquier parte del documento
+   */
+  @HostListener('document:click', ['$event'])
+  onDocumentClick(event: MouseEvent): void {
+    if (!this.showAdvancedSearch) return;
+
+    const target = event.target as HTMLElement;
+    // Verificar si el click fue dentro de la búsqueda avanzada o en el botón toggle
+    const clickedInsideAdvancedSearch = target.closest('.advanced-search');
+    const clickedToggleButton = target.closest('.advanced-search-toggle__btn');
+
+    if (!clickedInsideAdvancedSearch && !clickedToggleButton) {
+      console.log('Click fuera de búsqueda avanzada - cerrando');
+      this.toggleAdvancedSearch();
+    }
+  }
+
+  /**
+   * @HostListener('window:resize') - Ajusta la UI al cambiar tamaño de ventana
+   * EVENTO GLOBAL: Escucha cambios de tamaño de la ventana del navegador
+   */
+  @HostListener('window:resize')
+  onWindowResize(): void {
+    // Cerrar búsqueda avanzada en móvil si la ventana se hace muy pequeña
+    if (this.showAdvancedSearch && window.innerWidth < 768) {
+      console.log('Ventana redimensionada a móvil - ajustando búsqueda avanzada');
     }
   }
 

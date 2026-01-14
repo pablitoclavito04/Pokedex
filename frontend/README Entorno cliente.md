@@ -4586,7 +4586,7 @@ onActionClick(event: Event): void {
 
 ### Rúbrica 2.4: Eventos Globales con @HostListener:
 
-#### `@HostListener('document:click', ['$event'])`
+#### `@HostListener('document:click', ['$event'])` - 3 componentes
 
 **A) Header Component - Click fuera para cerrar menú**
 - **Archivo**: `src/components/layout/header/header.ts` (líneas 197-210).
@@ -4596,9 +4596,28 @@ onActionClick(event: Event): void {
 - **Archivo**: `src/components/shared/custom-select/custom-select.ts` (líneas 84-89)
 - **Prueba**: Abrir select, click fuera → cierra automáticamente.
 
-#### `@HostListener('document:keydown.escape')`
+**C) Pokédex Component - Click fuera para cerrar búsqueda avanzada**
+- **Archivo**: `src/app/pages/pokedex/pokedex.ts` (líneas 383-396)
+- **Código**:
+```typescript
+/**
+ * @HostListener('document:click') - Cierra búsqueda avanzada al hacer click fuera
+ * EVENTO GLOBAL: Detecta clicks en cualquier parte del documento
+ */
+@HostListener('document:click', ['$event'])
+onDocumentClick(event: MouseEvent): void {
+  if (!this.showAdvancedSearch) return;
+  const target = event.target as HTMLElement;
+  const clickedInsideAdvancedSearch = target.closest('.advanced-search');
+  const clickedToggleButton = target.closest('.advanced-search-toggle__btn');
+  if (!clickedInsideAdvancedSearch && !clickedToggleButton) {
+    this.toggleAdvancedSearch();
+  }
+}
+```
+- **Prueba**: Abrir búsqueda avanzada, click fuera → cierra automáticamente.
 
-**Implementado en 4 componentes:**
+#### `@HostListener('document:keydown.escape')` - 5 componentes
 
 **A) Modal Component**
 - **Archivo**: `src/components/shared/modal/modal.ts` (líneas 85-90).
@@ -4616,7 +4635,11 @@ onActionClick(event: Event): void {
 - **Archivo**: `src/components/shared/tooltip/tooltip.ts` (líneas 130-135).
 - **Prueba**: Mostrar tooltip, presionar ESC → oculta.
 
-#### `@HostListener('window:resize')`
+**E) Pokédex Component - Cerrar búsqueda avanzada**
+- **Archivo**: `src/app/pages/pokedex/pokedex.ts` (líneas 370-380).
+- **Prueba**: Abrir búsqueda avanzada, presionar ESC → cierra.
+
+#### `@HostListener('window:resize')` - 3 componentes
 
 **A) Modal Component - Ajustar altura**
 - **Archivo**: `src/components/shared/modal/modal.ts` (líneas 153-168).
@@ -4625,6 +4648,23 @@ onActionClick(event: Event): void {
 **B) Custom Select Component - Reposicionar dropdown**
 - **Archivo**: `src/components/shared/custom-select/custom-select.ts` (líneas 102-112).
 - **Prueba**: Abrir dropdown, redimensionar → se reposiciona.
+
+**C) Pokédex Component - Ajustar búsqueda avanzada**
+- **Archivo**: `src/app/pages/pokedex/pokedex.ts` (líneas 398-406).
+- **Código**:
+```typescript
+/**
+ * @HostListener('window:resize') - Ajusta la UI al cambiar tamaño de ventana
+ * EVENTO GLOBAL: Escucha cambios de tamaño de la ventana del navegador
+ */
+@HostListener('window:resize')
+onWindowResize(): void {
+  if (this.showAdvancedSearch && window.innerWidth < 768) {
+    console.log('Ventana redimensionada a móvil - ajustando búsqueda avanzada');
+  }
+}
+```
+- **Prueba**: Redimensionar ventana con búsqueda avanzada abierta → ajusta comportamiento.
 
 #### Eventos adicionales implementados:
 
@@ -4644,13 +4684,13 @@ onActionClick(event: Event): void {
 
 | Evento Requerido | Componentes | Total |
 |------------------|-------------|-------|
-| `document:click` | Header, Custom-select | 2 |
-| `document:keydown.escape` | Modal, Header, Custom-select, Tooltip | 4 |
-| `window:resize` | Modal, Custom-select | 2 |
+| `document:click` | Header, Custom-select, **Pokédex** | **3** |
+| `document:keydown.escape` | Modal, Header, Custom-select, Tooltip, **Pokédex** | **5** |
+| `window:resize` | Modal, Custom-select, **Pokédex** | **3** |
 
 **Eventos adicionales**: `document:wheel`, `document:keydown` (Tab), `mouseenter`, `mouseleave`, `focusin`, `focusout`
 
-**Total: 14 @HostListener en 4+ componentes**
+**Total: 17 @HostListener en 5+ componentes**
 
 ### Rutas de prueba rápida:
 
@@ -4675,8 +4715,9 @@ onActionClick(event: Event): void {
 - 12+ contextos diferentes documentados.
 
 **Rúbrica 2.4:**
-- @HostListener('document:click') en 2 componentes.
-- @HostListener('document:keydown.escape') en 4 componentes.
+- @HostListener('document:click') en 3 componentes (Header, Custom-select, Pokédex).
+- @HostListener('document:keydown.escape') en 5 componentes (Modal, Header, Custom-select, Tooltip, Pokédex).
+- @HostListener('window:resize') en 3 componentes (Modal, Custom-select, Pokédex).
 - @HostListener('window:resize') en 2 componentes.
 - 14 @HostListener en total.
 
