@@ -176,6 +176,24 @@ export class PokemonDetailComponent implements OnInit {
   loadPokemon(id: number): void {
     this.isLoading = true;
 
+    // IMPORTANTE: Resetear los datos del Pokémon para evitar que se muestren datos antiguos
+    this.pokemon = {
+      id: 0,
+      name: '',
+      types: [],
+      height: 0,
+      weight: 0,
+      category: '',
+      ability: '',
+      gender: { male: false, female: false },
+      description: '',
+      region: '',
+      stats: { hp: 0, attack: 0, defense: 0, spAttack: 0, spDefense: 0, speed: 0 },
+      image: '',
+      evolutions: [],
+      weaknesses: []
+    };
+
     // Hacer scroll al principio de la página
     window.scrollTo({ top: 0, behavior: 'instant' });
 
@@ -227,16 +245,10 @@ export class PokemonDetailComponent implements OnInit {
   }
 
   buildPokemonData(data: any, speciesData: any, abilityData: any): void {
-    // Mantener datos básicos del resolver si ya los tenemos
-    const existingId = this.pokemon.id;
-    const existingName = this.pokemon.name;
-    const existingTypes = this.pokemon.types;
-    const existingImage = this.pokemon.image;
-
     this.pokemon = {
-      id: existingId || data.id,
-      name: existingName || this.getPokemonName(speciesData),
-      types: existingTypes.length > 0 ? existingTypes : data.types.map((t: any) => t.type.name),
+      id: data.id,
+      name: this.getPokemonName(speciesData),
+      types: data.types.map((t: any) => t.type.name),
       height: data.height / 10, // Convertir a metros
       weight: data.weight / 10, // Convertir a kg
       category: this.getCategory(speciesData),
@@ -257,7 +269,7 @@ export class PokemonDetailComponent implements OnInit {
       },
       evolutions: [],
       weaknesses: this.calculateWeaknesses(data.types.map((t: any) => t.type.name)),
-      image: existingImage || data.sprites.other['official-artwork'].front_default,
+      image: data.sprites.other['official-artwork'].front_default,
       versions: []
     };
 

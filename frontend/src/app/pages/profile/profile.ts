@@ -73,7 +73,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       this.fragment = fragment;
     });
 
-    // Cargar datos del perfil desde el backend (operación READ del CRUD)
+    // PRIMERO: Cargar datos inmediatamente desde sessionStorage (para mostrar algo rápido)
+    this.loadProfileFromSessionStorage();
+
+    // SEGUNDO: Intentar actualizar desde el backend (operación READ del CRUD)
     this.authService.getProfile().subscribe({
       next: (profileData: AuthResponse) => {
         // Actualizar datos del usuario con la respuesta del backend
@@ -100,37 +103,9 @@ export class ProfileComponent implements OnInit, AfterViewInit {
         this.loadFavorites();
       },
       error: (err: any) => {
-        console.error('Error cargando perfil:', err);
-
-        // Fallback: cargar desde sessionStorage si falla el backend
-        const username = this.authService.getUsername();
-        const email = sessionStorage.getItem('email');
-
-        if (username) {
-          this.user.username = username;
-          this.user.displayName = sessionStorage.getItem('displayName') || username;
-        }
-
-        if (email) {
-          this.user.email = email;
-        }
-
-        const savedAvatar = sessionStorage.getItem('userAvatar');
-        if (savedAvatar) {
-          this.user.avatar = savedAvatar;
-        }
-
-        const savedBio = sessionStorage.getItem('userBio');
-        if (savedBio) {
-          this.user.bio = savedBio;
-        }
-
-        const savedRegion = sessionStorage.getItem('userFavoriteRegion');
-        if (savedRegion) {
-          this.user.favoriteRegion = savedRegion;
-        }
-
-        this.user.joinDate = this.getJoinDate();
+        // Si falla el backend, los datos ya están cargados desde sessionStorage
+        console.error('Error actualizando perfil desde backend:', err);
+        // Los datos ya se mostraron desde sessionStorage, así que solo cargamos favoritos
         this.loadFavorites();
       }
     });
@@ -200,8 +175,39 @@ export class ProfileComponent implements OnInit, AfterViewInit {
     });
   }
 
+  loadProfileFromSessionStorage(): void {
+    const username = this.authService.getUsername();
+    const email = sessionStorage.getItem('email');
+
+    if (username) {
+      this.user.username = username;
+      this.user.displayName = sessionStorage.getItem('displayName') || username;
+    }
+
+    if (email) {
+      this.user.email = email;
+    }
+
+    const savedAvatar = sessionStorage.getItem('userAvatar');
+    if (savedAvatar) {
+      this.user.avatar = savedAvatar;
+    }
+
+    const savedBio = sessionStorage.getItem('userBio');
+    if (savedBio) {
+      this.user.bio = savedBio;
+    }
+
+    const savedRegion = sessionStorage.getItem('userFavoriteRegion');
+    if (savedRegion) {
+      this.user.favoriteRegion = savedRegion;
+    }
+
+    this.user.joinDate = this.getJoinDate();
+  }
+
   getJoinDate(): string {
-    const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 
+    const months = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio',
                     'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
     const now = new Date();
     return `${months[now.getMonth()]} ${now.getFullYear()}`;
