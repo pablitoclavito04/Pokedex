@@ -6,7 +6,7 @@ import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterLink, ActivatedRoute } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService, AuthResponse } from '../../services/auth.service';
 import { FavoritoService } from '../../../services/favorito.service';
 import { PokemonService } from '../../../services/pokemon.service';
 import { forkJoin, skip, take } from 'rxjs';
@@ -73,42 +73,67 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       this.fragment = fragment;
     });
 
-    // Cargar datos del usuario desde sessionStorage
-    const username = this.authService.getUsername();
-    const email = sessionStorage.getItem('email');
+    // Cargar datos del perfil desde el backend (operación READ del CRUD)
+    this.authService.getProfile().subscribe({
+      next: (profileData: AuthResponse) => {
+        // Actualizar datos del usuario con la respuesta del backend
+        this.user.username = profileData.username;
+        this.user.displayName = profileData.displayName || profileData.username;
+        this.user.email = profileData.email;
 
-    if (username) {
-      this.user.username = username;
-      this.user.displayName = sessionStorage.getItem('displayName') || username;
-    }
+        if (profileData.avatar) {
+          this.user.avatar = profileData.avatar;
+        }
 
-    if (email) {
-      this.user.email = email;
-    }
+        if (profileData.bio) {
+          this.user.bio = profileData.bio;
+        }
 
-    // Cargar avatar desde sessionStorage
-    const savedAvatar = sessionStorage.getItem('userAvatar');
-    if (savedAvatar) {
-      this.user.avatar = savedAvatar;
-    }
+        if (profileData.favoriteRegion) {
+          this.user.favoriteRegion = profileData.favoriteRegion;
+        }
 
-    // Cargar bio desde sessionStorage si existe
-    const savedBio = sessionStorage.getItem('userBio');
-    if (savedBio) {
-      this.user.bio = savedBio;
-    }
+        // Fecha de registro
+        this.user.joinDate = this.getJoinDate();
 
-    // Cargar región favorita desde sessionStorage si existe
-    const savedRegion = sessionStorage.getItem('userFavoriteRegion');
-    if (savedRegion) {
-      this.user.favoriteRegion = savedRegion;
-    }
+        // Cargar favoritos
+        this.loadFavorites();
+      },
+      error: (err: any) => {
+        console.error('Error cargando perfil:', err);
 
-    // Fecha de registro
-    this.user.joinDate = this.getJoinDate();
+        // Fallback: cargar desde sessionStorage si falla el backend
+        const username = this.authService.getUsername();
+        const email = sessionStorage.getItem('email');
 
-    // Cargar favoritos
-    this.loadFavorites();
+        if (username) {
+          this.user.username = username;
+          this.user.displayName = sessionStorage.getItem('displayName') || username;
+        }
+
+        if (email) {
+          this.user.email = email;
+        }
+
+        const savedAvatar = sessionStorage.getItem('userAvatar');
+        if (savedAvatar) {
+          this.user.avatar = savedAvatar;
+        }
+
+        const savedBio = sessionStorage.getItem('userBio');
+        if (savedBio) {
+          this.user.bio = savedBio;
+        }
+
+        const savedRegion = sessionStorage.getItem('userFavoriteRegion');
+        if (savedRegion) {
+          this.user.favoriteRegion = savedRegion;
+        }
+
+        this.user.joinDate = this.getJoinDate();
+        this.loadFavorites();
+      }
+    });
   }
 
   ngAfterViewInit(): void {

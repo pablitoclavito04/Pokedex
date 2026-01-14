@@ -8,6 +8,7 @@ import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PokemonService } from '../../../services/pokemon.service';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
+import { ResolvedPokemon } from '../../resolvers/pokemon.resolver';
 
 interface EvolutionPokemon {
   id: number;
@@ -145,14 +146,28 @@ export class PokemonDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.route.params.subscribe(params => {
-      const id = +params['id'];
-      if (id && id > 0 && id <= 1025) {
-        this.loadPokemon(id);
-      } else {
-        this.router.navigate(['/pokedex']);
-      }
-    });
+    // Obtener datos precargados por el resolver
+    const resolvedData = this.route.snapshot.data['pokemon'] as ResolvedPokemon | null;
+
+    if (resolvedData) {
+      // Mostrar datos básicos inmediatamente (sin flash de pantalla vacía)
+      this.pokemon.id = resolvedData.id;
+      this.pokemon.name = resolvedData.spanishName;
+      this.pokemon.types = resolvedData.types;
+      this.pokemon.image = resolvedData.image;
+
+      // Cargar el resto de datos detallados en segundo plano
+      this.loadPokemon(resolvedData.id);
+    } else {
+      // Si el resolver no devolvió datos (error o ID inválido), ya redirigió
+      // pero escuchamos cambios en params por si navega entre pokémon
+      this.route.params.subscribe(params => {
+        const id = +params['id'];
+        if (id && id > 0 && id <= 1025) {
+          this.loadPokemon(id);
+        }
+      });
+    }
   }
 
   loadPokemon(id: number): void {
@@ -209,10 +224,16 @@ export class PokemonDetailComponent implements OnInit {
   }
 
   buildPokemonData(data: any, speciesData: any, abilityData: any): void {
+    // Mantener datos básicos del resolver si ya los tenemos
+    const existingId = this.pokemon.id;
+    const existingName = this.pokemon.name;
+    const existingTypes = this.pokemon.types;
+    const existingImage = this.pokemon.image;
+
     this.pokemon = {
-      id: data.id,
-      name: this.getPokemonName(speciesData),
-      types: data.types.map((t: any) => t.type.name),
+      id: existingId || data.id,
+      name: existingName || this.getPokemonName(speciesData),
+      types: existingTypes.length > 0 ? existingTypes : data.types.map((t: any) => t.type.name),
       height: data.height / 10, // Convertir a metros
       weight: data.weight / 10, // Convertir a kg
       category: this.getCategory(speciesData),
@@ -233,7 +254,7 @@ export class PokemonDetailComponent implements OnInit {
       },
       evolutions: [],
       weaknesses: this.calculateWeaknesses(data.types.map((t: any) => t.type.name)),
-      image: data.sprites.other['official-artwork'].front_default,
+      image: existingImage || data.sprites.other['official-artwork'].front_default,
       versions: []
     };
 

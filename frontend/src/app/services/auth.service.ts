@@ -75,6 +75,19 @@ export class AuthService {
       );
   }
 
+  getProfile(): Observable<AuthResponse> {
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getToken()}`
+    });
+
+    return this.http.get<AuthResponse>(`${this.apiUrl}/profile`, { headers })
+      .pipe(
+        tap(response => {
+          this.saveUserData(response);
+        })
+      );
+  }
+
   updateProfile(data: ProfileUpdateRequest): Observable<AuthResponse> {
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getToken()}`
