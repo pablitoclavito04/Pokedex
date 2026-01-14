@@ -46,7 +46,13 @@
     <h2 class="login-card__form-title">Inicia sesión en tu cuenta</h2>
 
     <!-- ========== FORMULARIO ========== -->
-    <form class="login-card__form" #loginForm="ngForm" (ngSubmit)="onSubmit($event)" novalidate>
+    <form
+      class="login-card__form"
+      #loginForm="ngForm"
+      (ngSubmit)="onSubmit($event)"
+      (focusin)="onFormFocusIn($event)"
+      (focusout)="onFormFocusOut($event)"
+      novalidate>
 
       <!-- Error de login del servidor -->
       @if (loginError) {

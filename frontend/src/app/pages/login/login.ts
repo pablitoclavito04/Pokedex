@@ -102,6 +102,24 @@ export class LoginComponent {
   }
 
   /**
+   * Evento (focusin) - Se dispara cuando cualquier elemento dentro del formulario recibe foco
+   * A diferencia de (focus), este evento burbujea desde los hijos
+   */
+  onFormFocusIn(event: FocusEvent): void {
+    const target = event.target as HTMLInputElement;
+    console.log('FocusIn en formulario - elemento:', target.tagName, target.id || target.name || '');
+  }
+
+  /**
+   * Evento (focusout) - Se dispara cuando cualquier elemento dentro del formulario pierde foco
+   * A diferencia de (blur), este evento burbujea desde los hijos
+   */
+  onFormFocusOut(event: FocusEvent): void {
+    const target = event.target as HTMLInputElement;
+    console.log('FocusOut en formulario - elemento:', target.tagName, target.id || target.name || '');
+  }
+
+  /**
    * Maneja el envío del formulario de login
    * PREVENCIÓN DE PROPAGACIÓN: Previene el comportamiento por defecto del formulario
    * para evitar la recarga de la página y manejar el envío con JavaScript

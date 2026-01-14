@@ -41,7 +41,10 @@
 
   <!-- ========== BÚSQUEDA AVANZADA ========== -->
   @if (showAdvancedSearch) {
-    <section class="advanced-search" [class.advanced-search--closing]="isAdvancedSearchClosing">
+    <section
+      class="advanced-search"
+      [class.advanced-search--closing]="isAdvancedSearchClosing"
+      (keydown.escape)="onEscapeCloseAdvancedSearch($event)">
       <div class="advanced-search__container">
 
         <!-- Columna izquierda: Por tipo y Generación -->
@@ -70,7 +73,10 @@
                 class="advanced-search__select"
                 [(ngModel)]="selectedGeneration"
                 (click)="toggleGenerationSelect()"
-                (blur)="closeGenerationSelect()">
+                (blur)="closeGenerationSelect()"
+                (keydown.arrowdown)="onGenerationArrowDown($event)"
+                (keydown.arrowup)="onGenerationArrowUp($event)"
+                (keydown.enter)="onGenerationEnter($event)">
                 <option value="all">Todas</option>
                 @for (gen of generations; track gen.value) {
                   @if (gen.value !== 'all') {

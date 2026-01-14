@@ -4355,17 +4355,17 @@ onSubmit(event: Event): void {
 
 Esta página contiene una demostración interactiva de todos los eventos con contadores en tiempo real.
 
-### Eventos implementados:
+### Eventos implementados en componentes funcionales:
 
 #### 1. Eventos de teclado (5 eventos):
 
-| Evento | Ubicación | Descripción |
-|--------|-----------|-------------|
-| `(keydown.enter)` | `card.html:18`, `accordion.ts:145` | Activar tarjeta/ítem con Enter |
-| `(keydown.escape)` | `modal.ts:85`, `header.ts:187`, `custom-select.ts:92` | Cerrar modal/menú/dropdown |
-| `(keydown.arrowup)` | `accordion.ts:116` | Navegar hacia arriba en accordion |
-| `(keydown.arrowdown)` | `accordion.ts:124` | Navegar hacia abajo en accordion |
-| `(keyup)` | `eventos-demo.ts:195` | Detectar cuando se suelta cualquier tecla |
+| Evento | Ubicación funcional | Descripción |
+|--------|---------------------|-------------|
+| `(keydown.enter)` | `card.html:18`, `pokedex.html:79` | Activar tarjeta/confirmar selección de generación |
+| `(keydown.escape)` | `pokedex.html:47` | Cerrar búsqueda avanzada con Escape |
+| `(keydown.arrowup)` | `pokedex.html:78` | Navegar hacia arriba en select de generación |
+| `(keydown.arrowdown)` | `pokedex.html:77` | Navegar hacia abajo en select de generación |
+| `(keyup)` | `pokedex.html:33` | Detectar cuando se suelta tecla en buscador |
 
 **Ejemplo de código:**
 ```typescript
@@ -4388,11 +4388,11 @@ onKeyDown(event: KeyboardEvent): void {
 
 #### 2. Eventos de mouse (3 eventos):
 
-| Evento | Ubicación | Descripción |
-|--------|-----------|-------------|
+| Evento | Ubicación funcional | Descripción |
+|--------|---------------------|-------------|
 | `(click)` | 30+ componentes | Click en botones, tarjetas, links |
-| `(mouseenter)` | `tooltip.ts:98` | Mostrar tooltip al pasar el mouse |
-| `(mouseleave)` | `tooltip.ts:106` | Ocultar tooltip al salir el mouse |
+| `(mouseenter)` | `pokedex.html:264` | Efecto hover en tarjetas de Pokémon |
+| `(mouseleave)` | `pokedex.html:265` | Quitar efecto hover de tarjetas |
 
 **Ejemplo de código:**
 ```typescript
@@ -4410,12 +4410,12 @@ onMouseLeave(): void {
 
 #### 3. Eventos de focus (4 eventos):
 
-| Evento | Ubicación | Descripción |
-|--------|-----------|-------------|
+| Evento | Ubicación funcional | Descripción |
+|--------|---------------------|-------------|
 | `(focus)` | `form-input.html:105`, `form-select.html:36` | Campo recibe foco |
-| `(blur)` | `form-input.html:106`, `form-select.html:37` | Campo pierde foco |
-| `(focusin)` | `tooltip.ts:114`, `eventos-demo.ts` | Foco en elemento hijo (burbujea) |
-| `(focusout)` | `tooltip.ts:122`, `eventos-demo.ts` | Foco sale de elemento hijo (burbujea) |
+| `(blur)` | `form-input.html:106`, `pokedex.html:73` | Campo pierde foco |
+| `(focusin)` | `login.html:53` | Detectar foco en cualquier campo del formulario (burbujea) |
+| `(focusout)` | `login.html:54` | Detectar pérdida de foco en formulario (burbujea) |
 
 **Ejemplo de código:**
 ```html
@@ -4451,14 +4451,21 @@ onFocusOut(): void {
 | **Focus** | 4 | focus, blur, focusin, focusout |
 
 
-### Cómo probar:
+### Cómo probar en componentes funcionales:
 
-1. **Ir a `/eventos-demo`**
-2. **Sección "Manejo de Eventos Específicos"**:
+1. **Pokédex (`/pokedex`)**:
+   - Escribir en el buscador → ver consola para `(keyup)`
+   - Pasar mouse sobre tarjetas → ver consola para `(mouseenter)`/`(mouseleave)`
+   - Abrir búsqueda avanzada → presionar `Escape` → se cierra (keydown.escape)
+   - Usar flechas ↑↓ en select de generación → ver consola para `(keydown.arrowup/down)`
+   - Presionar Enter en select → ver consola para `(keydown.enter)`
+
+2. **Login (`/login`)**:
+   - Hacer clic en campos del formulario → ver consola para `(focusin)`
+   - Salir de los campos → ver consola para `(focusout)`
+
+3. **Demo (`/eventos-demo`)**:
    - Panel con contadores en tiempo real para cada evento.
-   - Input para probar eventos de teclado.
-   - Caja interactiva para eventos de mouse.
-   - Inputs para eventos de focus.
 
 ---
 

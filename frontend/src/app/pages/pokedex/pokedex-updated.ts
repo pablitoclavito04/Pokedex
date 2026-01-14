@@ -372,6 +372,37 @@ export class PokedexComponent implements OnInit {
     console.log('Mouse leave de Pokémon:', pokemonId);
   }
 
+  /**
+   * Evento (keydown.escape) - Cierra la búsqueda avanzada con la tecla Escape
+   */
+  onEscapeCloseAdvancedSearch(event: Event): void {
+    console.log('Escape presionado - cerrando búsqueda avanzada');
+    event.preventDefault();
+    this.toggleAdvancedSearch();
+  }
+
+  /**
+   * Evento (keydown.arrowdown) - Navega hacia abajo en el select de generación
+   */
+  onGenerationArrowDown(event: Event): void {
+    console.log('Arrow Down en generación - navegando hacia abajo');
+  }
+
+  /**
+   * Evento (keydown.arrowup) - Navega hacia arriba en el select de generación
+   */
+  onGenerationArrowUp(event: Event): void {
+    console.log('Arrow Up en generación - navegando hacia arriba');
+  }
+
+  /**
+   * Evento (keydown.enter) - Confirma la selección de generación
+   */
+  onGenerationEnter(event: Event): void {
+    console.log('Enter en generación - selección confirmada:', this.selectedGeneration);
+    this.closeGenerationSelect();
+  }
+
   onSearchInput(event: Event): void {
     const input = event.target as HTMLInputElement;
     let value = input.value;
