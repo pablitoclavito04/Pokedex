@@ -306,6 +306,7 @@
             </div>
 
             <!-- Botón más información -->
+            <!-- PROPAGACIÓN: stopPropagation() evita doble navegación (botón + tarjeta) -->
             <button class="pokemon-card__btn" (click)="goToPokemonDetail(pokemon.id); $event.stopPropagation()">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="12" cy="12" r="10"/>

@@ -592,7 +592,13 @@ export class PokedexComponent implements OnInit {
     return `linear-gradient(135deg, ${color1} 50%, ${color2} 50%)`;
   }
 
+  /**
+   * Toggle favorito de un Pokémon
+   * CONTROL DE PROPAGACIÓN: stopPropagation() evita que el click en el botón
+   * de favorito propague al contenedor de la tarjeta y navegue al detalle
+   */
   toggleFavorite(event: Event, pokemonId: number): void {
+    // PROPAGACIÓN: Evitar que el click llegue a la tarjeta padre y active navegación
     event.stopPropagation();
 
     if (!this.authService.isLoggedIn()) {

@@ -79,12 +79,22 @@ export class CardComponent {
     }
   }
   
+  /**
+   * Click en botón de acción
+   * PROPAGACIÓN: stopPropagation() evita que el click propague a la tarjeta padre
+   */
   onActionClick(event: Event): void {
+    // PROPAGACIÓN: Evitar navegación de la tarjeta al hacer click en el botón
     event.stopPropagation();
     this.actionClick.emit();
   }
 
+  /**
+   * Click en botón de favorito
+   * PROPAGACIÓN: stopPropagation() evita que el click propague a la tarjeta padre
+   */
   onFavoriteClick(event: Event): void {
+    // PROPAGACIÓN: Evitar navegación de la tarjeta al hacer click en favorito
     event.stopPropagation();
     const button = event.currentTarget as HTMLElement;
 

@@ -4529,13 +4529,58 @@ onGenerationChange(event: Event): void {
 - **Teclas**: ArrowUp, ArrowDown, Home, End, Enter/Space.
 - **Prueba**: Navegar con teclado → página no hace scroll, eventos no se propagan.
 
+#### Implementación de `stopPropagation()` en Tarjetas de Pokémon
+
+**13. Pokédex - Botón favorito**
+- **Archivo**: `src/app/pages/pokedex/pokedex.ts` (líneas 590-597)
+- **Código**:
+```typescript
+/**
+ * Toggle favorito de un Pokémon
+ * CONTROL DE PROPAGACIÓN: stopPropagation() evita que el click en el botón
+ * de favorito propague al contenedor de la tarjeta y navegue al detalle
+ */
+toggleFavorite(event: Event, pokemonId: number): void {
+  // PROPAGACIÓN: Evitar que el click llegue a la tarjeta padre y active navegación
+  event.stopPropagation();
+  // ...
+}
+```
+- **Prueba**: Click en corazón de favorito → NO navega al detalle, solo cambia favorito.
+
+**14. Pokédex - Botón "Más información"**
+- **Archivo**: `src/app/pages/pokedex/pokedex.html` (línea 309)
+- **Código HTML**:
+```html
+<!-- PROPAGACIÓN: stopPropagation() evita doble navegación (botón + tarjeta) -->
+<button class="pokemon-card__btn" (click)="goToPokemonDetail(pokemon.id); $event.stopPropagation()">
+```
+- **Prueba**: Click en botón → navega UNA vez al detalle (no dos).
+
+**15 y 16. Card Component - Botones de acción y favorito**
+- **Archivo**: `src/components/shared/card/card.ts` (líneas 82-98)
+- **Código**:
+```typescript
+/**
+ * Click en botón de acción
+ * PROPAGACIÓN: stopPropagation() evita que el click propague a la tarjeta padre
+ */
+onActionClick(event: Event): void {
+  // PROPAGACIÓN: Evitar navegación de la tarjeta al hacer click en el botón
+  event.stopPropagation();
+  this.actionClick.emit();
+}
+```
+- **Prueba**: Click en botones dentro de tarjeta → ejecuta acción sin navegar.
+
 **Resumen 2.3:**
 - `preventDefault()` en 4 formularios.
 - `stopPropagation()` en 1 modal.
+- `stopPropagation()` en 4 contextos de tarjetas (pokédex + card component).
 - `preventDefault() + stopPropagation()` en 2 contextos de custom-select.
 - `preventDefault() + stopPropagation()` en 5 teclas de accordion.
 
-**Total: 12 contextos diferentes** 
+**Total: 16 contextos diferentes con documentación en código** 
 
 ---
 
