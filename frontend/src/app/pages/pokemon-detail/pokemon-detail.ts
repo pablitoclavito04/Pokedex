@@ -146,7 +146,7 @@ export class PokemonDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Obtener datos precargados por el resolver
+    // Obtener datos precargados por el resolver (solo primera vez)
     const resolvedData = this.route.snapshot.data['pokemon'] as ResolvedPokemon | null;
 
     if (resolvedData) {
@@ -158,16 +158,19 @@ export class PokemonDetailComponent implements OnInit {
 
       // Cargar el resto de datos detallados en segundo plano
       this.loadPokemon(resolvedData.id);
-    } else {
-      // Si el resolver no devolvió datos (error o ID inválido), ya redirigió
-      // pero escuchamos cambios en params por si navega entre pokémon
-      this.route.params.subscribe(params => {
-        const id = +params['id'];
-        if (id && id > 0 && id <= 1025) {
+    }
+
+    // Escuchar cambios en los parámetros de la ruta (para navegación anterior/siguiente)
+    // IMPORTANTE: Esto se ejecuta cada vez que cambia el ID en la URL
+    this.route.params.subscribe(params => {
+      const id = +params['id'];
+      if (id && id > 0 && id <= 1025) {
+        // Solo recargar si el ID es diferente al actual
+        if (id !== this.pokemon.id) {
           this.loadPokemon(id);
         }
-      });
-    }
+      }
+    });
   }
 
   loadPokemon(id: number): void {

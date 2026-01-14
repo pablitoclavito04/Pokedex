@@ -87,8 +87,14 @@ export const errorInterceptor: HttpInterceptorFn = (req, next) => {
         );
       }
 
-      // Mostrar toast de error (excepto para errores de PokeAPI manejados por servicios)
-      if (!req.url.includes('pokeapi.co') || error.status === 401) {
+      // Mostrar toast de error (con excepciones)
+      const shouldShowToast =
+        // No mostrar para PokeAPI (excepto 401)
+        (!req.url.includes('pokeapi.co') || error.status === 401) &&
+        // No mostrar para GET /profile (tiene fallback a sessionStorage)
+        !(req.url.includes('/api/auth/profile') && req.method === 'GET');
+
+      if (shouldShowToast) {
         toastService.error(errorMessage);
       }
 
