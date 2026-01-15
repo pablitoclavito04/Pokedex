@@ -307,6 +307,75 @@ this.renderer.appendChild(parent, div);
 
 ## Diagrama de flujo de eventos:
 
+### Diagrama Mermaid - Flujo Principal
+
+```mermaid
+flowchart TD
+    subgraph Usuario
+        A[Acción del Usuario<br/>click, keydown, focus]
+    end
+
+    subgraph DOM
+        B[Evento DOM<br/>MouseEvent, KeyboardEvent]
+    end
+
+    subgraph Angular
+        C[Template Binding<br/>click=handleClick]
+        D[Component Handler<br/>handleClick method]
+        E[Service / State<br/>Signal update]
+        F[Change Detection<br/>Zone.js]
+    end
+
+    subgraph Vista
+        G[View Re-render<br/>UI actualizada]
+    end
+
+    A -->|dispara| B
+    B -->|captura| C
+    C -->|ejecuta| D
+    D -->|actualiza| E
+    E -->|notifica| F
+    F -->|re-renderiza| G
+
+    style A fill:#e1f5fe
+    style G fill:#c8e6c9
+```
+
+### Diagrama Mermaid - Propagación y Prevención
+
+```mermaid
+flowchart TB
+    subgraph Bubbling["Event Bubbling - por defecto"]
+        direction TB
+        B1[Button click] --> B2[Modal Content]
+        B2 --> B3[Modal Overlay]
+        B3 --> B4[Document]
+    end
+
+    subgraph Stopped["Con stopPropagation"]
+        direction TB
+        S1[Button click] --> S2[Modal Content<br/>stopPropagation]
+        S2 -.->|bloqueado| S3[Modal Overlay]
+    end
+
+    subgraph Default["Sin preventDefault"]
+        direction TB
+        D1[Form Submit] --> D2[Browser Default]
+        D2 --> D3[Page Reload]
+    end
+
+    subgraph Prevented["Con preventDefault"]
+        direction TB
+        P1[Form Submit] --> P2[preventDefault]
+        P2 --> P3[Custom Handler]
+    end
+
+    style S2 fill:#ffcdd2
+    style P2 fill:#c8e6c9
+```
+
+### Diagrama ASCII - Flujo Unidireccional
+
 ```
 ┌─────────────────────────────────────────────────────────────────┐
 │                        FLUJO DE EVENTOS                         │
@@ -339,6 +408,146 @@ this.renderer.appendChild(parent, div);
 │                                                                 │
 └─────────────────────────────────────────────────────────────────┘
 ```
+
+### Ejemplo Real: Flujo de Favoritos en Pokédex
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    EJEMPLO: AÑADIR POKÉMON A FAVORITOS                  │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  1. USUARIO                    2. EVENTO                                │
+│  ┌─────────────┐              ┌────────────────────┐                    │
+│  │ Click en ❤️  │─────────────>│ MouseEvent         │                    │
+│  │ (card.html) │              │ target: button     │                    │
+│  └─────────────┘              └─────────┬──────────┘                    │
+│                                         │                               │
+│  3. TEMPLATE BINDING                    ▼                               │
+│  ┌──────────────────────────────────────────────────┐                   │
+│  │ (click)="onFavoriteClick($event); $event.stop()" │                   │
+│  └──────────────────────────────┬───────────────────┘                   │
+│                                 │                                       │
+│  4. COMPONENT HANDLER           ▼                                       │
+│  ┌──────────────────────────────────────────────────┐                   │
+│  │ CardComponent.onFavoriteClick(event)             │                   │
+│  │ → event.stopPropagation()                        │                   │
+│  │ → this.favoriteClick.emit(this.pokemon)          │                   │
+│  └──────────────────────────────┬───────────────────┘                   │
+│                                 │                                       │
+│  5. PARENT COMPONENT            ▼                                       │
+│  ┌──────────────────────────────────────────────────┐                   │
+│  │ PokedexComponent.toggleFavorite(pokemon)         │                   │
+│  │ → favoritesService.toggleFavorite(pokemon)       │                   │
+│  └──────────────────────────────┬───────────────────┘                   │
+│                                 │                                       │
+│  6. SERVICE                     ▼                                       │
+│  ┌──────────────────────────────────────────────────┐                   │
+│  │ FavoritesService                                 │                   │
+│  │ → favorites.update(list => [...list, pokemon])   │                   │
+│  │ → localStorage.setItem('favorites', JSON)        │                   │
+│  └──────────────────────────────┬───────────────────┘                   │
+│                                 │                                       │
+│  7. VIEW UPDATE                 ▼                                       │
+│  ┌──────────────────────────────────────────────────┐                   │
+│  │ Angular detecta cambio en Signal                 │                   │
+│  │ → Re-render del componente Card                  │                   │
+│  │ → Icono ❤️ cambia a relleno                       │                   │
+│  └──────────────────────────────────────────────────┘                   │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Diagrama de Propagación de Eventos (Bubbling)
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│              PROPAGACIÓN DE EVENTOS - BUBBLING PHASE                    │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  DOM TREE                          BUBBLING (de hijo a padre)           │
+│  ─────────                         ─────────────────────────            │
+│                                                                         │
+│  ┌─────────────────────────────┐                                        │
+│  │         Document            │◄─────────────────────┐                 │
+│  │  @HostListener('document:   │                      │                 │
+│  │   click', ['$event'])       │                      │                 │
+│  └─────────────┬───────────────┘                      │                 │
+│                │                                      │                 │
+│                ▼                                      │                 │
+│  ┌─────────────────────────────┐                      │                 │
+│  │      Modal Overlay          │◄──────────────┐      │                 │
+│  │  (click)="onOverlayClick()" │               │      │                 │
+│  └─────────────┬───────────────┘               │      │ BUBBLING        │
+│                │                               │      │ (evento sube)   │
+│                ▼                               │      │                 │
+│  ┌─────────────────────────────┐               │      │                 │
+│  │      Modal Content          │               │      │                 │
+│  │  (click)="$event.stop()"    │───────────────┘      │                 │
+│  │  stopPropagation() ✋        │   BLOQUEADO          │                 │
+│  └─────────────┬───────────────┘                      │                 │
+│                │                                      │                 │
+│                ▼                                      │                 │
+│  ┌─────────────────────────────┐                      │                 │
+│  │        Button               │──────────────────────┘                 │
+│  │   (click)="close()"         │   ORIGEN DEL EVENTO                    │
+│  └─────────────────────────────┘                                        │
+│                                                                         │
+│  SIN stopPropagation():  Button → Content → Overlay → Document          │
+│  CON stopPropagation():  Button → Content ✋ (se detiene)                │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Diagrama de preventDefault()
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                    preventDefault() - CASOS DE USO                      │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                         │
+│  FORMULARIO SIN preventDefault()          FORMULARIO CON preventDefault │
+│  ─────────────────────────────            ───────────────────────────── │
+│                                                                         │
+│  ┌─────────────┐                          ┌─────────────┐               │
+│  │   Submit    │                          │   Submit    │               │
+│  │   Button    │                          │   Button    │               │
+│  └──────┬──────┘                          └──────┬──────┘               │
+│         │                                        │                      │
+│         ▼                                        ▼                      │
+│  ┌─────────────┐                          ┌─────────────────────┐       │
+│  │   Browser   │                          │ event.preventDefault│       │
+│  │   Default   │                          │ ✋ Bloquea default   │       │
+│  └──────┬──────┘                          └──────────┬──────────┘       │
+│         │                                            │                  │
+│         ▼                                            ▼                  │
+│  ┌─────────────┐                          ┌─────────────────────┐       │
+│  │ Page Reload │                          │ Custom Handler      │       │
+│  │ ❌ Pérdida   │                          │ → Validación        │       │
+│  │   de datos  │                          │ → API Call          │       │
+│  └─────────────┘                          │ → Feedback UI       │       │
+│                                           └─────────────────────┘       │
+│                                                                         │
+│  EVENTOS DONDE SE USA preventDefault() EN ESTE PROYECTO:                │
+│  ───────────────────────────────────────────────────────                │
+│  • Form submit    → Evitar recarga de página                            │
+│  • Keydown.enter  → Evitar submit automático en inputs                  │
+│  • Keydown.space  → Evitar scroll en botones                            │
+│  • Keydown.arrow  → Evitar scroll de página                             │
+│  • Wheel          → Evitar scroll del body con modal abierto            │
+│                                                                         │
+└─────────────────────────────────────────────────────────────────────────┘
+```
+
+### Leyenda de Símbolos
+
+| Símbolo | Significado |
+|---------|-------------|
+| `───>` | Flujo de datos / evento |
+| `▼` | Dirección del flujo (hacia abajo) |
+| `◄` | Dirección del bubbling (hacia arriba) |
+| `✋` | Evento bloqueado (stopPropagation/preventDefault) |
+| `❌` | Resultado negativo / no deseado |
+| `✓` | Resultado positivo / deseado |
 
 ## Prevención y control de propagación de eventos:
 
