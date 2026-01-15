@@ -470,7 +470,3 @@ Solución: Hacer login de nuevo → Nuevo token
 | **Token** | "Carnet digital" que identifica al usuario |
 | **24 horas** | Duración del token |
 | **BCrypt** | Algoritmo de encriptación de contraseñas |
-
----
-
-**El sistema de seguridad está completamente funcional.**

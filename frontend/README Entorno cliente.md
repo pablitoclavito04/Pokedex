@@ -16,6 +16,7 @@
   - [Rúbricas 2.3 y 2.4: Prevención de Eventos y @HostListener (20/20)](#rúbricas-23-y-24-prevención-de-eventos-y-hostlistener-2020)
   - [Rúbrica 3.1: Menú Hamburguesa Mobile (10/10)](#rúbrica-31-menú-hamburguesa-mobile-1010)
   - [Rúbrica 3.2: Modal / Cuadro de Diálogo (10/10)](#rúbrica-32-modal--cuadro-de-diálogo-1010)
+  - [Rúbrica 3.4: Tabs / Pestañas (10/10)](#rúbrica-34-tabs--pestañas-1010)
 
 - [Fase 7: Testing, optimización y verificación](#fase-7-testing-optimización-y-verificación)
 
@@ -5161,6 +5162,209 @@ El modal se utiliza en varios componentes:
 6. Abrir y verificar que no se puede hacer scroll en el body
 7. Usar Tab para navegar → El foco se mantiene dentro del modal
 8. Inspeccionar con DevTools → Verificar `role="dialog"` y `aria-modal="true"`
+
+---
+
+## Rúbrica 3.4: Tabs / Pestañas.
+
+### Descripción:
+Componente de pestañas completamente funcional con navegación por teclado, accesibilidad ARIA completa y transiciones de contenido.
+
+### Componentes:
+- **TabsComponent** (`src/components/shared/tabs/tabs.ts`) - Contenedor de pestañas
+- **TabPanelComponent** (`src/components/shared/tabs/tab-panel.ts`) - Panel de contenido
+
+### Funcionalidades implementadas:
+
+#### 1. Cambio entre pestañas con click:
+```typescript
+// tabs.ts - Líneas 76-81
+selectTab(tab: Tab): void {
+  if (tab.disabled) return;
+  this.activeTabId = tab.id;
+  this.tabChange.emit(tab.id);
+}
+```
+
+```html
+<!-- tabs.html - Línea 17 -->
+<button (click)="selectTab(tab)">
+```
+
+#### 2. Navegación por teclado (ArrowLeft/ArrowRight, Home, End):
+```typescript
+// tabs.ts - Líneas 93-137
+onKeyDown(event: KeyboardEvent, currentIndex: number): void {
+  const enabledTabs = this.tabs.filter(t => !t.disabled);
+  const enabledIndices = this.tabs
+    .map((t, i) => ({ tab: t, index: i }))
+    .filter(item => !item.tab.disabled)
+    .map(item => item.index);
+
+  let newIndex: number | null = null;
+
+  switch (event.key) {
+    case 'ArrowLeft':
+      event.preventDefault();
+      newIndex = this.findPreviousEnabledTab(currentIndex, enabledIndices);
+      break;
+
+    case 'ArrowRight':
+      event.preventDefault();
+      newIndex = this.findNextEnabledTab(currentIndex, enabledIndices);
+      break;
+
+    case 'Home':
+      event.preventDefault();
+      newIndex = enabledIndices[0];
+      break;
+
+    case 'End':
+      event.preventDefault();
+      newIndex = enabledIndices[enabledIndices.length - 1];
+      break;
+
+    case 'Enter':
+    case ' ':
+      event.preventDefault();
+      if (!this.tabs[currentIndex].disabled) {
+        this.selectTab(this.tabs[currentIndex]);
+      }
+      break;
+  }
+
+  if (newIndex !== null && newIndex !== currentIndex) {
+    this.focusedIndex = newIndex;
+    this.selectTab(this.tabs[newIndex]);
+  }
+}
+```
+
+#### 3. Indicador visual de pestaña activa:
+```typescript
+// tabs.ts - Líneas 192-197
+getTabClasses(tab: Tab): string {
+  const classes = ['tabs__tab'];
+  if (this.isActive(tab)) classes.push('tabs__tab--active');
+  if (tab.disabled) classes.push('tabs__tab--disabled');
+  return classes.join(' ');
+}
+```
+
+```scss
+// tabs.scss - Estilos de pestaña activa
+.tabs__tab--active {
+  color: $color-primary-600;
+  border-bottom: 2px solid $color-primary-600;
+  background: rgba($color-primary-500, 0.1);
+}
+```
+
+#### 4. Transición de contenido:
+```typescript
+// tab-panel.ts - Líneas 30-38
+styles: [`
+  .tabs-panel {
+    animation: fadeIn 0.2s ease-out;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+`]
+```
+
+#### 5. Accesibilidad ARIA completa:
+
+**role="tablist"** en el contenedor:
+```html
+<!-- tabs.html - Línea 6 -->
+<div class="tabs__list" role="tablist" aria-label="Pestañas de navegación">
+```
+
+**role="tab"** en cada pestaña:
+```html
+<!-- tabs.html - Líneas 8-18 -->
+<button
+  class="{{ getTabClasses(tab) }}"
+  role="tab"
+  [id]="'tab-' + tab.id"
+  [attr.aria-selected]="isActive(tab)"
+  [attr.aria-controls]="'panel-' + tab.id"
+  [attr.aria-disabled]="tab.disabled || null"
+  [tabindex]="getTabIndex(tab, i)"
+  (click)="selectTab(tab)"
+  (keydown)="onKeyDown($event, i)">
+```
+
+**role="tabpanel"** en los paneles:
+```typescript
+// tab-panel.ts - Líneas 21-26
+<div
+  class="tabs-panel tabs-panel--active"
+  role="tabpanel"
+  [id]="'panel-' + id"
+  [attr.aria-labelledby]="'tab-' + id">
+  <ng-content></ng-content>
+</div>
+```
+
+### Checklist de requisitos:
+
+| Requisito | Implementado | Archivo | Líneas |
+|-----------|--------------|---------|--------|
+| Cambio con click | Sí | tabs.html | 17 |
+| ArrowLeft/ArrowRight | Sí | tabs.ts | 103-110 |
+| Home/End | Sí | tabs.ts | 113-121 |
+| Enter/Space | Sí | tabs.ts | 123-129 |
+| Indicador visual activa | Sí | tabs.scss | .tabs__tab--active |
+| Transición contenido | Sí | tab-panel.ts | fadeIn animation |
+| role="tablist" | Sí | tabs.html | 6 |
+| role="tab" | Sí | tabs.html | 10 |
+| role="tabpanel" | Sí | tab-panel.ts | 23 |
+| aria-selected | Sí | tabs.html | 12 |
+| aria-controls | Sí | tabs.html | 13 |
+| aria-labelledby | Sí | tab-panel.ts | 25 |
+| Soporte disabled | Sí | tabs.ts | 77, 94-98 |
+
+### Uso del componente:
+
+```html
+<app-tabs
+  [tabs]="tabs"
+  [activeTabId]="activeTab"
+  (tabChange)="activeTab = $event">
+
+  <app-tab-panel id="stats" [active]="activeTab === 'stats'">
+    Contenido de estadísticas
+  </app-tab-panel>
+
+  <app-tab-panel id="moves" [active]="activeTab === 'moves'">
+    Contenido de movimientos
+  </app-tab-panel>
+
+</app-tabs>
+```
+
+### Dónde se usa en la aplicación:
+
+El componente Tabs se utiliza en:
+- **PokemonDetailComponent** - Para mostrar estadísticas, movimientos y evoluciones
+- Cualquier vista que requiera navegación por pestañas
+
+### Cómo probar:
+
+1. Ir a `/pokedex` y hacer clic en cualquier Pokémon para ver su detalle
+2. Verificar las pestañas (Estadísticas, Movimientos, etc.)
+3. **Click**: Hacer clic en cada pestaña → Cambia el contenido
+4. **ArrowLeft/ArrowRight**: Con foco en una pestaña, usar flechas → Navega entre pestañas
+5. **Home/End**: Presionar Home → Va a primera pestaña, End → Va a última
+6. **Inspeccionar**: F12 → Elements → Verificar:
+   - `role="tablist"` en el contenedor
+   - `role="tab"` en cada botón
+   - `role="tabpanel"` en el contenido
+   - `aria-selected="true"` en pestaña activa
 
 ---
 
