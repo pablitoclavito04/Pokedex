@@ -471,17 +471,86 @@ mediaQuery.addEventListener('change', (event) => {
 
 ## Compatibilidad de navegadores:
 
-| Evento | Chrome | Firefox | Safari | Edge |
-|--------|--------|---------|--------|------|
-| click | ✓ | ✓ | ✓ | ✓ |
-| keydown/keyup | ✓ | ✓ | ✓ | ✓ |
-| focus/blur | ✓ | ✓ | ✓ | ✓ |
-| mouseenter/mouseleave | ✓ | ✓ | ✓ | ✓ |
-| focusin/focusout | ✓ | ✓ | ✓ | ✓ |
-| touchstart/touchend | ✓ | ✓ | ✓ | ✓ |
-| prefers-color-scheme | ✓ 76+ | ✓ 67+ | ✓ 12.1+ | ✓ 79+ |
-| matchMedia | ✓ | ✓ | ✓ | ✓ |
+### Tabla de Compatibilidad de Eventos
 
+La siguiente tabla documenta la compatibilidad de todos los eventos utilizados en este proyecto con los principales navegadores:
+
+| Evento | Chrome | Firefox | Safari | Edge | Uso en el Proyecto |
+|--------|--------|---------|--------|------|-------------------|
+| `click` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Botones, tarjetas, navegación |
+| `dblclick` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Acciones rápidas en cards |
+| `keydown` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Navegación por teclado, ESC para cerrar |
+| `keyup` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Búsqueda en tiempo real |
+| `keydown.escape` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Cerrar modal, menú, dropdown |
+| `keydown.enter` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Submit formularios, selección |
+| `keydown.arrowup/arrowdown` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Navegación en custom-select |
+| `focus` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Validación de inputs |
+| `blur` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Validación al salir del campo |
+| `focusin` | ✓ 26+ | ✓ 52+ | ✓ 7+ | ✓ 12+ | Tooltip accesible |
+| `focusout` | ✓ 26+ | ✓ 52+ | ✓ 7+ | ✓ 12+ | Ocultar tooltip |
+| `mouseenter` | ✓ 30+ | ✓ 10+ | ✓ 6+ | ✓ 12+ | Mostrar tooltip |
+| `mouseleave` | ✓ 30+ | ✓ 10+ | ✓ 6+ | ✓ 12+ | Ocultar tooltip |
+| `input` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Búsqueda, formularios |
+| `change` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Selects, filtros |
+| `submit` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Formularios login/registro |
+| `scroll` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Infinite scroll, lazy loading |
+| `resize` | ✓ 1+ | ✓ 1+ | ✓ 1+ | ✓ 12+ | Responsive adjustments |
+| `touchstart` | ✓ 22+ | ✓ 18+ | ✓ 3.2+ | ✓ 12+ | Soporte móvil |
+| `touchend` | ✓ 22+ | ✓ 18+ | ✓ 3.2+ | ✓ 12+ | Soporte móvil |
+
+### APIs de Navegador Utilizadas
+
+| API | Chrome | Firefox | Safari | Edge | Uso en el Proyecto |
+|-----|--------|---------|--------|------|-------------------|
+| `prefers-color-scheme` | ✓ 76+ | ✓ 67+ | ✓ 12.1+ | ✓ 79+ | Detección tema del sistema |
+| `matchMedia` | ✓ 9+ | ✓ 6+ | ✓ 5.1+ | ✓ 12+ | Media queries en JS |
+| `localStorage` | ✓ 4+ | ✓ 3.5+ | ✓ 4+ | ✓ 12+ | Persistencia de tema y favoritos |
+| `sessionStorage` | ✓ 5+ | ✓ 2+ | ✓ 4+ | ✓ 12+ | Estado de sesión |
+| `IntersectionObserver` | ✓ 51+ | ✓ 55+ | ✓ 12.1+ | ✓ 15+ | Lazy loading de imágenes |
+| `ResizeObserver` | ✓ 64+ | ✓ 69+ | ✓ 13.1+ | ✓ 79+ | Container queries fallback |
+| `Clipboard API` | ✓ 66+ | ✓ 63+ | ✓ 13.1+ | ✓ 79+ | Copiar al portapapeles |
+
+### Leyenda
+
+- ✓ = Soportado completamente
+- ✗ = No soportado
+- Número+ = Versión mínima requerida
+
+### Notas de Compatibilidad y Fallbacks
+
+1. **focusin/focusout**: Firefox añadió soporte en la versión 52. Para versiones anteriores, el proyecto usa `focus` y `blur` con `useCapture: true` como fallback.
+
+2. **prefers-color-scheme**: Navegadores antiguos que no soportan esta media query usarán el tema claro por defecto. El usuario puede cambiar manualmente el tema.
+
+3. **IntersectionObserver**: Para navegadores sin soporte, las imágenes se cargan inmediatamente sin lazy loading.
+
+4. **ResizeObserver**: Se usa `@supports (container-type: inline-size)` para detectar soporte de container queries.
+
+5. **Touch events**: En dispositivos sin soporte táctil, los eventos de mouse proporcionan la misma funcionalidad.
+
+```typescript
+// Ejemplo de fallback implementado para prefers-color-scheme
+private initThemeFromSystem(): void {
+  if (window.matchMedia) {
+    const prefersDark = window.matchMedia('(prefers-color-scheme: dark)');
+    if (prefersDark.matches) {
+      this.setTheme('dark');
+    }
+  }
+  // Fallback: tema claro por defecto si matchMedia no está disponible
+}
+```
+
+### Navegadores Probados
+
+| Navegador | Versión | Plataforma | Estado |
+|-----------|---------|------------|--------|
+| Chrome | 120+ | Windows/Mac/Linux | ✓ Funcional |
+| Firefox | 120+ | Windows/Mac/Linux | ✓ Funcional |
+| Safari | 17+ | macOS/iOS | ✓ Funcional |
+| Edge | 120+ | Windows | ✓ Funcional |
+| Chrome Mobile | Android 13+ | Android | ✓ Funcional |
+| Safari Mobile | iOS 17+ | iPhone/iPad | ✓ Funcional |
 
 ## Buenas Prácticas - Eventos:
 
