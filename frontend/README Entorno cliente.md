@@ -17,6 +17,7 @@
   - [Rúbrica 3.1: Menú Hamburguesa Mobile (10/10)](#rúbrica-31-menú-hamburguesa-mobile-1010)
   - [Rúbrica 3.2: Modal / Cuadro de Diálogo (10/10)](#rúbrica-32-modal--cuadro-de-diálogo-1010)
   - [Rúbrica 3.4: Tabs / Pestañas (10/10)](#rúbrica-34-tabs--pestañas-1010)
+  - [Rúbrica 3.5: Tooltip (10/10)](#rúbrica-35-tooltip-1010)
 
 - [Fase 7: Testing, optimización y verificación](#fase-7-testing-optimización-y-verificación)
 
@@ -5365,6 +5366,233 @@ El componente Tabs se utiliza en:
    - `role="tab"` en cada botón
    - `role="tabpanel"` en el contenido
    - `aria-selected="true"` en pestaña activa
+
+---
+
+## Rúbrica 3.5: Tooltip.
+
+### Descripción:
+Componente Tooltip completamente funcional con soporte para hover y focus, posicionamiento dinámico, delay configurable y accesibilidad completa.
+
+### Componente principal:
+**TooltipComponent** (`src/components/shared/tooltip/tooltip.ts`)
+
+### Funcionalidades implementadas:
+
+#### 1. Muestra con mouseenter/hover:
+```typescript
+// tooltip.ts - Líneas 98-101
+@HostListener('mouseenter')
+onMouseEnter(): void {
+  this.scheduleShow();
+}
+```
+
+#### 2. Oculta con mouseleave:
+```typescript
+// tooltip.ts - Líneas 106-109
+@HostListener('mouseleave')
+onMouseLeave(): void {
+  this.scheduleHide();
+}
+```
+
+#### 3. Muestra con focusin (accesibilidad):
+```typescript
+// tooltip.ts - Líneas 114-117
+@HostListener('focusin')
+onFocusIn(): void {
+  this.scheduleShow();
+}
+```
+
+#### 4. Oculta con focusout:
+```typescript
+// tooltip.ts - Líneas 122-125
+@HostListener('focusout')
+onFocusOut(): void {
+  this.scheduleHide();
+}
+```
+
+#### 5. Delay configurable:
+```typescript
+// tooltip.ts - Líneas 47-51
+/** Delay en ms antes de mostrar */
+@Input() showDelay: number = 200;
+
+/** Delay en ms antes de ocultar */
+@Input() hideDelay: number = 100;
+```
+
+```typescript
+// tooltip.ts - Líneas 144-151
+private scheduleShow(): void {
+  if (this.disabled || !this.text) return;
+  this.clearTimers();
+  this.showTimer = setTimeout(() => {
+    this.show();
+  }, this.showDelay);
+}
+```
+
+#### 6. Posicionamiento dinámico (top, bottom, left, right):
+```typescript
+// tooltip.ts - Línea 45
+@Input() position: TooltipPosition = 'top';
+```
+
+```scss
+// tooltip.scss - Líneas 88-153
+// POSICIÓN: Top (encima del trigger)
+&--top {
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(-$spacing-2);
+}
+
+// POSICIÓN: Bottom (debajo del trigger)
+&--bottom {
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY($spacing-2);
+}
+
+// POSICIÓN: Left (a la izquierda)
+&--left {
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX(-$spacing-2);
+}
+
+// POSICIÓN: Right (a la derecha)
+&--right {
+  left: 100%;
+  top: 50%;
+  transform: translateY(-50%) translateX($spacing-2);
+}
+```
+
+#### 7. Flecha indicadora:
+```html
+<!-- tooltip.html - Línea 19 -->
+<span class="tooltip__arrow" aria-hidden="true"></span>
+```
+
+```scss
+// tooltip.scss - Líneas 67-73
+&__arrow {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: inherit;
+  transform: rotate(45deg);
+}
+```
+
+#### 8. Accesibilidad (aria-describedby, role="tooltip"):
+```html
+<!-- tooltip.html - Líneas 6-7 -->
+<div class="tooltip-trigger"
+     [attr.aria-describedby]="isVisible ? tooltipId : null">
+  <ng-content></ng-content>
+</div>
+```
+
+```html
+<!-- tooltip.html - Líneas 13-17 -->
+<div #tooltipElement
+     [id]="tooltipId"
+     [class]="tooltipClasses"
+     role="tooltip"
+     [attr.aria-hidden]="!isVisible">
+```
+
+#### 9. Animación fade-in/out:
+```scss
+// tooltip.scss - Líneas 44-52
+// Estado inicial (oculto)
+opacity: 0;
+visibility: hidden;
+pointer-events: none;
+
+transition:
+  opacity $duration-fast $ease-out,
+  visibility $duration-fast $ease-out,
+  transform $duration-fast $ease-out;
+
+// Modificador visible
+&--visible {
+  opacity: 1;
+  visibility: visible;
+}
+```
+
+#### 10. Cierre con ESC:
+```typescript
+// tooltip.ts - Líneas 130-135
+@HostListener('document:keydown.escape')
+onEscapeKey(): void {
+  if (this.isVisible) {
+    this.hide();
+  }
+}
+```
+
+### Checklist de requisitos:
+
+| Requisito | Implementado | Archivo | Líneas |
+|-----------|--------------|---------|--------|
+| Muestra con mouseenter | Sí | tooltip.ts | 98-101 |
+|Oculta con mouseleave | Sí | tooltip.ts | 106-109 |
+|Muestra con focusin | Sí | tooltip.ts | 114-117 |
+| Oculta con focusout | Sí | tooltip.ts | 122-125 |
+| Delay configurable | Sí | tooltip.ts | 47-51 |
+| Posición top | Sí | tooltip.scss | 88-102 |
+| Posición bottom | Sí | tooltip.scss | 104-119 |
+| Posición left | Sí | tooltip.scss | 121-136 |
+| Posición right | Sí | tooltip.scss | 138-153 |
+| Flecha indicadora | Sí | tooltip.html/scss | 19, 67-73 |
+| aria-describedby | Sí | tooltip.html | 7 |
+| role="tooltip" | Sí | tooltip.html | 16 |
+| Animación fade-in/out | Sí | tooltip.scss | 49-52, 78-81 |
+| Cierre con ESC | Sí | tooltip.ts | 130-135 |
+
+### Uso del Componente:
+
+```html
+<!-- Tooltip básico -->
+<app-tooltip text="Este es un tooltip" position="top">
+  <button>Hover me</button>
+</app-tooltip>
+
+<!-- Tooltip con delay personalizado -->
+<app-tooltip
+  text="Tooltip con delay"
+  position="bottom"
+  [showDelay]="500"
+  [hideDelay]="200">
+  <span>Texto con tooltip</span>
+</app-tooltip>
+
+<!-- Tooltip en diferentes posiciones -->
+<app-tooltip text="Arriba" position="top">...</app-tooltip>
+<app-tooltip text="Abajo" position="bottom">...</app-tooltip>
+<app-tooltip text="Izquierda" position="left">...</app-tooltip>
+<app-tooltip text="Derecha" position="right">...</app-tooltip>
+```
+
+### Cómo Probar:
+
+1. Buscar un elemento con tooltip en la aplicación (botones de acción, iconos)
+2. **Hover**: Pasar el ratón sobre el elemento → Aparece el tooltip
+3. **Mouseleave**: Quitar el ratón → Desaparece el tooltip
+4. **Focus**: Usar Tab para dar foco al elemento → Aparece el tooltip
+5. **Focusout**: Presionar Tab para quitar foco → Desaparece el tooltip
+6. **ESC**: Con tooltip visible, presionar ESC → Se cierra
+7. **Inspeccionar**: F12 → Elements → Verificar:
+   - `role="tooltip"` en el elemento tooltip
+   - `aria-describedby` en el trigger cuando está visible
 
 ---
 
