@@ -27,7 +27,43 @@
 
 Criterios: RA6.a, RA6.c, RA6.d, RA6.e, RA6.h
 
-## Patrón de manejo de eventos:
+## 1.1 Introducción a la Arquitectura de Eventos en Angular
+
+La arquitectura de eventos en Angular es fundamental para crear aplicaciones interactivas y reactivas. Este proyecto Pokédex implementa un sistema completo de manejo de eventos que sigue las mejores prácticas del framework, garantizando un código mantenible, testeable y con excelente rendimiento.
+
+### ¿Qué es el Event Binding?
+
+El **Event Binding** es el mecanismo que Angular proporciona para escuchar y responder a eventos del DOM (Document Object Model). Permite conectar acciones del usuario como clicks, pulsaciones de teclas o movimientos del ratón con métodos definidos en el componente TypeScript. La sintaxis utiliza paréntesis `()` para indicar que estamos escuchando un evento, diferenciándose del Property Binding que usa corchetes `[]`.
+
+Cuando un usuario interactúa con un elemento de la interfaz, Angular detecta el evento y ejecuta el método asociado en el componente. Este proceso es automático gracias al sistema de detección de cambios de Angular, que actualiza la vista cuando el estado del componente cambia.
+
+### Flujo de Datos Unidireccional
+
+Angular implementa un **flujo de datos unidireccional** que facilita enormemente el debugging y mejora la predictibilidad de la aplicación. A diferencia de frameworks con binding bidireccional donde los datos pueden fluir en ambas direcciones creando efectos secundarios difíciles de rastrear, Angular separa claramente las responsabilidades.
+
+En este patrón, los datos fluyen desde el componente padre hacia los hijos a través de Inputs, mientras que los eventos fluyen desde los hijos hacia los padres a través de Outputs. Esta separación clara permite entender exactamente de dónde vienen los cambios de estado y cómo se propagan por la aplicación.
+
+### Eventos Globales con @HostListener
+
+Una característica poderosa de Angular es la capacidad de escuchar eventos a nivel de documento o ventana usando el decorador `@HostListener`. Esto es especialmente útil para funcionalidades que necesitan responder a acciones del usuario independientemente de dónde esté el foco, como cerrar un modal con la tecla ESC o detectar clicks fuera de un elemento.
+
+El decorador `@HostListener` permite definir manejadores de eventos directamente en la clase del componente, sin necesidad de añadir listeners manualmente en el ngOnInit ni preocuparse por eliminarlos en el ngOnDestroy. Angular gestiona automáticamente el ciclo de vida de estos listeners, evitando memory leaks.
+
+### Buenas Prácticas Implementadas
+
+En este proyecto se han seguido las siguientes buenas prácticas para el manejo de eventos:
+
+1. **Usar `$event` solo cuando sea necesario**: Pasar el objeto evento completo solo cuando se necesita acceder a propiedades específicas como `target`, `preventDefault()` o `stopPropagation()`.
+
+2. **Métodos de handler concisos**: Los métodos que manejan eventos deben ser cortos y delegar la lógica de negocio a servicios.
+
+3. **Evitar manipulación directa del DOM**: Usar `Renderer2` en lugar de acceder directamente a `nativeElement` para garantizar compatibilidad con Server-Side Rendering.
+
+4. **Limpiar subscripciones**: Aunque `@HostListener` gestiona esto automáticamente, cualquier listener manual debe limpiarse en `ngOnDestroy`.
+
+5. **Usar eventos específicos de tecla**: Angular permite sintaxis como `(keydown.enter)` o `(keydown.escape)` que es más legible que verificar `event.key` manualmente.
+
+## 1.2 Patrón de manejo de eventos:
 
 La arquitectura de eventos sigue el patrón unidireccional de datos de Angular:
 
