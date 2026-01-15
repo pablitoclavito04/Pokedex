@@ -418,7 +418,7 @@ flowchart TB
 │                                                                         │
 │  1. USUARIO                    2. EVENTO                                │
 │  ┌─────────────┐              ┌────────────────────┐                    │
-│  │ Click en ❤️  │─────────────>│ MouseEvent         │                    │
+│  │ Click en ❤️ │────────────>│ MouseEvent          │                    │
 │  │ (card.html) │              │ target: button     │                    │
 │  └─────────────┘              └─────────┬──────────┘                    │
 │                                         │                               │
@@ -451,7 +451,7 @@ flowchart TB
 │  ┌──────────────────────────────────────────────────┐                   │
 │  │ Angular detecta cambio en Signal                 │                   │
 │  │ → Re-render del componente Card                  │                   │
-│  │ → Icono ❤️ cambia a relleno                       │                   │
+│  │ → Icono ❤️ cambia a relleno                      │                   │
 │  └──────────────────────────────────────────────────┘                   │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
@@ -483,7 +483,7 @@ flowchart TB
 │  ┌─────────────────────────────┐               │      │                 │
 │  │      Modal Content          │               │      │                 │
 │  │  (click)="$event.stop()"    │───────────────┘      │                 │
-│  │  stopPropagation() ✋        │   BLOQUEADO          │                 │
+│  │  stopPropagation() ✋       │   BLOQUEADO          │                 │
 │  └─────────────┬───────────────┘                      │                 │
 │                │                                      │                 │
 │                ▼                                      │                 │
@@ -493,7 +493,7 @@ flowchart TB
 │  └─────────────────────────────┘                                        │
 │                                                                         │
 │  SIN stopPropagation():  Button → Content → Overlay → Document          │
-│  CON stopPropagation():  Button → Content ✋ (se detiene)                │
+│  CON stopPropagation():  Button → Content ✋ (se detiene)               │
 │                                                                         │
 └─────────────────────────────────────────────────────────────────────────┘
 ```
@@ -516,13 +516,13 @@ flowchart TB
 │         ▼                                        ▼                      │
 │  ┌─────────────┐                          ┌─────────────────────┐       │
 │  │   Browser   │                          │ event.preventDefault│       │
-│  │   Default   │                          │ ✋ Bloquea default   │       │
+│  │   Default   │                          │ ✋ Bloquea default  │       │
 │  └──────┬──────┘                          └──────────┬──────────┘       │
 │         │                                            │                  │
 │         ▼                                            ▼                  │
 │  ┌─────────────┐                          ┌─────────────────────┐       │
 │  │ Page Reload │                          │ Custom Handler      │       │
-│  │ ❌ Pérdida   │                          │ → Validación        │       │
+│  │ ❌ Pérdida  │                          │ → Validación        │       │
 │  │   de datos  │                          │ → API Call          │       │
 │  └─────────────┘                          │ → Feedback UI       │       │
 │                                           └─────────────────────┘       │
