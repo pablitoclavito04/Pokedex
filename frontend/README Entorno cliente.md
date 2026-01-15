@@ -5032,25 +5032,31 @@ onModalContentClick(event: MouseEvent): void {
 }
 ```
 
-#### 7. Bloqueo scroll del body (Renderer2):
+#### 7. Bloqueo scroll del body (Renderer2 con compensación de scrollbar):
 ```typescript
-// modal.ts - Líneas 176-193
+// modal.ts - Líneas 176-199
 ngOnChanges(): void {
   if (this.isBrowser && this.blockScroll) {
     if (this.isOpen) {
+      // Calcular ancho del scrollbar para compensar el desplazamiento visual
+      const scrollbarWidth = window.innerWidth - this.document.documentElement.clientWidth;
       // Renderer2.setStyle() - Bloquea scroll de forma segura (SSR-safe)
       this.renderer.setStyle(this.document.body, 'overflow', 'hidden');
+      // Compensar el ancho del scrollbar con padding-right (evita que la página "salte")
+      this.renderer.setStyle(this.document.body, 'padding-right', `${scrollbarWidth}px`);
     } else {
-      // Renderer2.removeStyle() - Restaura scroll
+      // Renderer2.removeStyle() - Restaura scroll y padding
       this.renderer.removeStyle(this.document.body, 'overflow');
+      this.renderer.removeStyle(this.document.body, 'padding-right');
     }
   }
 }
 
 ngOnDestroy(): void {
   if (this.isBrowser) {
-    // Limpieza: restaurar el scroll del body
+    // Limpieza: restaurar el scroll y padding del body
     this.renderer.removeStyle(this.document.body, 'overflow');
+    this.renderer.removeStyle(this.document.body, 'padding-right');
   }
 }
 ```
