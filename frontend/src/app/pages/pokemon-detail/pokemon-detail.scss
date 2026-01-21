@@ -1615,17 +1615,21 @@
   &__url-container {
     display: flex;
     gap: $spacing-2;
-    background: var(--bg-secondary);
+    background: rgba(0, 0, 0, 0.08);
     border-radius: $border-radius-lg;
     padding: $spacing-2;
     border: 1px solid var(--border-color);
+
+    :host-context(.dark-theme) & {
+      background: rgba(0, 0, 0, 0.3);
+    }
   }
 
   &__url-input {
     flex: 1;
     background: transparent;
     border: none;
-    color: var(--text-secondary);
+    color: var(--text-primary);
     font-size: $font-size-sm;
     padding: $spacing-2 $spacing-3;
     outline: none;
@@ -1664,6 +1668,28 @@
     @include respond-to('sm') {
       padding: $spacing-2 $spacing-5;
       font-size: $font-size-base;
+    }
+  }
+
+  &__success-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    margin-top: $spacing-4;
+    padding: $spacing-3;
+    background: rgba(34, 197, 94, 0.1);
+    border: 1px solid rgba(34, 197, 94, 0.3);
+    border-radius: $border-radius-md;
+    color: #22C55E;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-medium;
+    animation: fadeIn 0.2s ease;
+
+    svg {
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
     }
   }
 }
