@@ -248,4 +248,101 @@ export class ProfileComponent implements OnInit, AfterViewInit {
   navigateToPokemon(id: number): void {
     this.router.navigate(['/pokemon', id]);
   }
+
+  // ========== DESCARGAR FAVORITOS COMO PDF ==========
+  downloadFavoritesPDF(): void {
+    if (this.favoritePokemon.length === 0) {
+      this.toastService.warning('No tienes Pokémon favoritos para descargar');
+      return;
+    }
+
+    // Crear contenido HTML para el PDF
+    const pokemonCards = this.favoritePokemon.map(pokemon => `
+      <div style="display: inline-block; width: 150px; margin: 10px; text-align: center; page-break-inside: avoid;">
+        <img src="${pokemon.image}" alt="${pokemon.name}" style="width: 120px; height: 120px; object-fit: contain;">
+        <p style="margin: 8px 0 4px; font-weight: bold; font-size: 14px;">${pokemon.name}</p>
+        <p style="margin: 0; color: #666; font-size: 12px;">N.º ${pokemon.id.toString().padStart(4, '0')}</p>
+      </div>
+    `).join('');
+
+    const htmlContent = `
+      <!DOCTYPE html>
+      <html>
+      <head>
+        <title>Mis Pokémon Favoritos - ${this.user.displayName || this.user.username}</title>
+        <style>
+          @media print {
+            body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+          }
+          body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 40px;
+            max-width: 800px;
+            margin: 0 auto;
+          }
+          .header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #E5E7EB;
+          }
+          .header h1 {
+            color: #1F2937;
+            margin: 0 0 8px;
+            font-size: 28px;
+          }
+          .header p {
+            color: #6B7280;
+            margin: 0;
+            font-size: 14px;
+          }
+          .pokemon-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+          }
+          .footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #E5E7EB;
+            text-align: center;
+            color: #9CA3AF;
+            font-size: 12px;
+          }
+        </style>
+      </head>
+      <body>
+        <div class="header">
+          <h1>Mis Pokémon Favoritos</h1>
+          <p>${this.user.displayName || this.user.username} • ${this.favoritePokemon.length} Pokémon</p>
+        </div>
+        <div class="pokemon-grid">
+          ${pokemonCards}
+        </div>
+        <div class="footer">
+          Generado desde Pokédex • ${new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </div>
+      </body>
+      </html>
+    `;
+
+    // Abrir ventana de impresión
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(htmlContent);
+      printWindow.document.close();
+
+      // Esperar a que las imágenes carguen antes de imprimir
+      printWindow.onload = () => {
+        setTimeout(() => {
+          printWindow.print();
+        }, 500);
+      };
+
+      this.toastService.info('Se abrirá el diálogo de impresión. Selecciona "Guardar como PDF"');
+    } else {
+      this.toastService.error('No se pudo abrir la ventana de impresión');
+    }
+  }
 }
