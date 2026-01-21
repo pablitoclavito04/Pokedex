@@ -336,11 +336,39 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       // Esperar a que las imágenes carguen antes de imprimir
       printWindow.onload = () => {
         setTimeout(() => {
-          printWindow.print();
-          // Cerrar la ventana después de imprimir o cancelar
+          // Registrar evento para cerrar la ventana después de imprimir/cancelar
           printWindow.onafterprint = () => {
             printWindow.close();
           };
+
+          // Ejecutar impresión
+          printWindow.print();
+
+          // Fallback: usar focus para detectar cuando se cierra el diálogo
+          // Algunos navegadores no soportan onafterprint correctamente
+          const checkClosed = setInterval(() => {
+            if (printWindow.closed) {
+              clearInterval(checkClosed);
+            } else {
+              // Verificar si el documento tiene focus (diálogo cerrado)
+              try {
+                if (printWindow.document.hasFocus()) {
+                  clearInterval(checkClosed);
+                  setTimeout(() => printWindow.close(), 100);
+                }
+              } catch (e) {
+                clearInterval(checkClosed);
+              }
+            }
+          }, 500);
+
+          // Timeout de seguridad: cerrar después de 60 segundos si sigue abierta
+          setTimeout(() => {
+            clearInterval(checkClosed);
+            if (!printWindow.closed) {
+              printWindow.close();
+            }
+          }, 60000);
         }, 500);
       };
 
