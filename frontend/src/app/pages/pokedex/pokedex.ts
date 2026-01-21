@@ -357,6 +357,18 @@ export class PokedexComponent implements OnInit {
     const currentValue = input.value;
     const key = event.key;
 
+    // Ejecutar búsqueda cuando se presiona Enter
+    if (key === 'Enter') {
+      const query = this.searchQuery.trim();
+      if (query.length >= 2) {
+        this.searchHistoryService.addSearch(query);
+      }
+      // Cerrar el historial y ejecutar búsqueda
+      this.showSearchHistory = false;
+      this.onSearchChange();
+      return;
+    }
+
     // Permitir teclas de control (backspace, delete, flechas, etc.)
     if (['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End'].includes(key)) {
       return;
@@ -485,7 +497,7 @@ export class PokedexComponent implements OnInit {
       input.value = value;
     }
 
-    this.onSearchChange();
+    // No ejecutar búsqueda automática - solo se busca al presionar Enter
   }
 
   onSearchChange(): void {
@@ -497,11 +509,6 @@ export class PokedexComponent implements OnInit {
       this.pokemons = [...this.allPokemons];
       this.cdr.detectChanges();
       return;
-    }
-
-    // Guardar en historial si tiene al menos 2 caracteres
-    if (query.length >= 2) {
-      this.searchHistoryService.addSearch(this.searchQuery.trim());
     }
 
     this.isRandomMode = false;

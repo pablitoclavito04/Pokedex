@@ -168,14 +168,10 @@ export class PokedexComponent implements OnInit {
     // Recuperar el estado de filtros guardado
     const savedFilterState = sessionStorage.getItem(this.FILTER_STATE_KEY);
 
-    // ========== CONFIGURAR BÚSQUEDA CON DEBOUNCE (Fase 6) ==========
-    this.searchControl.valueChanges.pipe(
-      debounceTime(300),           // Espera 300ms después de escribir
-      distinctUntilChanged()       // Solo si cambió el valor
-    ).subscribe(query => {
+    // Búsqueda solo se ejecuta al presionar Enter (no debounce automático)
+    this.searchControl.valueChanges.subscribe(query => {
       this.searchQuery = query || '';
-      this.onSearchChange();
-      this.cdr.markForCheck(); // Necesario con OnPush
+      // No ejecutar búsqueda automática
     });
 
     this.pokemonService.getAllPokemonNames().subscribe(names => {
@@ -360,6 +356,18 @@ export class PokedexComponent implements OnInit {
     const currentValue = input.value;
     const key = event.key;
 
+    // Ejecutar búsqueda cuando se presiona Enter
+    if (key === 'Enter') {
+      const query = this.searchQuery.trim();
+      if (query.length >= 2) {
+        this.searchHistoryService.addSearch(query);
+      }
+      // Cerrar el historial y ejecutar búsqueda
+      this.showSearchHistory = false;
+      this.onSearchChange();
+      return;
+    }
+
     // Permitir teclas de control (backspace, delete, flechas, etc.)
     if (['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab', 'Home', 'End'].includes(key)) {
       return;
@@ -482,11 +490,11 @@ export class PokedexComponent implements OnInit {
     // Si es solo números y tiene más de 4 dígitos, truncar a 4
     if (/^\d+$/.test(value) && value.length > 4) {
       value = value.slice(0, 4);
-      this.searchControl.setValue(value, { emitEvent: true });
+      this.searchControl.setValue(value, { emitEvent: false });
       input.value = value;
     }
 
-    // El debounce se encarga automáticamente de llamar a onSearchChange()
+    // No ejecutar búsqueda automática - solo se busca al presionar Enter
   }
 
   onSearchChange(): void {
@@ -498,11 +506,6 @@ export class PokedexComponent implements OnInit {
       this.pokemons = [...this.allPokemons];
       this.cdr.detectChanges();
       return;
-    }
-
-    // Guardar en historial si tiene al menos 2 caracteres
-    if (query.length >= 2) {
-      this.searchHistoryService.addSearch(this.searchQuery.trim());
     }
 
     this.isSearching.set(true);
