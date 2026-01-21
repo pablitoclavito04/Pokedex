@@ -6,6 +6,7 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { PokemonService } from '../../../services/pokemon.service';
+import { ToastService } from '../../../services/toast.service';
 import { HttpClient } from '@angular/common/http';
 import { forkJoin } from 'rxjs';
 import { ResolvedPokemon } from '../../resolvers/pokemon.resolver';
@@ -146,6 +147,7 @@ export class PokemonDetailComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private pokemonService: PokemonService,
+    private toastService: ToastService,
     private http: HttpClient,
     private cdr: ChangeDetectorRef
   ) {}
@@ -972,6 +974,7 @@ export class PokemonDetailComponent implements OnInit {
   copyShareUrl(): void {
     navigator.clipboard.writeText(this.shareUrl).then(() => {
       this.copySuccess = true;
+      this.toastService.success('El enlace se ha copiado en el portapapeles');
       setTimeout(() => {
         this.copySuccess = false;
         this.cdr.detectChanges();
@@ -979,6 +982,7 @@ export class PokemonDetailComponent implements OnInit {
       this.cdr.detectChanges();
     }).catch(err => {
       console.error('Error al copiar:', err);
+      this.toastService.error('Error al copiar el enlace');
     });
   }
 }
