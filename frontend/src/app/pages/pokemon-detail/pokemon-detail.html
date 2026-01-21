@@ -48,7 +48,47 @@
       <span class="pokemon-header__name">{{ pokemon.name }}</span>
       <span class="pokemon-header__id">{{ formatPokemonId(pokemon.id) }}</span>
     </h1>
+    <button class="pokemon-header__share-btn" (click)="openShareModal()" type="button">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="18" cy="5" r="3"/>
+        <circle cx="6" cy="12" r="3"/>
+        <circle cx="18" cy="19" r="3"/>
+        <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/>
+        <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/>
+      </svg>
+      Compartir
+    </button>
   </header>
+
+  <!-- ========== MODAL COMPARTIR ========== -->
+  @if (showShareModal) {
+    <div class="share-modal-overlay" (click)="closeShareModal()">
+      <div class="share-modal" (click)="$event.stopPropagation()">
+        <button class="share-modal__close" (click)="closeShareModal()" type="button">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+        <h3 class="share-modal__title">Compartir Pokémon</h3>
+        <p class="share-modal__subtitle">Comparte este Pokémon con tus amigos</p>
+        <div class="share-modal__url-container">
+          <input
+            type="text"
+            class="share-modal__url-input"
+            [value]="shareUrl"
+            readonly>
+          <button
+            class="share-modal__copy-btn"
+            [class.share-modal__copy-btn--success]="copySuccess"
+            (click)="copyShareUrl()"
+            type="button">
+            {{ copySuccess ? '¡Copiado!' : 'Copiar' }}
+          </button>
+        </div>
+      </div>
+    </div>
+  }
 
   <!-- ========== CONTENIDO PRINCIPAL ========== -->
   <div class="pokemon-content">

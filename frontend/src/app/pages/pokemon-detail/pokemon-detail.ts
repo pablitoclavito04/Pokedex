@@ -89,6 +89,11 @@ export class PokemonDetailComponent implements OnInit {
 
   isLoading = true;
 
+  // ========== COMPARTIR ==========
+  showShareModal = false;
+  shareUrl = '';
+  copySuccess = false;
+
   // ========== TIPOS DE POKÉMON ==========
   types = [
     { name: 'Normal', value: 'normal', color: '#A8A878' },
@@ -950,5 +955,30 @@ export class PokemonDetailComponent implements OnInit {
     if (this.nextPokemon) {
       this.navigateToPokemon(this.nextPokemon.id);
     }
+  }
+
+  // ========== COMPARTIR ==========
+  openShareModal(): void {
+    this.shareUrl = window.location.href;
+    this.showShareModal = true;
+    this.copySuccess = false;
+  }
+
+  closeShareModal(): void {
+    this.showShareModal = false;
+    this.copySuccess = false;
+  }
+
+  copyShareUrl(): void {
+    navigator.clipboard.writeText(this.shareUrl).then(() => {
+      this.copySuccess = true;
+      setTimeout(() => {
+        this.copySuccess = false;
+        this.cdr.detectChanges();
+      }, 2000);
+      this.cdr.detectChanges();
+    }).catch(err => {
+      console.error('Error al copiar:', err);
+    });
   }
 }
