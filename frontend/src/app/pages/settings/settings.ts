@@ -8,6 +8,8 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { LoadingService } from '../../../services/loading.service';
+import { SearchHistoryService } from '../../../services/search-history.service';
+import { ToastService } from '../../../services/toast.service';
 
 @Component({
   selector: 'app-settings',
@@ -24,6 +26,8 @@ export class SettingsComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private loadingService: LoadingService,
+    private searchHistoryService: SearchHistoryService,
+    private toastService: ToastService,
     private cdr: ChangeDetectorRef
   ) {}
 
@@ -84,6 +88,9 @@ export class SettingsComponent implements OnInit {
   // Estado del modal de eliminar cuenta
   showDeleteModal = false;
 
+  // Historial de búsqueda
+  hasSearchHistory = false;
+
   // Estado de apertura de los selects
   selectStates: { [key: string]: boolean } = {
     gender: false,
@@ -109,6 +116,9 @@ export class SettingsComponent implements OnInit {
 
     // Cargar contraseña actual
     this.passwordData.currentPassword = this.authService.getPassword() || '';
+
+    // Verificar si hay historial de búsqueda
+    this.hasSearchHistory = this.searchHistoryService.hasHistory();
   }
 
   // ========== MÉTODOS ==========
@@ -287,5 +297,11 @@ export class SettingsComponent implements OnInit {
 
   toggleNewPasswordVisibility(): void {
     this.showNewPassword = !this.showNewPassword;
+  }
+
+  clearSearchHistory(): void {
+    this.searchHistoryService.clearHistory();
+    this.hasSearchHistory = false;
+    this.toastService.success('Historial de búsqueda eliminado');
   }
 }

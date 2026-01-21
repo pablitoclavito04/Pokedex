@@ -2,7 +2,7 @@
 //          POKEDEX PAGE - Página principal de la Pokédex
 // ============================================================================
 
-import { Component, OnInit, ChangeDetectorRef, Renderer2, HostListener } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Renderer2, HostListener, ElementRef, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
@@ -10,6 +10,7 @@ import { FavoritoService } from '../../../services/favorito.service';
 import { AuthService } from '../../../services/auth.service';
 import { PokemonService } from '../../../services/pokemon.service';
 import { ToastService } from '../../../services/toast.service';
+import { SearchHistoryService } from '../../../services/search-history.service';
 import { forkJoin } from 'rxjs';
 
 @Component({
@@ -28,8 +29,12 @@ export class PokedexComponent implements OnInit {
     private authService: AuthService,
     private pokemonService: PokemonService,
     private toastService: ToastService,
+    private searchHistoryService: SearchHistoryService,
     private cdr: ChangeDetectorRef
   ) {}
+
+  // Referencia al input de búsqueda
+  @ViewChild('searchInput') searchInput!: ElementRef<HTMLInputElement>;
 
   // ========== ESTADO ==========
   get isLoggedIn(): boolean {
@@ -136,6 +141,10 @@ export class PokedexComponent implements OnInit {
 
   // ========== ESTADO DE HOVER (para eventos mouseenter/mouseleave) ==========
   hoveredPokemonId: number | null = null;
+
+  // ========== HISTORIAL DE BÚSQUEDA ==========
+  showSearchHistory: boolean = false;
+  searchHistory: string[] = [];
 
   // Clave para persistir el orden en sessionStorage
   private readonly SORT_ORDER_KEY = 'pokedex_sort_order';
@@ -319,6 +328,29 @@ export class PokedexComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  // ========== HISTORIAL DE BÚSQUEDA ==========
+  onSearchFocus(): void {
+    this.searchHistory = this.searchHistoryService.getHistory();
+    if (this.searchHistory.length > 0) {
+      this.showSearchHistory = true;
+      this.cdr.detectChanges();
+    }
+  }
+
+  onSearchBlur(): void {
+    // Pequeño delay para permitir el click en un elemento del historial
+    setTimeout(() => {
+      this.showSearchHistory = false;
+      this.cdr.detectChanges();
+    }, 200);
+  }
+
+  selectHistoryItem(query: string): void {
+    this.searchQuery = query;
+    this.showSearchHistory = false;
+    this.onSearchChange();
+  }
+
   // ========== BÚSQUEDA ==========
   onSearchKeydown(event: KeyboardEvent): void {
     const input = event.target as HTMLInputElement;
@@ -465,6 +497,11 @@ export class PokedexComponent implements OnInit {
       this.pokemons = [...this.allPokemons];
       this.cdr.detectChanges();
       return;
+    }
+
+    // Guardar en historial si tiene al menos 2 caracteres
+    if (query.length >= 2) {
+      this.searchHistoryService.addSearch(this.searchQuery.trim());
     }
 
     this.isRandomMode = false;

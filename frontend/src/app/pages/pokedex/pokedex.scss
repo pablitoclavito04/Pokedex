@@ -121,6 +121,97 @@
 }
 
 // ============================================================================
+//                              HISTORIAL DE BÚSQUEDA
+// ============================================================================
+.search-history {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #ffffff;
+  border-radius: $border-radius-lg;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  z-index: 100;
+  overflow: hidden;
+  animation: fadeInDown 0.2s ease-out;
+
+  :host-context(.dark-theme) & {
+    background: #2F4467;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  }
+
+  &__header {
+    padding: $spacing-3 $spacing-4;
+    border-bottom: 1px solid #E2E8F0;
+
+    :host-context(.dark-theme) & {
+      border-bottom-color: #3D5A80;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-xs;
+    font-weight: $font-weight-semibold;
+    color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__item {
+    display: flex;
+    align-items: center;
+    gap: $spacing-3;
+    padding: $spacing-3 $spacing-4;
+    cursor: pointer;
+    transition: background-color 0.15s ease;
+
+    &:hover {
+      background: #F1F5F9;
+
+      :host-context(.dark-theme) & {
+        background: #3D5A80;
+      }
+    }
+  }
+
+  &__icon {
+    width: 18px;
+    height: 18px;
+    color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    flex-shrink: 0;
+
+    :host-context(.dark-theme) & {
+      color: #94A3B8;
+    }
+  }
+
+  &__text {
+    font-size: $font-size-md;
+    color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================================================
 //                              BÚSQUEDA AVANZADA TOGGLE
 // ============================================================================
 .advanced-search-toggle {
