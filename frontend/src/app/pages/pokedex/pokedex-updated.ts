@@ -36,6 +36,10 @@ export class PokedexComponent implements OnInit {
   isSearching = signal(false);
 
   // ========== ESTADO ==========
+  get isLoggedIn(): boolean {
+    return this.authService.isLoggedIn();
+  }
+
   pokemons: any[] = [];
   allPokemons: any[] = [];
   allPokemonNames: {id: number, name: string}[] = [];
