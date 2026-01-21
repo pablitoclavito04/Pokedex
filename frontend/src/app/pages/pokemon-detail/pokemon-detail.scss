@@ -303,7 +303,7 @@
     padding: $spacing-2 $spacing-4;
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
-    border-radius: $radius-lg;
+    border-radius: $border-radius-lg;
     color: var(--text-secondary);
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
@@ -1545,7 +1545,7 @@
 
 .share-modal {
   background: var(--bg-primary);
-  border-radius: $radius-xl;
+  border-radius: $border-radius-xl;
   padding: $spacing-6;
   max-width: 500px;
   width: 100%;
@@ -1564,7 +1564,7 @@
     justify-content: center;
     background: transparent;
     border: none;
-    border-radius: $radius-full;
+    border-radius: $border-radius-full;
     color: var(--text-tertiary);
     cursor: pointer;
     transition: all 0.2s ease;
@@ -1603,7 +1603,7 @@
     display: flex;
     gap: $spacing-2;
     background: var(--bg-secondary);
-    border-radius: $radius-lg;
+    border-radius: $border-radius-lg;
     padding: $spacing-2;
     border: 1px solid var(--border-color);
   }
@@ -1628,7 +1628,7 @@
     padding: $spacing-2 $spacing-4;
     background: #30A7D7;
     border: none;
-    border-radius: $radius-md;
+    border-radius: $border-radius-md;
     color: white;
     font-size: $font-size-sm;
     font-weight: $font-weight-semibold;
