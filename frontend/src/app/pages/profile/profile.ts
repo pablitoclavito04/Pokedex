@@ -337,6 +337,10 @@ export class ProfileComponent implements OnInit, AfterViewInit {
       printWindow.onload = () => {
         setTimeout(() => {
           printWindow.print();
+          // Cerrar la ventana después de imprimir o cancelar
+          printWindow.onafterprint = () => {
+            printWindow.close();
+          };
         }, 500);
       };
 
