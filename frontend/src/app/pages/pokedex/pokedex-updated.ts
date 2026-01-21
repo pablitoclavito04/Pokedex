@@ -400,8 +400,10 @@ export class PokedexComponent implements OnInit {
     // Verificar si el click fue dentro de la búsqueda avanzada o en el botón toggle
     const clickedInsideAdvancedSearch = target.closest('.advanced-search');
     const clickedToggleButton = target.closest('.advanced-search-toggle__btn');
+    // Ignorar clicks en el header (botón de tema, perfil, etc.)
+    const clickedInsideHeader = target.closest('.header');
 
-    if (!clickedInsideAdvancedSearch && !clickedToggleButton) {
+    if (!clickedInsideAdvancedSearch && !clickedToggleButton && !clickedInsideHeader) {
       console.log('Click fuera de búsqueda avanzada - cerrando');
       this.toggleAdvancedSearch();
     }
