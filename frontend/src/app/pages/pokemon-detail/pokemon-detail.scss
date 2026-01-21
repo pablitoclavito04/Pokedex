@@ -317,12 +317,30 @@
       stroke: var(--text-secondary);
     }
 
+    // Estilos específicos para modo oscuro
+    :host-context(.dark-theme) & {
+      color: #F8FAFC;
+      border: 1px solid rgba(248, 250, 252, 0.2);
+
+      svg {
+        stroke: #F8FAFC;
+      }
+    }
+
     &:hover {
       background: var(--bg-tertiary);
       border-color: var(--primary);
 
       svg {
         stroke: var(--text-primary);
+      }
+    }
+
+    :host-context(.dark-theme) &:hover {
+      border-color: var(--primary);
+
+      svg {
+        stroke: #F8FAFC;
       }
     }
 
