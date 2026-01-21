@@ -10,6 +10,7 @@ import { FavoritoService } from '../../../services/favorito.service';
 import { AuthService } from '../../../services/auth.service';
 import { PokemonService } from '../../../services/pokemon.service';
 import { PokemonStore } from '../../../stores/pokemon.store';
+import { SearchHistoryService } from '../../../services/search-history.service';
 import { forkJoin, debounceTime, distinctUntilChanged } from 'rxjs';
 
 @Component({
@@ -27,6 +28,7 @@ export class PokedexComponent implements OnInit {
   private authService = inject(AuthService);
   private pokemonService = inject(PokemonService);
   private pokemonStore = inject(PokemonStore); // Nuevo Store con Signals
+  private searchHistoryService = inject(SearchHistoryService);
   private cdr = inject(ChangeDetectorRef);
 
   // ========== BÚSQUEDA CON DEBOUNCE (Fase 6) ==========
@@ -140,6 +142,10 @@ export class PokedexComponent implements OnInit {
 
   // ========== ESTADO DE HOVER (para eventos mouseenter/mouseleave) ==========
   hoveredPokemonId: number | null = null;
+
+  // ========== HISTORIAL DE BÚSQUEDA ==========
+  showSearchHistory: boolean = false;
+  searchHistory: string[] = [];
 
   // Clave para persistir el orden en sessionStorage
   private readonly SORT_ORDER_KEY = 'pokedex_sort_order';
@@ -324,6 +330,30 @@ export class PokedexComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  // ========== HISTORIAL DE BÚSQUEDA ==========
+  onSearchFocus(): void {
+    this.searchHistory = this.searchHistoryService.getHistory();
+    if (this.searchHistory.length > 0) {
+      this.showSearchHistory = true;
+      this.cdr.detectChanges();
+    }
+  }
+
+  onSearchBlur(): void {
+    // Pequeño delay para permitir el click en un elemento del historial
+    setTimeout(() => {
+      this.showSearchHistory = false;
+      this.cdr.detectChanges();
+    }, 200);
+  }
+
+  selectHistoryItem(query: string): void {
+    this.searchQuery = query;
+    this.searchControl.setValue(query, { emitEvent: false });
+    this.showSearchHistory = false;
+    this.onSearchChange();
+  }
+
   // ========== BÚSQUEDA (con debounce automático) ==========
   onSearchKeydown(event: KeyboardEvent): void {
     const input = event.target as HTMLInputElement;
@@ -468,6 +498,11 @@ export class PokedexComponent implements OnInit {
       this.pokemons = [...this.allPokemons];
       this.cdr.detectChanges();
       return;
+    }
+
+    // Guardar en historial si tiene al menos 2 caracteres
+    if (query.length >= 2) {
+      this.searchHistoryService.addSearch(this.searchQuery.trim());
     }
 
     this.isSearching.set(true);
