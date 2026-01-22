@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../components/shared/button/button';
 import { PokemonOfDayService } from '../../../services/pokemon-of-day.service';
 import { PokemonService } from '../../../services/pokemon.service';
+import { ModalStateService } from '../../../services/modal-state.service';
 
 @Component({
   selector: 'app-home',
@@ -26,7 +27,8 @@ export class HomeComponent {
     private pokemonOfDayService: PokemonOfDayService,
     private pokemonService: PokemonService,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private modalStateService: ModalStateService
   ) {}
   // Características principales de la app
   features = [
@@ -82,6 +84,7 @@ export class HomeComponent {
   showPokemonOfDayCard(): void {
     if (this.pokemonOfDay) {
       this.showPokemonOfDay = true;
+      this.modalStateService.openFullscreenModal();
       document.body.style.overflow = 'hidden';
       return;
     }
@@ -101,6 +104,7 @@ export class HomeComponent {
         };
         this.isLoadingPokemon = false;
         this.showPokemonOfDay = true;
+        this.modalStateService.openFullscreenModal();
         document.body.style.overflow = 'hidden';
         this.cdr.detectChanges();
       },
@@ -114,6 +118,7 @@ export class HomeComponent {
 
   closePokemonOfDay(): void {
     this.showPokemonOfDay = false;
+    this.modalStateService.closeFullscreenModal();
     document.body.style.overflow = '';
   }
 
@@ -121,6 +126,7 @@ export class HomeComponent {
     if (this.pokemonOfDay) {
       // Restaurar scroll del body antes de navegar
       document.body.style.overflow = '';
+      this.modalStateService.closeFullscreenModal();
       // Guardar en sessionStorage que viene de la home para mostrar botón "Regresar al inicio"
       sessionStorage.setItem('fromHome', 'true');
       this.router.navigate(['/pokemon', this.pokemonOfDay.id]);

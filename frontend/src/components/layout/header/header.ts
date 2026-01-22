@@ -4,6 +4,7 @@ import { CommonModule, DOCUMENT } from '@angular/common';
 import { ThemeService } from '../../../services/theme.service';
 import { AuthService } from '../../../services/auth.service';
 import { ToastService } from '../../../services/toast.service';
+import { ModalStateService } from '../../../services/modal-state.service';
 import { ModalComponent } from '../../shared/modal/modal';
 import { ButtonComponent } from '../../shared/button/button';
 import { filter } from 'rxjs/operators';
@@ -17,6 +18,7 @@ import { filter } from 'rxjs/operators';
 })
 export class HeaderComponent {
   private router = inject(Router);
+  public modalStateService = inject(ModalStateService);
 
   // Referencia al contenedor del menú para detectar clicks fuera
   @ViewChild('mobileNav') mobileNav!: ElementRef;

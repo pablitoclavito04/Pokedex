@@ -18,8 +18,8 @@
     </a>
     
     <!-- ========== NAVEGACIÓN PRINCIPAL ========== -->
-    <!-- Elemento semántico <nav> para la navegación (oculto en modo quiz) -->
-    @if (!isQuizMode) {
+    <!-- Elemento semántico <nav> para la navegación (oculto en modo quiz o cuando hay modal fullscreen) -->
+    @if (!isQuizMode && !modalStateService.isFullscreenModalOpen()) {
       <nav #mobileNav
            class="header__nav"
            [class.header__nav--open]="isMenuOpen"
