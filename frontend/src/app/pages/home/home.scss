@@ -371,7 +371,7 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 1000;
+  z-index: 1100;
   padding: $spacing-4;
   animation: fadeIn 0.2s ease-out;
   overflow-y: auto;
