@@ -12,35 +12,37 @@
 <main class="pokemon-detail">
 
   <!-- ========== NAVEGACIÓN SUPERIOR ========== -->
-  <nav class="pokemon-nav">
-    <button class="pokemon-nav__btn pokemon-nav__btn--prev" (click)="goToPrevious()">
-      <span class="pokemon-nav__arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M15 18l-6-6 6-6"/>
-        </svg>
-      </span>
-      @if (previousPokemon) {
-        <span class="pokemon-nav__info">
-          <span class="pokemon-nav__id">N.º {{ previousPokemon.id.toString().padStart(4, '0') }}</span>
-          <span class="pokemon-nav__name">{{ previousPokemon.name }}</span>
+  @if (!fromHome) {
+    <nav class="pokemon-nav">
+      <button class="pokemon-nav__btn pokemon-nav__btn--prev" (click)="goToPrevious()">
+        <span class="pokemon-nav__arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M15 18l-6-6 6-6"/>
+          </svg>
         </span>
-      }
-    </button>
+        @if (previousPokemon) {
+          <span class="pokemon-nav__info">
+            <span class="pokemon-nav__id">N.º {{ previousPokemon.id.toString().padStart(4, '0') }}</span>
+            <span class="pokemon-nav__name">{{ previousPokemon.name }}</span>
+          </span>
+        }
+      </button>
 
-    <button class="pokemon-nav__btn pokemon-nav__btn--next" (click)="goToNext()">
-      @if (nextPokemon) {
-        <span class="pokemon-nav__info">
-          <span class="pokemon-nav__name">{{ nextPokemon.name }}</span>
-          <span class="pokemon-nav__id">N.º {{ nextPokemon.id.toString().padStart(4, '0') }}</span>
+      <button class="pokemon-nav__btn pokemon-nav__btn--next" (click)="goToNext()">
+        @if (nextPokemon) {
+          <span class="pokemon-nav__info">
+            <span class="pokemon-nav__name">{{ nextPokemon.name }}</span>
+            <span class="pokemon-nav__id">N.º {{ nextPokemon.id.toString().padStart(4, '0') }}</span>
+          </span>
+        }
+        <span class="pokemon-nav__arrow">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 18l6-6-6-6"/>
+          </svg>
         </span>
-      }
-      <span class="pokemon-nav__arrow">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path d="M9 18l6-6-6-6"/>
-        </svg>
-      </span>
-    </button>
-  </nav>
+      </button>
+    </nav>
+  }
 
   <!-- ========== ENCABEZADO CON NOMBRE ========== -->
   <header class="pokemon-header">
@@ -488,7 +490,11 @@
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M15 18l-6-6 6-6"/>
       </svg>
-      Volver a la Pokédex
+      @if (fromHome) {
+        Regresar al inicio
+      } @else {
+        Volver a la Pokédex
+      }
     </button>
   </section>
 

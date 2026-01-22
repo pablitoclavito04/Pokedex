@@ -90,6 +90,9 @@ export class PokemonDetailComponent implements OnInit {
 
   isLoading = true;
 
+  // ========== NAVEGACIÓN ==========
+  fromHome = false;
+
   // ========== COMPARTIR ==========
   showShareModal = false;
   shareUrl = '';
@@ -153,6 +156,11 @@ export class PokemonDetailComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    // Verificar si viene desde la home
+    this.fromHome = sessionStorage.getItem('fromHome') === 'true';
+    // Limpiar el flag después de usarlo
+    sessionStorage.removeItem('fromHome');
+
     // Obtener datos precargados por el resolver (solo primera vez)
     const resolvedData = this.route.snapshot.data['pokemon'] as ResolvedPokemon | null;
 
@@ -940,7 +948,11 @@ export class PokemonDetailComponent implements OnInit {
 
   // ========== NAVEGACIÓN ==========
   goBack(): void {
-    this.router.navigate(['/pokedex']);
+    if (this.fromHome) {
+      this.router.navigate(['/']);
+    } else {
+      this.router.navigate(['/pokedex']);
+    }
   }
 
   navigateToPokemon(id: number): void {

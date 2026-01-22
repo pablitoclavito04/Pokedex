@@ -276,6 +276,295 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
 }
 
 // ============================================================================
+//                           POKÉMON DEL DÍA SECTION
+// ============================================================================
+
+.pokemon-of-day-section {
+  padding: $spacing-12 $spacing-4;
+  background: var(--bg-primary, #{map-get($light-theme, bg-primary)});
+  text-align: center;
+
+  @include respond-to('md') {
+    padding: $spacing-16 $spacing-8;
+  }
+
+  &__container {
+    max-width: 500px;
+    margin: 0 auto;
+  }
+
+  &__title {
+    font-family: $font-secondary;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    margin: 0 0 $spacing-3;
+
+    @include respond-to('md') {
+      font-size: $font-size-3xl;
+    }
+  }
+
+  &__subtitle {
+    font-size: $font-size-md;
+    color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    margin: 0 0 $spacing-4;
+    line-height: $line-height-relaxed;
+  }
+
+  &__countdown {
+    font-size: $font-size-sm;
+    color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    margin: 0 0 $spacing-6;
+  }
+
+  &__timer {
+    font-family: $font-secondary;
+    font-weight: $font-weight-bold;
+    color: #3B82F6;
+  }
+
+  &__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-2;
+    padding: $spacing-4 $spacing-8;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: #ffffff;
+    background: linear-gradient(135deg, #3B82F6 0%, #2563EB 100%);
+    border: none;
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: $transition-all;
+    box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+
+    svg {
+      width: 24px;
+      height: 24px;
+    }
+
+    &:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+  }
+}
+
+// ============================================================================
+//                           MODAL POKÉMON DEL DÍA
+// ============================================================================
+
+.pokemon-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: $spacing-4;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.pokemon-modal {
+  position: relative;
+  background: var(--bg-primary, #{map-get($light-theme, bg-primary)});
+  border-radius: $border-radius-2xl;
+  padding: $spacing-6;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  animation: slideUp 0.3s ease-out;
+
+  :host-context(.dark-theme) & {
+    background: #1C2739;
+  }
+
+  @include respond-to('sm') {
+    padding: $spacing-8;
+  }
+
+  &__close {
+    position: absolute;
+    top: $spacing-3;
+    right: $spacing-3;
+    width: 32px;
+    height: 32px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease;
+
+    svg {
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-tertiary);
+    }
+
+    &:hover {
+      background: var(--bg-tertiary);
+    }
+  }
+
+  &__header {
+    margin-bottom: $spacing-4;
+  }
+
+  &__badge {
+    display: inline-block;
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-xs;
+    font-weight: $font-weight-bold;
+    color: #ffffff;
+    background: linear-gradient(135deg, #F59E0B 0%, #D97706 100%);
+    border-radius: $border-radius-full;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__image-container {
+    background: #EBEBED;
+    border-radius: $border-radius-xl;
+    padding: $spacing-6;
+    margin-bottom: $spacing-4;
+
+    :host-context(.dark-theme) & {
+      background: #20283A;
+    }
+  }
+
+  &__image {
+    width: 160px;
+    height: 160px;
+    object-fit: contain;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.15));
+
+    @include respond-to('sm') {
+      width: 180px;
+      height: 180px;
+    }
+  }
+
+  &__name {
+    font-family: $font-secondary;
+    font-size: $font-size-2xl;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    margin: 0 0 $spacing-1;
+    text-transform: capitalize;
+  }
+
+  &__number {
+    font-family: $font-secondary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    display: block;
+    margin-bottom: $spacing-4;
+  }
+
+  &__types {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-2;
+    margin-bottom: $spacing-4;
+  }
+
+  &__type {
+    padding: $spacing-2 $spacing-4;
+    font-size: $font-size-sm;
+    font-weight: $font-weight-semibold;
+    color: #ffffff;
+    border-radius: $border-radius-lg;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.2);
+  }
+
+  &__stats {
+    display: flex;
+    justify-content: center;
+    gap: $spacing-8;
+    margin-bottom: $spacing-6;
+    padding: $spacing-4;
+    background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
+    border-radius: $border-radius-lg;
+
+    :host-context(.dark-theme) & {
+      background: #2F4467;
+    }
+  }
+
+  &__stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  &__stat-value {
+    font-family: $font-secondary;
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: var(--text-primary, #{map-get($light-theme, text-primary)});
+  }
+
+  &__stat-label {
+    font-size: $font-size-xs;
+    color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    text-transform: uppercase;
+  }
+
+  &__detail-btn {
+    width: 100%;
+    padding: $spacing-3 $spacing-6;
+    font-size: $font-size-md;
+    font-weight: $font-weight-semibold;
+    color: #ffffff;
+    background: #FCD34D;
+    color: #1a1a1a;
+    border: none;
+    border-radius: $border-radius-xl;
+    cursor: pointer;
+    transition: $transition-all;
+
+    &:hover {
+      background: #FBBF24;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(252, 211, 77, 0.4);
+    }
+  }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// ============================================================================
 //                           FEATURES SECTION
 // ============================================================================
 

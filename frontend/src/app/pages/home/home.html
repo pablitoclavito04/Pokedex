@@ -82,6 +82,88 @@
     </div>
   </section>
 
+  <!-- ========== POKÉMON DEL DÍA SECTION ========== -->
+  <section class="pokemon-of-day-section">
+    <div class="pokemon-of-day-section__container">
+      <h2 class="pokemon-of-day-section__title">Pokémon del día</h2>
+      <p class="pokemon-of-day-section__subtitle">
+        Descubre qué Pokémon te espera hoy. ¡Cambia cada 24 horas!
+      </p>
+      <p class="pokemon-of-day-section__countdown">
+        Próximo Pokémon en: <span class="pokemon-of-day-section__timer">{{ formatCountdown() }}</span>
+      </p>
+      <button
+        class="pokemon-of-day-section__btn"
+        (click)="showPokemonOfDayCard()"
+        [disabled]="isLoadingPokemon">
+        @if (isLoadingPokemon) {
+          <span>Cargando...</span>
+        } @else {
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10"/>
+            <circle cx="12" cy="12" r="3"/>
+            <line x1="12" y1="2" x2="12" y2="9"/>
+            <line x1="12" y1="15" x2="12" y2="22"/>
+          </svg>
+          <span>Descubrir Pokémon</span>
+        }
+      </button>
+    </div>
+  </section>
+
+  <!-- ========== MODAL POKÉMON DEL DÍA ========== -->
+  @if (showPokemonOfDay && pokemonOfDay) {
+    <div class="pokemon-modal-overlay" (click)="closePokemonOfDay()">
+      <div class="pokemon-modal" (click)="$event.stopPropagation()">
+        <button class="pokemon-modal__close" (click)="closePokemonOfDay()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <line x1="18" y1="6" x2="6" y2="18"/>
+            <line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+
+        <div class="pokemon-modal__header">
+          <span class="pokemon-modal__badge">Pokémon del día</span>
+        </div>
+
+        <div class="pokemon-modal__image-container">
+          <img
+            [src]="pokemonOfDay.image"
+            [alt]="pokemonOfDay.name"
+            class="pokemon-modal__image">
+        </div>
+
+        <h3 class="pokemon-modal__name">{{ pokemonOfDay.name }}</h3>
+        <span class="pokemon-modal__number">{{ formatPokemonId(pokemonOfDay.id) }}</span>
+
+        <div class="pokemon-modal__types">
+          @for (type of pokemonOfDay.types; track type) {
+            <span
+              class="pokemon-modal__type"
+              [style.background-color]="getTypeColor(type)">
+              {{ getTypeName(type) }}
+            </span>
+          }
+        </div>
+
+        <div class="pokemon-modal__stats">
+          <div class="pokemon-modal__stat">
+            <span class="pokemon-modal__stat-value">{{ pokemonOfDay.height }} m</span>
+            <span class="pokemon-modal__stat-label">Altura</span>
+          </div>
+          <div class="pokemon-modal__stat">
+            <span class="pokemon-modal__stat-value">{{ pokemonOfDay.weight }} kg</span>
+            <span class="pokemon-modal__stat-label">Peso</span>
+          </div>
+        </div>
+
+        <button class="pokemon-modal__detail-btn" (click)="goToPokemonDetail()">
+          Ver detalles completos
+        </button>
+      </div>
+    </div>
+  }
+
   <!-- ========== FEATURES SECTION ========== -->
   <section class="features" id="features">
     <div class="features__container">
