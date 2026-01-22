@@ -31,15 +31,23 @@
     display: inline-flex;
     align-items: center;
     gap: $spacing-2;
-    padding: $spacing-2 $spacing-3;
+    padding: $spacing-2 $spacing-4;
     margin-bottom: $spacing-4;
-    background: transparent;
-    border: none;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
     border-radius: $border-radius-md;
-    color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    color: #475569;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     cursor: pointer;
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+    :host-context(.dark-theme) & {
+      background: #1C2739;
+      border-color: #334155;
+      color: #94A3B8;
+      box-shadow: none;
+    }
 
     svg {
       width: 18px;
@@ -48,7 +56,11 @@
 
     &:hover {
       color: #0EA5E9;
-      background: rgba(14, 165, 233, 0.1);
+      border-color: #0EA5E9;
+
+      :host-context(.dark-theme) & {
+        background: rgba(14, 165, 233, 0.1);
+      }
     }
   }
 
