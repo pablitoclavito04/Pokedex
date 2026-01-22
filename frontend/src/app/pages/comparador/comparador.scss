@@ -161,7 +161,7 @@
     border: 2px dashed var(--border-primary, #{map-get($light-theme, border-primary)});
     border-radius: $border-radius-xl;
     cursor: pointer;
-    transition: $transition-all;
+    transition: none;
     color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
 
     svg {
@@ -178,6 +178,7 @@
       border-color: #0EA5E9;
       background: rgba(14, 165, 233, 0.05);
       color: #0EA5E9;
+      transition: border-color 0.2s ease, background-color 0.2s ease, color 0.2s ease;
     }
 
     &:disabled {
@@ -386,7 +387,7 @@
     border: 1px solid var(--border-primary, #{map-get($light-theme, border-primary)});
 
     :host-context(.dark-theme) & {
-      background: #1C2739;
+      background: #1A1F2E;
     }
   }
 
@@ -464,9 +465,13 @@
 
   &__stats-bar {
     height: 8px;
-    background: var(--bg-tertiary, #{map-get($light-theme, bg-tertiary)});
+    background: #C8D6E5;
     border-radius: $border-radius-full;
     overflow: hidden;
+
+    :host-context(.dark-theme) & {
+      background: #3E4757;
+    }
 
     &--left {
       direction: rtl;
