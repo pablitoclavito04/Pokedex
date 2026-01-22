@@ -259,6 +259,29 @@
               </div>
             </div>
 
+            <!-- Speed -->
+            <div class="comparador__stats-row">
+              <div class="comparador__stats-value comparador__stats-value--left"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p1 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p1 === 'loser'">
+                {{ pokemon1.stats.speed }}
+              </div>
+              <div class="comparador__stats-bar comparador__stats-bar--left">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--speed"
+                     [style.width.%]="getStatPercentage(pokemon1.stats.speed)"></div>
+              </div>
+              <div class="comparador__stats-label">Velocidad</div>
+              <div class="comparador__stats-bar comparador__stats-bar--right">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--speed"
+                     [style.width.%]="getStatPercentage(pokemon2.stats.speed)"></div>
+              </div>
+              <div class="comparador__stats-value comparador__stats-value--right"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p2 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p2 === 'loser'">
+                {{ pokemon2.stats.speed }}
+              </div>
+            </div>
+
             <!-- Sp. Attack -->
             <div class="comparador__stats-row">
               <div class="comparador__stats-value comparador__stats-value--left"
@@ -305,45 +328,6 @@
               </div>
             </div>
 
-            <!-- Speed -->
-            <div class="comparador__stats-row">
-              <div class="comparador__stats-value comparador__stats-value--left"
-                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p1 === 'winner'"
-                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p1 === 'loser'">
-                {{ pokemon1.stats.speed }}
-              </div>
-              <div class="comparador__stats-bar comparador__stats-bar--left">
-                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--speed"
-                     [style.width.%]="getStatPercentage(pokemon1.stats.speed)"></div>
-              </div>
-              <div class="comparador__stats-label">Velocidad</div>
-              <div class="comparador__stats-bar comparador__stats-bar--right">
-                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--speed"
-                     [style.width.%]="getStatPercentage(pokemon2.stats.speed)"></div>
-              </div>
-              <div class="comparador__stats-value comparador__stats-value--right"
-                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p2 === 'winner'"
-                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p2 === 'loser'">
-                {{ pokemon2.stats.speed }}
-              </div>
-            </div>
-
-            <!-- Total -->
-            <div class="comparador__stats-row comparador__stats-row--total">
-              <div class="comparador__stats-value comparador__stats-value--left"
-                   [class.comparador__stats-value--winner]="compareStat(pokemon1.total, pokemon2.total).p1 === 'winner'"
-                   [class.comparador__stats-value--loser]="compareStat(pokemon1.total, pokemon2.total).p1 === 'loser'">
-                {{ pokemon1.total }}
-              </div>
-              <div class="comparador__stats-bar comparador__stats-bar--left"></div>
-              <div class="comparador__stats-label">Total</div>
-              <div class="comparador__stats-bar comparador__stats-bar--right"></div>
-              <div class="comparador__stats-value comparador__stats-value--right"
-                   [class.comparador__stats-value--winner]="compareStat(pokemon1.total, pokemon2.total).p2 === 'winner'"
-                   [class.comparador__stats-value--loser]="compareStat(pokemon1.total, pokemon2.total).p2 === 'loser'">
-                {{ pokemon2.total }}
-              </div>
-            </div>
           </div>
 
           <!-- Información adicional -->

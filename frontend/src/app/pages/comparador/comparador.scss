@@ -486,12 +486,12 @@
     border-radius: $border-radius-full;
     transition: width 0.5s ease;
 
-    &--hp { background: #FF5959; }
-    &--attack { background: #F5AC78; }
-    &--defense { background: #FAE078; }
-    &--sp-attack { background: #9DB7F5; }
-    &--sp-defense { background: #A7DB8D; }
-    &--speed { background: #FA92B2; }
+    &--hp { background: #2FCD69; }
+    &--attack { background: #2FCD69; }
+    &--defense { background: #2FCD69; }
+    &--sp-attack { background: #2FCD69; }
+    &--sp-defense { background: #2FCD69; }
+    &--speed { background: #2FCD69; }
   }
 
   // ============================================================================

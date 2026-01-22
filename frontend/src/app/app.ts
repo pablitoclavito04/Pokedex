@@ -22,7 +22,7 @@ export class App {
   // Rutas válidas de la aplicación (para detectar 404)
   private validRoutes = [
     '/', '/pokedex', '/pokemon', '/login', '/register', '/profile', '/settings',
-    '/quiz', '/style-guide', '/forms-demo'
+    '/quiz', '/comparador', '/style-guide', '/forms-demo'
   ];
 
   showLayout = true;

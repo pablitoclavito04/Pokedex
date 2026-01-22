@@ -98,7 +98,7 @@ export class HeaderComponent {
    */
   private checkIfLandingPage(url: string): void {
     const landingRoutes = ['/', '/login', '/register', '/style-guide', '/forms-demo'];
-    const appRoutes = ['/pokedex', '/pokemon', '/profile', '/settings', '/quiz'];
+    const appRoutes = ['/pokedex', '/pokemon', '/profile', '/settings', '/quiz', '/comparador'];
     
     const wasLandingPage = this.isLandingPage;
     this.isLandingPage = landingRoutes.includes(url) || url === '';
