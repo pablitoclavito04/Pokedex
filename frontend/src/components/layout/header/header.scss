@@ -229,6 +229,23 @@
       }
     }
 
+    // Comparador - azul/cyan
+    &--comparador {
+      @include hover {
+        color: #ffffff;
+        background-color: #0EA5E9;
+        border-bottom-color: #0EA5E9;
+      }
+
+      // Modo oscuro - Comparador
+      :host-context(.dark-theme) & {
+        @include hover {
+          background-color: #0284C7;
+          border-bottom-color: #0284C7;
+        }
+      }
+    }
+
     // Salir - rojo (solo móvil)
     &--logout {
       width: 100%;

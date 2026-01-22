@@ -67,6 +67,15 @@ export const routes: Routes = [
 
   // ========== RUTAS PROTEGIDAS (requieren autenticación) ==========
 
+  // Comparador - Comparar Pokémon
+  {
+    path: 'comparador',
+    loadComponent: () => import('./pages/comparador/comparador').then(m => m.ComparadorComponent),
+    title: 'Comparador de Pokémon - Pokédex',
+    canActivate: [authGuard],
+    data: { breadcrumb: 'Comparador' }
+  },
+
   // Profile - Perfil del usuario
   {
     path: 'profile',

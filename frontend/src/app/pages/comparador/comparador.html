@@ -1,0 +1,377 @@
+<!-- ============================================================================
+     COMPARADOR PAGE - Página de comparación de Pokémon
+     ============================================================================ -->
+
+<main class="comparador">
+  <div class="comparador__container">
+
+    <!-- Header -->
+    <header class="comparador__header">
+      <h1 class="comparador__title">Comparador de Pokémon</h1>
+      <p class="comparador__subtitle">
+        Selecciona dos Pokémon de tus favoritos para comparar sus estadísticas
+      </p>
+    </header>
+
+    <!-- Mensaje si no hay favoritos -->
+    @if (!isLoading && favoritos.length === 0) {
+      <div class="comparador__empty">
+        <svg class="comparador__empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+        </svg>
+        <h2 class="comparador__empty-title">No tienes favoritos</h2>
+        <p class="comparador__empty-text">
+          Añade Pokémon a tus favoritos desde la Pokédex para poder compararlos aquí.
+        </p>
+        <a routerLink="/pokedex" class="comparador__empty-btn">
+          Ir a la Pokédex
+        </a>
+      </div>
+    }
+
+    <!-- Mensaje si solo hay un favorito -->
+    @if (!isLoading && favoritos.length === 1) {
+      <div class="comparador__empty">
+        <svg class="comparador__empty-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+        <h2 class="comparador__empty-title">Necesitas más favoritos</h2>
+        <p class="comparador__empty-text">
+          Necesitas al menos 2 Pokémon en favoritos para poder compararlos.
+        </p>
+        <a routerLink="/pokedex" class="comparador__empty-btn">
+          Ir a la Pokédex
+        </a>
+      </div>
+    }
+
+    <!-- Área de comparación -->
+    @if (!isLoading && favoritos.length >= 2) {
+      <div class="comparador__grid">
+
+        <!-- Pokémon 1 -->
+        <div class="comparador__slot">
+          @if (pokemon1) {
+            <div class="comparador__card">
+              <button class="comparador__card-close" (click)="clearPokemon(1)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+              <div class="comparador__card-image">
+                <img [src]="pokemon1.image" [alt]="pokemon1.name">
+              </div>
+              <h3 class="comparador__card-name">{{ pokemon1.name }}</h3>
+              <span class="comparador__card-id">{{ formatPokemonId(pokemon1.id) }}</span>
+              <div class="comparador__card-types">
+                @for (type of pokemon1.types; track type) {
+                  <span class="comparador__card-type" [style.background-color]="getTypeColor(type)">
+                    {{ getTypeName(type) }}
+                  </span>
+                }
+              </div>
+            </div>
+          } @else {
+            <button class="comparador__select-btn" (click)="toggleSelector(1)" [disabled]="isLoadingPokemon1">
+              @if (isLoadingPokemon1) {
+                <span class="comparador__select-loading">Cargando...</span>
+              } @else {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="16"/>
+                  <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                <span>Seleccionar Pokémon</span>
+              }
+            </button>
+          }
+
+          <!-- Selector de favoritos 1 -->
+          @if (showSelector1) {
+            <div class="comparador__selector">
+              <input
+                type="text"
+                class="comparador__selector-search"
+                placeholder="Buscar en favoritos..."
+                [(ngModel)]="searchQuery1"
+                (click)="$event.stopPropagation()">
+              <div class="comparador__selector-list">
+                @for (fav of filteredFavoritos1; track fav.id) {
+                  <button
+                    class="comparador__selector-item"
+                    (click)="selectPokemon(1, fav.id)"
+                    [disabled]="pokemon2?.id === fav.id">
+                    <img [src]="fav.image" [alt]="fav.name" class="comparador__selector-img">
+                    <span class="comparador__selector-name">{{ fav.name }}</span>
+                    <span class="comparador__selector-id">{{ formatPokemonId(fav.id) }}</span>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+        <!-- VS -->
+        <div class="comparador__vs">
+          <span>VS</span>
+        </div>
+
+        <!-- Pokémon 2 -->
+        <div class="comparador__slot">
+          @if (pokemon2) {
+            <div class="comparador__card">
+              <button class="comparador__card-close" (click)="clearPokemon(2)">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="6" x2="6" y2="18"/>
+                  <line x1="6" y1="6" x2="18" y2="18"/>
+                </svg>
+              </button>
+              <div class="comparador__card-image">
+                <img [src]="pokemon2.image" [alt]="pokemon2.name">
+              </div>
+              <h3 class="comparador__card-name">{{ pokemon2.name }}</h3>
+              <span class="comparador__card-id">{{ formatPokemonId(pokemon2.id) }}</span>
+              <div class="comparador__card-types">
+                @for (type of pokemon2.types; track type) {
+                  <span class="comparador__card-type" [style.background-color]="getTypeColor(type)">
+                    {{ getTypeName(type) }}
+                  </span>
+                }
+              </div>
+            </div>
+          } @else {
+            <button class="comparador__select-btn" (click)="toggleSelector(2)" [disabled]="isLoadingPokemon2">
+              @if (isLoadingPokemon2) {
+                <span class="comparador__select-loading">Cargando...</span>
+              } @else {
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="16"/>
+                  <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                <span>Seleccionar Pokémon</span>
+              }
+            </button>
+          }
+
+          <!-- Selector de favoritos 2 -->
+          @if (showSelector2) {
+            <div class="comparador__selector">
+              <input
+                type="text"
+                class="comparador__selector-search"
+                placeholder="Buscar en favoritos..."
+                [(ngModel)]="searchQuery2"
+                (click)="$event.stopPropagation()">
+              <div class="comparador__selector-list">
+                @for (fav of filteredFavoritos2; track fav.id) {
+                  <button
+                    class="comparador__selector-item"
+                    (click)="selectPokemon(2, fav.id)"
+                    [disabled]="pokemon1?.id === fav.id">
+                    <img [src]="fav.image" [alt]="fav.name" class="comparador__selector-img">
+                    <span class="comparador__selector-name">{{ fav.name }}</span>
+                    <span class="comparador__selector-id">{{ formatPokemonId(fav.id) }}</span>
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+
+      </div>
+
+      <!-- Tabla de comparación de estadísticas -->
+      @if (pokemon1 && pokemon2) {
+        <section class="comparador__stats">
+          <h2 class="comparador__stats-title">Comparación de estadísticas</h2>
+
+          <div class="comparador__stats-table">
+            <!-- HP -->
+            <div class="comparador__stats-row">
+              <div class="comparador__stats-value comparador__stats-value--left"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.hp, pokemon2.stats.hp).p1 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.hp, pokemon2.stats.hp).p1 === 'loser'">
+                {{ pokemon1.stats.hp }}
+              </div>
+              <div class="comparador__stats-bar comparador__stats-bar--left">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--hp"
+                     [style.width.%]="getStatPercentage(pokemon1.stats.hp)"></div>
+              </div>
+              <div class="comparador__stats-label">PS</div>
+              <div class="comparador__stats-bar comparador__stats-bar--right">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--hp"
+                     [style.width.%]="getStatPercentage(pokemon2.stats.hp)"></div>
+              </div>
+              <div class="comparador__stats-value comparador__stats-value--right"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.hp, pokemon2.stats.hp).p2 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.hp, pokemon2.stats.hp).p2 === 'loser'">
+                {{ pokemon2.stats.hp }}
+              </div>
+            </div>
+
+            <!-- Attack -->
+            <div class="comparador__stats-row">
+              <div class="comparador__stats-value comparador__stats-value--left"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.attack, pokemon2.stats.attack).p1 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.attack, pokemon2.stats.attack).p1 === 'loser'">
+                {{ pokemon1.stats.attack }}
+              </div>
+              <div class="comparador__stats-bar comparador__stats-bar--left">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--attack"
+                     [style.width.%]="getStatPercentage(pokemon1.stats.attack)"></div>
+              </div>
+              <div class="comparador__stats-label">Ataque</div>
+              <div class="comparador__stats-bar comparador__stats-bar--right">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--attack"
+                     [style.width.%]="getStatPercentage(pokemon2.stats.attack)"></div>
+              </div>
+              <div class="comparador__stats-value comparador__stats-value--right"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.attack, pokemon2.stats.attack).p2 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.attack, pokemon2.stats.attack).p2 === 'loser'">
+                {{ pokemon2.stats.attack }}
+              </div>
+            </div>
+
+            <!-- Defense -->
+            <div class="comparador__stats-row">
+              <div class="comparador__stats-value comparador__stats-value--left"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.defense, pokemon2.stats.defense).p1 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.defense, pokemon2.stats.defense).p1 === 'loser'">
+                {{ pokemon1.stats.defense }}
+              </div>
+              <div class="comparador__stats-bar comparador__stats-bar--left">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--defense"
+                     [style.width.%]="getStatPercentage(pokemon1.stats.defense)"></div>
+              </div>
+              <div class="comparador__stats-label">Defensa</div>
+              <div class="comparador__stats-bar comparador__stats-bar--right">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--defense"
+                     [style.width.%]="getStatPercentage(pokemon2.stats.defense)"></div>
+              </div>
+              <div class="comparador__stats-value comparador__stats-value--right"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.defense, pokemon2.stats.defense).p2 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.defense, pokemon2.stats.defense).p2 === 'loser'">
+                {{ pokemon2.stats.defense }}
+              </div>
+            </div>
+
+            <!-- Sp. Attack -->
+            <div class="comparador__stats-row">
+              <div class="comparador__stats-value comparador__stats-value--left"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.spAttack, pokemon2.stats.spAttack).p1 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.spAttack, pokemon2.stats.spAttack).p1 === 'loser'">
+                {{ pokemon1.stats.spAttack }}
+              </div>
+              <div class="comparador__stats-bar comparador__stats-bar--left">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--sp-attack"
+                     [style.width.%]="getStatPercentage(pokemon1.stats.spAttack)"></div>
+              </div>
+              <div class="comparador__stats-label">At. Esp.</div>
+              <div class="comparador__stats-bar comparador__stats-bar--right">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--sp-attack"
+                     [style.width.%]="getStatPercentage(pokemon2.stats.spAttack)"></div>
+              </div>
+              <div class="comparador__stats-value comparador__stats-value--right"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.spAttack, pokemon2.stats.spAttack).p2 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.spAttack, pokemon2.stats.spAttack).p2 === 'loser'">
+                {{ pokemon2.stats.spAttack }}
+              </div>
+            </div>
+
+            <!-- Sp. Defense -->
+            <div class="comparador__stats-row">
+              <div class="comparador__stats-value comparador__stats-value--left"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.spDefense, pokemon2.stats.spDefense).p1 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.spDefense, pokemon2.stats.spDefense).p1 === 'loser'">
+                {{ pokemon1.stats.spDefense }}
+              </div>
+              <div class="comparador__stats-bar comparador__stats-bar--left">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--sp-defense"
+                     [style.width.%]="getStatPercentage(pokemon1.stats.spDefense)"></div>
+              </div>
+              <div class="comparador__stats-label">Def. Esp.</div>
+              <div class="comparador__stats-bar comparador__stats-bar--right">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--sp-defense"
+                     [style.width.%]="getStatPercentage(pokemon2.stats.spDefense)"></div>
+              </div>
+              <div class="comparador__stats-value comparador__stats-value--right"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.spDefense, pokemon2.stats.spDefense).p2 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.spDefense, pokemon2.stats.spDefense).p2 === 'loser'">
+                {{ pokemon2.stats.spDefense }}
+              </div>
+            </div>
+
+            <!-- Speed -->
+            <div class="comparador__stats-row">
+              <div class="comparador__stats-value comparador__stats-value--left"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p1 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p1 === 'loser'">
+                {{ pokemon1.stats.speed }}
+              </div>
+              <div class="comparador__stats-bar comparador__stats-bar--left">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--speed"
+                     [style.width.%]="getStatPercentage(pokemon1.stats.speed)"></div>
+              </div>
+              <div class="comparador__stats-label">Velocidad</div>
+              <div class="comparador__stats-bar comparador__stats-bar--right">
+                <div class="comparador__stats-bar-fill comparador__stats-bar-fill--speed"
+                     [style.width.%]="getStatPercentage(pokemon2.stats.speed)"></div>
+              </div>
+              <div class="comparador__stats-value comparador__stats-value--right"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p2 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p2 === 'loser'">
+                {{ pokemon2.stats.speed }}
+              </div>
+            </div>
+
+            <!-- Total -->
+            <div class="comparador__stats-row comparador__stats-row--total">
+              <div class="comparador__stats-value comparador__stats-value--left"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.total, pokemon2.total).p1 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.total, pokemon2.total).p1 === 'loser'">
+                {{ pokemon1.total }}
+              </div>
+              <div class="comparador__stats-bar comparador__stats-bar--left"></div>
+              <div class="comparador__stats-label">Total</div>
+              <div class="comparador__stats-bar comparador__stats-bar--right"></div>
+              <div class="comparador__stats-value comparador__stats-value--right"
+                   [class.comparador__stats-value--winner]="compareStat(pokemon1.total, pokemon2.total).p2 === 'winner'"
+                   [class.comparador__stats-value--loser]="compareStat(pokemon1.total, pokemon2.total).p2 === 'loser'">
+                {{ pokemon2.total }}
+              </div>
+            </div>
+          </div>
+
+          <!-- Información adicional -->
+          <div class="comparador__info">
+            <div class="comparador__info-item">
+              <span class="comparador__info-label">Altura</span>
+              <span class="comparador__info-value">{{ pokemon1.height }} m</span>
+              <span class="comparador__info-vs">vs</span>
+              <span class="comparador__info-value">{{ pokemon2.height }} m</span>
+            </div>
+            <div class="comparador__info-item">
+              <span class="comparador__info-label">Peso</span>
+              <span class="comparador__info-value">{{ pokemon1.weight }} kg</span>
+              <span class="comparador__info-vs">vs</span>
+              <span class="comparador__info-value">{{ pokemon2.weight }} kg</span>
+            </div>
+          </div>
+        </section>
+      }
+    }
+
+    <!-- Loading -->
+    @if (isLoading) {
+      <div class="comparador__loading">
+        <div class="comparador__loading-spinner"></div>
+        <p>Cargando favoritos...</p>
+      </div>
+    }
+
+  </div>
+</main>

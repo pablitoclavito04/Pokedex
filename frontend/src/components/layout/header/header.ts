@@ -64,6 +64,7 @@ export class HeaderComponent {
   navItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [
     { label: 'Pokédex', path: '/pokedex', icon: 'list' },
     { label: 'Favoritos', path: '/profile', fragment: 'favoritos', icon: 'heart', colorClass: 'header__nav-link--favoritos' },
+    { label: 'Comparador', path: '/comparador', icon: 'compare', colorClass: 'header__nav-link--comparador' },
     { label: 'Quiz', path: '/quiz', icon: 'game', colorClass: 'header__nav-link--quiz' }
   ];
 
