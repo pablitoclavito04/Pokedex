@@ -38,9 +38,6 @@
         <!-- Historial de búsqueda -->
         @if (showSearchHistory && searchHistory.length > 0) {
           <div class="search-history">
-            <div class="search-history__header">
-              <span class="search-history__title">Búsquedas recientes</span>
-            </div>
             <ul class="search-history__list">
               @for (item of searchHistory; track item) {
                 <li class="search-history__item" (mousedown)="selectHistoryItem(item)">
