@@ -51,6 +51,9 @@ export class HeaderComponent {
   // ¿Estamos en modo quiz (jugando)?
   isQuizMode: boolean = false;
 
+  // ¿Ocultar la navegación principal? (usuario no autenticado en rutas de app)
+  hideNavigation: boolean = false;
+
   // Navegación para landing page
   landingNavItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [
     { label: 'Inicio', path: '/', icon: 'home' },
@@ -113,6 +116,9 @@ export class HeaderComponent {
 
     // Mostrar menú hamburguesa solo si está logueado, en rutas de app y no en modo quiz
     this.showHamburgerMenu = this.isAppRoute && !this.isQuizMode && this.authService.isLoggedIn();
+
+    // Ocultar navegación si no está autenticado en rutas de la app (excepto landing)
+    this.hideNavigation = this.isAppRoute && !this.authService.isLoggedIn();
 
     // Gestión del tema según la página
     if (this.isLandingPage) {
