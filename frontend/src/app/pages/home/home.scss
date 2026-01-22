@@ -374,6 +374,7 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
   z-index: 1000;
   padding: $spacing-4;
   animation: fadeIn 0.2s ease-out;
+  overflow-y: auto;
 }
 
 .pokemon-modal {
@@ -383,9 +384,12 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
   padding: $spacing-6;
   max-width: 360px;
   width: 100%;
+  max-height: calc(100vh - 32px);
+  overflow-y: auto;
   text-align: center;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
   animation: slideUp 0.3s ease-out;
+  margin: auto;
 
   :host-context(.dark-theme) & {
     background: #1C2739;

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../components/shared/button/button';
@@ -16,18 +16,17 @@ import { PokemonService } from '../../../services/pokemon.service';
   templateUrl: './home.html',
   styleUrls: ['./home.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent {
   // Pokémon del día
   showPokemonOfDay = false;
   pokemonOfDay: any = null;
   isLoadingPokemon = false;
-  countdown = { hours: 0, minutes: 0, seconds: 0 };
-  private countdownInterval: any;
 
   constructor(
     private pokemonOfDayService: PokemonOfDayService,
     private pokemonService: PokemonService,
-    private router: Router
+    private router: Router,
+    private cdr: ChangeDetectorRef
   ) {}
   // Características principales de la app
   features = [
@@ -80,26 +79,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     { name: 'Normal', value: 'normal', color: '#A8A878' }
   ];
 
-  ngOnInit(): void {
-    this.updateCountdown();
-    this.countdownInterval = setInterval(() => {
-      this.updateCountdown();
-    }, 1000);
-  }
-
-  ngOnDestroy(): void {
-    if (this.countdownInterval) {
-      clearInterval(this.countdownInterval);
-    }
-  }
-
-  private updateCountdown(): void {
-    this.countdown = this.pokemonOfDayService.getTimeUntilNextPokemon();
-  }
-
   showPokemonOfDayCard(): void {
     if (this.pokemonOfDay) {
       this.showPokemonOfDay = true;
+      document.body.style.overflow = 'hidden';
       return;
     }
 
@@ -118,20 +101,26 @@ export class HomeComponent implements OnInit, OnDestroy {
         };
         this.isLoadingPokemon = false;
         this.showPokemonOfDay = true;
+        document.body.style.overflow = 'hidden';
+        this.cdr.detectChanges();
       },
       error: (err) => {
         console.error('Error cargando Pokémon del día:', err);
         this.isLoadingPokemon = false;
+        this.cdr.detectChanges();
       }
     });
   }
 
   closePokemonOfDay(): void {
     this.showPokemonOfDay = false;
+    document.body.style.overflow = '';
   }
 
   goToPokemonDetail(): void {
     if (this.pokemonOfDay) {
+      // Restaurar scroll del body antes de navegar
+      document.body.style.overflow = '';
       // Guardar en sessionStorage que viene de la home para mostrar botón "Regresar al inicio"
       sessionStorage.setItem('fromHome', 'true');
       this.router.navigate(['/pokemon', this.pokemonOfDay.id]);
@@ -156,12 +145,5 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   formatPokemonId(id: number): string {
     return `#${id.toString().padStart(4, '0')}`;
-  }
-
-  formatCountdown(): string {
-    const h = this.countdown.hours.toString().padStart(2, '0');
-    const m = this.countdown.minutes.toString().padStart(2, '0');
-    const s = this.countdown.seconds.toString().padStart(2, '0');
-    return `${h}:${m}:${s}`;
   }
 }
