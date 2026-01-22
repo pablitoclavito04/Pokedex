@@ -39,7 +39,7 @@ export class FooterComponent {
     { label: 'Style Guide', path: '/style-guide' },
     { label: 'Pokédex', path: '/pokedex' },
     { label: 'Favoritos', path: '/profile', protected: true },
-    { label: 'Comparador', path: '/comparador', protected: true },
+    { label: 'Comparador', path: '/comparador' },
     { label: 'Quiz', path: '/quiz', protected: true }
   ];
 

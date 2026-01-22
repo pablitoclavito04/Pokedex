@@ -3,13 +3,10 @@
 // ============================================================================
 
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { CommonModule, Location } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { PokemonService } from '../../../services/pokemon.service';
-import { FavoritoService } from '../../../services/favorito.service';
-import { AuthService } from '../../../services/auth.service';
-import { forkJoin } from 'rxjs';
 
 interface PokemonComparar {
   id: number;
@@ -41,8 +38,8 @@ export class ComparadorComponent implements OnInit {
   pokemon1: PokemonComparar | null = null;
   pokemon2: PokemonComparar | null = null;
 
-  // Lista de favoritos del usuario
-  favoritos: { id: number; name: string; image: string }[] = [];
+  // Lista de todos los Pokémon
+  allPokemon: { id: number; name: string; image: string }[] = [];
 
   // Estados
   isLoading = true;
@@ -81,46 +78,33 @@ export class ComparadorComponent implements OnInit {
 
   constructor(
     private pokemonService: PokemonService,
-    private favoritoService: FavoritoService,
-    private authService: AuthService,
-    private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private location: Location
   ) {}
 
-  ngOnInit(): void {
-    // Verificar autenticación
-    if (!this.authService.isLoggedIn()) {
-      this.router.navigate(['/login']);
-      return;
-    }
-
-    this.loadFavoritos();
+  goBack(): void {
+    this.location.back();
   }
 
-  loadFavoritos(): void {
+  ngOnInit(): void {
+    this.loadAllPokemon();
+  }
+
+  loadAllPokemon(): void {
     this.isLoading = true;
-    const favoritosIds = this.favoritoService.getFavoritos();
 
-    if (favoritosIds.length === 0) {
-      this.isLoading = false;
-      return;
-    }
-
-    // Cargar datos básicos de cada favorito
-    const requests = favoritosIds.map(id => this.pokemonService.getPokemonDetails(id));
-
-    forkJoin(requests).subscribe({
+    this.pokemonService.getAllPokemonNames().subscribe({
       next: (pokemons) => {
-        this.favoritos = pokemons.map(p => ({
+        this.allPokemon = pokemons.map(p => ({
           id: p.id,
           name: p.name,
-          image: p.image
+          image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/${p.id}.png`
         }));
         this.isLoading = false;
         this.cdr.detectChanges();
       },
       error: (err) => {
-        console.error('Error cargando favoritos:', err);
+        console.error('Error cargando Pokémon:', err);
         this.isLoading = false;
         this.cdr.detectChanges();
       }
@@ -218,22 +202,22 @@ export class ComparadorComponent implements OnInit {
     this.showSelector2 = false;
   }
 
-  get filteredFavoritos1(): { id: number; name: string; image: string }[] {
-    if (!this.searchQuery1) return this.favoritos;
+  get filteredPokemon1(): { id: number; name: string; image: string }[] {
+    if (!this.searchQuery1) return this.allPokemon.slice(0, 50);
     const query = this.searchQuery1.toLowerCase();
-    return this.favoritos.filter(p =>
+    return this.allPokemon.filter(p =>
       p.name.toLowerCase().includes(query) ||
       p.id.toString().includes(query)
-    );
+    ).slice(0, 50);
   }
 
-  get filteredFavoritos2(): { id: number; name: string; image: string }[] {
-    if (!this.searchQuery2) return this.favoritos;
+  get filteredPokemon2(): { id: number; name: string; image: string }[] {
+    if (!this.searchQuery2) return this.allPokemon.slice(0, 50);
     const query = this.searchQuery2.toLowerCase();
-    return this.favoritos.filter(p =>
+    return this.allPokemon.filter(p =>
       p.name.toLowerCase().includes(query) ||
       p.id.toString().includes(query)
-    );
+    ).slice(0, 50);
   }
 
   // Comparar estadísticas - retorna 'winner', 'loser' o 'tie'
