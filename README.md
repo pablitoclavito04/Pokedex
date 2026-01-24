@@ -170,7 +170,8 @@ Pokedex/
 │   │   ├── styles/        # Sistema de diseño ITCSS
 │   │   └── assets/        # Imágenes, fonts, iconos
 │   └── docs/
-│       └── design/        # Documentación de diseño (DIW)
+│       ├── design/        # Documentación de diseño (DIW)
+│       └── accesibilidad/ # Análisis de accesibilidad (Proyecto 4)
 └── backend/               # Spring Boot API
     ├── src/
     └── docs/              # Documentación de API
@@ -189,6 +190,9 @@ Pokedex/
 
 ### Desarrollo Web en Entorno Cliente (DWEC):
 - [Documentación del Frontend (Entorno Cliente)](frontend/README%20Entorno%20cliente.md)
+
+### Accesibilidad (Proyecto 4):
+- [Análisis de Accesibilidad](frontend/docs/accesibilidad/README.md)
 
 ### Backend (Spring Boot):
 - [Documentación del Backend](backend/DOCUMENTACION.md)

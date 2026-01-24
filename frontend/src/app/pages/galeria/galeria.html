@@ -1,0 +1,133 @@
+<!-- ============================================================================
+     GALERÍA MULTIMEDIA ACCESIBLE
+     ============================================================================
+     Componente de galería con:
+     - Elementos <figure> y <figcaption> semánticos
+     - Alt text descriptivo en todas las imágenes
+     - Lazy loading nativo con loading="lazy"
+     - Navegación por teclado completa
+     - Modal accesible con focus trap
+     - Indicadores ARIA para lectores de pantalla
+     ============================================================================ -->
+
+<main class="galeria-page">
+  <!-- Encabezado de la página -->
+  <header class="galeria-header">
+    <h1>Galería Pokémon</h1>
+    <p class="galeria-intro">
+      Explora nuestra colección de imágenes del mundo Pokémon.
+      Usa las flechas del teclado para navegar o haz clic en cualquier imagen para verla ampliada.
+    </p>
+  </header>
+
+  <!-- Grid de galería con role y aria-label -->
+  <section
+    class="galeria-grid"
+    role="region"
+    aria-label="Galería de imágenes Pokémon">
+
+    <!-- Iteración sobre items con figure semántico -->
+    @for (item of galleryItems; track item.id) {
+      <figure
+        class="galeria-item"
+        tabindex="0"
+        role="button"
+        [attr.aria-label]="'Ver imagen: ' + item.caption"
+        (click)="openModal(item)"
+        (keydown.enter)="openModal(item)"
+        (keydown.space)="openModal(item); $event.preventDefault()">
+
+        <!-- Imagen con lazy loading y srcset responsivo -->
+        <img
+          [src]="item.src"
+          [srcset]="item.srcset"
+          sizes="(max-width: 600px) 100vw, (max-width: 900px) 50vw, 33vw"
+          [alt]="item.alt"
+          loading="lazy"
+          decoding="async"
+          [width]="item.width"
+          [height]="item.height"
+          class="galeria-image">
+
+        <!-- Caption descriptivo -->
+        <figcaption class="galeria-caption">
+          {{ item.caption }}
+        </figcaption>
+      </figure>
+    }
+  </section>
+
+  <!-- Modal para vista ampliada -->
+  @if (selectedItem) {
+    <div
+      class="galeria-modal"
+      role="dialog"
+      aria-modal="true"
+      [attr.aria-label]="'Vista ampliada: ' + selectedItem.caption"
+      (click)="closeModal()"
+      (keydown)="handleKeydown($event)">
+
+      <!-- Contenedor del modal (evita cierre al hacer clic en el contenido) -->
+      <div
+        class="galeria-modal-content"
+        (click)="$event.stopPropagation()"
+        tabindex="-1">
+
+        <!-- Botón cerrar -->
+        <button
+          type="button"
+          class="galeria-modal-close"
+          aria-label="Cerrar vista ampliada"
+          (click)="closeModal()">
+          <svg aria-hidden="true" width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
+            <path d="M3.72 3.72a.75.75 0 0 1 1.06 0L8 6.94l3.22-3.22a.75.75 0 1 1 1.06 1.06L9.06 8l3.22 3.22a.75.75 0 1 1-1.06 1.06L8 9.06l-3.22 3.22a.75.75 0 0 1-1.06-1.06L6.94 8 3.72 4.78a.75.75 0 0 1 0-1.06Z"/>
+          </svg>
+        </button>
+
+        <!-- Navegación anterior -->
+        <button
+          type="button"
+          class="galeria-modal-nav galeria-modal-prev"
+          aria-label="Imagen anterior"
+          (click)="previousImage()">
+          <span aria-hidden="true">&#10094;</span>
+        </button>
+
+        <!-- Figura con imagen ampliada -->
+        <figure class="galeria-modal-figure">
+          <img
+            [src]="selectedItem.src"
+            [srcset]="selectedItem.srcset"
+            sizes="90vw"
+            [alt]="selectedItem.alt"
+            class="galeria-modal-image">
+
+          <figcaption class="galeria-modal-caption">
+            {{ selectedItem.caption }}
+          </figcaption>
+        </figure>
+
+        <!-- Navegación siguiente -->
+        <button
+          type="button"
+          class="galeria-modal-nav galeria-modal-next"
+          aria-label="Imagen siguiente"
+          (click)="nextImage()">
+          <span aria-hidden="true">&#10095;</span>
+        </button>
+
+        <!-- Indicador de posición -->
+        <div class="galeria-modal-indicator" aria-live="polite">
+          <span class="sr-only">Imagen</span>
+          {{ getCurrentIndex() }} / {{ galleryItems.length }}
+        </div>
+
+        <!-- Instrucciones de teclado (solo lectores de pantalla) -->
+        <p class="sr-only">
+          Usa las flechas izquierda y derecha para navegar entre imágenes.
+          Pulsa Escape para cerrar.
+        </p>
+      </div>
+    </div>
+  }
+</main>
