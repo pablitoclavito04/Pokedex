@@ -29,8 +29,8 @@ export class GaleriaComponent {
   galleryItems: GalleryItem[] = [
     {
       id: 1,
-      src: '/Pokedex/optimized/Pokemons reunidos 800.webp',
-      srcset: '/Pokedex/optimized/Pokemons reunidos 400.webp 400w, /Pokedex/optimized/pokemons-reunidos-800.webp 800w, /Pokedex/optimized/Pokemons reunidos 1200.webp 1200w',
+      src: 'Pokedex/optimized/Pokemons reunidos 800.webp',
+      srcset: 'Pokedex/optimized/Pokemons reunidos 400.webp 400w, Pokedex/optimized/pokemons-reunidos-800.webp 800w, Pokedex/optimized/Pokemons reunidos 1200.webp 1200w',
       alt: 'Grupo de Pokémon populares reunidos incluyendo Pikachu, Charmander, Bulbasaur, Squirtle y Eevee en un escenario colorido',
       caption: 'Los Pokémon iniciales más queridos de todas las generaciones reunidos en una imagen grupal',
       width: 800,
@@ -38,8 +38,8 @@ export class GaleriaComponent {
     },
     {
       id: 2,
-      src: '/Pokedex/optimized/Imagen quiz 800.webp',
-      srcset: '/Pokedex/optimized/Imagen quiz 400.webp 400w, /Pokedex/optimized/Imagen quiz 800.webp 800w, /Pokedex/optimized/Imagen quiz 1200.webp 1200w',
+      src: 'Pokedex/optimized/Imagen quiz 800.webp',
+      srcset: 'Pokedex/optimized/Imagen quiz 400.webp 400w, Pokedex/optimized/Imagen quiz 800.webp 800w, Pokedex/optimized/Imagen quiz 1200.webp 1200w',
       alt: 'Ilustración del Quiz Pokémon mostrando diferentes Pokémon con signos de interrogación, invitando al usuario a poner a prueba sus conocimientos',
       caption: 'Pon a prueba tus conocimientos Pokémon con nuestro quiz interactivo',
       width: 800,
@@ -47,7 +47,7 @@ export class GaleriaComponent {
     },
     {
       id: 3,
-      src: '/Pikachu durmiendo.png',
+      src: 'Pikachu durmiendo.png',
       srcset: '',
       alt: 'Pikachu dormido plácidamente con los ojos cerrados y una expresión relajada, mostrando sus mejillas rosadas características',
       caption: 'Pikachu descansando después de una batalla intensa',
@@ -56,7 +56,7 @@ export class GaleriaComponent {
     },
     {
       id: 4,
-      src: '/pokemons durmiendo.webp',
+      src: 'pokemons durmiendo.webp',
       srcset: '',
       alt: 'Varios Pokémon durmiendo juntos en un ambiente nocturno acogedor, incluyendo Jigglypuff, Snorlax y Pikachu',
       caption: 'Los Pokémon también necesitan su descanso para recuperar energías',
@@ -65,8 +65,8 @@ export class GaleriaComponent {
     },
     {
       id: 5,
-      src: '/Pokedex/optimized/Fondo pantalla Crear cuenta 800.webp',
-      srcset: '/Pokedex/optimized/Fondo pantalla Crear cuenta 400.webp 400w, /Pokedex/optimized/Fondo pantalla Crear cuenta 800.webp 800w, /Pokedex/optimized/Fondo pantalla Crear cuenta 1200.webp 1200w',
+      src: 'Pokedex/optimized/Fondo pantalla Crear cuenta 800.webp',
+      srcset: 'Pokedex/optimized/Fondo pantalla Crear cuenta 400.webp 400w, Pokedex/optimized/Fondo pantalla Crear cuenta 800.webp 800w, Pokedex/optimized/Fondo pantalla Crear cuenta 1200.webp 1200w',
       alt: 'Paisaje del mundo Pokémon con praderas verdes, cielo azul y siluetas de Pokémon voladores en el horizonte',
       caption: 'El vasto mundo Pokémon te espera para ser explorado',
       width: 800,
@@ -74,7 +74,7 @@ export class GaleriaComponent {
     },
     {
       id: 6,
-      src: '/Pikachu llorando.gif',
+      src: 'Pikachu llorando.gif',
       srcset: '',
       alt: 'Animación de Pikachu llorando con lágrimas cayendo de sus ojos, expresando tristeza de forma emotiva',
       caption: 'Incluso Pikachu tiene días difíciles. Los Pokémon también sienten emociones',
@@ -83,7 +83,7 @@ export class GaleriaComponent {
     },
     {
       id: 7,
-      src: '/Squirtle comiendo.gif',
+      src: 'Squirtle comiendo.gif',
       srcset: '',
       alt: 'Animación de Squirtle comiendo felizmente, mostrando su personalidad alegre mientras disfruta de su comida',
       caption: 'Squirtle disfrutando de un merecido descanso con su comida favorita',
@@ -92,7 +92,7 @@ export class GaleriaComponent {
     },
     {
       id: 8,
-      src: '/Ash ganador.gif',
+      src: 'Ash ganador.gif',
       srcset: '',
       alt: 'Animación de Ash Ketchum celebrando una victoria con su característica pose de triunfo y expresión de alegría',
       caption: 'Ash celebrando otra victoria en su camino para convertirse en Maestro Pokémon',
