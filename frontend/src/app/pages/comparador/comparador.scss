@@ -40,6 +40,12 @@
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     cursor: pointer;
+    transition: none !important;
+
+    &,
+    & * {
+      transition: none !important;
+    }
 
     :host-context(.dark-theme) & {
       background: #1C2739;
@@ -202,6 +208,12 @@
     border-radius: $border-radius-xl;
     cursor: pointer;
     color: #64748B;
+    transition: none !important;
+
+    &,
+    & * {
+      transition: none !important;
+    }
 
     :host-context(.dark-theme) & {
       background: #1C2739;
