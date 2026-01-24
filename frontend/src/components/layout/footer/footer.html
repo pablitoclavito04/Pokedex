@@ -90,8 +90,7 @@
                    'footer__social-link--github': social.icon === 'github',
                    'footer__social-link--x': social.icon === 'twitter',
                    'footer__social-link--linkedin': social.icon === 'linkedin'
-                 }"
-                 [attr.aria-label]="social.label">
+                 }">
 
                 <!-- GitHub -->
                 @if (social.icon === 'github') {
@@ -114,6 +113,8 @@
                   </svg>
                 }
 
+                <!-- Texto accesible para lectores de pantalla -->
+                <span class="sr-only">{{ social.label }}</span>
               </a>
             </li>
           }

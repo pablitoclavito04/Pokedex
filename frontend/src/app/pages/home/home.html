@@ -96,7 +96,7 @@
         @if (isLoadingPokemon) {
           <span>Cargando...</span>
         } @else {
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <circle cx="12" cy="12" r="10"/>
             <circle cx="12" cy="12" r="3"/>
             <line x1="2" y1="12" x2="9" y2="12"/>
@@ -110,7 +110,7 @@
 
   <!-- ========== MODAL POKÉMON DEL DÍA ========== -->
   @if (showPokemonOfDay && pokemonOfDay) {
-    <div class="pokemon-modal-overlay" (click)="closePokemonOfDay()">
+    <div class="pokemon-modal-overlay" (click)="closePokemonOfDay()" role="dialog" aria-modal="true" aria-labelledby="pokemon-day-title">
       <div class="pokemon-modal" (click)="$event.stopPropagation()">
         <button class="pokemon-modal__close" (click)="closePokemonOfDay()" aria-label="Cerrar modal" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -126,7 +126,7 @@
             class="pokemon-modal__image">
         </div>
 
-        <h3 class="pokemon-modal__name">{{ pokemonOfDay.name }}</h3>
+        <h3 class="pokemon-modal__name" id="pokemon-day-title">{{ pokemonOfDay.name }}</h3>
         <span class="pokemon-modal__number">{{ formatPokemonId(pokemonOfDay.id) }}</span>
 
         <div class="pokemon-modal__types">

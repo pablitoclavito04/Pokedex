@@ -19,12 +19,14 @@
 
       <!-- Barra de búsqueda -->
       <div class="search-section__input-wrapper">
-        <svg class="search-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <label for="pokemon-search" class="sr-only">Buscar Pokémon por nombre o número</label>
+        <svg class="search-section__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <circle cx="11" cy="11" r="8"/>
           <path d="m21 21-4.35-4.35"/>
         </svg>
         <input
           #searchInput
+          id="pokemon-search"
           type="text"
           class="search-section__input"
           placeholder="Nombre o número"
@@ -41,7 +43,7 @@
             <ul class="search-history__list">
               @for (item of searchHistory; track item) {
                 <li class="search-history__item" (mousedown)="selectHistoryItem(item)">
-                  <svg class="search-history__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <svg class="search-history__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <circle cx="12" cy="12" r="10"/>
                     <polyline points="12 6 12 12 16 14"/>
                   </svg>
@@ -86,16 +88,18 @@
 
           <!-- Generación -->
           <div class="advanced-search__section advanced-search__section--generation">
-            <h3 class="advanced-search__title">Generación</h3>
+            <label for="generation-select" class="advanced-search__title" id="generation-label">Generación</label>
             <div class="advanced-search__select-wrapper">
               <select
+                id="generation-select"
                 class="advanced-search__select"
                 [(ngModel)]="selectedGeneration"
                 (click)="toggleGenerationSelect()"
                 (blur)="closeGenerationSelect()"
                 (keydown.arrowdown)="onGenerationArrowDown($event)"
                 (keydown.arrowup)="onGenerationArrowUp($event)"
-                (change)="onGenerationChange($event)">
+                (change)="onGenerationChange($event)"
+                aria-labelledby="generation-label">
                 <option value="all">Todas</option>
                 @for (gen of generations; track gen.value) {
                   @if (gen.value !== 'all') {
@@ -103,7 +107,7 @@
                   }
                 }
               </select>
-              <span class="advanced-search__select-arrow-wrapper" [class.advanced-search__select-arrow-wrapper--open]="isGenerationSelectOpen">
+              <span class="advanced-search__select-arrow-wrapper" [class.advanced-search__select-arrow-wrapper--open]="isGenerationSelectOpen" aria-hidden="true">
                 <svg class="advanced-search__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                   <path d="M6 9l6 6 6-6"/>
                 </svg>
@@ -167,21 +171,27 @@
 
           <!-- Secuencia -->
           <div class="advanced-search__section">
-            <h3 class="advanced-search__title">Secuencia</h3>
+            <h3 class="advanced-search__title" id="sequence-title">Secuencia</h3>
             <div class="advanced-search__sequence-inputs">
+              <label for="sequence-start" class="sr-only">Número inicial de secuencia</label>
               <input
+                id="sequence-start"
                 type="number"
                 class="advanced-search__sequence-input"
                 [(ngModel)]="sequenceStart"
                 min="1"
-                max="1025">
-              <span class="advanced-search__sequence-separator">-</span>
+                max="1025"
+                aria-describedby="sequence-title">
+              <span class="advanced-search__sequence-separator" aria-hidden="true">-</span>
+              <label for="sequence-end" class="sr-only">Número final de secuencia</label>
               <input
+                id="sequence-end"
                 type="number"
                 class="advanced-search__sequence-input"
                 [(ngModel)]="sequenceEnd"
                 min="1"
-                max="1025">
+                max="1025"
+                aria-describedby="sequence-title">
             </div>
           </div>
 
@@ -196,7 +206,7 @@
             Restablecer
           </button>
           <button class="advanced-search__search-btn" (click)="applyFilters()">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
               <circle cx="11" cy="11" r="8"/>
               <path d="m21 21-4.35-4.35"/>
             </svg>
@@ -210,9 +220,9 @@
 
   <!-- ========== BÚSQUEDA AVANZADA TOGGLE ========== -->
   <section class="advanced-search-toggle">
-    <button class="advanced-search-toggle__btn" (click)="toggleAdvancedSearch()">
+    <button class="advanced-search-toggle__btn" (click)="toggleAdvancedSearch()" [attr.aria-expanded]="isAdvancedSearchOpen">
       {{ isAdvancedSearchOpen ? 'Ocultar búsqueda avanzada' : 'Mostrar búsqueda avanzada' }}
-      <span class="advanced-search-toggle__icon-wrapper" [class.advanced-search-toggle__icon-wrapper--open]="isAdvancedSearchOpen">
+      <span class="advanced-search-toggle__icon-wrapper" [class.advanced-search-toggle__icon-wrapper--open]="isAdvancedSearchOpen" aria-hidden="true">
         <svg
           class="advanced-search-toggle__icon"
           viewBox="0 0 24 24"
@@ -229,7 +239,7 @@
   <section class="actions-bar">
     <div class="actions-bar__container">
       <button class="actions-bar__surprise-btn" (click)="onSurprise()">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M23 4v6h-6"/>
           <path d="M1 20v-6h6"/>
           <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
@@ -238,21 +248,21 @@
       </button>
 
       <div class="actions-bar__sort">
-        <span class="actions-bar__sort-label">Ordenar por</span>
+        <label for="sort-order" class="actions-bar__sort-label" id="sort-label">Ordenar por</label>
         <div class="actions-bar__select-wrapper">
-          <svg class="actions-bar__select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg class="actions-bar__select-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <circle cx="12" cy="12" r="10"/>
             <circle cx="12" cy="12" r="3"/>
             <line x1="2" y1="12" x2="9" y2="12"/>
             <line x1="15" y1="12" x2="22" y2="12"/>
           </svg>
-          <select class="actions-bar__select" [(ngModel)]="sortOrder" (change)="onSortChange()">
+          <select id="sort-order" class="actions-bar__select" [(ngModel)]="sortOrder" (change)="onSortChange()" aria-labelledby="sort-label">
             <option value="number-asc">Número inferior</option>
             <option value="number-desc">Número superior</option>
             <option value="name-asc">A - Z</option>
             <option value="name-desc">Z - A</option>
           </select>
-          <span class="actions-bar__select-arrow-wrapper">
+          <span class="actions-bar__select-arrow-wrapper" aria-hidden="true">
             <svg class="actions-bar__select-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M6 9l6 6 6-6"/>
             </svg>
@@ -294,8 +304,10 @@
               <button
                 class="pokemon-card__favorite"
                 [class.pokemon-card__favorite--active]="pokemon.isFavorite"
-                (click)="toggleFavorite($event, pokemon.id)">
-                <svg viewBox="0 0 24 24" fill="currentColor">
+                (click)="toggleFavorite($event, pokemon.id)"
+                [attr.aria-label]="pokemon.isFavorite ? 'Quitar ' + pokemon.name + ' de favoritos' : 'Añadir ' + pokemon.name + ' a favoritos'"
+                [attr.aria-pressed]="pokemon.isFavorite">
+                <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                   <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
                 </svg>
               </button>
@@ -329,8 +341,8 @@
 
             <!-- Botón más información -->
             <!-- PROPAGACIÓN: stopPropagation() evita doble navegación (botón + tarjeta) -->
-            <button class="pokemon-card__btn" (click)="goToPokemonDetail(pokemon.id); $event.stopPropagation()">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <button class="pokemon-card__btn" (click)="goToPokemonDetail(pokemon.id); $event.stopPropagation()" [attr.aria-label]="'Ver más información de ' + pokemon.name">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                 <circle cx="12" cy="12" r="10"/>
                 <circle cx="12" cy="12" r="3"/>
                 <line x1="2" y1="12" x2="9" y2="12"/>

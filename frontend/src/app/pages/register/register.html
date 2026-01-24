@@ -20,7 +20,7 @@
           class="register-card__back"
           (click)="previousStep()"
           aria-label="Volver al paso anterior">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M19 12H5M12 19l-7-7 7-7"/>
           </svg>
         </button>
@@ -53,7 +53,7 @@
         class="register-card__close"
         routerLink="/"
         aria-label="Volver al inicio">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <line x1="18" y1="6" x2="6" y2="18"/>
           <line x1="6" y1="6" x2="18" y2="18"/>
         </svg>
@@ -79,6 +79,7 @@
         <form class="register-card__form" (ngSubmit)="nextStep()" novalidate>
           <!-- Campo: Correo electrónico -->
           <div class="register-card__field">
+            <label for="email" class="sr-only">Correo electrónico</label>
             <input
               type="email"
               id="email"
@@ -87,14 +88,16 @@
               [class.register-card__input--error]="hasAttemptedSubmit && errors['email']"
               placeholder="Correo electrónico"
               [(ngModel)]="formData.email"
-              autocomplete="email">
+              autocomplete="email"
+              aria-required="true">
             @if (hasAttemptedSubmit && errors['email']) {
-              <span class="register-card__error">{{ errors['email'] }}</span>
+              <span class="register-card__error" role="alert">{{ errors['email'] }}</span>
             }
           </div>
 
           <!-- Campo: Confirmar correo electrónico -->
           <div class="register-card__field">
+            <label for="confirmEmail" class="sr-only">Confirmación de correo electrónico</label>
             <input
               type="email"
               id="confirmEmail"
@@ -103,9 +106,10 @@
               [class.register-card__input--error]="hasAttemptedSubmit && errors['confirmEmail']"
               placeholder="Confirmación de correo electrónico"
               [(ngModel)]="formData.confirmEmail"
-              autocomplete="email">
+              autocomplete="email"
+              aria-required="true">
             @if (hasAttemptedSubmit && errors['confirmEmail']) {
-              <span class="register-card__error">{{ errors['confirmEmail'] }}</span>
+              <span class="register-card__error" role="alert">{{ errors['confirmEmail'] }}</span>
             }
           </div>
 
@@ -210,8 +214,8 @@
         <form class="register-card__form" (ngSubmit)="onSubmit($event)" novalidate>
           <!-- Error del servidor (username/email duplicado) -->
           @if (registerError) {
-            <div class="register-card__server-error">
-              <svg viewBox="0 0 24 24" fill="currentColor">
+            <div class="register-card__server-error" role="alert">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
                 <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
               </svg>
               <span>{{ registerError }}</span>
@@ -231,6 +235,7 @@
 
           <!-- Campo: Nombre de usuario -->
           <div class="register-card__field">
+            <label for="username" class="sr-only">Nombre de usuario</label>
             <input
               type="text"
               id="username"
@@ -241,9 +246,10 @@
               [(ngModel)]="formData.username"
               (ngModelChange)="registerError = ''"
               maxlength="24"
-              autocomplete="username">
+              autocomplete="username"
+              aria-required="true">
             @if (hasAttemptedSubmit && errors['username']) {
-              <span class="register-card__error">{{ errors['username'] }}</span>
+              <span class="register-card__error" role="alert">{{ errors['username'] }}</span>
             }
           </div>
 
@@ -254,6 +260,7 @@
 
           <!-- Campo: Contraseña -->
           <div class="register-card__field">
+            <label for="password" class="sr-only">Contraseña</label>
             <div class="register-card__password-wrapper">
               <input
                 [type]="showPassword ? 'text' : 'password'"
@@ -264,20 +271,22 @@
                 placeholder="Contraseña"
                 [(ngModel)]="formData.password"
                 (ngModelChange)="onPasswordChange()"
-                autocomplete="new-password">
+                autocomplete="new-password"
+                aria-required="true"
+                aria-describedby="password-requirements">
               <button
                 type="button"
                 class="register-card__password-toggle"
                 (click)="togglePasswordVisibility()"
                 [attr.aria-label]="showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'">
                 @if (!showPassword) {
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                     <circle cx="12" cy="12" r="3"/>
                   </svg>
                 }
                 @if (showPassword) {
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
                     <line x1="1" y1="1" x2="23" y2="23"/>
                   </svg>
@@ -287,7 +296,7 @@
           </div>
 
           <!-- Requisitos de contraseña -->
-          <div class="register-card__requirements">
+          <div class="register-card__requirements" id="password-requirements" aria-live="polite">
             <div class="register-card__requirement" [class.register-card__requirement--valid]="passwordRequirements.length">
               <svg viewBox="0 0 24 24" fill="currentColor">
                 <circle cx="12" cy="12" r="10"/>
