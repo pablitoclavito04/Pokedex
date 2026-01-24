@@ -51,6 +51,13 @@ Las imágenes de Pokémon provienen de la API externa en formato PNG. No control
 
 ## 5.3 Resultados de optimización.
 
+### Ubicación de las imágenes comprimidas:
+
+Las imágenes optimizadas se encuentran en:
+```
+frontend/public/Pokedex/optimized/
+```
+
 ### Imágenes PNG optimizadas con WebP (múltiples tamaños):
 
 | Archivo original | Tamaño original | Archivos WebP generados | Tamaño (800w) | Reducción |
