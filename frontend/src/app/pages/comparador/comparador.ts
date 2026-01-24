@@ -203,21 +203,21 @@ export class ComparadorComponent implements OnInit {
   }
 
   get filteredPokemon1(): { id: number; name: string; image: string }[] {
-    if (!this.searchQuery1) return this.allPokemon.slice(0, 50);
+    if (!this.searchQuery1) return this.allPokemon;
     const query = this.searchQuery1.toLowerCase();
     return this.allPokemon.filter(p =>
       p.name.toLowerCase().includes(query) ||
       p.id.toString().includes(query)
-    ).slice(0, 50);
+    );
   }
 
   get filteredPokemon2(): { id: number; name: string; image: string }[] {
-    if (!this.searchQuery2) return this.allPokemon.slice(0, 50);
+    if (!this.searchQuery2) return this.allPokemon;
     const query = this.searchQuery2.toLowerCase();
     return this.allPokemon.filter(p =>
       p.name.toLowerCase().includes(query) ||
       p.id.toString().includes(query)
-    ).slice(0, 50);
+    );
   }
 
   // Comparar estadísticas - retorna 'winner', 'loser' o 'tie'

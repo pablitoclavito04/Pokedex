@@ -31,22 +31,20 @@
     display: inline-flex;
     align-items: center;
     gap: $spacing-2;
-    padding: $spacing-2 $spacing-4;
+    padding: $spacing-3 $spacing-5;
     margin-bottom: $spacing-4;
     background: #FFFFFF;
-    border: 1px solid #E2E8F0;
-    border-radius: $border-radius-md;
-    color: #475569;
+    border: 2px solid #cbd5e1;
+    border-radius: $border-radius-xl;
+    color: #1e293b;
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     cursor: pointer;
-    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 
     :host-context(.dark-theme) & {
       background: #1C2739;
-      border-color: #334155;
-      color: #94A3B8;
-      box-shadow: none;
+      border-color: #3d5a80;
+      color: #f1f5f9;
     }
 
     svg {
@@ -55,11 +53,12 @@
     }
 
     &:hover {
-      color: #0EA5E9;
-      border-color: #0EA5E9;
+      background: #e2e8f0;
+      border-color: #cbd5e1;
 
       :host-context(.dark-theme) & {
-        background: rgba(14, 165, 233, 0.1);
+        background: #2F4467;
+        border-color: #64748b;
       }
     }
   }
@@ -222,8 +221,12 @@
 
     &:hover:not(:disabled) {
       border-color: #0EA5E9;
-      background: rgba(14, 165, 233, 0.05);
+      background: #EFF6FF;
       color: #0EA5E9;
+
+      :host-context(.dark-theme) & {
+        background: #1E3A5F;
+      }
     }
 
     &:disabled {
