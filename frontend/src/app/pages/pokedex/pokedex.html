@@ -71,17 +71,16 @@
         <!-- Columna izquierda: Por tipo y Generación -->
         <div class="advanced-search__column">
           <div class="advanced-search__header">
-            <h3 class="advanced-search__title" id="type-filter-title">Por tipo</h3>
+            <h3 class="advanced-search__title">Por tipo</h3>
           </div>
 
-          <div class="advanced-search__types-grid" role="group" aria-labelledby="type-filter-title">
+          <div class="advanced-search__types-grid">
             @for (type of advancedTypes; track type.value) {
               <button
                 class="type-filter__badge"
                 [class.type-filter__badge--active]="type.typeSelected"
                 [style.background-color]="type.color"
                 [attr.aria-pressed]="type.typeSelected"
-                [attr.aria-label]="'Filtrar por tipo ' + type.name"
                 (click)="toggleTypeFilter(type.value, 'type')">
                 {{ type.name }}
               </button>
@@ -123,56 +122,50 @@
 
           <!-- Altura -->
           <div class="advanced-search__section">
-            <h3 class="advanced-search__title" id="altura-title">Altura</h3>
-            <div class="advanced-search__options" role="group" aria-labelledby="altura-title">
+            <h3 class="advanced-search__title">Altura</h3>
+            <div class="advanced-search__options">
               <button
                 class="advanced-search__option-btn"
                 [class.advanced-search__option-btn--active]="selectedHeight === 'small'"
-                (click)="selectHeight('small')"
-                aria-label="Filtrar por altura pequeña (menos de 1 metro)">
-                <img src="/Pokedex/silueta de pokemon pequeño.png" alt="" aria-hidden="true" style="width: 32px; height: 32px;">
+                (click)="selectHeight('small')">
+                <img src="/Pokedex/silueta de pokemon pequeño.png" alt="Pequeño" style="width: 32px; height: 32px;">
               </button>
               <button
                 class="advanced-search__option-btn"
                 [class.advanced-search__option-btn--active]="selectedHeight === 'medium'"
-                (click)="selectHeight('medium')"
-                aria-label="Filtrar por altura mediana (1 a 2 metros)">
-                <img src="/Pokedex/silueta dragonair.png" alt="" aria-hidden="true" style="width: 48px; height: 48px;">
+                (click)="selectHeight('medium')">
+                <img src="/Pokedex/silueta dragonair.png" alt="Mediano" style="width: 48px; height: 48px;">
               </button>
               <button
                 class="advanced-search__option-btn"
                 [class.advanced-search__option-btn--active]="selectedHeight === 'large'"
-                (click)="selectHeight('large')"
-                aria-label="Filtrar por altura grande (más de 2 metros)">
-                <img src="/Pokedex/silueta rayquaza.png" alt="" aria-hidden="true" style="width: 70px; height: 70px;">
+                (click)="selectHeight('large')">
+                <img src="/Pokedex/silueta rayquaza.png" alt="Grande" style="width: 70px; height: 70px;">
               </button>
             </div>
           </div>
 
           <!-- Peso -->
           <div class="advanced-search__section">
-            <h3 class="advanced-search__title" id="peso-title">Peso</h3>
-            <div class="advanced-search__options advanced-search__options--weight" role="group" aria-labelledby="peso-title">
+            <h3 class="advanced-search__title">Peso</h3>
+            <div class="advanced-search__options advanced-search__options--weight">
               <button
                 class="advanced-search__option-btn"
                 [class.advanced-search__option-btn--active]="selectedWeight === 'light'"
-                (click)="selectWeight('light')"
-                aria-label="Filtrar por peso ligero (menos de 25 kg)">
-                <img src="/Pokedex/silueta de peso bajo.png" alt="" aria-hidden="true" style="width: 32px; height: 32px;">
+                (click)="selectWeight('light')">
+                <img src="/Pokedex/silueta de peso bajo.png" alt="Ligero" style="width: 32px; height: 32px;">
               </button>
               <button
                 class="advanced-search__option-btn"
                 [class.advanced-search__option-btn--active]="selectedWeight === 'medium'"
-                (click)="selectWeight('medium')"
-                aria-label="Filtrar por peso mediano (25 a 100 kg)">
-                <img src="/Pokedex/silueta de peso mediano.png" alt="" aria-hidden="true" style="width: 48px; height: 48px;">
+                (click)="selectWeight('medium')">
+                <img src="/Pokedex/silueta de peso mediano.png" alt="Mediano" style="width: 48px; height: 48px;">
               </button>
               <button
                 class="advanced-search__option-btn"
                 [class.advanced-search__option-btn--active]="selectedWeight === 'heavy'"
-                (click)="selectWeight('heavy')"
-                aria-label="Filtrar por peso pesado (más de 100 kg)">
-                <img src="/Pokedex/silueta de peso pesado.png" alt="" aria-hidden="true" style="width: 60px; height: 60px;">
+                (click)="selectWeight('heavy')">
+                <img src="/Pokedex/silueta de peso pesado.png" alt="Pesado" style="width: 60px; height: 60px;">
               </button>
             </div>
           </div>
