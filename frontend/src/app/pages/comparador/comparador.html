@@ -167,9 +167,9 @@
         <section class="comparador__stats" aria-labelledby="stats-comparison-title">
           <h2 class="comparador__stats-title" id="stats-comparison-title">Comparación de estadísticas</h2>
 
-          <div class="comparador__stats-table" role="table" aria-label="Tabla comparativa de estadísticas">
+          <div class="comparador__stats-table">
             <!-- HP -->
-            <div class="comparador__stats-row" role="row">
+            <div class="comparador__stats-row">
               <div class="comparador__stats-value comparador__stats-value--left"
                    [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.hp, pokemon2.stats.hp).p1 === 'winner'"
                    [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.hp, pokemon2.stats.hp).p1 === 'loser'">
@@ -196,7 +196,7 @@
             </div>
 
             <!-- Attack -->
-            <div class="comparador__stats-row" role="row">
+            <div class="comparador__stats-row">
               <div class="comparador__stats-value comparador__stats-value--left"
                    [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.attack, pokemon2.stats.attack).p1 === 'winner'"
                    [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.attack, pokemon2.stats.attack).p1 === 'loser'">
@@ -223,7 +223,7 @@
             </div>
 
             <!-- Defense -->
-            <div class="comparador__stats-row" role="row">
+            <div class="comparador__stats-row">
               <div class="comparador__stats-value comparador__stats-value--left"
                    [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.defense, pokemon2.stats.defense).p1 === 'winner'"
                    [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.defense, pokemon2.stats.defense).p1 === 'loser'">
@@ -250,7 +250,7 @@
             </div>
 
             <!-- Speed -->
-            <div class="comparador__stats-row" role="row">
+            <div class="comparador__stats-row">
               <div class="comparador__stats-value comparador__stats-value--left"
                    [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p1 === 'winner'"
                    [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.speed, pokemon2.stats.speed).p1 === 'loser'">
@@ -277,7 +277,7 @@
             </div>
 
             <!-- Sp. Attack -->
-            <div class="comparador__stats-row" role="row">
+            <div class="comparador__stats-row">
               <div class="comparador__stats-value comparador__stats-value--left"
                    [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.spAttack, pokemon2.stats.spAttack).p1 === 'winner'"
                    [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.spAttack, pokemon2.stats.spAttack).p1 === 'loser'">
@@ -304,7 +304,7 @@
             </div>
 
             <!-- Sp. Defense -->
-            <div class="comparador__stats-row" role="row">
+            <div class="comparador__stats-row">
               <div class="comparador__stats-value comparador__stats-value--left"
                    [class.comparador__stats-value--winner]="compareStat(pokemon1.stats.spDefense, pokemon2.stats.spDefense).p1 === 'winner'"
                    [class.comparador__stats-value--loser]="compareStat(pokemon1.stats.spDefense, pokemon2.stats.spDefense).p1 === 'loser'">
