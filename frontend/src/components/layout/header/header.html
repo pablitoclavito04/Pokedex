@@ -42,7 +42,8 @@
             <li class="header__nav-item header__nav-item--mobile-only">
               <button
                 class="header__nav-link header__nav-link--logout"
-                (click)="openLogoutModal(); closeMenu()">
+                (click)="openLogoutModal(); closeMenu()"
+                aria-label="Cerrar sesión de la aplicación">
                 Salir
               </button>
             </li>
@@ -57,10 +58,10 @@
       <!-- Botones de autenticación (solo en landing page) -->
       @if (isLandingPage) {
         <div class="header__auth-buttons">
-          <a routerLink="/login" class="header__auth-btn header__auth-btn--login">
+          <a routerLink="/login" class="header__auth-btn header__auth-btn--login" title="Acceder a tu cuenta">
             Iniciar sesión
           </a>
-          <a routerLink="/register" class="header__auth-btn header__auth-btn--register">
+          <a routerLink="/register" class="header__auth-btn header__auth-btn--register" title="Crear una cuenta nueva">
             Únete
           </a>
         </div>
@@ -98,10 +99,10 @@
       <!-- Botones de autenticación (cuando no está logueado en rutas de la app) -->
       @if (isAppRoute && !isAuthenticated() && !isLandingPage) {
         <div class="header__auth-buttons">
-          <a routerLink="/login" class="header__auth-btn header__auth-btn--login">
+          <a routerLink="/login" class="header__auth-btn header__auth-btn--login" title="Acceder a tu cuenta">
             Iniciar sesión
           </a>
-          <a routerLink="/register" class="header__auth-btn header__auth-btn--register">
+          <a routerLink="/register" class="header__auth-btn header__auth-btn--register" title="Crear una cuenta nueva">
             Únete
           </a>
         </div>

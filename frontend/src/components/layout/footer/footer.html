@@ -24,8 +24,8 @@
 
       <!-- Navegación del footer -->
       <nav class="footer__nav" aria-label="Navegación del pie de página">
-        <h3 class="footer__nav-title">Navegación</h3>
-        <ul class="footer__nav-list">
+        <h3 class="footer__nav-title" id="footer-nav-title">Navegación</h3>
+        <ul class="footer__nav-list" aria-labelledby="footer-nav-title">
           @for (link of navLinks; track link.label) {
             <li class="footer__nav-item">
               @if (link.path) {
@@ -42,8 +42,8 @@
 
       <!-- Enlaces -->
       <nav class="footer__nav" aria-label="Enlaces adicionales">
-        <h3 class="footer__nav-title">Enlaces</h3>
-        <ul class="footer__nav-list">
+        <h3 class="footer__nav-title" id="footer-links-title">Enlaces</h3>
+        <ul class="footer__nav-list" aria-labelledby="footer-links-title">
           @for (link of extraLinks; track link.label) {
             <li class="footer__nav-item">
               <button
@@ -59,8 +59,8 @@
 
       <!-- Contacto -->
       <nav class="footer__nav" aria-label="Contacto">
-        <h3 class="footer__nav-title">Contacto</h3>
-        <ul class="footer__nav-list">
+        <h3 class="footer__nav-title" id="footer-contact-title">Contacto</h3>
+        <ul class="footer__nav-list" aria-labelledby="footer-contact-title">
           @for (link of contactLinks; track link.label) {
             <li class="footer__nav-item">
               <button
@@ -76,8 +76,8 @@
 
       <!-- Redes sociales -->
       <div class="footer__social">
-        <h3 class="footer__social-title">Síguenos</h3>
-        <ul class="footer__social-list">
+        <h3 class="footer__social-title" id="footer-social-title">Síguenos</h3>
+        <ul class="footer__social-list" aria-labelledby="footer-social-title">
           @for (social of socialLinks; track social.label) {
             <li class="footer__social-item">
               <a
@@ -85,6 +85,7 @@
                  target="_blank"
                  rel="noopener noreferrer"
                  class="footer__social-link"
+                 [attr.title]="'Visitar perfil de ' + social.label + ' (abre en nueva ventana)'"
                  [ngClass]="{
                    'footer__social-link--github': social.icon === 'github',
                    'footer__social-link--x': social.icon === 'twitter',

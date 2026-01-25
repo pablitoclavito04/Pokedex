@@ -35,15 +35,18 @@
 
       <!-- Selector de dificultad -->
       <div class="quiz-card__section">
-        <h2 class="quiz-card__section-title">Selecciona la dificultad</h2>
-        <div class="difficulty-selector">
+        <h2 class="quiz-card__section-title" id="difficulty-title">Selecciona la dificultad</h2>
+        <div class="difficulty-selector" role="radiogroup" aria-labelledby="difficulty-title">
           @for (diff of difficulties; track diff.value) {
             <button
               class="difficulty-selector__item"
               [class.difficulty-selector__item--active]="selectedDifficulty === diff.value"
               [attr.data-difficulty]="diff.value"
+              [attr.aria-pressed]="selectedDifficulty === diff.value"
+              [attr.aria-label]="'Dificultad ' + diff.label + ': ' + diff.description"
+              role="radio"
               (click)="selectedDifficulty = diff.value">
-              <span class="difficulty-selector__circle">
+              <span class="difficulty-selector__circle" aria-hidden="true">
                 <span class="difficulty-selector__circle-inner"></span>
               </span>
               <span class="difficulty-selector__label">{{ diff.label }}</span>
@@ -55,12 +58,15 @@
 
       <!-- Selector de preguntas -->
       <div class="quiz-card__section">
-        <h2 class="quiz-card__section-title">Número de preguntas</h2>
-        <div class="questions-selector">
+        <h2 class="quiz-card__section-title" id="questions-title">Número de preguntas</h2>
+        <div class="questions-selector" role="radiogroup" aria-labelledby="questions-title">
           @for (num of questionOptions; track num) {
             <button
               class="questions-selector__item"
               [class.questions-selector__item--active]="selectedQuestions === num"
+              [attr.aria-pressed]="selectedQuestions === num"
+              [attr.aria-label]="num + ' preguntas'"
+              role="radio"
               (click)="selectedQuestions = num">
               <span class="questions-selector__number">{{ num }}</span>
               <span class="questions-selector__label">preguntas</span>

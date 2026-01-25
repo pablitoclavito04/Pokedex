@@ -50,7 +50,7 @@
       <span class="pokemon-header__name">{{ pokemon.name }}</span>
       <span class="pokemon-header__id">{{ formatPokemonId(pokemon.id) }}</span>
     </h1>
-    <button class="pokemon-header__share-btn" (click)="openShareModal()" type="button">
+    <button class="pokemon-header__share-btn" (click)="openShareModal()" type="button" aria-label="Compartir este Pokémon">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <circle cx="18" cy="5" r="3"/>
         <circle cx="6" cy="12" r="3"/>
@@ -103,7 +103,7 @@
       <div class="pokemon-image">
         <img
           [src]="pokemon.image"
-          [alt]="pokemon.name"
+          [alt]="'Imagen oficial del Pokémon ' + pokemon.name"
           class="pokemon-image__img">
       </div>
     </div>
@@ -115,7 +115,7 @@
       <p class="pokemon-description">{{ pokemon.description }}</p>
 
       <!-- Card de información principal -->
-      <div class="pokemon-info-card">
+      <div class="pokemon-info-card" role="region" aria-label="Información básica del Pokémon">
         <div class="pokemon-info-card__row">
           <div class="pokemon-info-card__item">
             <span class="pokemon-info-card__label">Altura</span>
