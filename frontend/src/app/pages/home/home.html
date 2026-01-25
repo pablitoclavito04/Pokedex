@@ -177,9 +177,9 @@
   </section>
 
   <!-- ========== STATS SECTION ========== -->
-  <section class="stats-section" aria-label="Estadísticas de la Pokédex">
+  <section class="stats-section" aria-labelledby="stats-title">
     <div class="stats-section__container">
-      <h2 class="sr-only">Estadísticas destacadas</h2>
+      <h2 class="stats-section__title sr-only" id="stats-title">Estadísticas de la Pokédex</h2>
       <div class="stats-section__grid">
         @for (stat of stats; track stat.label) {
           <div class="stat-item">

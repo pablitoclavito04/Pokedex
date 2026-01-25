@@ -7,7 +7,7 @@
 
     <!-- Botón Volver -->
     <button class="comparador__back-btn" (click)="goBack()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path d="M19 12H5M12 19l-7-7 7-7"/>
       </svg>
       <span>Volver</span>
@@ -29,8 +29,8 @@
         <div class="comparador__slot">
           @if (pokemon1) {
             <div class="comparador__card">
-              <button class="comparador__card-close" (click)="clearPokemon(1)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <button class="comparador__card-close" (click)="clearPokemon(1)" aria-label="Quitar primer Pokémon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <line x1="18" y1="6" x2="6" y2="18"/>
                   <line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
@@ -49,11 +49,11 @@
               </div>
             </div>
           } @else {
-            <button class="comparador__select-btn" (click)="toggleSelector(1)" [disabled]="isLoadingPokemon1">
+            <button class="comparador__select-btn" (click)="toggleSelector(1)" [disabled]="isLoadingPokemon1" aria-label="Seleccionar primer Pokémon">
               @if (isLoadingPokemon1) {
                 <span class="comparador__select-loading">Cargando...</span>
               } @else {
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <circle cx="12" cy="12" r="10"/>
                   <line x1="12" y1="8" x2="12" y2="16"/>
                   <line x1="8" y1="12" x2="16" y2="12"/>
@@ -66,8 +66,10 @@
           <!-- Selector de Pokémon 1 -->
           @if (showSelector1) {
             <div class="comparador__selector">
+              <label for="search-pokemon-1" class="sr-only">Buscar primer Pokémon</label>
               <input
                 type="text"
+                id="search-pokemon-1"
                 class="comparador__selector-search"
                 placeholder="Buscar Pokémon..."
                 [(ngModel)]="searchQuery1"
@@ -97,8 +99,8 @@
         <div class="comparador__slot">
           @if (pokemon2) {
             <div class="comparador__card">
-              <button class="comparador__card-close" (click)="clearPokemon(2)">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <button class="comparador__card-close" (click)="clearPokemon(2)" aria-label="Quitar segundo Pokémon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <line x1="18" y1="6" x2="6" y2="18"/>
                   <line x1="6" y1="6" x2="18" y2="18"/>
                 </svg>
@@ -117,11 +119,11 @@
               </div>
             </div>
           } @else {
-            <button class="comparador__select-btn" (click)="toggleSelector(2)" [disabled]="isLoadingPokemon2">
+            <button class="comparador__select-btn" (click)="toggleSelector(2)" [disabled]="isLoadingPokemon2" aria-label="Seleccionar segundo Pokémon">
               @if (isLoadingPokemon2) {
                 <span class="comparador__select-loading">Cargando...</span>
               } @else {
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <circle cx="12" cy="12" r="10"/>
                   <line x1="12" y1="8" x2="12" y2="16"/>
                   <line x1="8" y1="12" x2="16" y2="12"/>
@@ -134,8 +136,10 @@
           <!-- Selector de Pokémon 2 -->
           @if (showSelector2) {
             <div class="comparador__selector">
+              <label for="search-pokemon-2" class="sr-only">Buscar segundo Pokémon</label>
               <input
                 type="text"
+                id="search-pokemon-2"
                 class="comparador__selector-search"
                 placeholder="Buscar Pokémon..."
                 [(ngModel)]="searchQuery2"

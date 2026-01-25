@@ -13,10 +13,10 @@
 
   <!-- ========== NAVEGACIÓN SUPERIOR ========== -->
   @if (!fromHome) {
-    <nav class="pokemon-nav">
-      <button class="pokemon-nav__btn pokemon-nav__btn--prev" (click)="goToPrevious()">
+    <nav class="pokemon-nav" aria-label="Navegación entre Pokémon">
+      <button class="pokemon-nav__btn pokemon-nav__btn--prev" (click)="goToPrevious()" aria-label="Ver Pokémon anterior">
         <span class="pokemon-nav__arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M15 18l-6-6 6-6"/>
           </svg>
         </span>
@@ -28,7 +28,7 @@
         }
       </button>
 
-      <button class="pokemon-nav__btn pokemon-nav__btn--next" (click)="goToNext()">
+      <button class="pokemon-nav__btn pokemon-nav__btn--next" (click)="goToNext()" aria-label="Ver Pokémon siguiente">
         @if (nextPokemon) {
           <span class="pokemon-nav__info">
             <span class="pokemon-nav__name">{{ nextPokemon.name }}</span>
@@ -36,7 +36,7 @@
           </span>
         }
         <span class="pokemon-nav__arrow">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <path d="M9 18l6-6-6-6"/>
           </svg>
         </span>
@@ -51,7 +51,7 @@
       <span class="pokemon-header__id">{{ formatPokemonId(pokemon.id) }}</span>
     </h1>
     <button class="pokemon-header__share-btn" (click)="openShareModal()" type="button">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <circle cx="18" cy="5" r="3"/>
         <circle cx="6" cy="12" r="3"/>
         <circle cx="18" cy="19" r="3"/>
@@ -64,19 +64,21 @@
 
   <!-- ========== MODAL COMPARTIR ========== -->
   @if (showShareModal) {
-    <div class="share-modal-overlay" (click)="closeShareModal()">
+    <div class="share-modal-overlay" (click)="closeShareModal()" role="dialog" aria-modal="true" aria-labelledby="share-modal-title">
       <div class="share-modal" (click)="$event.stopPropagation()">
-        <button class="share-modal__close" (click)="closeShareModal()" type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <button class="share-modal__close" (click)="closeShareModal()" type="button" aria-label="Cerrar modal">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
             <line x1="18" y1="6" x2="6" y2="18"/>
             <line x1="6" y1="6" x2="18" y2="18"/>
           </svg>
         </button>
-        <h3 class="share-modal__title">Compartir Pokémon</h3>
+        <h3 class="share-modal__title" id="share-modal-title">Compartir Pokémon</h3>
         <p class="share-modal__subtitle">Comparte este Pokémon con tus amigos</p>
         <div class="share-modal__url-container">
+          <label for="share-url" class="sr-only">URL para compartir</label>
           <input
             type="text"
+            id="share-url"
             class="share-modal__url-input"
             [value]="shareUrl"
             readonly>
@@ -308,7 +310,7 @@
                   @if (evo.evolutionMethod) {
                     <span class="pokemon-evolutions__method">{{ evo.evolutionMethod }}</span>
                   }
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path d="M9 18l6-6-6-6"/>
                   </svg>
                 </div>
@@ -408,7 +410,7 @@
                   @if (evo.evolutionMethod) {
                     <span class="pokemon-evolutions__method">{{ evo.evolutionMethod }}</span>
                   }
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                     <path d="M9 18l6-6-6-6"/>
                   </svg>
                 </div>
@@ -485,9 +487,9 @@
   </section>
 
   <!-- ========== BOTÓN VOLVER ========== -->
-  <section class="pokemon-back">
+  <section class="pokemon-back" aria-label="Navegación">
     <button class="pokemon-back__btn" (click)="goBack()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path d="M15 18l-6-6 6-6"/>
       </svg>
       @if (fromHome) {

@@ -5,9 +5,9 @@
 <main class="quiz-page">
 
   <!-- ========== BOTÓN VOLVER ========== -->
-  <section class="quiz-page__header">
+  <section class="quiz-page__header" aria-label="Navegación">
     <button class="quiz-page__back-btn" (click)="goBack()">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
         <path d="M19 12H5M12 19l-7-7 7-7"/>
       </svg>
       Volver
@@ -75,7 +75,7 @@
     <div class="quiz-card__footer">
       <button class="quiz-card__start-btn" [disabled]="!canStartQuiz || isLoading" (click)="startQuiz()">
         <span class="quiz-card__start-btn-text">Comenzar Quiz</span>
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
           <path d="M5 12h14M12 5l7 7-7 7"/>
         </svg>
       </button>
