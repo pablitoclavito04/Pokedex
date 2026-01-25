@@ -575,10 +575,13 @@ frontend/src/styles/
 
 | Detalle | Valor |
 |---------|-------|
-| **URL de producción** | pablitoclavito04.github.io/Pokedex/ |
+| **URL de producción** | https://pablitoclavito04.github.io/Pokedex/ |
+| **Style Guide** | https://pablitoclavito04.github.io/Pokedex/style-guide |
 | **Plataforma de hosting** | GitHub Pages |
 | **Branch de despliegue** | `gh-pages` |
 | **Build tool** | Angular CLI (`ng build --configuration production`) |
+
+> **Nota:** La guía de estilos (Style Guide) está disponible en la URL https://pablitoclavito04.github.io/Pokedex/style-guide y contiene la documentación visual de todos los componentes UI del proyecto.
 
 ---
 

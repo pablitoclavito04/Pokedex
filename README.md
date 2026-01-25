@@ -6,6 +6,8 @@ Aplicación web fullstack para gestionar y visualizar información de Pokémon. 
 
 **URL:** [pablitoclavito04.github.io/Pokedex/](https://pablitoclavito04.github.io/Pokedex/)
 
+**Style Guide:** [pablitoclavito04.github.io/Pokedex/style-guide](https://pablitoclavito04.github.io/Pokedex/style-guide)
+
 **Características principales:**
 - Interfaz responsive (mobile, tablet, desktop).
 - Modo claro/oscuro con persistencia.
