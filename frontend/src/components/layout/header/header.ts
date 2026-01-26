@@ -54,8 +54,11 @@ export class HeaderComponent {
   // ¿Ocultar la navegación principal? (usuario no autenticado en rutas de app)
   hideNavigation: boolean = false;
 
-  // Navegación para landing page (vacía - sin enlaces en el header de inicio)
-  landingNavItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [];
+  // Navegación para landing page
+  landingNavItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [
+    { label: 'Inicio', path: '/', icon: 'home' },
+    { label: 'Style Guide', path: '/style-guide', icon: 'palette' }
+  ];
 
   // Navegación principal (cuando esté autenticado)
   navItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [
@@ -94,7 +97,7 @@ export class HeaderComponent {
    * Comprueba si estamos en una página de landing (sin autenticar)
    */
   private checkIfLandingPage(url: string): void {
-    const landingRoutes = ['/', '/login', '/register', '/style-guide', '/forms-demo'];
+    const landingRoutes = ['/', '/login', '/register', '/style-guide', '/forms-demo', '/galeria'];
     const appRoutes = ['/pokedex', '/pokemon', '/profile', '/settings', '/quiz', '/comparador'];
     
     const wasLandingPage = this.isLandingPage;
