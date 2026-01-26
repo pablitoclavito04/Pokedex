@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { HeaderComponent } from '../../../components/layout/header/header';
+import { FooterComponent } from '../../../components/layout/footer/footer';
 
 /**
  * Interfaz para items de la galería
@@ -17,7 +19,7 @@ interface GalleryItem {
 @Component({
   selector: 'app-galeria',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, HeaderComponent, FooterComponent],
   templateUrl: './galeria.html',
   styleUrls: ['./galeria.scss']
 })
