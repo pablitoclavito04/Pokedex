@@ -54,11 +54,8 @@ export class HeaderComponent {
   // ¿Ocultar la navegación principal? (usuario no autenticado en rutas de app)
   hideNavigation: boolean = false;
 
-  // Navegación para landing page
-  landingNavItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [
-    { label: 'Inicio', path: '/', icon: 'home' },
-    { label: 'Style Guide', path: '/style-guide', icon: 'palette' }
-  ];
+  // Navegación para landing page (vacía - sin enlaces en el header de inicio)
+  landingNavItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [];
 
   // Navegación principal (cuando esté autenticado)
   navItems: { label: string; path: string; icon: string; fragment?: string; colorClass?: string }[] = [
