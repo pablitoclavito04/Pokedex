@@ -574,20 +574,20 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
 }
 
 // ============================================================================
-//                           CARRUSEL SECTION
+//                           CARRUSEL SECTION (MARQUEE)
 // ============================================================================
 
 .carousel-section {
-  padding: $spacing-8 $spacing-4;
+  padding: $spacing-8 0;
   background: #EDF1F6;
-  text-align: center;
+  overflow: hidden;
 
   :host-context(.dark-theme) & {
     background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
   }
 
   @include respond-to('md') {
-    padding: $spacing-12 $spacing-8;
+    padding: $spacing-12 0;
   }
 
   &__title {
@@ -595,206 +595,103 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
     font-size: $font-size-2xl;
     font-weight: $font-weight-bold;
     color: var(--text-primary, #{map-get($light-theme, text-primary)});
-    margin: 0 0 $spacing-2;
+    margin: 0 0 $spacing-6;
+    text-align: center;
+    padding: 0 $spacing-4;
 
     @include respond-to('md') {
       font-size: $font-size-3xl;
+      margin-bottom: $spacing-8;
     }
-  }
-
-  &__subtitle {
-    font-size: $font-size-md;
-    color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
-    margin: 0 0 $spacing-6;
-    line-height: $line-height-relaxed;
   }
 }
 
-.carousel {
-  position: relative;
-  max-width: 1000px;
-  margin: 0 auto;
+// Carrusel estilo marquee (desplazamiento continuo)
+.carousel-marquee {
+  width: 100%;
+  overflow: hidden;
 
-  // Viewport del carrusel
-  &__viewport {
-    overflow: hidden;
-    border-radius: $border-radius-xl;
-  }
-
-  // Track que contiene todos los slides
+  // Track que contiene todas las imágenes y se desplaza
   &__track {
     display: flex;
-    transition: transform 0.6s ease-in-out;
+    gap: $spacing-4;
+    animation: marquee-scroll 30s linear infinite;
+    width: max-content;
 
+    // Pausar animación en hover para accesibilidad
+    &:hover {
+      animation-play-state: paused;
+    }
+
+    // Respetar preferencias de reducción de movimiento
     @media (prefers-reduced-motion: reduce) {
-      transition: none;
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      padding: 0 $spacing-4;
     }
   }
 
-  // Cada slide individual
-  &__slide {
-    flex: 0 0 100%;
-    min-width: 100%;
+  // Cada item del carrusel
+  &__item {
+    flex-shrink: 0;
     margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+    text-align: center;
   }
 
-  // Imagen del slide
+  // Imagen del carrusel - tamaño pequeño
   &__image {
-    width: 100%;
-    height: 300px;
+    width: 200px;
+    height: 150px;
     object-fit: cover;
+    border-radius: $border-radius-lg;
     display: block;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: scale(1.05);
+    }
 
     @include respond-to('sm') {
-      height: 400px;
+      width: 250px;
+      height: 180px;
     }
 
     @include respond-to('md') {
-      height: 500px;
+      width: 300px;
+      height: 200px;
+    }
+
+    @include respond-to('lg') {
+      width: 350px;
+      height: 230px;
     }
   }
 
-  // Caption del slide
+  // Caption debajo de cada imagen
   &__caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: $spacing-4 $spacing-6;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
-    font-size: $font-size-md;
-    font-weight: $font-weight-medium;
-    color: #ffffff;
-    text-align: center;
-    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
-
-    @include respond-to('md') {
-      font-size: $font-size-lg;
-      padding: $spacing-6 $spacing-8;
-    }
-  }
-
-  // Botones de navegación
-  &__btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    background: rgba(255, 255, 255, 0.9);
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: $transition-all;
-    color: #1e293b;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-
-    :host-context(.dark-theme) & {
-      background: rgba(47, 68, 103, 0.9);
-      color: #ffffff;
-    }
-
-    svg {
-      width: 24px;
-      height: 24px;
-    }
-
-    &:hover {
-      background: #3B82F6;
-      color: #ffffff;
-      transform: translateY(-50%) scale(1.1);
-    }
-
-    &:focus-visible {
-      outline: 3px solid #3B82F6;
-      outline-offset: 2px;
-    }
-
-    &--prev {
-      left: $spacing-3;
-
-      @include respond-to('md') {
-        left: $spacing-4;
-      }
-    }
-
-    &--next {
-      right: $spacing-3;
-
-      @include respond-to('md') {
-        right: $spacing-4;
-      }
-    }
-
-    @include respond-to('md') {
-      width: 52px;
-      height: 52px;
-
-      svg {
-        width: 28px;
-        height: 28px;
-      }
-    }
-  }
-
-  // Controles (indicadores + posición)
-  &__controls {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: $spacing-4;
-    margin-top: $spacing-4;
-  }
-
-  // Indicadores (dots)
-  &__indicators {
-    display: flex;
-    justify-content: center;
-    gap: $spacing-2;
-  }
-
-  &__indicator {
-    width: 10px;
-    height: 10px;
-    padding: 0;
-    background: #94a3b8;
-    border: none;
-    border-radius: 50%;
-    cursor: pointer;
-    transition: $transition-all;
-
-    :host-context(.dark-theme) & {
-      background: rgba(255, 255, 255, 0.4);
-    }
-
-    &:hover {
-      background: #3B82F6;
-      transform: scale(1.2);
-    }
-
-    &:focus-visible {
-      outline: 2px solid #3B82F6;
-      outline-offset: 2px;
-    }
-
-    &--active {
-      background: #3B82F6;
-      transform: scale(1.2);
-    }
-  }
-
-  // Indicador de posición numérico
-  &__position {
     font-size: $font-size-sm;
     font-weight: $font-weight-medium;
     color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
-    margin: 0;
+    margin-top: $spacing-2;
+    padding: 0 $spacing-2;
+
+    @include respond-to('md') {
+      font-size: $font-size-base;
+    }
+  }
+}
+
+// Animación de desplazamiento continuo de derecha a izquierda
+@keyframes marquee-scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    // Mover exactamente la mitad (porque duplicamos los elementos)
+    transform: translateX(-50%);
   }
 }
 

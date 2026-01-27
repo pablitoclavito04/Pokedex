@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, HostListener, OnInit, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectorRef } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../components/shared/button/button';
@@ -17,16 +17,13 @@ import { ModalStateService } from '../../../services/modal-state.service';
   templateUrl: './home.html',
   styleUrls: ['./home.scss']
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent {
   // Pokémon del día
   showPokemonOfDay = false;
   pokemonOfDay: any = null;
   isLoadingPokemon = false;
 
-  // Carrusel de imágenes
-  currentSlide = 0;
-  private autoplayInterval: any = null;
-  private autoplayDelay = 4000; // 4 segundos entre slides
+  // Carrusel de imágenes (marquee)
   carouselSlides = [
     {
       id: 1,
@@ -196,69 +193,4 @@ export class HomeComponent implements OnInit, OnDestroy {
     return `#${id.toString().padStart(4, '0')}`;
   }
 
-  // Métodos del carrusel
-  nextSlide(): void {
-    this.currentSlide = (this.currentSlide + 1) % this.carouselSlides.length;
-  }
-
-  prevSlide(): void {
-    this.currentSlide = (this.currentSlide - 1 + this.carouselSlides.length) % this.carouselSlides.length;
-  }
-
-  goToSlide(index: number): void {
-    this.currentSlide = index;
-  }
-
-  @HostListener('document:keydown', ['$event'])
-  handleKeyboardNavigation(event: KeyboardEvent): void {
-    // Solo navegar si el carrusel está en el viewport y no hay modal abierto
-    if (this.showPokemonOfDay) return;
-
-    const carouselSection = document.querySelector('.carousel-section');
-    if (!carouselSection) return;
-
-    const rect = carouselSection.getBoundingClientRect();
-    const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
-
-    if (isInViewport) {
-      if (event.key === 'ArrowLeft') {
-        this.prevSlide();
-      } else if (event.key === 'ArrowRight') {
-        this.nextSlide();
-      }
-    }
-  }
-
-  // Lifecycle hooks
-  ngOnInit(): void {
-    this.startAutoplay();
-  }
-
-  ngOnDestroy(): void {
-    this.stopAutoplay();
-  }
-
-  // Autoplay methods
-  startAutoplay(): void {
-    this.stopAutoplay();
-    this.autoplayInterval = setInterval(() => {
-      this.nextSlide();
-      this.cdr.detectChanges();
-    }, this.autoplayDelay);
-  }
-
-  stopAutoplay(): void {
-    if (this.autoplayInterval) {
-      clearInterval(this.autoplayInterval);
-      this.autoplayInterval = null;
-    }
-  }
-
-  pauseAutoplay(): void {
-    this.stopAutoplay();
-  }
-
-  resumeAutoplay(): void {
-    this.startAutoplay();
-  }
 }

@@ -154,107 +154,34 @@
   }
 
   <!-- ========== CARRUSEL POKÉMON SECTION ========== -->
-  <section
-    class="carousel-section"
-    aria-labelledby="carousel-title"
-    (mouseenter)="pauseAutoplay()"
-    (mouseleave)="resumeAutoplay()"
-    (focusin)="pauseAutoplay()"
-    (focusout)="resumeAutoplay()">
+  <section class="carousel-section" aria-label="Galería de imágenes Pokémon">
+    <h2 class="carousel-section__title">Explora el mundo Pokémon</h2>
 
-    <h2 class="carousel-section__title" id="carousel-title">Explora el mundo Pokémon</h2>
-    <p class="carousel-section__subtitle">
-      Descubre momentos inolvidables del universo Pokémon
-    </p>
-
-    <!-- Instrucciones para lectores de pantalla -->
-    <p class="sr-only">
-      Carrusel de imágenes con reproducción automática. Usa las flechas izquierda y derecha del teclado para navegar.
-      El carrusel se pausa automáticamente al pasar el ratón o al recibir el foco.
-    </p>
-
-    <!-- Contenedor del carrusel -->
-    <div
-      class="carousel"
-      role="region"
-      aria-roledescription="carrusel"
-      aria-label="Galería de imágenes Pokémon">
-
-      <!-- Botón anterior -->
-      <button
-        class="carousel__btn carousel__btn--prev"
-        (click)="prevSlide()"
-        aria-label="Imagen anterior"
-        type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M15 18l-6-6 6-6"/>
-        </svg>
-      </button>
-
-      <!-- Contenedor de slides -->
-      <div class="carousel__viewport">
-        <div
-          class="carousel__track"
-          [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
-          @for (slide of carouselSlides; track slide.id; let i = $index) {
-            <figure
-              class="carousel__slide"
-              [attr.aria-hidden]="i !== currentSlide"
-              role="group"
-              [attr.aria-roledescription]="'slide'"
-              [attr.aria-label]="'Slide ' + (i + 1) + ' de ' + carouselSlides.length">
-              <img
-                [src]="slide.image"
-                [alt]="slide.alt"
-                class="carousel__image"
-                loading="lazy">
-              <figcaption class="carousel__caption">
-                {{ slide.caption }}
-              </figcaption>
-            </figure>
-          }
-        </div>
-      </div>
-
-      <!-- Botón siguiente -->
-      <button
-        class="carousel__btn carousel__btn--next"
-        (click)="nextSlide()"
-        aria-label="Imagen siguiente"
-        type="button">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-          <path d="M9 18l6-6-6-6"/>
-        </svg>
-      </button>
-    </div>
-
-    <!-- Indicadores y controles -->
-    <div class="carousel__controls">
-      <!-- Indicador de posición -->
-      <div
-        class="carousel__indicators"
-        role="tablist"
-        aria-label="Seleccionar imagen del carrusel">
-        @for (slide of carouselSlides; track slide.id; let i = $index) {
-          <button
-            class="carousel__indicator"
-            [class.carousel__indicator--active]="i === currentSlide"
-            (click)="goToSlide(i)"
-            role="tab"
-            [attr.aria-selected]="i === currentSlide"
-            [attr.aria-label]="'Ir a imagen ' + (i + 1) + ': ' + slide.caption"
-            type="button">
-          </button>
+    <!-- Carrusel infinito -->
+    <div class="carousel-marquee">
+      <div class="carousel-marquee__track">
+        @for (slide of carouselSlides; track slide.id) {
+          <figure class="carousel-marquee__item">
+            <img
+              [src]="slide.image"
+              [alt]="slide.alt"
+              class="carousel-marquee__image"
+              loading="lazy">
+            <figcaption class="carousel-marquee__caption">{{ slide.caption }}</figcaption>
+          </figure>
+        }
+        <!-- Duplicar para loop infinito -->
+        @for (slide of carouselSlides; track slide.id + '-dup') {
+          <figure class="carousel-marquee__item">
+            <img
+              [src]="slide.image"
+              [alt]="slide.alt"
+              class="carousel-marquee__image"
+              loading="lazy">
+            <figcaption class="carousel-marquee__caption">{{ slide.caption }}</figcaption>
+          </figure>
         }
       </div>
-
-      <!-- Indicador numérico con aria-live -->
-      <p
-        class="carousel__position"
-        aria-live="polite"
-        aria-atomic="true">
-        {{ currentSlide + 1 }} / {{ carouselSlides.length }}
-      </p>
     </div>
   </section>
 
