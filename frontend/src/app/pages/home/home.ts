@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, ChangeDetectorRef, HostListener, OnInit, OnDestroy } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../components/shared/button/button';
@@ -17,7 +17,7 @@ import { ModalStateService } from '../../../services/modal-state.service';
   templateUrl: './home.html',
   styleUrls: ['./home.scss']
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit, OnDestroy {
   // Pokémon del día
   showPokemonOfDay = false;
   pokemonOfDay: any = null;
@@ -25,6 +25,8 @@ export class HomeComponent {
 
   // Carrusel de imágenes
   currentSlide = 0;
+  private autoplayInterval: any = null;
+  private autoplayDelay = 4000; // 4 segundos entre slides
   carouselSlides = [
     {
       id: 1,
@@ -225,5 +227,38 @@ export class HomeComponent {
         this.nextSlide();
       }
     }
+  }
+
+  // Lifecycle hooks
+  ngOnInit(): void {
+    this.startAutoplay();
+  }
+
+  ngOnDestroy(): void {
+    this.stopAutoplay();
+  }
+
+  // Autoplay methods
+  startAutoplay(): void {
+    this.stopAutoplay();
+    this.autoplayInterval = setInterval(() => {
+      this.nextSlide();
+      this.cdr.detectChanges();
+    }, this.autoplayDelay);
+  }
+
+  stopAutoplay(): void {
+    if (this.autoplayInterval) {
+      clearInterval(this.autoplayInterval);
+      this.autoplayInterval = null;
+    }
+  }
+
+  pauseAutoplay(): void {
+    this.stopAutoplay();
+  }
+
+  resumeAutoplay(): void {
+    this.startAutoplay();
   }
 }

@@ -578,17 +578,16 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
 // ============================================================================
 
 .carousel-section {
-  padding: $spacing-12 $spacing-4;
-  background: var(--bg-primary, #{map-get($light-theme, bg-primary)});
+  padding: $spacing-8 $spacing-4;
+  background: #EDF1F6;
   text-align: center;
 
-  @include respond-to('md') {
-    padding: $spacing-16 $spacing-8;
+  :host-context(.dark-theme) & {
+    background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
   }
 
-  &__container {
-    max-width: 900px;
-    margin: 0 auto;
+  @include respond-to('md') {
+    padding: $spacing-12 $spacing-8;
   }
 
   &__title {
@@ -596,7 +595,7 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
     font-size: $font-size-2xl;
     font-weight: $font-weight-bold;
     color: var(--text-primary, #{map-get($light-theme, text-primary)});
-    margin: 0 0 $spacing-3;
+    margin: 0 0 $spacing-2;
 
     @include respond-to('md') {
       font-size: $font-size-3xl;
@@ -606,37 +605,26 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
   &__subtitle {
     font-size: $font-size-md;
     color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
-    margin: 0 0 $spacing-8;
+    margin: 0 0 $spacing-6;
     line-height: $line-height-relaxed;
   }
 }
 
 .carousel {
   position: relative;
-  display: flex;
-  align-items: center;
-  gap: $spacing-2;
-
-  @include respond-to('md') {
-    gap: $spacing-4;
-  }
+  max-width: 1000px;
+  margin: 0 auto;
 
   // Viewport del carrusel
   &__viewport {
-    flex: 1;
     overflow: hidden;
     border-radius: $border-radius-xl;
-    background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
-
-    :host-context(.dark-theme) & {
-      background: #2F4467;
-    }
   }
 
   // Track que contiene todos los slides
   &__track {
     display: flex;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.6s ease-in-out;
 
     @media (prefers-reduced-motion: reduce) {
       transition: none;
@@ -648,79 +636,79 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
     flex: 0 0 100%;
     min-width: 100%;
     margin: 0;
-    padding: $spacing-4;
+    padding: 0;
     box-sizing: border-box;
-
-    @include respond-to('md') {
-      padding: $spacing-6;
-    }
   }
 
   // Imagen del slide
   &__image {
     width: 100%;
-    max-height: 400px;
-    object-fit: contain;
-    border-radius: $border-radius-lg;
-    background: #f8fafc;
+    height: 300px;
+    object-fit: cover;
+    display: block;
 
-    :host-context(.dark-theme) & {
-      background: #1C2739;
-    }
-
-    &:focus-visible {
-      outline: 3px solid #3B82F6;
-      outline-offset: 2px;
+    @include respond-to('sm') {
+      height: 400px;
     }
 
     @include respond-to('md') {
-      max-height: 500px;
+      height: 500px;
     }
   }
 
   // Caption del slide
   &__caption {
-    margin-top: $spacing-4;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: $spacing-4 $spacing-6;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
     font-size: $font-size-md;
     font-weight: $font-weight-medium;
-    color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    color: #ffffff;
     text-align: center;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
 
     @include respond-to('md') {
       font-size: $font-size-lg;
+      padding: $spacing-6 $spacing-8;
     }
   }
 
   // Botones de navegación
   &__btn {
-    flex-shrink: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
-    background: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
-    border: 1px solid var(--border-primary, #{map-get($light-theme, border-primary)});
+    width: 44px;
+    height: 44px;
+    background: rgba(255, 255, 255, 0.9);
+    border: none;
     border-radius: 50%;
     cursor: pointer;
     transition: $transition-all;
-    color: var(--text-primary, #{map-get($light-theme, text-primary)});
+    color: #1e293b;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 
     :host-context(.dark-theme) & {
-      background: #2F4467;
-      border-color: rgba(255, 255, 255, 0.1);
+      background: rgba(47, 68, 103, 0.9);
+      color: #ffffff;
     }
 
     svg {
-      width: 20px;
-      height: 20px;
+      width: 24px;
+      height: 24px;
     }
 
     &:hover {
       background: #3B82F6;
-      border-color: #3B82F6;
       color: #ffffff;
-      transform: scale(1.05);
+      transform: translateY(-50%) scale(1.1);
     }
 
     &:focus-visible {
@@ -728,15 +716,40 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
       outline-offset: 2px;
     }
 
-    @include respond-to('md') {
-      width: 48px;
-      height: 48px;
+    &--prev {
+      left: $spacing-3;
 
-      svg {
-        width: 24px;
-        height: 24px;
+      @include respond-to('md') {
+        left: $spacing-4;
       }
     }
+
+    &--next {
+      right: $spacing-3;
+
+      @include respond-to('md') {
+        right: $spacing-4;
+      }
+    }
+
+    @include respond-to('md') {
+      width: 52px;
+      height: 52px;
+
+      svg {
+        width: 28px;
+        height: 28px;
+      }
+    }
+  }
+
+  // Controles (indicadores + posición)
+  &__controls {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-4;
+    margin-top: $spacing-4;
   }
 
   // Indicadores (dots)
@@ -744,12 +757,11 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
     display: flex;
     justify-content: center;
     gap: $spacing-2;
-    margin-top: $spacing-6;
   }
 
   &__indicator {
-    width: 12px;
-    height: 12px;
+    width: 10px;
+    height: 10px;
     padding: 0;
     background: #94a3b8;
     border: none;
@@ -779,9 +791,10 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
 
   // Indicador de posición numérico
   &__position {
-    margin-top: $spacing-3;
     font-size: $font-size-sm;
-    color: var(--text-tertiary, #{map-get($light-theme, text-tertiary)});
+    font-weight: $font-weight-medium;
+    color: var(--text-secondary, #{map-get($light-theme, text-secondary)});
+    margin: 0;
   }
 }
 

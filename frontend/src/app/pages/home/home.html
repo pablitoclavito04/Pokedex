@@ -154,80 +154,82 @@
   }
 
   <!-- ========== CARRUSEL POKÉMON SECTION ========== -->
-  <section class="carousel-section" aria-labelledby="carousel-title">
-    <div class="carousel-section__container">
-      <h2 class="carousel-section__title" id="carousel-title">Explora el mundo Pokémon</h2>
-      <p class="carousel-section__subtitle">
-        Descubre momentos inolvidables del universo Pokémon
-      </p>
+  <section
+    class="carousel-section"
+    aria-labelledby="carousel-title"
+    (mouseenter)="pauseAutoplay()"
+    (mouseleave)="resumeAutoplay()"
+    (focusin)="pauseAutoplay()"
+    (focusout)="resumeAutoplay()">
 
-      <!-- Instrucciones para lectores de pantalla -->
-      <p class="sr-only">
-        Carrusel de imágenes. Usa las flechas izquierda y derecha del teclado para navegar,
-        o los botones anterior y siguiente. También puedes usar Tab para moverte entre elementos.
-      </p>
+    <h2 class="carousel-section__title" id="carousel-title">Explora el mundo Pokémon</h2>
+    <p class="carousel-section__subtitle">
+      Descubre momentos inolvidables del universo Pokémon
+    </p>
 
-      <!-- Contenedor del carrusel -->
-      <div
-        class="carousel"
-        role="region"
-        aria-roledescription="carrusel"
-        aria-label="Galería de imágenes Pokémon">
+    <!-- Instrucciones para lectores de pantalla -->
+    <p class="sr-only">
+      Carrusel de imágenes con reproducción automática. Usa las flechas izquierda y derecha del teclado para navegar.
+      El carrusel se pausa automáticamente al pasar el ratón o al recibir el foco.
+    </p>
 
-        <!-- Botón anterior -->
-        <button
-          class="carousel__btn carousel__btn--prev"
-          (click)="prevSlide()"
-          (keydown.enter)="prevSlide()"
-          (keydown.space)="prevSlide(); $event.preventDefault()"
-          aria-label="Imagen anterior"
-          type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M15 18l-6-6 6-6"/>
-          </svg>
-        </button>
+    <!-- Contenedor del carrusel -->
+    <div
+      class="carousel"
+      role="region"
+      aria-roledescription="carrusel"
+      aria-label="Galería de imágenes Pokémon">
 
-        <!-- Contenedor de slides -->
-        <div class="carousel__viewport">
-          <div
-            class="carousel__track"
-            [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
-            @for (slide of carouselSlides; track slide.id; let i = $index) {
-              <figure
-                class="carousel__slide"
-                [class.carousel__slide--active]="i === currentSlide"
-                [attr.aria-hidden]="i !== currentSlide"
-                role="group"
-                [attr.aria-roledescription]="'slide'"
-                [attr.aria-label]="'Slide ' + (i + 1) + ' de ' + carouselSlides.length">
-                <img
-                  [src]="slide.image"
-                  [alt]="slide.alt"
-                  class="carousel__image"
-                  loading="lazy"
-                  [attr.tabindex]="i === currentSlide ? 0 : -1">
-                <figcaption class="carousel__caption">
-                  {{ slide.caption }}
-                </figcaption>
-              </figure>
-            }
-          </div>
+      <!-- Botón anterior -->
+      <button
+        class="carousel__btn carousel__btn--prev"
+        (click)="prevSlide()"
+        aria-label="Imagen anterior"
+        type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+
+      <!-- Contenedor de slides -->
+      <div class="carousel__viewport">
+        <div
+          class="carousel__track"
+          [style.transform]="'translateX(-' + (currentSlide * 100) + '%)'">
+          @for (slide of carouselSlides; track slide.id; let i = $index) {
+            <figure
+              class="carousel__slide"
+              [attr.aria-hidden]="i !== currentSlide"
+              role="group"
+              [attr.aria-roledescription]="'slide'"
+              [attr.aria-label]="'Slide ' + (i + 1) + ' de ' + carouselSlides.length">
+              <img
+                [src]="slide.image"
+                [alt]="slide.alt"
+                class="carousel__image"
+                loading="lazy">
+              <figcaption class="carousel__caption">
+                {{ slide.caption }}
+              </figcaption>
+            </figure>
+          }
         </div>
-
-        <!-- Botón siguiente -->
-        <button
-          class="carousel__btn carousel__btn--next"
-          (click)="nextSlide()"
-          (keydown.enter)="nextSlide()"
-          (keydown.space)="nextSlide(); $event.preventDefault()"
-          aria-label="Imagen siguiente"
-          type="button">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-            <path d="M9 18l6-6-6-6"/>
-          </svg>
-        </button>
       </div>
 
+      <!-- Botón siguiente -->
+      <button
+        class="carousel__btn carousel__btn--next"
+        (click)="nextSlide()"
+        aria-label="Imagen siguiente"
+        type="button">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M9 18l6-6-6-6"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Indicadores y controles -->
+    <div class="carousel__controls">
       <!-- Indicador de posición -->
       <div
         class="carousel__indicators"
@@ -251,7 +253,7 @@
         class="carousel__position"
         aria-live="polite"
         aria-atomic="true">
-        Imagen {{ currentSlide + 1 }} de {{ carouselSlides.length }}
+        {{ currentSlide + 1 }} / {{ carouselSlides.length }}
       </p>
     </div>
   </section>
