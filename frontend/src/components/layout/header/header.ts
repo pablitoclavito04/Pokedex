@@ -94,7 +94,7 @@ export class HeaderComponent {
    * Comprueba si estamos en una página de landing (sin autenticar)
    */
   private checkIfLandingPage(url: string): void {
-    const landingRoutes = ['/', '/login', '/register', '/style-guide', '/forms-demo', '/galeria'];
+    const landingRoutes = ['/', '/login', '/register', '/style-guide', '/forms-demo'];
     const appRoutes = ['/pokedex', '/pokemon', '/profile', '/settings', '/quiz', '/comparador'];
     
     const wasLandingPage = this.isLandingPage;

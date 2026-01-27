@@ -162,14 +162,6 @@ export const routes: Routes = [
     data: { breadcrumb: 'DOM Demo' }
   },
 
-  // Galería Multimedia Accesible - Proyecto 4
-  {
-    path: 'galeria',
-    loadComponent: () => import('./pages/galeria/galeria').then(m => m.GaleriaComponent),
-    title: 'Galería Pokémon - Pokédex',
-    data: { breadcrumb: 'Galería' }
-  },
-
   // ========== RUTA WILDCARD 404 (siempre al final) ==========
 
   {
