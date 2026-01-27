@@ -39,24 +39,36 @@ export class HomeComponent {
     },
     {
       id: 3,
+      image: 'Fondo pantalla Crear cuenta.png',
+      alt: 'Paisaje vibrante del mundo Pokémon con colinas verdes y cielo azul despejado. Una escena inspiradora que invita a los nuevos entrenadores a unirse a la comunidad Pokémon y comenzar su propia aventura.',
+      caption: 'Únete a la aventura Pokémon'
+    },
+    {
+      id: 4,
       image: 'Pikachu durmiendo.png',
       alt: 'Pikachu durmiendo plácidamente acurrucado en una posición adorable. Sus mejillas rojas brillan suavemente mientras descansa con una expresión serena y tranquila, mostrando su lado más tierno y relajado.',
       caption: 'Pikachu descansando después de un día de aventuras'
     },
     {
-      id: 4,
+      id: 5,
+      image: 'Pikachu llorando.gif',
+      alt: 'Pikachu animado con lágrimas cayendo de sus ojos en una escena emotiva. El querido Pokémon eléctrico muestra su lado sensible, conmoviendo a todos los fans con su expresión tierna y vulnerable.',
+      caption: 'Pikachu en un momento emotivo'
+    },
+    {
+      id: 6,
       image: 'pokemons durmiendo.webp',
       alt: 'Varios Pokémon durmiendo juntos en un ambiente nocturno acogedor. Diferentes especies descansan apaciblemente unos junto a otros, creando una escena tierna que refleja la amistad entre Pokémon.',
       caption: 'Dulces sueños en el mundo Pokémon'
     },
     {
-      id: 5,
+      id: 7,
       image: 'Squirtle comiendo.gif',
       alt: 'Squirtle animado disfrutando de su comida con entusiasmo. El pequeño Pokémon de tipo agua muestra su personalidad juguetona mientras come, moviendo su cola con alegría en esta animación encantadora.',
       caption: 'Squirtle disfrutando de un delicioso bocado'
     },
     {
-      id: 6,
+      id: 8,
       image: 'Ash ganador.gif',
       alt: 'Ash Ketchum celebrando una victoria épica con los brazos levantados en señal de triunfo. Su expresión de alegría y determinación refleja el espíritu de nunca rendirse que caracteriza a todo entrenador Pokémon.',
       caption: 'La emoción de la victoria Pokémon'
