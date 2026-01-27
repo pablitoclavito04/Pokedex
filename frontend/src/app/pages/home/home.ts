@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../components/shared/button/button';
@@ -22,6 +22,47 @@ export class HomeComponent {
   showPokemonOfDay = false;
   pokemonOfDay: any = null;
   isLoadingPokemon = false;
+
+  // Carrusel de imágenes
+  currentSlide = 0;
+  carouselSlides = [
+    {
+      id: 1,
+      image: 'Pokedex/optimized/Pokemons reunidos 800.webp',
+      alt: 'Grupo de Pokémon iniciales reunidos en un prado verde bajo el sol brillante. Pikachu, Bulbasaur, Charmander y Squirtle posan juntos mostrando sus expresiones alegres y amigables, representando el inicio de la aventura Pokémon.',
+      caption: 'Los Pokémon iniciales más queridos'
+    },
+    {
+      id: 2,
+      image: 'Pokedex/optimized/Imagen quiz 800.webp',
+      alt: 'Escena colorida del mundo Pokémon mostrando un entrenador preparándose para un desafío de conocimientos. Varios Pokémon de diferentes tipos rodean la escena, invitando a participar en el quiz interactivo de la Pokédex.',
+      caption: 'Pon a prueba tus conocimientos Pokémon'
+    },
+    {
+      id: 3,
+      image: 'Pikachu durmiendo.png',
+      alt: 'Pikachu durmiendo plácidamente acurrucado en una posición adorable. Sus mejillas rojas brillan suavemente mientras descansa con una expresión serena y tranquila, mostrando su lado más tierno y relajado.',
+      caption: 'Pikachu descansando después de un día de aventuras'
+    },
+    {
+      id: 4,
+      image: 'Pokedex/pokemons durmiendo.webp',
+      alt: 'Varios Pokémon durmiendo juntos en un ambiente nocturno acogedor. Diferentes especies descansan apaciblemente unos junto a otros, creando una escena tierna que refleja la amistad entre Pokémon.',
+      caption: 'Dulces sueños en el mundo Pokémon'
+    },
+    {
+      id: 5,
+      image: 'Squirtle comiendo.gif',
+      alt: 'Squirtle animado disfrutando de su comida con entusiasmo. El pequeño Pokémon de tipo agua muestra su personalidad juguetona mientras come, moviendo su cola con alegría en esta animación encantadora.',
+      caption: 'Squirtle disfrutando de un delicioso bocado'
+    },
+    {
+      id: 6,
+      image: 'Ash ganador.gif',
+      alt: 'Ash Ketchum celebrando una victoria épica con los brazos levantados en señal de triunfo. Su expresión de alegría y determinación refleja el espíritu de nunca rendirse que caracteriza a todo entrenador Pokémon.',
+      caption: 'La emoción de la victoria Pokémon'
+    }
+  ];
 
   constructor(
     private pokemonOfDayService: PokemonOfDayService,
@@ -151,5 +192,38 @@ export class HomeComponent {
 
   formatPokemonId(id: number): string {
     return `#${id.toString().padStart(4, '0')}`;
+  }
+
+  // Métodos del carrusel
+  nextSlide(): void {
+    this.currentSlide = (this.currentSlide + 1) % this.carouselSlides.length;
+  }
+
+  prevSlide(): void {
+    this.currentSlide = (this.currentSlide - 1 + this.carouselSlides.length) % this.carouselSlides.length;
+  }
+
+  goToSlide(index: number): void {
+    this.currentSlide = index;
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  handleKeyboardNavigation(event: KeyboardEvent): void {
+    // Solo navegar si el carrusel está en el viewport y no hay modal abierto
+    if (this.showPokemonOfDay) return;
+
+    const carouselSection = document.querySelector('.carousel-section');
+    if (!carouselSection) return;
+
+    const rect = carouselSection.getBoundingClientRect();
+    const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+
+    if (isInViewport) {
+      if (event.key === 'ArrowLeft') {
+        this.prevSlide();
+      } else if (event.key === 'ArrowRight') {
+        this.nextSlide();
+      }
+    }
   }
 }
