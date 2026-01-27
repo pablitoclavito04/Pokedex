@@ -28,7 +28,7 @@ export class HomeComponent {
   carouselSlides = [
     {
       id: 1,
-      image: 'Pokedex/optimized/Pokemons reunidos 800.webp',
+      image: 'Pokedex/optimized/pokemons-reunidos-800.webp',
       alt: 'Grupo de Pokémon iniciales reunidos en un prado verde bajo el sol brillante. Pikachu, Bulbasaur, Charmander y Squirtle posan juntos mostrando sus expresiones alegres y amigables, representando el inicio de la aventura Pokémon.',
       caption: 'Los Pokémon iniciales más queridos'
     },
@@ -46,7 +46,7 @@ export class HomeComponent {
     },
     {
       id: 4,
-      image: 'Pokedex/pokemons durmiendo.webp',
+      image: 'pokemons durmiendo.webp',
       alt: 'Varios Pokémon durmiendo juntos en un ambiente nocturno acogedor. Diferentes especies descansan apaciblemente unos junto a otros, creando una escena tierna que refleja la amistad entre Pokémon.',
       caption: 'Dulces sueños en el mundo Pokémon'
     },

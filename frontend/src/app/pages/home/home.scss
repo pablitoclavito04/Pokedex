@@ -281,8 +281,12 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
 
 .pokemon-of-day-section {
   padding: $spacing-12 $spacing-4;
-  background: var(--bg-primary, #{map-get($light-theme, bg-primary)});
+  background: #EDF1F6;
   text-align: center;
+
+  :host-context(.dark-theme) & {
+    background: var(--bg-secondary, #{map-get($dark-theme, bg-secondary)});
+  }
 
   @include respond-to('md') {
     padding: $spacing-16 $spacing-8;
@@ -747,14 +751,14 @@ $card-bg: var(--bg-secondary, #{map-get($light-theme, bg-secondary)});
     width: 12px;
     height: 12px;
     padding: 0;
-    background: var(--border-primary, #{map-get($light-theme, border-primary)});
+    background: #94a3b8;
     border: none;
     border-radius: 50%;
     cursor: pointer;
     transition: $transition-all;
 
     :host-context(.dark-theme) & {
-      background: rgba(255, 255, 255, 0.3);
+      background: rgba(255, 255, 255, 0.4);
     }
 
     &:hover {
