@@ -47,7 +47,7 @@ export class HomeComponent {
       id: 4,
       image: 'Pikachu durmiendo.png',
       alt: 'Pikachu durmiendo plácidamente acurrucado en una posición adorable. Sus mejillas rojas brillan suavemente mientras descansa con una expresión serena y tranquila, mostrando su lado más tierno y relajado.',
-      caption: 'Pikachu descansando después de un día de aventuras'
+      caption: 'Pikachu en dulces sueños'
     },
     {
       id: 5,
