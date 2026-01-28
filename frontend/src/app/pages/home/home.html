@@ -16,12 +16,13 @@
   <section class="hero" aria-labelledby="hero-title">
     <div class="hero__container">
 
-      <!-- Logo animado (favicon) con srcset para diferentes resoluciones -->
+      <!-- Logo animado (favicon) - decorativo, el h1 indica el nombre -->
       <div class="hero__logo">
         <img
           src="favicon.png"
           srcset="favicon.png 1x, favicon.png 2x"
-          alt="Logo Pokédex"
+          alt=""
+          role="presentation"
           class="hero__logo-image"
           width="120"
           height="120"
@@ -157,14 +158,15 @@
   <section class="carousel-section" aria-label="Galería de imágenes Pokémon">
     <h2 class="carousel-section__title">Explora el mundo Pokémon</h2>
 
-    <!-- Carrusel de imágenes -->
+    <!-- Carrusel de imágenes - decorativas con figcaption -->
     <div class="carousel-marquee">
       <div class="carousel-marquee__track">
         @for (slide of carouselSlides; track slide.id) {
           <figure class="carousel-marquee__item">
             <img
               [src]="slide.image"
-              [alt]="slide.alt"
+              alt=""
+              role="presentation"
               class="carousel-marquee__image"
               loading="lazy">
             <figcaption class="carousel-marquee__caption">{{ slide.caption }}</figcaption>

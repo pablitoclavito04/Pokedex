@@ -23,31 +23,17 @@ export class HomeComponent {
   pokemonOfDay: any = null;
   isLoadingPokemon = false;
 
-  // Carrusel de imágenes (marquee) - 4 imágenes para reducir advertencias
+  // Carrusel de imágenes (marquee) - imágenes decorativas con figcaption
   carouselSlides = [
     {
       id: 1,
       image: 'Pokedex/optimized/pokemons-reunidos-800.webp',
-      alt: 'Pokémon iniciales',
       caption: 'Los Pokémon iniciales más queridos'
     },
     {
       id: 2,
       image: 'Pokedex/optimized/Imagen quiz 800.webp',
-      alt: 'Entrenador Pokémon',
       caption: 'Pon a prueba tus conocimientos'
-    },
-    {
-      id: 3,
-      image: 'Pikachu durmiendo.png',
-      alt: 'Pikachu durmiendo',
-      caption: 'Dulces sueños Pokémon'
-    },
-    {
-      id: 4,
-      image: 'Ash ganador.gif',
-      alt: 'Ash celebrando',
-      caption: 'La emoción de la victoria'
     }
   ];
 
