@@ -34,6 +34,26 @@ export class HomeComponent {
       id: 2,
       image: 'Pokedex/optimized/Imagen quiz 800.webp',
       caption: 'Pon a prueba tus conocimientos'
+    },
+    {
+      id: 3,
+      image: 'Pokedex/optimized/Pokemons reunidos 400.webp',
+      caption: 'Explora el mundo Pokémon'
+    },
+    {
+      id: 4,
+      image: 'Pokedex/optimized/Imagen quiz 400.webp',
+      caption: 'Desafía tu memoria'
+    },
+    {
+      id: 5,
+      image: 'Pokedex/optimized/Pokemons reunidos 1200.webp',
+      caption: 'Descubre nuevas especies'
+    },
+    {
+      id: 6,
+      image: 'Pokedex/optimized/Imagen quiz 1200.webp',
+      caption: 'Conviértete en maestro Pokémon'
     }
   ];
 
