@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef } from '@angular/core';
+import { Component, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ButtonComponent } from '../../../components/shared/button/button';
@@ -74,6 +74,13 @@ export class HomeComponent {
     private cdr: ChangeDetectorRef,
     private modalStateService: ModalStateService
   ) {}
+
+  @HostListener('document:keydown.escape')
+  onEscapeKey(): void {
+    if (this.showPokemonOfDay) {
+      this.closePokemonOfDay();
+    }
+  }
   // Características principales de la app
   features = [
     {
