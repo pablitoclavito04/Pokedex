@@ -37,23 +37,33 @@ export class HomeComponent {
     },
     {
       id: 3,
-      image: 'Pokedex/optimized/Pokemons reunidos 400.webp',
-      caption: 'Explora el mundo Pokémon'
+      image: 'Pokedex/optimized/Fondo pantalla Crear cuenta 800.webp',
+      caption: 'Crea tu cuenta y únete'
     },
     {
       id: 4,
-      image: 'Pokedex/optimized/Imagen quiz 400.webp',
-      caption: 'Desafía tu memoria'
+      image: 'Pikachu durmiendo.png',
+      caption: 'Pikachu descansando'
     },
     {
       id: 5,
-      image: 'Pokedex/optimized/Pokemons reunidos 1200.webp',
-      caption: 'Descubre nuevas especies'
+      image: 'pokemons durmiendo.webp',
+      caption: 'Pokémon en reposo'
     },
     {
       id: 6,
-      image: 'Pokedex/optimized/Imagen quiz 1200.webp',
-      caption: 'Conviértete en maestro Pokémon'
+      image: 'Ash ganador.gif',
+      caption: 'Ash celebrando una victoria'
+    },
+    {
+      id: 7,
+      image: 'Pikachu llorando.gif',
+      caption: 'Pikachu emocionado'
+    },
+    {
+      id: 8,
+      image: 'Squirtle comiendo.gif',
+      caption: 'Squirtle disfrutando'
     }
   ];
 
