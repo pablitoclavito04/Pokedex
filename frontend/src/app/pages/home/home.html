@@ -126,7 +126,7 @@
             class="pokemon-modal__image">
         </div>
 
-        <h3 class="pokemon-modal__name" id="pokemon-day-title">{{ pokemonOfDay.name }}</h3>
+        <h2 class="pokemon-modal__name" id="pokemon-day-title">{{ pokemonOfDay.name }}</h2>
         <span class="pokemon-modal__number">{{ formatPokemonId(pokemonOfDay.id) }}</span>
 
         <div class="pokemon-modal__types">
@@ -170,12 +170,12 @@
             <figcaption class="carousel-marquee__caption">{{ slide.caption }}</figcaption>
           </figure>
         }
-        <!-- Duplicar para loop infinito -->
+        <!-- Duplicar para loop infinito (decorativo, aria-hidden para evitar redundancia) -->
         @for (slide of carouselSlides; track slide.id + '-dup') {
-          <figure class="carousel-marquee__item">
+          <figure class="carousel-marquee__item" aria-hidden="true">
             <img
               [src]="slide.image"
-              [alt]="slide.alt"
+              alt=""
               class="carousel-marquee__image"
               loading="lazy">
             <figcaption class="carousel-marquee__caption">{{ slide.caption }}</figcaption>
