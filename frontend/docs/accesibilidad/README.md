@@ -136,9 +136,12 @@ La accesibilidad web garantiza que todas las personas, independientemente de sus
 
 | # | Error | Criterio WCAG | Herramienta | Solución aplicada |
 |---|-------|---------------|-------------|-------------------|
-| 1 | Presencia de listas vacías | 1.3.1 (H48) | TAW | Eliminar listas vacías o añadir contenido |
-| 2 | Contraste insuficiente en texto | 1.4.3 | WAVE | Ajustar colores para ratio 4.5:1 mínimo |
-| 3 | Texto alternativo demasiado largo | 1.1.1 | WAVE | Acortar alt a descripción concisa |
+| 1 | Presencia de listas vacías | 1.3.1 (H48) | TAW | Añadir contenido condicional cuando lista vacía |
+| 2 | Etiqueta de formulario faltante | 1.3.1, 4.1.2 | WAVE | Asociar label con input mediante for/id |
+| 3 | Texto alternativo demasiado largo | 1.1.1 (H45) | TAW | Acortar alt a descripción concisa (8-12 palabras) |
+| 4 | Imágenes con alt vacío (logos) | 1.1.1 (H67) | TAW | Añadir alt descriptivo a imágenes significativas |
+| 5 | Texto alternativo redundante | 1.1.1 | WAVE | Usar alt="" cuando el texto está adyacente |
+| 6 | Nivel de encabezado saltado | 1.3.1 (G130) | WAVE | Corregir jerarquía h1→h2→h3 sin saltos |
 
 ### Detalle de errores
 
@@ -162,69 +165,134 @@ La accesibilidad web garantiza que todas las personas, independientemente de sus
 </ul>
 ```
 
-#### Error #2: [Título del error]
+#### Error #2: Etiqueta de formulario faltante
 
-**Problema:** [Descripción detallada]
-**Impacto:** [A quién afecta]
-**Criterio WCAG:** [X.X.X - Nombre del criterio]
+**Problema:** El campo de tipo `file` para subir foto de perfil en la página de ajustes no tenía una asociación explícita entre el `<label>` y el `<input>`, ya que faltaban los atributos `for` e `id`.
+**Impacto:** Usuarios de lectores de pantalla no pueden identificar el propósito del campo de entrada. Al hacer clic en la etiqueta, el campo no recibe el foco.
+**Criterio WCAG:** 1.3.1 - Información y relaciones, 4.1.2 - Nombre, función, valor
 
 **Código ANTES:**
 ```html
-<!-- Código con el error -->
+<label class="settings-field__label">Foto de perfil</label>
+<input type="file" #fileInput accept="image/*" (change)="onFileSelected($event)">
 ```
 
 **Código DESPUÉS:**
 ```html
-<!-- Código corregido -->
+<label class="settings-field__label" for="profile-photo-input">Foto de perfil</label>
+<input type="file" id="profile-photo-input" #fileInput accept="image/*" (change)="onFileSelected($event)">
 ```
 
-#### Error #3: [Título del error]
+#### Error #3: Texto alternativo demasiado largo
 
-**Problema:** [Descripción detallada]
-**Impacto:** [A quién afecta]
-**Criterio WCAG:** [X.X.X - Nombre del criterio]
+**Problema:** Las imágenes del carrusel en la página de inicio tenían textos alternativos excesivamente largos (30-50 palabras), lo que resulta verboso y tedioso para usuarios de lectores de pantalla.
+**Impacto:** Los usuarios de tecnologías asistivas deben escuchar descripciones muy extensas que interrumpen el flujo de navegación y pueden causar fatiga auditiva.
+**Criterio WCAG:** 1.1.1 - Contenido no textual (Técnica H45)
+
+**Código ANTES:**
+```typescript
+carouselSlides = [
+  {
+    id: 1,
+    image: 'Pokedex/optimized/pokemons-reunidos-800.webp',
+    alt: 'Un grupo de Pokémon icónicos reunidos en un prado verde bajo un cielo azul brillante. En el centro se encuentran Pikachu con sus mejillas rojas características, Bulbasaur con su bulbo verde, Charmander con su llama en la cola, y Squirtle con su caparazón marrón. Todos muestran expresiones amigables.',
+    caption: 'Los Pokémon iniciales más queridos'
+  },
+  // ...
+];
+```
+
+**Código DESPUÉS:**
+```typescript
+carouselSlides = [
+  {
+    id: 1,
+    image: 'Pokedex/optimized/pokemons-reunidos-800.webp',
+    alt: 'Pikachu, Bulbasaur, Charmander y Squirtle reunidos en un prado verde',
+    caption: 'Los Pokémon iniciales más queridos'
+  },
+  // ...
+];
+```
+
+#### Error #4: Imágenes con alt vacío (logos)
+
+**Problema:** Los logos de la aplicación en header, footer y home tenían `alt=""`, tratándolas como imágenes decorativas cuando en realidad son significativas y transmiten la identidad de la marca.
+**Impacto:** Usuarios de lectores de pantalla no reciben información sobre el logo de la aplicación, perdiendo contexto sobre dónde se encuentran.
+**Criterio WCAG:** 1.1.1 - Contenido no textual (Técnica H67)
 
 **Código ANTES:**
 ```html
-<!-- Código con el error -->
+<!-- En header.html, footer.html y home.html -->
+<img src="favicon.png" alt="" class="header__logo-icon">
 ```
 
 **Código DESPUÉS:**
 ```html
-<!-- Código corregido -->
+<!-- En header.html, footer.html y home.html -->
+<img src="favicon.png" alt="Logo Pokédex" class="header__logo-icon">
 ```
 
-#### Error #4: [Título del error]
+**Archivos modificados:**
+- `src/components/layout/header/header.html`
+- `src/components/layout/footer/footer.html`
+- `src/app/pages/home/home.html`
 
-**Problema:** [Descripción detallada]
-**Impacto:** [A quién afecta]
-**Criterio WCAG:** [X.X.X - Nombre del criterio]
+#### Error #5: Texto alternativo redundante
+
+**Problema:** Las tarjetas de Pokémon en la página Pokédex tenían imágenes con `alt="pokemon.name"`, repitiendo el nombre que ya aparecía en el `<h3>` adyacente. Esto causa que los lectores de pantalla anuncien el nombre dos veces.
+**Impacto:** Usuarios de tecnologías asistivas escuchan información duplicada ("Pikachu, imagen Pikachu"), lo que resulta molesto y redundante.
+**Criterio WCAG:** 1.1.1 - Contenido no textual
 
 **Código ANTES:**
 ```html
-<!-- Código con el error -->
+<article class="pokemon-card">
+  <img [src]="pokemon.image" [alt]="pokemon.name" class="pokemon-card__image">
+  <h3 class="pokemon-card__name">{{ pokemon.name }}</h3>
+</article>
 ```
 
 **Código DESPUÉS:**
 ```html
-<!-- Código corregido -->
+<article class="pokemon-card">
+  <img [src]="pokemon.image" alt="" class="pokemon-card__image" loading="lazy">
+  <h3 class="pokemon-card__name">{{ pokemon.name }}</h3>
+</article>
 ```
 
-#### Error #5: [Título del error]
+**Nota:** Cuando el nombre del Pokémon ya está presente en texto adyacente (h3), la imagen se marca como decorativa con `alt=""` para evitar redundancia.
 
-**Problema:** [Descripción detallada]
-**Impacto:** [A quién afecta]
-**Criterio WCAG:** [X.X.X - Nombre del criterio]
+#### Error #6: Nivel de encabezado saltado
+
+**Problema:** En la página Pokédex, la sección de búsqueda avanzada usaba `<h3>` directamente después de `<h1>`, saltando el nivel `<h2>`. Esto rompe la jerarquía lógica de encabezados.
+**Impacto:** Usuarios de lectores de pantalla que navegan por encabezados se confunden al encontrar un h3 sin h2 previo, dificultando la comprensión de la estructura de la página.
+**Criterio WCAG:** 1.3.1 - Información y relaciones (Técnicas G130, G131)
 
 **Código ANTES:**
 ```html
-<!-- Código con el error -->
+<h1>Pokédex</h1>
+<!-- ... contenido ... -->
+<section class="advanced-search">
+  <h3 class="advanced-search__title">Por tipo</h3>
+  <h3 class="advanced-search__title">Altura</h3>
+  <h3 class="advanced-search__title">Peso</h3>
+  <h3 class="advanced-search__title">Secuencia</h3>
+</section>
 ```
 
 **Código DESPUÉS:**
 ```html
-<!-- Código corregido -->
+<h1>Pokédex</h1>
+<!-- ... contenido ... -->
+<section class="advanced-search">
+  <h2 class="advanced-search__title">Por tipo</h2>
+  <h2 class="advanced-search__title">Altura</h2>
+  <h2 class="advanced-search__title">Peso</h2>
+  <h2 class="advanced-search__title" id="sequence-title">Secuencia</h2>
+</section>
 ```
+
+**Nota:** La jerarquía correcta es h1→h2→h3. Nunca se debe saltar de h1 a h3 directamente.
 
 ---
 
