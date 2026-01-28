@@ -120,7 +120,7 @@
             @for (pokemon of favoritePokemon; track pokemon.id) {
               <div class="profile-card__favorite-item" (click)="navigateToPokemon(pokemon.id)">
                 <div class="profile-card__favorite-image-wrapper">
-                  <img [src]="pokemon.image" alt="" class="profile-card__favorite-image">
+                  <img [src]="pokemon.image" alt="" role="presentation" class="profile-card__favorite-image">
                 </div>
                 <span class="profile-card__favorite-name">{{ pokemon.name }}</span>
               </div>
