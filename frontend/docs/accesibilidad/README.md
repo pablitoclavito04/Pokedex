@@ -44,7 +44,7 @@ Aplicación web fullstack Pokédex para gestionar y visualizar información de P
 
 ## Autor
 
-**Nombre:** [Tu nombre]
+**Nombre:** Pablo Sanz Aznar
 **Curso:** 2º DAW - Desarrollo de Aplicaciones Web
 **Módulo:** Diseño de Interfaces Web (DIW)
 
@@ -117,20 +117,16 @@ La accesibilidad web garantiza que todas las personas, independientemente de sus
 
 | Herramienta | Puntuación/Errores | Captura |
 |-------------|-------------------|---------|
-| Lighthouse | [X]/100 | ![Lighthouse antes](./capturas/lighthouse-antes.png) |
-| WAVE | [X] errores, [X] alertas | ![WAVE antes](./capturas/wave-antes.png) |
-| TAW | [X] problemas | ![TAW](./capturas/taw.png) |
+| Lighthouse | 96/100 | ![Lighthouse antes](./capturas/lighthouse-antes.png) |
+| WAVE | 0 errores, 9 de contraste, 19 alertas | ![WAVE antes](./capturas/wave-antes.png) |
+| TAW | 1 problema | ![TAW antes](./capturas/taw-antes.png) |
 
 ### 3 problemas más graves detectados
 
-1. [Describir el problema más grave encontrado]
-2. [Describir el segundo problema más grave]
-3. [Describir el tercer problema más grave]
+1. **Errores de contraste (WAVE):** 9 elementos con contraste insuficiente entre texto y fondo, afectando la legibilidad para usuarios con baja visión.
+2. **Presencia de listas vacías (TAW - H48):** Elemento de lista sin contenido que afecta la estructura semántica del documento.
+3. **Alertas de texto alternativo largo (WAVE):** 16 imágenes con textos alternativos extensos que podrían resultar verbosos para lectores de pantalla.
 
-> **Instrucciones para ejecutar las herramientas:**
-> 1. **Lighthouse:** F12 → Lighthouse → Marcar solo "Accessibility" → Analyze
-> 2. **WAVE:** Instalar extensión → Clic en icono → Capturar pantalla
-> 3. **TAW:** https://www.tawdis.net/?lang=es → Introducir URL → Analizar
 
 ---
 
@@ -140,28 +136,30 @@ La accesibilidad web garantiza que todas las personas, independientemente de sus
 
 | # | Error | Criterio WCAG | Herramienta | Solución aplicada |
 |---|-------|---------------|-------------|-------------------|
-| 1 | [Descripción breve] | X.X.X | [Herramienta] | [Solución] |
-| 2 | [Descripción breve] | X.X.X | [Herramienta] | [Solución] |
-| 3 | [Descripción breve] | X.X.X | [Herramienta] | [Solución] |
-| 4 | [Descripción breve] | X.X.X | [Herramienta] | [Solución] |
-| 5 | [Descripción breve] | X.X.X | [Herramienta] | [Solución] |
+| 1 | Presencia de listas vacías | 1.3.1 (H48) | TAW | Eliminar listas vacías o añadir contenido |
+| 2 | Contraste insuficiente en texto | 1.4.3 | WAVE | Ajustar colores para ratio 4.5:1 mínimo |
+| 3 | Texto alternativo demasiado largo | 1.1.1 | WAVE | Acortar alt a descripción concisa |
 
 ### Detalle de errores
 
-#### Error #1: [Título del error]
+#### Error #1: Presencia de listas vacías
 
-**Problema:** [Descripción detallada de qué estaba mal - 1-2 líneas]
-**Impacto:** [A quién afecta: usuarios de lectores de pantalla, usuarios de teclado, etc.]
-**Criterio WCAG:** [X.X.X - Nombre del criterio]
+**Problema:** El componente `dynamic-list` contenía un elemento `<ul>` vacío sin ningún `<li>` inicial, lo que viola la estructura semántica esperada de una lista HTML.
+**Impacto:** Usuarios de lectores de pantalla escuchan "lista con 0 elementos" sin contexto, causando confusión sobre el propósito del elemento.
+**Criterio WCAG:** 1.3.1 - Información y relaciones (Técnica H48)
 
 **Código ANTES:**
 ```html
-<!-- Código con el error -->
+<ul #listContainer class="list-container"></ul>
 ```
 
 **Código DESPUÉS:**
 ```html
-<!-- Código corregido -->
+<ul #listContainer class="list-container" aria-label="Lista de elementos">
+  @if (itemCount === 0) {
+    <li class="list-item list-item--empty">No hay elementos en la lista</li>
+  }
+</ul>
 ```
 
 #### Error #2: [Título del error]

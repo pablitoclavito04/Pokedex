@@ -16,5 +16,9 @@
     <span class="badge">Items: {{ itemCount }}</span>
   </div>
 
-  <ul #listContainer class="list-container"></ul>
+  <ul #listContainer class="list-container" aria-label="Lista de elementos">
+    @if (itemCount === 0) {
+      <li class="list-item list-item--empty">No hay elementos en la lista</li>
+    }
+  </ul>
 </div>

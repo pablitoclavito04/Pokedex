@@ -107,4 +107,16 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transform: translateX(4px);
   }
+
+  &--empty {
+    color: #6c757d;
+    font-style: italic;
+    justify-content: center;
+    background: #f8f9fa;
+
+    &:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
 }
