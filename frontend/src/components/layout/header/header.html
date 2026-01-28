@@ -26,6 +26,9 @@
            aria-label="Navegación principal"
            id="mobile-menu">
         <ul class="header__nav-list">
+          @if (currentNavItems.length === 0) {
+            <li class="sr-only">Navegación vacía</li>
+          }
           @for (item of currentNavItems; track item.path) {
             <li class="header__nav-item">
               <a [routerLink]="item.path"
