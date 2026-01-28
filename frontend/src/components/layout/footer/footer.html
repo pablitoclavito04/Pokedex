@@ -23,7 +23,7 @@
 
       <!-- Navegación del footer -->
       <nav class="footer__nav" aria-label="Navegación del pie de página">
-        <h3 class="footer__nav-title" id="footer-nav-title">Navegación</h3>
+        <p class="footer__nav-title" id="footer-nav-title"><strong>Navegación</strong></p>
         <ul class="footer__nav-list" aria-labelledby="footer-nav-title">
           @for (link of navLinks; track link.label) {
             <li class="footer__nav-item">
@@ -41,7 +41,7 @@
 
       <!-- Enlaces -->
       <nav class="footer__nav" aria-label="Enlaces adicionales">
-        <h3 class="footer__nav-title" id="footer-links-title">Enlaces</h3>
+        <p class="footer__nav-title" id="footer-links-title"><strong>Enlaces</strong></p>
         <ul class="footer__nav-list" aria-labelledby="footer-links-title">
           @for (link of extraLinks; track link.label) {
             <li class="footer__nav-item">
@@ -58,7 +58,7 @@
 
       <!-- Contacto -->
       <nav class="footer__nav" aria-label="Contacto">
-        <h3 class="footer__nav-title" id="footer-contact-title">Contacto</h3>
+        <p class="footer__nav-title" id="footer-contact-title"><strong>Contacto</strong></p>
         <ul class="footer__nav-list" aria-labelledby="footer-contact-title">
           @for (link of contactLinks; track link.label) {
             <li class="footer__nav-item">
@@ -75,7 +75,7 @@
 
       <!-- Redes sociales -->
       <div class="footer__social">
-        <h3 class="footer__social-title" id="footer-social-title">Síguenos</h3>
+        <p class="footer__social-title" id="footer-social-title"><strong>Síguenos</strong></p>
         <ul class="footer__social-list" aria-labelledby="footer-social-title">
           @for (social of socialLinks; track social.label) {
             <li class="footer__social-item">
@@ -143,7 +143,7 @@
     <div class="footer-modal__content">
       @for (section of currentModalContent.sections; track section.subtitle) {
         <div class="footer-modal__section">
-          <h4 class="footer-modal__subtitle">{{ section.subtitle }}</h4>
+          <p class="footer-modal__subtitle"><strong>{{ section.subtitle }}</strong></p>
           <p class="footer-modal__text">{{ section.text }}</p>
         </div>
       }
