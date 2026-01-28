@@ -35,7 +35,7 @@
             [class.register-card__dot--pending]="step > currentStep">
             @if (step === currentStep) {
               <!-- Paso actual: mostrar favicon -->
-              <img src="favicon.png" alt="" class="register-card__dot-img">
+              <img src="favicon.png" alt="Paso actual" class="register-card__dot-img">
             } @else if (step < currentStep) {
               <!-- Paso completado: mostrar tick verde -->
               <svg viewBox="0 0 24 24" class="register-card__dot-check">
