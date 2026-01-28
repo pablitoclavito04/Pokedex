@@ -84,9 +84,9 @@
   </section>
 
   <!-- ========== POKÉMON DEL DÍA SECTION ========== -->
-  <section class="pokemon-of-day-section" aria-labelledby="pokemon-day-section-title">
+  <section class="pokemon-of-day-section" aria-label="Pokémon del día">
     <div class="pokemon-of-day-section__container">
-      <h2 class="pokemon-of-day-section__title" id="pokemon-day-section-title">Pokémon del día</h2>
+      <p class="pokemon-of-day-section__title"><strong>Pokémon del día</strong></p>
       <p class="pokemon-of-day-section__subtitle">
         Descubre qué Pokémon te espera hoy. ¡Cambia cada 24 horas!
       </p>
@@ -111,7 +111,7 @@
 
   <!-- ========== MODAL POKÉMON DEL DÍA ========== -->
   @if (showPokemonOfDay && pokemonOfDay) {
-    <div class="pokemon-modal-overlay" (click)="closePokemonOfDay()" role="dialog" aria-modal="true" aria-labelledby="pokemon-day-title">
+    <div class="pokemon-modal-overlay" (click)="closePokemonOfDay()" role="dialog" aria-modal="true" aria-label="Pokémon del día">
       <div class="pokemon-modal" (click)="$event.stopPropagation()">
         <button class="pokemon-modal__close" (click)="closePokemonOfDay()" aria-label="Cerrar modal" type="button">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
@@ -128,7 +128,7 @@
             class="pokemon-modal__image">
         </div>
 
-        <h2 class="pokemon-modal__name" id="pokemon-day-title">{{ pokemonOfDay.name }}</h2>
+        <p class="pokemon-modal__name"><strong>{{ pokemonOfDay.name }}</strong></p>
         <span class="pokemon-modal__number">{{ formatPokemonId(pokemonOfDay.id) }}</span>
 
         <div class="pokemon-modal__types">
@@ -191,7 +191,7 @@
       <div class="features__grid">
         @for (feature of features; track feature.title) {
           <article class="feature-card">
-            <h3 class="feature-card__title">{{ feature.title }}</h3>
+            <p class="feature-card__title"><strong>{{ feature.title }}</strong></p>
             <p class="feature-card__description">{{ feature.description }}</p>
           </article>
         }
@@ -201,9 +201,8 @@
   </section>
 
   <!-- ========== STATS SECTION ========== -->
-  <section class="stats-section" aria-labelledby="stats-title">
+  <section class="stats-section" aria-label="Estadísticas de la Pokédex">
     <div class="stats-section__container">
-      <h2 class="stats-section__title sr-only" id="stats-title">Estadísticas de la Pokédex</h2>
       <div class="stats-section__grid">
         @for (stat of stats; track stat.label) {
           <div class="stat-item">
@@ -216,9 +215,9 @@
   </section>
 
   <!-- ========== CTA SECTION ========== -->
-  <section class="cta-section" aria-labelledby="cta-title">
+  <section class="cta-section" aria-label="Llamada a la acción">
     <div class="cta-section__container">
-      <h2 class="cta-section__title" id="cta-title">¿Listo para comenzar tu aventura?</h2>
+      <p class="cta-section__title"><strong>¿Listo para comenzar tu aventura?</strong></p>
       <p class="cta-section__description">
         Crea tu cuenta gratis y empieza a explorar el mundo Pokémon
       </p>
