@@ -241,10 +241,6 @@ blockquote {
     font-size: $font-size-sm;
     font-style: normal;
     color: var(--text-tertiary);
-
-    &::before {
-      content: '— ';
-    }
   }
 }
 

@@ -157,7 +157,7 @@
   <section class="carousel-section" aria-label="Galería de imágenes Pokémon">
     <h2 class="carousel-section__title">Explora el mundo Pokémon</h2>
 
-    <!-- Carrusel infinito -->
+    <!-- Carrusel de imágenes -->
     <div class="carousel-marquee">
       <div class="carousel-marquee__track">
         @for (slide of carouselSlides; track slide.id) {
@@ -165,18 +165,6 @@
             <img
               [src]="slide.image"
               [alt]="slide.alt"
-              class="carousel-marquee__image"
-              loading="lazy">
-            <figcaption class="carousel-marquee__caption">{{ slide.caption }}</figcaption>
-          </figure>
-        }
-        <!-- Duplicar para loop infinito (decorativo, aria-hidden para evitar redundancia) -->
-        @for (slide of carouselSlides; track slide.id + '-dup') {
-          <figure class="carousel-marquee__item" aria-hidden="true">
-            <img
-              [src]="slide.image"
-              alt=""
-              role="presentation"
               class="carousel-marquee__image"
               loading="lazy">
             <figcaption class="carousel-marquee__caption">{{ slide.caption }}</figcaption>

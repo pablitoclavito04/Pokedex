@@ -480,29 +480,10 @@
     &--active {
       border-color: #30A7D7;
       background: #F2F2F2;
-      box-shadow: 
+      box-shadow:
         0 0 0 3px rgba(48, 167, 215, 0.4),
         0 4px 12px rgba(48, 167, 215, 0.3);
       transform: translateY(-2px);
-
-      // Indicador de check en la esquina
-      &::after {
-        content: '✓';
-        position: absolute;
-        top: -8px;
-        right: -8px;
-        width: 24px;
-        height: 24px;
-        background: #30A7D7;
-        color: #ffffff;
-        font-size: 14px;
-        font-weight: bold;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
-      }
     }
   }
 
@@ -668,25 +649,7 @@
         pointer-events: none;
       }
 
-      // Indicador de check
-      &::after {
-        content: '✓';
-        position: absolute;
-        top: -6px;
-        right: -6px;
-        width: 18px;
-        height: 18px;
-        background: #ffffff;
-        color: #333333;
-        font-size: 11px;
-        font-weight: bold;
-        border-radius: 50%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
       }
-    }
   }
 }
 

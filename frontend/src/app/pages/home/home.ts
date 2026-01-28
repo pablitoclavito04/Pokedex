@@ -23,55 +23,31 @@ export class HomeComponent {
   pokemonOfDay: any = null;
   isLoadingPokemon = false;
 
-  // Carrusel de imágenes (marquee)
+  // Carrusel de imágenes (marquee) - 4 imágenes para reducir advertencias
   carouselSlides = [
     {
       id: 1,
       image: 'Pokedex/optimized/pokemons-reunidos-800.webp',
-      alt: 'Pikachu, Bulbasaur, Charmander y Squirtle reunidos en un prado verde',
+      alt: 'Pokémon iniciales',
       caption: 'Los Pokémon iniciales más queridos'
     },
     {
       id: 2,
       image: 'Pokedex/optimized/Imagen quiz 800.webp',
-      alt: 'Entrenador Pokémon rodeado de varios Pokémon preparándose para el quiz',
-      caption: 'Pon a prueba tus conocimientos Pokémon'
+      alt: 'Entrenador Pokémon',
+      caption: 'Pon a prueba tus conocimientos'
     },
     {
       id: 3,
-      image: 'Fondo pantalla Crear cuenta.png',
-      alt: 'Pokeball roja y blanca sobre fondo degradado',
-      caption: 'Únete a la aventura Pokémon'
+      image: 'Pikachu durmiendo.png',
+      alt: 'Pikachu durmiendo',
+      caption: 'Dulces sueños Pokémon'
     },
     {
       id: 4,
-      image: 'Pikachu durmiendo.png',
-      alt: 'Pikachu durmiendo acurrucado con expresión tranquila',
-      caption: 'Pikachu en dulces sueños'
-    },
-    {
-      id: 5,
-      image: 'Pikachu llorando.gif',
-      alt: 'Pikachu con lágrimas en los ojos mostrando tristeza',
-      caption: 'Pikachu en un momento emotivo'
-    },
-    {
-      id: 6,
-      image: 'pokemons durmiendo.webp',
-      alt: 'Grupo de Pokémon durmiendo juntos en ambiente nocturno',
-      caption: 'Dulces sueños en el mundo Pokémon'
-    },
-    {
-      id: 7,
-      image: 'Squirtle comiendo.gif',
-      alt: 'Squirtle comiendo alegremente moviendo su cola',
-      caption: 'Squirtle disfrutando de un delicioso bocado'
-    },
-    {
-      id: 8,
       image: 'Ash ganador.gif',
-      alt: 'Ash Ketchum celebrando victoria con brazos levantados',
-      caption: 'La emoción de la victoria Pokémon'
+      alt: 'Ash celebrando',
+      caption: 'La emoción de la victoria'
     }
   ];
 
