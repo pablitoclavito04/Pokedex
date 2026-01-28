@@ -28,49 +28,49 @@ export class HomeComponent {
     {
       id: 1,
       image: 'Pokedex/optimized/pokemons-reunidos-800.webp',
-      alt: 'Grupo de Pokémon iniciales reunidos en un prado verde bajo el sol brillante. Pikachu, Bulbasaur, Charmander y Squirtle posan juntos mostrando sus expresiones alegres y amigables, representando el inicio de la aventura Pokémon.',
+      alt: 'Pikachu, Bulbasaur, Charmander y Squirtle reunidos en un prado verde',
       caption: 'Los Pokémon iniciales más queridos'
     },
     {
       id: 2,
       image: 'Pokedex/optimized/Imagen quiz 800.webp',
-      alt: 'Escena colorida del mundo Pokémon mostrando un entrenador preparándose para un desafío de conocimientos. Varios Pokémon de diferentes tipos rodean la escena, invitando a participar en el quiz interactivo de la Pokédex.',
+      alt: 'Entrenador Pokémon rodeado de varios Pokémon preparándose para el quiz',
       caption: 'Pon a prueba tus conocimientos Pokémon'
     },
     {
       id: 3,
       image: 'Fondo pantalla Crear cuenta.png',
-      alt: 'Paisaje vibrante del mundo Pokémon con colinas verdes y cielo azul despejado. Una escena inspiradora que invita a los nuevos entrenadores a unirse a la comunidad Pokémon y comenzar su propia aventura.',
+      alt: 'Pokeball roja y blanca sobre fondo degradado',
       caption: 'Únete a la aventura Pokémon'
     },
     {
       id: 4,
       image: 'Pikachu durmiendo.png',
-      alt: 'Pikachu durmiendo plácidamente acurrucado en una posición adorable. Sus mejillas rojas brillan suavemente mientras descansa con una expresión serena y tranquila, mostrando su lado más tierno y relajado.',
+      alt: 'Pikachu durmiendo acurrucado con expresión tranquila',
       caption: 'Pikachu en dulces sueños'
     },
     {
       id: 5,
       image: 'Pikachu llorando.gif',
-      alt: 'Pikachu animado con lágrimas cayendo de sus ojos en una escena emotiva. El querido Pokémon eléctrico muestra su lado sensible, conmoviendo a todos los fans con su expresión tierna y vulnerable.',
+      alt: 'Pikachu con lágrimas en los ojos mostrando tristeza',
       caption: 'Pikachu en un momento emotivo'
     },
     {
       id: 6,
       image: 'pokemons durmiendo.webp',
-      alt: 'Varios Pokémon durmiendo juntos en un ambiente nocturno acogedor. Diferentes especies descansan apaciblemente unos junto a otros, creando una escena tierna que refleja la amistad entre Pokémon.',
+      alt: 'Grupo de Pokémon durmiendo juntos en ambiente nocturno',
       caption: 'Dulces sueños en el mundo Pokémon'
     },
     {
       id: 7,
       image: 'Squirtle comiendo.gif',
-      alt: 'Squirtle animado disfrutando de su comida con entusiasmo. El pequeño Pokémon de tipo agua muestra su personalidad juguetona mientras come, moviendo su cola con alegría en esta animación encantadora.',
+      alt: 'Squirtle comiendo alegremente moviendo su cola',
       caption: 'Squirtle disfrutando de un delicioso bocado'
     },
     {
       id: 8,
       image: 'Ash ganador.gif',
-      alt: 'Ash Ketchum celebrando una victoria épica con los brazos levantados en señal de triunfo. Su expresión de alegría y determinación refleja el espíritu de nunca rendirse que caracteriza a todo entrenador Pokémon.',
+      alt: 'Ash Ketchum celebrando victoria con brazos levantados',
       caption: 'La emoción de la victoria Pokémon'
     }
   ];
