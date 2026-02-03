@@ -529,27 +529,6 @@ Desconecté el ratón y navegué la web completa usando solo el teclado.
 - Lighthouse: ![Lighthouse después](./capturas/lighthouse-despues.png)
 - WAVE: ![WAVE después](./capturas/wave-despues.png)
 
-### Checklist de conformidad WCAG 2.1 Nivel AA.
-
-**Perceptible:**
-- [x] 1.1.1 - Contenido no textual (alt en imágenes del carrusel)
-- [x] 1.3.1 - Información y relaciones (HTML semántico: figure, figcaption, roles)
-- [x] 1.4.3 - Contraste mínimo (4.5:1 en texto normal)
-- [x] 1.4.4 - Redimensionar texto (200% sin pérdida de funcionalidad)
-
-**Operable:**
-- [x] 2.1.1 - Teclado (carrusel navegable con teclado)
-- [x] 2.1.2 - Sin trampas de teclado
-- [x] 2.4.3 - Orden del foco (lógico y predecible)
-- [x] 2.4.7 - Foco visible (se ve claramente en botones e indicadores)
-
-**Comprensible:**
-- [x] 3.1.1 - Idioma de la página (atributo lang="es")
-- [x] 3.2.3 - Navegación consistente
-- [x] 3.3.2 - Etiquetas o instrucciones en formularios
-
-**Robusto:**
-- [x] 4.1.2 - Nombre, función, valor (ARIA en carrusel: aria-label, aria-live, role)
 
 ### Nivel de conformidad alcanzado:
 
