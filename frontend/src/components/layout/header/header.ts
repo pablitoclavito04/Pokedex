@@ -62,7 +62,8 @@ export class HeaderComponent {
     { label: 'Pokédex', path: '/pokedex', icon: 'list' },
     { label: 'Favoritos', path: '/profile', fragment: 'favoritos', icon: 'heart', colorClass: 'header__nav-link--favoritos' },
     { label: 'Comparador', path: '/comparador', icon: 'compare', colorClass: 'header__nav-link--comparador' },
-    { label: 'Quiz', path: '/quiz', icon: 'game', colorClass: 'header__nav-link--quiz' }
+    { label: 'Quiz', path: '/quiz', icon: 'game', colorClass: 'header__nav-link--quiz' },
+    { label: 'Constructor', path: '/team-builder', icon: 'team', colorClass: 'header__nav-link--constructor' }
   ];
 
   // Navegación para usuarios no autenticados en rutas de la app
@@ -95,7 +96,7 @@ export class HeaderComponent {
    */
   private checkIfLandingPage(url: string): void {
     const landingRoutes = ['/', '/login', '/register', '/style-guide', '/forms-demo'];
-    const appRoutes = ['/pokedex', '/pokemon', '/profile', '/settings', '/quiz', '/comparador'];
+    const appRoutes = ['/pokedex', '/pokemon', '/profile', '/settings', '/quiz', '/comparador', '/team-builder'];
     
     const wasLandingPage = this.isLandingPage;
     this.isLandingPage = landingRoutes.includes(url) || url === '';

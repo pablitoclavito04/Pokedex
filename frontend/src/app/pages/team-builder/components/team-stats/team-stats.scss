@@ -1,0 +1,258 @@
+// ============================================================================
+//          TEAM STATS - Estilos del panel de estadísticas
+// ============================================================================
+
+.team-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  // ========== ESTADO VACÍO ==========
+  &__empty {
+    text-align: center;
+    padding: 3rem 1.5rem;
+  }
+
+  &__empty-icon {
+    font-size: 3rem;
+    display: block;
+    margin-bottom: 1rem;
+  }
+
+  &__empty-title {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 0.5rem;
+  }
+
+  &__empty-text {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+
+  // ========== CARDS ==========
+  &__trainer-card,
+  &__summary,
+  &__averages,
+  &__coverage,
+  &__effectiveness,
+  &__members {
+    background: var(--bg-tertiary, rgba(255, 255, 255, 0.03));
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.08));
+    border-radius: 12px;
+    padding: 1.25rem;
+  }
+
+  &__card-title {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 1rem;
+  }
+
+  // ========== TRAINER INFO ==========
+  &__trainer-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  &__trainer-name {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: capitalize;
+  }
+
+  &__trainer-detail {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    text-transform: capitalize;
+  }
+
+  // ========== SUMMARY GRID ==========
+  &__summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+  }
+
+  &__summary-item {
+    text-align: center;
+    padding: 0.75rem;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+  }
+
+  &__summary-value {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    line-height: 1.2;
+  }
+
+  &__summary-label {
+    display: block;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    margin-top: 0.2rem;
+  }
+
+  // ========== STAT BARS ==========
+  &__bars {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__bar-row {
+    display: grid;
+    grid-template-columns: 40px 1fr 40px;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  &__bar-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-secondary);
+    text-align: right;
+  }
+
+  &__bar-track {
+    height: 10px;
+    background: var(--bg-secondary);
+    border-radius: 5px;
+    overflow: hidden;
+  }
+
+  &__bar-fill {
+    height: 100%;
+    border-radius: 5px;
+    transition: width 0.5s ease, background-color 0.3s ease;
+    min-width: 4px;
+  }
+
+  &__bar-value {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-align: left;
+  }
+
+  // ========== TYPE COVERAGE ==========
+  &__type-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  &__type-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    color: white;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: capitalize;
+
+    &--small {
+      padding: 3px 8px;
+      font-size: 0.7rem;
+    }
+  }
+
+  &__no-data {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-style: italic;
+  }
+
+  // ========== EFFECTIVENESS ==========
+  &__effectiveness {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+  }
+
+  &__effectiveness-col {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  &__effectiveness-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0;
+
+    &--strong {
+      color: var(--color-success, #22c55e);
+    }
+
+    &--weak {
+      color: var(--color-error, #ef4444);
+    }
+  }
+
+  // ========== MEMBERS GRID ==========
+  &__members-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+  }
+
+  &__member-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0.75rem;
+    background: var(--bg-secondary);
+    border-radius: 10px;
+    border: 1px solid var(--border-primary, rgba(255, 255, 255, 0.06));
+  }
+
+  &__member-sprite {
+    width: 56px;
+    height: 56px;
+    image-rendering: pixelated;
+    margin-bottom: 0.25rem;
+  }
+
+  &__member-name {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    text-transform: capitalize;
+    margin-bottom: 0.35rem;
+  }
+
+  &__member-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.15rem;
+    font-size: 0.65rem;
+    color: var(--text-secondary);
+  }
+}
+
+// ========== RESPONSIVE ==========
+@media (max-width: 640px) {
+  .team-stats {
+    &__summary-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    &__effectiveness {
+      grid-template-columns: 1fr;
+    }
+
+    &__members-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+}

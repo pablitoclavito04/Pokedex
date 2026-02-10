@@ -20,7 +20,7 @@ export function nif(): ValidatorFn {
     const nifRegex = /^[0-9]{8}[TRWAGMYFPDXBNJZSQVHLCKE]$/;
 
     if (!nifRegex.test(nifValue)) {
-      return { invalidNif: { message: 'Formato incorrecto (8 dígitos + letra)' } };
+      return { invalidNif: { message: 'Debe tener 8 dígitos y 1 letra válida' } };
     }
 
     // Validar letra de control
@@ -30,7 +30,7 @@ export function nif(): ValidatorFn {
     const actualLetter = nifValue[8];
 
     if (expectedLetter !== actualLetter) {
-      return { invalidNif: { message: 'Letra de control incorrecta' } };
+      return { invalidNif: { message: 'La letra del NIF no es correcta' } };
     }
 
     return null;

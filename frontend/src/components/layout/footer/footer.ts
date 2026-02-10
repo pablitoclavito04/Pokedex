@@ -40,7 +40,8 @@ export class FooterComponent {
     { label: 'Pokédex', path: '/pokedex' },
     { label: 'Favoritos', path: '/profile', protected: true },
     { label: 'Comparador', path: '/comparador' },
-    { label: 'Quiz', path: '/quiz', protected: true }
+    { label: 'Quiz', path: '/quiz', protected: true },
+    { label: 'Constructor', path: '/team-builder', protected: true }
   ];
 
   // Redes sociales

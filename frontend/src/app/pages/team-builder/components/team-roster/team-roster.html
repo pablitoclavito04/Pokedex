@@ -1,0 +1,207 @@
+<!-- ============================================================================
+     TEAM ROSTER - Plantilla visual del equipo Pokémon
+     Fase 1: @ViewChild, Renderer2, eventos (click, keyboard, mouse, focus,
+     drag&drop), preventDefault, stopPropagation, @HostListener
+     ============================================================================ -->
+
+<div class="team-roster">
+
+  <!-- ========== BUSCADOR DE POKÉMON ========== -->
+  <div class="team-roster__search">
+    <label class="team-roster__search-label" for="pokemonSearch">Buscar Pokémon por nombre o número</label>
+    <div class="team-roster__search-wrapper">
+      <input
+        #searchInput
+        class="team-roster__search-input"
+        id="pokemonSearch"
+        type="text"
+        placeholder="Nombre o número"
+        [(ngModel)]="searchQuery"
+        (input)="onSearchInput($event)"
+        (keydown)="onSearchKeydown($event)"
+        (focus)="onSearchFocus()"
+        (blur)="onSearchBlur()"
+        autocomplete="off">
+
+      @if (isSearching()) {
+        <span class="team-roster__search-spinner"></span>
+      }
+    </div>
+
+    <!-- Dropdown de resultados -->
+    @if (isSearchOpen && searchResults.length > 0) {
+      <div #searchDropdown class="team-roster__dropdown">
+        @for (result of searchResults; track result.id) {
+          <button
+            class="team-roster__dropdown-item"
+            (click)="selectPokemon(result, $event)"
+            type="button">
+            <img
+              class="team-roster__dropdown-sprite"
+              [src]="result.sprite"
+              [alt]="result.name"
+              loading="lazy">
+            <span class="team-roster__dropdown-name">{{ result.name }}</span>
+            <span class="team-roster__dropdown-id">#{{ result.id }}</span>
+          </button>
+        }
+      </div>
+    }
+
+    @if (isSearchOpen && searchResults.length === 0 && searchQuery.length >= 2 && !isSearching()) {
+      <div class="team-roster__dropdown">
+        <span class="team-roster__dropdown-empty">No se encontraron Pokémon</span>
+      </div>
+    }
+  </div>
+
+  <!-- ========== BADGES DE TIPOS (creados con Renderer2) ========== -->
+  <div class="team-roster__types-section">
+    <span class="team-roster__types-label">Tipos en el equipo:</span>
+    <div #typeBadgesContainer class="team-roster__types-container">
+      <!-- Badges creados dinámicamente con Renderer2.createElement/appendChild -->
+    </div>
+  </div>
+
+  <!-- ========== GRID DEL EQUIPO (6 slots) ========== -->
+  <div #teamGrid class="team-roster__grid" role="grid" aria-label="Equipo Pokémon">
+
+    <!-- Slots con Pokémon -->
+    @for (member of teamMembers; track member.id; let i = $index) {
+      <div
+        class="team-roster__slot team-roster__slot--filled"
+        [class.team-roster__slot--dragging]="dragIndex === i"
+        [class.team-roster__slot--drag-over]="dragOverIndex === i"
+        role="gridcell"
+        [tabindex]="0"
+        draggable="true"
+        (click)="focusedSlot = i"
+        (dblclick)="onSlotDblClick(i)"
+        (keydown)="onSlotKeydown($event, i)"
+        (mouseenter)="onCardMouseEnter($event, member, i)"
+        (mouseleave)="onCardMouseLeave($event)"
+        (dragstart)="onDragStart($event, i)"
+        (dragover)="onDragOver($event, i)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event, i)"
+        (dragend)="onDragEnd($event)"
+        [attr.aria-label]="'Slot ' + (i + 1) + ': ' + member.name">
+
+        <div class="team-roster__slot-number">{{ i + 1 }}</div>
+
+        <img
+          class="team-roster__sprite"
+          [src]="member.sprite"
+          [alt]="member.name"
+          loading="lazy">
+
+        <span class="team-roster__name">{{ member.name }}</span>
+
+        <div class="team-roster__slot-types">
+          @for (type of member.types; track type) {
+            <span
+              class="team-roster__mini-badge"
+              [style.backgroundColor]="getTypeColor(type)">
+              {{ type }}
+            </span>
+          }
+        </div>
+
+        <!-- Botón eliminar con stopPropagation -->
+        <button
+          class="team-roster__delete-btn"
+          (click)="onDeleteClick($event, i)"
+          type="button"
+          title="Eliminar del equipo"
+          aria-label="Eliminar {{ member.name }} del equipo">
+          ✕
+        </button>
+
+        <span class="team-roster__drag-hint">Arrastra para mover</span>
+      </div>
+    }
+
+    <!-- Slots vacíos -->
+    @for (slot of getEmptySlots(); track slot) {
+      <div
+        class="team-roster__slot team-roster__slot--empty"
+        role="gridcell"
+        [tabindex]="0"
+        (dragover)="onDragOver($event, slot)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event, slot)"
+        [attr.aria-label]="'Slot ' + (slot + 1) + ': vacío'">
+        <div class="team-roster__slot-number">{{ slot + 1 }}</div>
+        <span class="team-roster__empty-icon">+</span>
+        <span class="team-roster__empty-text">Buscar Pokémon</span>
+      </div>
+    }
+
+  </div>
+
+  <!-- ========== ACCIONES DEL EQUIPO ========== -->
+  <div class="team-roster__actions">
+    <span class="team-roster__count">{{ teamMembers.length }} / 6 Pokémon</span>
+    @if (teamMembers.length > 0) {
+      <button
+        class="team-roster__clear-btn"
+        (click)="clearTeam()"
+        type="button">
+        Vaciar equipo
+      </button>
+    }
+  </div>
+
+  <!-- ========== TOOLTIP (mostrado con mouseenter/mouseleave) ========== -->
+  @if (showTooltip && tooltipMember) {
+    <div
+      class="team-roster__tooltip"
+      [style.top.px]="tooltipPosition.top"
+      [style.left.px]="tooltipPosition.left"
+      role="tooltip">
+      <div class="team-roster__tooltip-header">{{ tooltipMember.name }}</div>
+      <div class="team-roster__tooltip-stats">
+        <div class="team-roster__tooltip-stat">
+          <span>PS</span><span>{{ tooltipMember.stats.hp }}</span>
+        </div>
+        <div class="team-roster__tooltip-stat">
+          <span>ATQ</span><span>{{ tooltipMember.stats.attack }}</span>
+        </div>
+        <div class="team-roster__tooltip-stat">
+          <span>DEF</span><span>{{ tooltipMember.stats.defense }}</span>
+        </div>
+        <div class="team-roster__tooltip-stat">
+          <span>VEL</span><span>{{ tooltipMember.stats.speed }}</span>
+        </div>
+      </div>
+    </div>
+  }
+
+  <!-- ========== MODAL DE CONFIRMACIÓN PARA ELIMINAR ========== -->
+  @if (isDeleteModalOpen && memberToDelete) {
+    <div class="team-roster__modal-overlay" (click)="closeDeleteModal()">
+      <div class="team-roster__modal" (click)="$event.stopPropagation()">
+        <h3 class="team-roster__modal-title">Eliminar Pokémon</h3>
+        <p class="team-roster__modal-text">
+          ¿Estás seguro de que quieres eliminar a
+          <strong>{{ memberToDelete.name }}</strong> del equipo?
+        </p>
+        <div class="team-roster__modal-actions">
+          <button
+            class="team-roster__modal-btn team-roster__modal-btn--cancel"
+            (click)="closeDeleteModal()"
+            type="button">
+            Cancelar
+          </button>
+          <button
+            class="team-roster__modal-btn team-roster__modal-btn--confirm"
+            (click)="confirmDelete()"
+            type="button">
+            Eliminar
+          </button>
+        </div>
+      </div>
+    </div>
+  }
+
+</div>

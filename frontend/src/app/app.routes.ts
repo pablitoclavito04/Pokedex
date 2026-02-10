@@ -136,7 +136,7 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/team-builder/team-builder').then(m => m.TeamBuilderComponent),
     title: 'Constructor de Equipos - Pokédex',
     data: { breadcrumb: 'Constructor de Equipos' }
-  }
+  },
 
 
   // ========== RUTAS DE DESARROLLO ==========
