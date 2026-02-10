@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.Optional;
 
 /**
@@ -90,6 +92,27 @@ public class PokemonService {
             dtoList.add(convertirADTO(pokemon));
         }
         return dtoList;
+    }
+
+    // ╔════════════════════════════════════════════════════════════════════════════╗
+    // ║                                                                            ║
+    // ║                    ★★★ NUEVO ENDPOINT - GENERACIONES ★★★                 ║
+    // ║                                                                            ║
+    // ║   Endpoint: GET /api/pokemon/estadisticas/generaciones                     ║
+    // ║   Descripción: Devuelve el conteo de Pokémon por cada generación (1-9)     ║
+    // ║   Respuesta: {"generacion1": 151, "generacion2": 100, ...}                 ║
+    // ║         (Dependiendo de cuantos pokémons haya en la BD)                    ║
+    // ║                                                                            ║
+    // ╚════════════════════════════════════════════════════════════════════════════╝
+    public Map<String, Long> contarPorGeneracion() {
+        Map<String, Long> conteo = new LinkedHashMap<>(); // LinkedHashMap para mantener orden
+
+        for (int i = 1; i <= 9; i++) {
+            long cantidad = pokemonRepository.countByGeneracion(i);
+            conteo.put("generacion" + i, cantidad);
+        }
+
+        return conteo;
     }
 
     // ==================== CREATE ====================
@@ -374,7 +397,7 @@ public class PokemonService {
         dto.setAltura(pokemon.getAltura());
         dto.setPeso(pokemon.getPeso());
         dto.setDescripcion(pokemon.getDescripcion());
-        dto.setImagenUrl(pokemon.getImagenUrl());  // AÑADIDO
+        dto.setImagenUrl(pokemon.getImagenUrl());
         dto.setGeneracion(pokemon.getGeneracion());
 
         // Obtener tipos

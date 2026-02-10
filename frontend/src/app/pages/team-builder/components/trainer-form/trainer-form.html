@@ -1,0 +1,312 @@
+<!-- ============================================================================
+     TRAINER FORM - Formulario reactivo avanzado del entrenador
+     Fase 3: FormBuilder, validadores síncronos/async, FormArray, cross-field
+     ============================================================================ -->
+
+<form [formGroup]="trainerForm" (submit)="onSubmit($event)" class="trainer-form" novalidate>
+
+  <!-- ========== SECCIÓN: DATOS DE CUENTA ========== -->
+  <div class="trainer-form__section">
+    <h2 class="trainer-form__section-title">Datos de cuenta</h2>
+
+    <!-- Username con validador async -->
+    <div class="trainer-form__field">
+      <label class="trainer-form__label" for="username">Nombre de usuario *</label>
+      <input
+        class="trainer-form__input"
+        id="username"
+        type="text"
+        formControlName="username"
+        placeholder="Ej: AshKetchum"
+        [class.trainer-form__input--error]="hasError('username')"
+        [class.trainer-form__input--valid]="username?.valid && username?.touched">
+      <!-- Loading durante validación asíncrona -->
+      @if (username?.pending) {
+        <span class="trainer-form__async-loading">Verificando disponibilidad...</span>
+      }
+      @if (hasError('username', 'required')) {
+        <span class="trainer-form__error">El nombre de usuario es obligatorio</span>
+      }
+      @if (hasError('username', 'minlength')) {
+        <span class="trainer-form__error">Mínimo 3 caracteres</span>
+      }
+      @if (hasError('username', 'maxlength')) {
+        <span class="trainer-form__error">Máximo 20 caracteres</span>
+      }
+      @if (hasError('username', 'usernameTaken')) {
+        <span class="trainer-form__error">Este nombre de usuario ya está en uso</span>
+      }
+    </div>
+
+    <!-- Email con validador async -->
+    <div class="trainer-form__field">
+      <label class="trainer-form__label" for="email">Email *</label>
+      <input
+        class="trainer-form__input"
+        id="email"
+        type="email"
+        formControlName="email"
+        placeholder="ash@pokemon.com"
+        [class.trainer-form__input--error]="hasError('email')"
+        [class.trainer-form__input--valid]="email?.valid && email?.touched">
+      @if (email?.pending) {
+        <span class="trainer-form__async-loading">Verificando email...</span>
+      }
+      @if (hasError('email', 'required')) {
+        <span class="trainer-form__error">El email es obligatorio</span>
+      }
+      @if (hasError('email', 'email')) {
+        <span class="trainer-form__error">Formato de email inválido</span>
+      }
+      @if (hasError('email', 'emailTaken')) {
+        <span class="trainer-form__error">Este email ya está registrado</span>
+      }
+    </div>
+
+    <!-- Contraseña con validador de fuerza -->
+    <div class="trainer-form__field">
+      <label class="trainer-form__label" for="password">Contraseña *</label>
+      <input
+        class="trainer-form__input"
+        id="password"
+        type="password"
+        formControlName="password"
+        placeholder="Mínimo 8 caracteres"
+        [class.trainer-form__input--error]="hasError('password')"
+        [class.trainer-form__input--valid]="password?.valid && password?.touched">
+      @if (hasError('password', 'required')) {
+        <span class="trainer-form__error">La contraseña es obligatoria</span>
+      }
+      @if (password?.errors && password?.touched && !password?.errors?.['required']) {
+        <div class="trainer-form__password-hints">
+          <span class="trainer-form__hint-title">Requisitos de contraseña:</span>
+          @for (error of getPasswordErrors(); track error) {
+            <span class="trainer-form__hint trainer-form__hint--error">{{ error }}</span>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Confirmar contraseña (cross-field validation) -->
+    <div class="trainer-form__field">
+      <label class="trainer-form__label" for="confirmPassword">Confirmar contraseña *</label>
+      <input
+        class="trainer-form__input"
+        id="confirmPassword"
+        type="password"
+        formControlName="confirmPassword"
+        placeholder="Repite la contraseña"
+        [class.trainer-form__input--error]="hasError('confirmPassword') || (trainerForm.errors?.['mismatch'] && confirmPassword?.touched)"
+        [class.trainer-form__input--valid]="confirmPassword?.valid && confirmPassword?.touched && !trainerForm.errors?.['mismatch']">
+      @if (hasError('confirmPassword', 'required')) {
+        <span class="trainer-form__error">Debes confirmar la contraseña</span>
+      }
+      @if (trainerForm.errors?.['mismatch'] && confirmPassword?.touched) {
+        <span class="trainer-form__error">Las contraseñas no coinciden</span>
+      }
+    </div>
+  </div>
+
+  <!-- ========== SECCIÓN: DATOS PERSONALES ========== -->
+  <div class="trainer-form__section">
+    <h2 class="trainer-form__section-title">Datos personales</h2>
+
+    <div class="trainer-form__row">
+      <!-- Nombre -->
+      <div class="trainer-form__field">
+        <label class="trainer-form__label" for="nombre">Nombre *</label>
+        <input
+          class="trainer-form__input"
+          id="nombre"
+          type="text"
+          formControlName="nombre"
+          placeholder="Tu nombre"
+          [class.trainer-form__input--error]="hasError('nombre')"
+          [class.trainer-form__input--valid]="nombre?.valid && nombre?.touched">
+        @if (hasError('nombre', 'required')) {
+          <span class="trainer-form__error">El nombre es obligatorio</span>
+        }
+        @if (hasError('nombre', 'minlength')) {
+          <span class="trainer-form__error">Mínimo 2 caracteres</span>
+        }
+      </div>
+
+      <!-- Apellidos -->
+      <div class="trainer-form__field">
+        <label class="trainer-form__label" for="apellidos">Apellidos *</label>
+        <input
+          class="trainer-form__input"
+          id="apellidos"
+          type="text"
+          formControlName="apellidos"
+          placeholder="Tus apellidos"
+          [class.trainer-form__input--error]="hasError('apellidos')"
+          [class.trainer-form__input--valid]="apellidos?.valid && apellidos?.touched">
+        @if (hasError('apellidos', 'required')) {
+          <span class="trainer-form__error">Los apellidos son obligatorios</span>
+        }
+        @if (hasError('apellidos', 'minlength')) {
+          <span class="trainer-form__error">Mínimo 2 caracteres</span>
+        }
+      </div>
+    </div>
+
+    <div class="trainer-form__row">
+      <!-- NIF -->
+      <div class="trainer-form__field">
+        <label class="trainer-form__label" for="nif">NIF *</label>
+        <input
+          class="trainer-form__input"
+          id="nif"
+          type="text"
+          formControlName="nif"
+          placeholder="12345678Z"
+          appNifMask
+          [class.trainer-form__input--error]="hasError('nif')"
+          [class.trainer-form__input--valid]="nifControl?.valid && nifControl?.touched">
+        @if (hasError('nif', 'required')) {
+          <span class="trainer-form__error">El NIF es obligatorio</span>
+        }
+        @if (hasError('nif', 'invalidNif')) {
+          <span class="trainer-form__error">{{ nifControl?.errors?.['invalidNif']?.message || 'NIF inválido' }}</span>
+        }
+      </div>
+
+      <!-- Fecha de nacimiento -->
+      <div class="trainer-form__field">
+        <label class="trainer-form__label" for="fechaNacimiento">Fecha de nacimiento *</label>
+        <input
+          class="trainer-form__input"
+          id="fechaNacimiento"
+          type="date"
+          formControlName="fechaNacimiento"
+          [class.trainer-form__input--error]="hasError('fechaNacimiento')"
+          [class.trainer-form__input--valid]="fechaNacimiento?.valid && fechaNacimiento?.touched">
+        @if (hasError('fechaNacimiento', 'required')) {
+          <span class="trainer-form__error">La fecha de nacimiento es obligatoria</span>
+        }
+        @if (hasError('fechaNacimiento', 'edadMinima')) {
+          <span class="trainer-form__error">Debes tener al menos 10 años para ser entrenador</span>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SECCIÓN: CONTACTO (cross-field: al menos uno) ========== -->
+  <div class="trainer-form__section">
+    <h2 class="trainer-form__section-title">Contacto</h2>
+    <p class="trainer-form__section-hint">Al menos un teléfono es obligatorio</p>
+
+    <div class="trainer-form__row">
+      <!-- Teléfono móvil -->
+      <div class="trainer-form__field">
+        <label class="trainer-form__label" for="telefonoMovil">Teléfono móvil</label>
+        <input
+          class="trainer-form__input"
+          id="telefonoMovil"
+          type="tel"
+          formControlName="telefonoMovil"
+          placeholder="612 345 678"
+          appPhoneMask
+          [class.trainer-form__input--error]="hasError('telefonoMovil')">
+        @if (hasError('telefonoMovil', 'invalidTelefono')) {
+          <span class="trainer-form__error">Teléfono móvil inválido (6xx o 7xx)</span>
+        }
+      </div>
+
+      <!-- Teléfono fijo -->
+      <div class="trainer-form__field">
+        <label class="trainer-form__label" for="telefonoFijo">Teléfono fijo</label>
+        <input
+          class="trainer-form__input"
+          id="telefonoFijo"
+          type="tel"
+          formControlName="telefonoFijo"
+          placeholder="912 345 678">
+      </div>
+    </div>
+
+    <!-- Error cross-field: al menos un teléfono -->
+    @if (trainerForm.errors?.['atLeastOneRequired'] && (telefonoMovilCtrl?.touched || submitted)) {
+      <div class="trainer-form__cross-error">
+        Debes proporcionar al menos un número de teléfono (móvil o fijo)
+      </div>
+    }
+  </div>
+
+  <!-- ========== SECCIÓN: DATOS POKÉMON ========== -->
+  <div class="trainer-form__section">
+    <h2 class="trainer-form__section-title">Datos de entrenador Pokémon</h2>
+
+    <div class="trainer-form__row">
+      <!-- Región -->
+      <div class="trainer-form__field">
+        <label class="trainer-form__label" for="region">Región *</label>
+        <select
+          class="trainer-form__input trainer-form__select"
+          id="region"
+          formControlName="region"
+          [class.trainer-form__input--error]="hasError('region')"
+          [class.trainer-form__input--valid]="region?.valid && region?.touched">
+          @for (opt of regionOptions; track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+        @if (hasError('region', 'required')) {
+          <span class="trainer-form__error">Selecciona una región</span>
+        }
+      </div>
+
+      <!-- Especialidad -->
+      <div class="trainer-form__field">
+        <label class="trainer-form__label" for="especialidad">Especialidad de tipo *</label>
+        <select
+          class="trainer-form__input trainer-form__select"
+          id="especialidad"
+          formControlName="especialidad"
+          [class.trainer-form__input--error]="hasError('especialidad')"
+          [class.trainer-form__input--valid]="especialidad?.valid && especialidad?.touched">
+          @for (opt of especialidadOptions; track opt.value) {
+            <option [value]="opt.value">{{ opt.label }}</option>
+          }
+        </select>
+        @if (hasError('especialidad', 'required')) {
+          <span class="trainer-form__error">Selecciona una especialidad</span>
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== TÉRMINOS Y SUBMIT ========== -->
+  <div class="trainer-form__section">
+    <div class="trainer-form__checkbox-field">
+      <input
+        type="checkbox"
+        id="aceptaTerminos"
+        formControlName="aceptaTerminos"
+        class="trainer-form__checkbox">
+      <label class="trainer-form__checkbox-label" for="aceptaTerminos">
+        Acepto las normas de la Liga Pokémon y el código de conducta del entrenador *
+      </label>
+    </div>
+    @if (hasError('aceptaTerminos', 'required')) {
+      <span class="trainer-form__error">Debes aceptar los términos</span>
+    }
+
+    <!-- Botón submit deshabilitado si formulario inválido o pendiente -->
+    <div class="trainer-form__actions">
+      <button
+        type="submit"
+        class="trainer-form__submit"
+        [disabled]="trainerForm.invalid || trainerForm.pending"
+        [class.trainer-form__submit--loading]="trainerForm.pending">
+        @if (trainerForm.pending) {
+          Validando...
+        } @else {
+          Guardar perfil de entrenador
+        }
+      </button>
+    </div>
+  </div>
+
+</form>

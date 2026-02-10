@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Controlador REST para Pokemon con CRUD completo
@@ -86,6 +87,27 @@ public class PokemonController {
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity<List<PokemonDTO>> obtenerPorTipo(@PathVariable String tipo) {
         return ResponseEntity.ok(pokemonService.obtenerPorTipo(tipo));
+    }
+
+    // ╔════════════════════════════════════════════════════════════════════════════╗
+    // ║                                                                            ║
+    // ║                    ★★★ NUEVO ENDPOINT - GENERACIONES ★★★                ║
+    // ║                                                                            ║
+    // ║   URL: GET /api/pokemon/estadisticas/generaciones                          ║
+    // ║   Descripción: Devuelve el conteo de Pokémon por cada generación (1-9)     ║
+    // ║                                                                            ║
+    // ║   Respuesta ejemplo:                                                       ║
+    // ║   {                                                                        ║
+    // ║     "generacion1": 151,                                                    ║
+    // ║     "generacion2": 100,                                                    ║
+    // ║     "generacion3": 135,                                                    ║
+    // ║     ...                                                                    ║
+    // ║   }                                                                        ║
+    // ║                                                                            ║
+    // ╚════════════════════════════════════════════════════════════════════════════╝
+    @GetMapping("/estadisticas/generaciones")
+    public ResponseEntity<Map<String, Long>> contarPorGeneracion() {
+        return ResponseEntity.ok(pokemonService.contarPorGeneracion());
     }
 
     // ==================== CREATE ====================
