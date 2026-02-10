@@ -15,8 +15,7 @@ import { CommunicationService } from '../../../../../services/communication.serv
   selector: 'app-team-stats',
   standalone: true,
   imports: [CommonModule],
-  templateUrl: './team-stats.html',
-  styleUrls: ['./team-stats.scss']
+  templateUrl: './team-stats.html'
 })
 export class TeamStatsComponent implements OnDestroy {
   private teamService = inject(TeamBuilderService);

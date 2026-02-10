@@ -67,9 +67,13 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/pokemon/buscar").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/pokemon/generacion/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/pokemon/tipo/**").permitAll()
-                        .requestMatchers(HttpMethod.GET, "/api/pokemon/estadisticas/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/tipos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/pokemon/{id}/imagen").permitAll()
+
+                        // ╔════════════════════════════════════════════════════════════════════════╗
+                        // ║  ★★★ NUEVO ENDPOINT PROTEGIDO - ESTADÍSTICAS (requiere USER o ADMIN) ★★★  ║
+                        // ╚════════════════════════════════════════════════════════════════════════╝
+                        .requestMatchers(HttpMethod.GET, "/api/pokemon/estadisticas/**").hasAnyRole("USER", "ADMIN")
 
                         // POST, PUT requieren autenticación (USER o ADMIN)
                         .requestMatchers(HttpMethod.POST, "/api/pokemon").hasAnyRole("USER", "ADMIN")

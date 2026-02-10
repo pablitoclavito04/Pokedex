@@ -1,17 +1,28 @@
 package service;
 
-import dto.*;
-import entity.*;
-import repository.*;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.LinkedHashMap;
-import java.util.Optional;
+import dto.EstadisticasDTO;
+import dto.EvolucionDTO;
+import dto.PokemonDTO;
+import entity.Estadisticas;
+import entity.Evolucion;
+import entity.Pokemon;
+import entity.PokemonTipo;
+import entity.Tipo;
+import repository.EstadisticasRepository;
+import repository.EvolucionRepository;
+import repository.PokemonRepository;
+import repository.PokemonTipoRepository;
+import repository.TipoRepository;
 
 /**
  * Servicio para Pokemon con CRUD completo y lógica de negocio
@@ -96,12 +107,12 @@ public class PokemonService {
 
     // ╔════════════════════════════════════════════════════════════════════════════╗
     // ║                                                                            ║
-    // ║                    ★★★ NUEVO ENDPOINT - GENERACIONES ★★★                 ║
+    // ║              ★★★ NUEVO ENDPOINT - ESTADÍSTICAS GENERACIONES ★★★          ║
     // ║                                                                            ║
     // ║   Endpoint: GET /api/pokemon/estadisticas/generaciones                     ║
+    // ║   Seguridad: Requiere autenticación (rol USER o ADMIN)                     ║
     // ║   Descripción: Devuelve el conteo de Pokémon por cada generación (1-9)     ║
     // ║   Respuesta: {"generacion1": 151, "generacion2": 100, ...}                 ║
-    // ║         (Dependiendo de cuantos pokémons haya en la BD)                    ║
     // ║                                                                            ║
     // ╚════════════════════════════════════════════════════════════════════════════╝
     public Map<String, Long> contarPorGeneracion() {

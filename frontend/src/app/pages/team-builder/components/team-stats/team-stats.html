@@ -3,16 +3,16 @@
      Fase 2: Comunicación reactiva, suscripción a servicio, componente "dumb"
      ============================================================================ -->
 
-<div class="team-stats">
+<section class="team-stats">
 
   <!-- Estado vacío -->
   @if (teamMembers.length === 0) {
-    <div class="team-stats__empty">
+    <article class="team-stats__empty">
       <h3 class="team-stats__empty-title">Sin datos de equipo</h3>
       <p class="team-stats__empty-text">
         Añade Pokémon a tu equipo desde la pestaña "Equipo" para ver las estadísticas
       </p>
-    </div>
+    </article>
   }
 
   <!-- Contenido cuando hay miembros -->
@@ -20,41 +20,41 @@
 
     <!-- ========== RESUMEN DEL ENTRENADOR ========== -->
     @if (trainerData) {
-      <div class="team-stats__trainer-card">
+      <article class="team-stats__trainer-card">
         <h3 class="team-stats__card-title">Entrenador</h3>
-        <div class="team-stats__trainer-info">
-          <span class="team-stats__trainer-name">{{ trainerData.nombre }} {{ trainerData.apellidos }}</span>
-          <span class="team-stats__trainer-detail">Región: {{ trainerData.region }}</span>
-          <span class="team-stats__trainer-detail">Especialidad: {{ trainerData.especialidad }}</span>
-        </div>
-      </div>
+        <dl class="team-stats__trainer-info">
+          <dt class="team-stats__trainer-name">{{ trainerData.nombre }} {{ trainerData.apellidos }}</dt>
+          <dd class="team-stats__trainer-detail">Región: {{ trainerData.region }}</dd>
+          <dd class="team-stats__trainer-detail">Especialidad: {{ trainerData.especialidad }}</dd>
+        </dl>
+      </article>
     }
 
     <!-- ========== RESUMEN DEL EQUIPO ========== -->
-    <div class="team-stats__summary">
+    <article class="team-stats__summary">
       <h3 class="team-stats__card-title">Resumen del equipo</h3>
-      <div class="team-stats__summary-grid">
-        <div class="team-stats__summary-item">
-          <span class="team-stats__summary-value">{{ stats.memberCount }}</span>
+      <ul class="team-stats__summary-grid">
+        <li class="team-stats__summary-item">
+          <strong class="team-stats__summary-value">{{ stats.memberCount }}</strong>
           <span class="team-stats__summary-label">Miembros</span>
-        </div>
-        <div class="team-stats__summary-item">
-          <span class="team-stats__summary-value">{{ stats.typeCoverage.length }}</span>
+        </li>
+        <li class="team-stats__summary-item">
+          <strong class="team-stats__summary-value">{{ stats.typeCoverage.length }}</strong>
           <span class="team-stats__summary-label">Tipos</span>
-        </div>
-        <div class="team-stats__summary-item">
-          <span class="team-stats__summary-value">{{ getTeamStrengths().length }}</span>
+        </li>
+        <li class="team-stats__summary-item">
+          <strong class="team-stats__summary-value">{{ getTeamStrengths().length }}</strong>
           <span class="team-stats__summary-label">Fortalezas</span>
-        </div>
-        <div class="team-stats__summary-item">
-          <span class="team-stats__summary-value">{{ getTeamWeaknesses().length }}</span>
+        </li>
+        <li class="team-stats__summary-item">
+          <strong class="team-stats__summary-value">{{ getTeamWeaknesses().length }}</strong>
           <span class="team-stats__summary-label">Debilidades</span>
-        </div>
-      </div>
-    </div>
+        </li>
+      </ul>
+    </article>
 
     <!-- ========== ESTADÍSTICAS PROMEDIO ========== -->
-    <div class="team-stats__averages">
+    <article class="team-stats__averages">
       <h3 class="team-stats__card-title">Estadísticas promedio</h3>
 
       <div #statsContainer class="team-stats__bars">
@@ -110,84 +110,86 @@
           <span class="team-stats__bar-value">{{ stats.avgSpeed }}</span>
         </div>
       </div>
-    </div>
+    </article>
 
     <!-- ========== COBERTURA DE TIPOS ========== -->
-    <div class="team-stats__coverage">
+    <article class="team-stats__coverage">
       <h3 class="team-stats__card-title">Cobertura de tipos</h3>
-      <div class="team-stats__type-list">
+      <ul class="team-stats__type-list">
         @for (type of stats.typeCoverage; track type) {
-          <span
+          <li
             class="team-stats__type-badge"
             [style.backgroundColor]="getTypeColor(type)">
             {{ type }}
-          </span>
+          </li>
         }
-      </div>
-    </div>
+      </ul>
+    </article>
 
     <!-- ========== FORTALEZAS Y DEBILIDADES ========== -->
-    <div class="team-stats__effectiveness">
-      <div class="team-stats__effectiveness-col">
+    <section class="team-stats__effectiveness">
+      <article class="team-stats__effectiveness-col">
         <h4 class="team-stats__effectiveness-title team-stats__effectiveness-title--strong">
           Fuerte contra
         </h4>
-        <div class="team-stats__type-list">
+        <ul class="team-stats__type-list">
           @for (type of getTeamStrengths(); track type) {
-            <span
+            <li
               class="team-stats__type-badge team-stats__type-badge--small"
               [style.backgroundColor]="getTypeColor(type)">
               {{ type }}
-            </span>
+            </li>
           }
           @if (getTeamStrengths().length === 0) {
-            <span class="team-stats__no-data">Ninguno</span>
+            <li class="team-stats__no-data">Ninguno</li>
           }
-        </div>
-      </div>
+        </ul>
+      </article>
 
-      <div class="team-stats__effectiveness-col">
+      <article class="team-stats__effectiveness-col">
         <h4 class="team-stats__effectiveness-title team-stats__effectiveness-title--weak">
           Débil contra
         </h4>
-        <div class="team-stats__type-list">
+        <ul class="team-stats__type-list">
           @for (type of getTeamWeaknesses(); track type) {
-            <span
+            <li
               class="team-stats__type-badge team-stats__type-badge--small"
               [style.backgroundColor]="getTypeColor(type)">
               {{ type }}
-            </span>
+            </li>
           }
           @if (getTeamWeaknesses().length === 0) {
-            <span class="team-stats__no-data">Ninguno</span>
+            <li class="team-stats__no-data">Ninguno</li>
           }
-        </div>
-      </div>
-    </div>
+        </ul>
+      </article>
+    </section>
 
     <!-- ========== MIEMBROS INDIVIDUALES ========== -->
-    <div class="team-stats__members">
+    <section class="team-stats__members">
       <h3 class="team-stats__card-title">Miembros del equipo</h3>
       <div class="team-stats__members-grid">
         @for (member of teamMembers; track member.id) {
-          <div class="team-stats__member-card">
-            <img
-              class="team-stats__member-sprite"
-              [src]="member.sprite"
-              [alt]="member.name"
-              loading="lazy">
+          <article class="team-stats__member-card">
+            <figure>
+              <img
+                class="team-stats__member-sprite"
+                [src]="member.sprite"
+                [alt]="member.name"
+                loading="lazy">
+            </figure>
             <span class="team-stats__member-name">{{ member.name }}</span>
-            <div class="team-stats__member-stats">
+            <footer class="team-stats__member-stats">
               <span>PS: {{ member.stats.hp }}</span>
               <span>ATQ: {{ member.stats.attack }}</span>
               <span>DEF: {{ member.stats.defense }}</span>
               <span>VEL: {{ member.stats.speed }}</span>
-            </div>
-          </div>
+            </footer>
+          </article>
         }
       </div>
-    </div>
+    </section>
 
   }
 
-</div>
+</section>

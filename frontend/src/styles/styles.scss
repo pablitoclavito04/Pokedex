@@ -67,15 +67,8 @@
 // ============================================================================
 //                 06-COMPONENTS - Componentes específicos
 // ============================================================================
-// Aquí irán los estilos de componentes específicos de Angular
-// Los componentes de Angular normalmente tienen sus propios archivos de estilos
-// pero los estilos globales compartidos irían aquí.
-// @import './06-components/buttons';
-// @import './06-components/cards';
-// @import './06-components/forms';
-// @import './06-components/navbar';
-// @import './06-components/pokemon-card';
-// @import './06-components/type-badge';
+// Estilos de componentes nuevos ubicados en la capa de componentes ITCSS
+@import './06-components/team-stats';
 
 
 // ============================================================================

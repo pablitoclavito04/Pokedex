@@ -4,7 +4,7 @@ He creado un endpoint que hace que veas todos los pokémons que hay en la base d
 
 **URL:** `GET /api/pokemon/estadisticas/generaciones`
 
-Lo he hecho porque se necesitaba saber cuántos pokémons hay por cada generación (1-9). Esto ayuda a saber si falta alguno o no, ya que te dice el número exacto de pokémons que hay en cada una.
+Lo he hecho porque se necesitaba saber cuántos pokémons hay por cada generació. Esto ayuda a saber si falta alguno o no, ya que te dice el número exacto de pokémons que hay en cada una.
 
 **Arquitectura por capas:**
 
@@ -21,29 +21,36 @@ El proyecto usa **JWT** con **Spring Security**. Funciona así:
 2. Ese token se envía en la cabecera `Authorization: Bearer <token>` en cada petición.
 3. El filtro `JwtAuthenticationFilter` intercepta las peticiones y valida el token.
 4. En `SecurityConfig.java` se definen los permisos:
-   - **GET públicos**: Los endpoints de consulta (listar pokémons, tipos, estadísticas) son accesibles sin token.
+   - **GET públicos**: Los endpoints de consulta (listar pokémons, tipos) son accesibles sin token.
+   - **GET estadísticas**: El endpoint de generaciones requiere rol USER o ADMIN (`hasAnyRole("USER", "ADMIN")`).
    - **POST/PUT**: Requieren rol USER o ADMIN (necesitas estar logueado).
    - **DELETE**: Solo ADMIN puede borrar pokémons.
 
-El endpoint de estadísticas de generaciones está configurado como público (`permitAll`) porque es solo una consulta de lectura que no modifica datos ni expone información sensible.
+El endpoint de estadísticas de generaciones está protegido y requiere autenticación JWT con rol USER o ADMIN. Si se accede sin token, devuelve un 403 Forbidden.
 
 
 
 # 3.Capturas o comandos para probarlo:
 
-(Las capturas están tomadas de Insomnia y del navegador)
+Petición sin token, se obtiene un 403 Forbidden porque el endpoint está protegido:
 
-La URL para probarlo es: http://localhost:8080/api/pokemon/estadisticas/generaciones
+![alt text](image-2.png)
 
-URL en el navegador:
+Petición con token JWT válido, devuelve el conteo de pokémons por generación correctamente:
 
-Se puede observar como por cada generación hay un número específico de pokémons en la base de datos.
+![alt text](image-3.png)
 
-![alt text](image.png)
 
-Prueba en Insomnia:
+Aquí se puede verAuthorization con el Bearer token y la respuesta 200 OK con el JSON de generaciones:
 
-Esto verifica que el endpoint funciona correctamente, ya que recibo lo que pido sin problemas.
+![alt text](image-4.png)
 
-![alt text](image-1.png)
+
+
+
+
+
+
+
+
 
