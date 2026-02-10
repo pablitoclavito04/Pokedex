@@ -1,4 +1,3 @@
-
 # 1.¿Qué endpoint has creado y por qué?
 
 He creado un endpoint que hace que veas todos los pokémons que hay en la base de datos de cada generación.
@@ -28,7 +27,6 @@ El proyecto usa **JWT** con **Spring Security**. Funciona así:
 
 El endpoint de estadísticas de generaciones está configurado como público (`permitAll`) porque es solo una consulta de lectura que no modifica datos ni expone información sensible.
 
-Las contraseñas se guardan encriptadas con **BCrypt** y las sesiones son **stateless**, ya que toda la autenticación se basa en el token JWT.
 
 
 # 3.Capturas o comandos para probarlo:
@@ -45,7 +43,7 @@ Se puede observar como por cada generación hay un número específico de pokém
 
 Prueba en Insomnia:
 
-Esto verifica que el endpoint funciona correctamente, ya que me da lo que pido sin problemas.
+Esto verifica que el endpoint funciona correctamente, ya que recibo lo que pido sin problemas.
 
 ![alt text](image-1.png)
 
