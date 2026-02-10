@@ -67,6 +67,7 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/api/pokemon/buscar").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/pokemon/generacion/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/pokemon/tipo/**").permitAll()
+                        .requestMatchers(HttpMethod.GET, "/api/pokemon/estadisticas/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/tipos/**").permitAll()
                         .requestMatchers(HttpMethod.GET, "/api/pokemon/{id}/imagen").permitAll()
 
