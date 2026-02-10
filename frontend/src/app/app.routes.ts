@@ -128,6 +128,17 @@ export const routes: Routes = [
     data: { breadcrumb: 'Revisión' }
   },
 
+  // ========== CONSTRUCTOR DE EQUIPO =========
+
+  //Team Builder - Constructor de equipos Pokémons
+  {
+   path: 'team-builder',
+    loadComponent: () => import('./pages/team-builder/team-builder').then(m => m.TeamBuilderComponent),
+    title: 'Constructor de Equipos - Pokédex',
+    data: { breadcrumb: 'Constructor de Equipos' }
+  }
+
+
   // ========== RUTAS DE DESARROLLO ==========
 
   // Style Guide - Documentación de componentes

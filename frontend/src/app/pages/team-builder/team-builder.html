@@ -1,0 +1,72 @@
+<!-- ============================================================================
+     TEAM BUILDER - Constructor de Equipos Pokémon
+     Página principal con sistema de tabs interactivas
+     ============================================================================ -->
+
+<section class="team-builder">
+
+  <!-- Header de la página -->
+  <div class="team-builder__header">
+    <h1 class="team-builder__title">Constructor de Equipos</h1>
+    <p class="team-builder__subtitle">
+      Registra tu perfil de entrenador, construye tu equipo ideal y analiza sus estadísticas
+    </p>
+  </div>
+
+  <!-- Tabs de navegación con soporte de teclado -->
+  <div class="team-builder__tabs" role="tablist" aria-label="Secciones del constructor de equipos">
+    @for (tab of tabs; track tab.id; let i = $index) {
+      <button
+        class="team-builder__tab"
+        [class.team-builder__tab--active]="activeTab === tab.id"
+        role="tab"
+        [attr.aria-selected]="activeTab === tab.id"
+        [attr.aria-controls]="'panel-' + tab.id"
+        [attr.id]="'tab-' + tab.id"
+        [tabindex]="activeTab === tab.id ? 0 : -1"
+        (click)="selectTab(tab.id)"
+        (keydown)="onTabKeydown($event, i)">
+        <span class="team-builder__tab-label">{{ tab.label }}</span>
+      </button>
+    }
+  </div>
+
+  <!-- Paneles de contenido -->
+  <div class="team-builder__content">
+
+    <!-- Panel: Entrenador (Formulario reactivo) -->
+    @if (activeTab === 'entrenador') {
+      <div
+        class="team-builder__panel"
+        role="tabpanel"
+        id="panel-entrenador"
+        aria-labelledby="tab-entrenador">
+        <app-trainer-form></app-trainer-form>
+      </div>
+    }
+
+    <!-- Panel: Equipo (DOM manipulation y eventos) -->
+    @if (activeTab === 'equipo') {
+      <div
+        class="team-builder__panel"
+        role="tabpanel"
+        id="panel-equipo"
+        aria-labelledby="tab-equipo">
+        <app-team-roster></app-team-roster>
+      </div>
+    }
+
+    <!-- Panel: Estadísticas (Comunicación reactiva) -->
+    @if (activeTab === 'estadisticas') {
+      <div
+        class="team-builder__panel"
+        role="tabpanel"
+        id="panel-estadisticas"
+        aria-labelledby="tab-estadisticas">
+        <app-team-stats></app-team-stats>
+      </div>
+    }
+
+  </div>
+
+</section>
