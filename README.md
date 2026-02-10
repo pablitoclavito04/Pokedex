@@ -100,7 +100,7 @@ Aplicación web fullstack para gestionar y visualizar información de Pokémon. 
 
 - API REST con endpoints para gestión de Pokémon.
 - Autenticación y autorización con JWT.
-- Validación de datos de entrada.
+- Validación de datos de entrada..
 - Manejo de errores centralizado.
 - Documentación de API disponible en `/backend/API-DOCUMENTACION.md`
 
