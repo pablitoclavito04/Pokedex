@@ -56,8 +56,7 @@ public class User {
     @Column(name = "language", length = 20)
     private String language;
 
-    @Lob
-    @Column(name = "avatar", columnDefinition = "LONGTEXT")
+    @Column(name = "avatar", columnDefinition = "TEXT")
     private String avatar;
 
     @Column(name = "created_at")
